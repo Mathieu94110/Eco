@@ -26,7 +26,7 @@ export default {
 }
 
 body {
-  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  background-image: linear-gradient(62deg, #6685ff 0%, #2946ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;

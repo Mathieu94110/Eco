@@ -1,8 +1,3 @@
-# demo-auth
-
-Lien vers le tutoriel :
-https://youtu.be/W2ZWbE45vkg
-
 ## Project setup
 ```
 npm install
