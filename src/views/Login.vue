@@ -22,13 +22,13 @@
     </div>
     <div class="form-row" v-if="mode == 'create'">
       <input
-        v-model="prenom"
+        v-model="firstName"
         class="form-row__input"
         type="text"
         placeholder="Prénom"
       />
       <input
-        v-model="nom"
+        v-model="lastName"
         class="form-row__input"
         type="text"
         placeholder="Nom"
@@ -42,15 +42,15 @@
         placeholder="Mot de passe"
       />
     </div>
-    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
+    <div class="form-row--error" v-if="mode == 'login' && status == 'error_login'">
       Adresse mail et/ou mot de passe invalide
     </div>
-    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
+    <div class="form-row--error" v-if="mode == 'create' && status == 'error_create'">
       Adresse mail déjà utilisée
     </div>
     <div class="form-row">
       <button
-        @click="login(email, password)"
+        @click="login()"
         class="button"
         :class="{ 'button--disabled': !validatedFields }"
         v-if="mode == 'login'"
@@ -59,7 +59,7 @@
         <span v-else>Connexion</span>
       </button>
       <button
-        @click="createAccount(email, password)"
+        @click="createAccount()"
         class="button"
         :class="{ 'button--disabled': !validatedFields }"
         v-else
@@ -72,25 +72,32 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapState } from "vuex";
+
 export default {
   name: "Login",
   data: function() {
     return {
       mode: "login",
       email: "",
-      prenom: "",
-      nom: "",
+      firstName: "",
+      lastName: "",
       password: "",
     };
+  },
+  mounted: function() {
+    if (this.$store.state.user.userId != -1) {
+      this.$router.push("/profile");
+      return;
+    }
   },
   computed: {
     validatedFields: function() {
       if (this.mode == "create") {
         if (
           this.email != "" &&
-          this.prenom != "" &&
-          this.nom != "" &&
+          this.firstName != "" &&
+          this.lastName != "" &&
           this.password != ""
         ) {
           return true;
@@ -98,13 +105,19 @@ export default {
           return false;
         }
       } else {
-        if (this.email != "" && this.password != "") {
+        if (
+          this.email != "" &&
+          this.password != "" &&
+          this.firstName != "" &&
+          this.lastName != ""
+        ) {
           return true;
         } else {
           return false;
         }
       }
     },
+    ...mapState(["status"]),
   },
   methods: {
     switchToCreateAccount: function() {
@@ -113,33 +126,57 @@ export default {
     switchToLogin: function() {
       this.mode = "login";
     },
-    login: function(email, password) {
-      const authData = { email: email, password: password };
-      axios
-        .post("http://localhost:3000/api/user/login", authData)
-        .then((response) => {
-          console.log("response login=", response.status);
-        });
+
+    login() {
+      const self = this;
+      this.$store
+        .dispatch("login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then(
+          function() {
+            self.$router.push("/profile");
+          },
+          function(error) {
+            console.log(error);
+          }
+        );
     },
-    createAccount: function(email, password) {
-      const authData = { email: email, password: password };
-      console.log(authData);
-      axios
-        .post("http://localhost:3000/api/user/signup", authData)
-        .then((response) => {
-          console.log("response create=", response);
-        });
+    createAccount: function() {
+      const self = this;
+      this.$store
+        .dispatch("createAccount", {
+          email: this.email,
+          lastName: this.lastName,
+          firstName: this.firstName,
+          password: this.password,
+        })
+        .then(
+          function() {
+            self.login();
+          },
+          function(error) {
+            console.log(error);
+          }
+        );
     },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .form-row {
   display: flex;
   margin: 16px 0px;
   gap: 16px;
   flex-wrap: wrap;
+
+  &--error{
+  color:red;
+  font-weight:bold
+
+  }
 }
 
 .form-row__input {
@@ -156,5 +193,5 @@ export default {
 
 .form-row__input::placeholder {
   color: #aaaaaa;
-}</style
->>
+}
+</style>
