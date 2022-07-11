@@ -1,26 +1,48 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Login from "@/views/Login.vue";
-import Profile from "@/views/Profile.vue";
-import userProfile from "@/views/userProfile.vue";
 
 const routes = [
   { 
     name: 'login',
     path: '/', 
-    component: Login,
+    component: () => import('../views/Login.vue'),
   },
   { 
     name: 'profile',
     path: '/profile', 
-    component: Profile, 
+    component: () => import('../views/Profile.vue'),
     props:true,
   },
   { 
     name: 'user-profile',
     path: '/profile/:id', 
-    component: userProfile, 
+    component: () => import('../views/userProfile.vue'),
     props:true,
   },
+  {
+    name: 'Dashboard',
+    path: '/dashboard',
+    component: () => import('../views/Dashboard.vue')
+  },
+  {
+    name: 'About',
+    path: '/about',
+    component: () => import('../views/About.vue')
+  },
+  {
+    name: 'PostAdd',
+    path: '/post-add',
+    component: () => import('../views/PostAdd.vue')
+  },
+  {
+    name: 'Favorites',
+    path: '/favorites',
+    component: () => import('../views/Favorites.vue')
+  },
+  {
+    name: 'UserInformations',
+    path: '/user-informations',
+    component: () => import('../views/UserInformations.vue')
+  }
 ]
 
 const router = createRouter({
