@@ -42,10 +42,16 @@
         placeholder="Mot de passe"
       />
     </div>
-    <div class="form-row--error" v-if="mode == 'login' && status == 'error_login'">
+    <div
+      class="form-row--error"
+      v-if="mode == 'login' && status == 'error_login'"
+    >
       Adresse mail et/ou mot de passe invalide
     </div>
-    <div class="form-row--error" v-if="mode == 'create' && status == 'error_create'">
+    <div
+      class="form-row--error"
+      v-if="mode == 'create' && status == 'error_create'"
+    >
       Adresse mail déjà utilisée
     </div>
     <div class="form-row">
@@ -76,7 +82,7 @@ import { mapState } from "vuex";
 
 export default {
   name: "Login",
-  data: function() {
+  data: function () {
     return {
       mode: "login",
       email: "",
@@ -85,14 +91,51 @@ export default {
       password: "",
     };
   },
-  mounted: function() {
-    if (this.$store.state.user.userId != -1) {
-      this.$router.push("/profile");
-      return;
-    }
+  methods: {
+    switchToCreateAccount: function () {
+      this.mode = "create";
+    },
+    switchToLogin: function () {
+      this.mode = "login";
+    },
+
+    login() {
+      const self = this;
+      this.$store
+        .dispatch("login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then(
+          () => {
+            self.$router.push("/profile");
+          },
+          function (error) {
+            console.log(error);
+          }
+        );
+    },
+    createAccount: function () {
+      const self = this;
+      this.$store
+        .dispatch("createAccount", {
+          email: this.email,
+          lastName: this.lastName,
+          firstName: this.firstName,
+          password: this.password,
+        })
+        .then(
+          function () {
+            self.login();
+          },
+          function (error) {
+            console.log(error);
+          }
+        );
+    },
   },
   computed: {
-    validatedFields: function() {
+    validatedFields: function () {
       if (this.mode == "create") {
         if (
           this.email != "" &&
@@ -117,50 +160,11 @@ export default {
         }
       }
     },
-    ...mapState(["status"]),
-  },
-  methods: {
-    switchToCreateAccount: function() {
-      this.mode = "create";
-    },
-    switchToLogin: function() {
-      this.mode = "login";
-    },
 
-    login() {
-      const self = this;
-      this.$store
-        .dispatch("login", {
-          email: this.email,
-          password: this.password,
-        })
-        .then(
-          function() {
-            self.$router.push("/profile");
-          },
-          function(error) {
-            console.log(error);
-          }
-        );
+    userId() {
+      return this.$store.state.user.userId;
     },
-    createAccount: function() {
-      const self = this;
-      this.$store
-        .dispatch("createAccount", {
-          email: this.email,
-          lastName: this.lastName,
-          firstName: this.firstName,
-          password: this.password,
-        })
-        .then(
-          function() {
-            self.login();
-          },
-          function(error) {
-            console.log(error);
-          }
-        );
-    },
+    ...mapState(["status"]),
   },
 };
 </script>
@@ -172,10 +176,9 @@ export default {
   gap: 16px;
   flex-wrap: wrap;
 
-  &--error{
-  color:red;
-  font-weight:bold
-
+  &--error {
+    color: red;
+    font-weight: bold;
   }
 }
 

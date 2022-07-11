@@ -30,24 +30,25 @@ const store = createStore({
     status: "",
     user: user,
     userInfos: {
-      lastName: "",
-      firstName: "",
       email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
     },
   },
   mutations: {
-    setStatus: function(state, status) {
+    setStatus: function (state, status) {
       state.status = status;
     },
-    logUser: function(state, user) {
+    logUser: function (state, user) {
       instance.defaults.headers.common["Authorization"] = user.token;
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
-    userInfos: function(state, userInfos) {
+    userInfos: function (state, userInfos) {
       state.userInfos = userInfos;
     },
-    logout: function(state) {
+    logout: function (state) {
       state.user = {
         userId: -1,
         token: "",
@@ -62,43 +63,41 @@ const store = createStore({
         instance
           .post("/login", userInfos)
           .then((response) => {
-            console.log(response);
+            console.log("login response=", response);
             commit("setStatus", "");
             commit("logUser", response.data);
-            resolve(response);
+            console.log("login response data =", response.data);
+            resolve(response.data);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             commit("setStatus", "error_login");
             reject(error);
           });
       });
     },
     createAccount: ({ commit }, userInfos) => {
+      console.log(userInfos);
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         commit;
         instance
           .post("/signup", userInfos)
-          .then(function(response) {
+          .then(function (response) {
             commit("setStatus", "created");
             resolve(response);
+            commit("userInfos", userInfos);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             commit("setStatus", "error_create");
             reject(error);
           });
       });
     },
-    getUserInfos: (token) => {
-      instance
-        .post("/infos", token)
-        .then(function(response) {
-          console.log(response);
-          //   commit("userInfos", response.data.infos);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
+    async getProfile({ commit }) {
+      commit("profile_request");
+      let res = await axios.get("/api/users/profile");
+      commit("user_profile", res.data.user);
+      return res;
     },
   },
 });
