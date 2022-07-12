@@ -29,6 +29,7 @@ const store = createStore({
   state: {
     status: "",
     user: user,
+    currentPost: null,
     userInfos: {
       email: "",
       firstName: "",
@@ -39,6 +40,9 @@ const store = createStore({
   mutations: {
     setStatus: function (state, status) {
       state.status = status;
+    },
+    setPost: function (state, post) {
+      state.CurrentPost = post;
     },
     logUser: function (state, user) {
       instance.defaults.headers.common["Authorization"] = user.token;
@@ -65,7 +69,6 @@ const store = createStore({
           .then((response) => {
             console.log("login response=", response);
             commit("setStatus", "");
-            commit("logUser", response.data);
             console.log("login response data =", response.data);
             resolve(response.data);
           })
@@ -96,6 +99,32 @@ const store = createStore({
     async getProfile({ commit }) {
       commit("profile_request");
       let res = await axios.get("/api/users/profile");
+      commit("user_profile", res.data.user);
+      return res;
+    },
+
+    createPost: ({ commit }, postInfos) => {
+      commit("setStatus", "loading");
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/postInfos", postInfos)
+          .then((response) => {
+            console.log("postInfos response=", response);
+            commit("setPost", "");
+            commit("logUser", response.data);
+            console.log("postInfos response data =", response.data);
+            resolve(response.data);
+          })
+          .catch(function (error) {
+            commit("setStatus", "error_login");
+            reject(error);
+          });
+      });
+    },
+
+    async gettPosts({ commit }) {
+      commit("profile_request");
+      let res = await axios.get("/api/users/posts");
       commit("user_profile", res.data.user);
       return res;
     },
