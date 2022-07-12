@@ -28,36 +28,7 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.post("/infos", (req, res, next) => {
-  console.log(req);
-  let fetchedUser;
-  User.findOne({ token: req.body.token })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
-      }
-      fetchedUser = user;
-    })
-    .then((result) => {
-      if (!result) {
-        return res.status(401).json({
-          message: "Getting user info failed",
-        });
-      }
-      console.log(result, user);
-      res.json(user);
-    })
-    .catch((err) => {
-      return res.status(401).json({
-        message: "Getting user info failed",
-      });
-    });
-});
-
 router.post("/login", (req, res, next) => {
-  console.log(req);
   let fetchedUser;
   User.findOne({ email: req.body.email })
     .then((user) => {
@@ -75,7 +46,6 @@ router.post("/login", (req, res, next) => {
           message: "Auth failed",
         });
       }
-      console.log(result);
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
         "secret_this_should_be_longer",
@@ -84,7 +54,7 @@ router.post("/login", (req, res, next) => {
       res.status(200).json({
         token: token,
         expiresIn: 3600,
-        id: result._id,
+        userId: fetchedUser._id,
       });
     })
     .catch((err) => {
@@ -94,4 +64,27 @@ router.post("/login", (req, res, next) => {
     });
 });
 
+router.get("/infos", (req, res, next) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({
+          message: "Auth failed",
+        });
+      }
+    })
+    .then((result) => {
+      if (!result) {
+        return res.status(401).json({
+          message: "Auth failed",
+        });
+      }
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      return res.status(401).json({
+        message: "Auth failed",
+      });
+    });
+});
 module.exports = router;
