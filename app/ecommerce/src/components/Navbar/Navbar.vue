@@ -1,87 +1,134 @@
 <template>
-  <div
-    class="sidebar"
-    v-on:mouseover="toggleSidebar"
-    v-on:mouseleave="toggleSidebar"
-    :style="{ width: navbarWidth }"
+  <NavBarContainer
+    :class="{ 'topbar--active': isHover || isTopbarLocked }"
+    class="topbar is-unshrink"
+    @mouseenter="isHover = true"
+    @mouseleave="isHover = false"
   >
-    <div class="sidebar__items">
-      <h1>
-        <span v-if="collapsed">
-          <div>E-co</div>
-        </span>
-        <span v-else>E-commerce</span>
-      </h1>
-
-      <NavbarLink to="/" icon="fas fa-sign-out">Se déconnecter</NavbarLink>
-      <NavbarLink to="/user-informations" icon="fas fa-user-circle"
-        >Mes informations</NavbarLink
-      >
-      <NavbarLink to="/dashboard" icon="fas fa-columns">Dashboard</NavbarLink>
-      <NavbarLink to="/post-add" icon="fas fa-columns"
-        >Déposer une annonce</NavbarLink
-      >
-      <NavbarLink to="/favorites" icon="fas fa-columns">Mes favoris</NavbarLink>
-    </div>
-  </div>
+    <router-link class="mb-5 topbar__logo is-unshrink" to="/">
+      <img alt="user_logo" class="topbar__img" src="@/assets/logo.png" />
+    </router-link>
+    <div @click="logout()" icon="fas fa-sign-out">Se déconnecter</div>
+    <NavBarLink to="/user-informations" icon="fas fa-user-circle"
+      >Mes informations</NavBarLink
+    >
+    <NavBarLink to="/dashboard" icon="fas fa-columns">Dashboard</NavBarLink>
+    <NavBarLink to="/post-add" icon="fas fa-columns"
+      >Déposer une annonce</NavBarLink
+    >
+    <NavBarLink to="/favorites" icon="fas fa-columns">Mes favoris</NavBarLink>
+  </NavBarContainer>
 </template>
 
 <script>
-import NavbarLink from "./NavbarLink";
-import { collapsed, toggleSidebar, navebarWidth } from './state'
+import NavBarContainer from "./NavBarContainer/NavBarContainer";
+import NavBarLink from "./NavBarLink";
+
+import mitt from "mitt";
+const emitter = mitt();
+import { mapState } from "vuex";
 
 export default {
-  components: { NavbarLink },
+  name: "NavBar",
+  components: {
+    NavBarContainer,
+    NavBarLink,
+  },
+  data() {
+    return {
+      isHover: false,
+      windowWidth: 0,
+    };
+  },
+  methods: {
+    logout: function () {
+      this.$store.commit("loginStatus", false);
+      this.$store.commit("logout");
+      this.$router.push("/");
+    },
+    setWindowWidth() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+  computed: {
+    ...mapState({
+      profile: (state) => state.user.profile,
+    }),
+    isMarvinRecruiter() {
+      return this.$store.getters["user/isMarvinRecruiter"];
+    },
+    isSuperUser() {
+      return this.$store.getters["user/isSuperUser"];
+    },
+    isShappers() {
+      return this.$store.getters["user/isShappers"];
+    },
+    isTopbarLocked() {
+      return this.windowWidth >= 1600;
+    },
+  },
+  created() {
+    this.setWindowWidth();
 
-  props: {},
-    setup() {
-    return { collapsed, toggleSidebar, navebarWidth }
-  }
+    window.addEventListener("resize", this.setWindowWidth);
+    emitter.on("hook:destroyed", () => {
+      window.removeEventListener("resize", this.setWindowWidth);
+    });
+  },
 };
 </script>
 
-<style>
-:root {
-  --sidebar-bg-color: #9ec9ef;
-  --sidebar-item-hover: #3a33ff;
-  --sidebar-item-active: #0b08c7;
-}
-</style>
-
 <style lang="scss" scoped>
-.sidebar {
-  color: white;
-  background-color: var(--sidebar-bg-color);
-  float: left;
+.topbar {
+  height: 100%;
   position: fixed;
-  z-index: 1;
-  top: 0;
   left: 0;
-  bottom: 0;
-  padding: 0.5em;
-  transition: 1.3s ease;
-  display: flex;
-  flex-direction: column;
+  top: 0;
+  max-width: 85px;
+  box-shadow: 0 3px 6px #00000029;
+  transition: 0.3s;
+  z-index: 5;
+  width: 100%;
+  overflow: auto;
 
-  &__items {
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  @media (min-width: 1600px) {
+    max-width: 230px;
   }
-}
-.sidebar h1 {
-  height: 2.5em;
-}
-.collapse-icon {
-  position: absolute;
-  bottom: 0;
-  padding: 0.75em;
-  color: rgba(255, 255, 255, 0.7);
-  transition: 0.2s linear;
-}
-.rotate-180 {
-  transform: rotate(180deg);
-  transition: 0.2s linear;
+
+  &--active {
+    max-width: 230px;
+  }
+
+  &__logo {
+    overflow: hidden;
+  }
+
+  &__img {
+    height: 35px;
+  }
+
+  &__help {
+    margin-top: auto;
+    bottom: 85px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 2.3em;
+    font-weight: bold;
+    z-index: 100;
+    transition: 0.15s;
+
+    &:focus,
+    &:visited {
+      color: blue;
+    }
+
+    &:hover {
+      background: blue;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
 }
 </style>

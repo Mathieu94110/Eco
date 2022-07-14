@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     logout: function () {
+      this.$store.commit("loginStatus", false);
       this.$store.commit('logout');
       this.$router.push('/');
     }

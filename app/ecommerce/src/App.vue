@@ -1,26 +1,28 @@
 <template>
-  <Navbar />
-  <div :style="{ 'margin-left': navbarWidth }">
-    <router-view></router-view>
+  <div id="app">
+    <div :class="{ 'app__container--auth': isLoggedIn }" class="app__container">
+      <NavBar v-if="isLoggedIn" />
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import Navbar from "@/components/Navbar/Navbar";
-import { navbarWidth } from "@/components/Navbar/state";
+import NavBar from "@/components/NavBar/NavBar";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: {
-    Navbar,
+    NavBar,
   },
- setup() {
-    return { navbarWidth }
+  computed: {
+    ...mapGetters(["isLoggedIn"]),
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap");
 
 * {
@@ -31,19 +33,39 @@ export default {
 }
 
 #app {
-  max-width: 100%;
-  text-align: center;
-}
-
-body {
+  width: 100%;
   min-height: 100vh;
+  margin: auto;
+}
+.app {
+  &__container {
+    z-index: 1;
+    padding-left: 85px;
+    width: 100%;
+    min-height: 100vh;
+    margin: auto;
+
+    &__auth {
+      padding-left: 0;
+    }
+  }
 }
 
 img {
   max-width: 100%;
   border-radius: 8px;
 }
-
+.navbar {
+  flex-flow: 1;
+}
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 3;
+}
 .card {
   max-width: 100%;
   width: 540px;

@@ -148,12 +148,7 @@ export default {
           return false;
         }
       } else {
-        if (
-          this.email != "" &&
-          this.password != "" &&
-          this.firstName != "" &&
-          this.lastName != ""
-        ) {
+        if (this.email != "" && this.password != "") {
           return true;
         } else {
           return false;

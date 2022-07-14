@@ -2,10 +2,12 @@ import { createStore } from "vuex";
 
 const axios = require("axios");
 
-const instance = axios.create({
+const userInstance = axios.create({
   baseURL: "http://localhost:3000/api/user",
 });
-
+const postInstance = axios.create({
+  baseURL: "http://localhost:3000/api/posts",
+});
 let user = localStorage.getItem("user");
 if (!user) {
   user = {
@@ -15,7 +17,7 @@ if (!user) {
 } else {
   try {
     user = JSON.parse(user);
-    instance.defaults.headers.common["Authorization"] = user.token;
+    userInstance.defaults.headers.common["Authorization"] = user.token;
   } catch (ex) {
     user = {
       userId: -1,
@@ -29,6 +31,7 @@ const store = createStore({
   state: {
     status: "",
     user: user,
+    isUserLogged: false,
     currentPost: null,
     userInfos: {
       email: "",
@@ -45,12 +48,15 @@ const store = createStore({
       state.CurrentPost = post;
     },
     logUser: function (state, user) {
-      instance.defaults.headers.common["Authorization"] = user.token;
+      userInstance.defaults.headers.common["Authorization"] = user.token;
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
     userInfos: function (state, userInfos) {
       state.userInfos = userInfos;
+    },
+    loginStatus: function (state, loginStatus) {
+      state.isUserLogged = loginStatus;
     },
     logout: function (state) {
       state.user = {
@@ -60,16 +66,22 @@ const store = createStore({
       localStorage.removeItem("user");
     },
   },
+  getters: {
+    isLoggedIn(state) {
+      return state.isUserLogged;
+    },
+  },
   actions: {
     login: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
-        instance
+        userInstance
           .post("/login", userInfos)
           .then((response) => {
-            console.log("login response=", response);
             commit("setStatus", "");
             console.log("login response data =", response.data);
+            commit("logUser", response.data);
+            commit("loginStatus", true);
             resolve(response.data);
           })
           .catch(function (error) {
@@ -83,7 +95,7 @@ const store = createStore({
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         commit;
-        instance
+        userInstance
           .post("/signup", userInfos)
           .then(function (response) {
             commit("setStatus", "created");
@@ -98,7 +110,7 @@ const store = createStore({
     },
     async getProfile({ commit }) {
       commit("profile_request");
-      let res = await axios.get("/api/users/profile");
+      let res = await axios.get(`${userInstance}/profile`);
       commit("user_profile", res.data.user);
       return res;
     },
@@ -106,12 +118,11 @@ const store = createStore({
     createPost: ({ commit }, postInfos) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
-        instance
+        postInstance
           .post("/postInfos", postInfos)
           .then((response) => {
             console.log("postInfos response=", response);
             commit("setPost", "");
-            commit("logUser", response.data);
             console.log("postInfos response data =", response.data);
             resolve(response.data);
           })
@@ -122,9 +133,9 @@ const store = createStore({
       });
     },
 
-    async gettPosts({ commit }) {
+    async getPosts({ commit }) {
       commit("profile_request");
-      let res = await axios.get("/api/users/posts");
+      let res = await axios.get("/api/posts");
       commit("user_profile", res.data.user);
       return res;
     },

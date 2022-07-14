@@ -1,18 +1,18 @@
 <template>
   <router-link :to="to" class="link" :class="{ active: isActive }">
     <i class="icon" :class="icon" />
-    <transition name="fade">
-      <span v-if="!collapsed">
+    <!-- <transition name="fade"> -->
+    <!-- <span v-if="!collapsed">
         <slot />
-      </span>
-    </transition>
+      </span> -->
+    <!-- </transition> -->
   </router-link>
 </template>
 
 <script>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { collapsed } from "./state";
+// import { collapsed } from "./state";
 
 export default {
   props: {
@@ -22,7 +22,7 @@ export default {
   setup(props) {
     const route = useRoute();
     const isActive = computed(() => route.path === props.to);
-    return { isActive, collapsed };
+    return { isActive };
   },
 };
 </script>
@@ -30,7 +30,7 @@ export default {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-pointer-events: none;
+  pointer-events: none;
 }
 .fade-enter,
 .fade-leave-to {

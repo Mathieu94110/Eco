@@ -1,16 +1,16 @@
 <template>
   <div class="card">
     <form
-      class="mx-auto"
+      class="postAddForm"
       @submit="checkForm"
       method="post"
       style="
          {
-          max-width: 344, margin: auto;
+          width: 344px;
         }
       "
     >
-      <v-img src="../../assets/logo.png" height="200px"></v-img>
+      <v-img src="../../assets/logo.png" height="200px" width="200px"></v-img>
 
       <p>
         <label for="name">Titre</label>
@@ -61,6 +61,7 @@ export default {
     return {
       errors: [],
       posts: [],
+      postsUpdated: [],
       title: "",
       details: "",
     };
@@ -108,4 +109,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.postAddForm {
+  width: 300px;
+  height: 300px;
+  background: beige;
+}
+</style>
