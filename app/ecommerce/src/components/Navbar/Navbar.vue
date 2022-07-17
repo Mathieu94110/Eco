@@ -1,28 +1,52 @@
 <template>
   <NavBarContainer
-    :class="{ 'topbar--active': isHover || isTopbarLocked }"
+    :class="{ 'topbar--active': isHover }"
     class="topbar is-unshrink"
-    @mouseenter="isHover = true"
-    @mouseleave="isHover = false"
+    @mouseenter="formatSideBar(true)"
+    @mouseleave="formatSideBar(false)"
   >
-    <router-link class="mb-5 topbar__logo is-unshrink" to="/">
+    <router-link to="/">
       <img alt="user_logo" class="topbar__img" src="@/assets/logo.png" />
     </router-link>
-    <div @click="logout()" icon="fas fa-sign-out">Se déconnecter</div>
-    <NavBarLink to="/profile" icon="fas fa-user-circle"
-      >Mes informations</NavBarLink
-    >
-    <NavBarLink to="/dashboard" icon="fas fa-columns">Dashboard</NavBarLink>
-    <NavBarLink to="/post-add" icon="fas fa-columns"
-      >Déposer une annonce</NavBarLink
-    >
-    <NavBarLink to="/favorites" icon="fas fa-columns">Mes favoris</NavBarLink>
+    <div class="topbar__items">
+      <div v-if="collapsed" @click="logout()">
+        <NavBarLink
+          class="topbar__link"
+          to="/profile"
+          icon="fa-solid fa-right-from-bracket"
+        ></NavBarLink>
+      </div>
+      <button
+        v-else
+        class="topbar__link--error"
+        @click="logout()"
+        icon="fa-solid fa-right-from-bracket"
+      >
+        Se déconnecter
+      </button>
+      <NavBarLink class="topbar__link" to="/profile" icon="fas fa-user-circle"
+        ><span>Mes informations</span></NavBarLink
+      >
+      <NavBarLink
+        class="topbar__link"
+        to="/dashboard"
+        icon="fa-solid fa-handshake-angle"
+        ><span>Annonces</span></NavBarLink
+      >
+      <NavBarLink class="topbar__link" to="/post-add" icon="fas fa-pencil-alt"
+        ><span>Déposer une annonce</span></NavBarLink
+      >
+      <NavBarLink class="topbar__link" to="/favorites" icon="fas fa-star"
+        ><span>Mes favoris</span></NavBarLink
+      >
+    </div>
   </NavBarContainer>
 </template>
 
 <script>
 import NavBarContainer from "./NavBarContainer/NavBarContainer";
 import NavBarLink from "./NavBarLink";
+import { collapsed, toggleSidebar } from "./state";
 
 import mitt from "mitt";
 const emitter = mitt();
@@ -33,6 +57,9 @@ export default {
   components: {
     NavBarContainer,
     NavBarLink,
+  },
+  setup() {
+    return { collapsed, toggleSidebar };
   },
   data() {
     return {
@@ -49,23 +76,15 @@ export default {
     setWindowWidth() {
       this.windowWidth = window.innerWidth;
     },
+    formatSideBar(value) {
+      this.isHover = value;
+      this.toggleSidebar();
+    },
   },
   computed: {
     ...mapState({
       profile: (state) => state.user.profile,
     }),
-    isMarvinRecruiter() {
-      return this.$store.getters["user/isMarvinRecruiter"];
-    },
-    isSuperUser() {
-      return this.$store.getters["user/isSuperUser"];
-    },
-    isShappers() {
-      return this.$store.getters["user/isShappers"];
-    },
-    isTopbarLocked() {
-      return this.windowWidth >= 1600;
-    },
   },
   created() {
     this.setWindowWidth();
@@ -90,13 +109,31 @@ export default {
   z-index: 5;
   width: 100%;
   overflow: auto;
-
-  @media (min-width: 1600px) {
-    max-width: 230px;
+  &__items {
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  &__link {
+    color: #000;
+    padding-left: 30px;
+    cursor: pointer;
+    white-space: nowrap;
+    &--error {
+      color: rgb(255, 30, 30);
+    }
+    span {
+      margin-left: 20px;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+    overflow-wrap: normal;
   }
 
   &--active {
-    max-width: 230px;
+    max-width: 270px;
   }
 
   &__logo {
