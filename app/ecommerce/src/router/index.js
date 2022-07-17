@@ -2,20 +2,14 @@ import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
   {
-    name: "login",
+    name: "auth",
     path: "/",
-    component: () => import("../views/Login.vue"),
+    component: () => import("../views/Auth.vue"),
   },
   {
     name: "profile",
     path: "/profile",
     component: () => import("../views/Profile.vue"),
-    props: true,
-  },
-  {
-    name: "user-profile",
-    path: "/profile/:id",
-    component: () => import("../views/userProfile.vue"),
     props: true,
   },
   {
@@ -37,11 +31,6 @@ const routes = [
     name: "Favorites",
     path: "/favorites",
     component: () => import("../views/Favorites.vue"),
-  },
-  {
-    name: "UserInformations",
-    path: "/user-informations",
-    component: () => import("../views/UserInformations.vue"),
   },
 ];
 

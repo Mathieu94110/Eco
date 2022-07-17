@@ -1,16 +1,16 @@
 <template>
-  <div class="card">
-    <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
-    <h1 class="card__title" v-else>Inscription</h1>
-    <p class="card__subtitle" v-if="mode == 'login'">
+  <div class="login">
+    <h1 class="login__title" v-if="mode == 'login'">Connexion</h1>
+    <h1 class="login__title" v-else>Inscription</h1>
+    <p class="login__subtitle" v-if="mode == 'login'">
       Tu n'as pas encore de compte ?
-      <span class="card__action" @click="switchToCreateAccount()"
+      <span class="login__action" @click="switchToCreateAccount()"
         >Créer un compte</span
       >
     </p>
-    <p class="card__subtitle" v-else>
+    <p class="login__subtitle" v-else>
       Tu as déjà un compte ?
-      <span class="card__action" @click="switchToLogin()">Se connecter</span>
+      <span class="login__action" @click="switchToLogin()">Se connecter</span>
     </p>
     <div class="form-row">
       <input
@@ -100,38 +100,15 @@ export default {
     },
 
     login() {
-      const self = this;
-      this.$store
-        .dispatch("login", {
-          email: this.email,
-          password: this.password,
-        })
-        .then(
-          () => {
-            self.$router.push("/profile");
-          },
-          function (error) {
-            console.log(error);
-          }
-        );
+      this.$emit("login", { email: this.email, password: this.password });
     },
     createAccount: function () {
-      const self = this;
-      this.$store
-        .dispatch("createAccount", {
-          email: this.email,
-          lastName: this.lastName,
-          firstName: this.firstName,
-          password: this.password,
-        })
-        .then(
-          function () {
-            self.login();
-          },
-          function (error) {
-            console.log(error);
-          }
-        );
+      this.$emit("signup", {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password,
+      });
     },
   },
   computed: {
@@ -165,6 +142,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.login {
+  max-width: 100%;
+  width: 540px;
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.login__title {
+  text-align: center;
+  font-weight: 800;
+}
+
+.login__subtitle {
+  text-align: center;
+  color: #666;
+  font-weight: 500;
+}
+
+.button {
+  background: #2196f3;
+  color: white;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  width: 100%;
+  padding: 16px;
+  transition: 0.4s background-color;
+}
+
+.login__action {
+  color: #2196f3;
+  text-decoration: underline;
+}
+
+.card__action:hover {
+  cursor: pointer;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: #1976d2;
+}
+
+.button--disabled {
+  background: #cecece;
+  color: #ececec;
+}
+.button--disabled:hover {
+  cursor: not-allowed;
+  background: #cecece;
+}
+
 .form-row {
   display: flex;
   margin: 16px 0px;

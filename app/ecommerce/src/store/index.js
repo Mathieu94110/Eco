@@ -25,19 +25,16 @@ if (!user) {
     };
   }
 }
-
-// Create a new store instance.
 const store = createStore({
   state: {
     status: "",
     user: user,
     isUserLogged: false,
-    currentPost: null,
+    currentPost: {},
     userInfos: {
-      email: "",
       firstName: "",
       lastName: "",
-      password: "",
+      email: "",
     },
   },
   mutations: {
@@ -45,8 +42,11 @@ const store = createStore({
       state.status = status;
     },
     setPost: function (state, post) {
-      state.CurrentPost = post;
+      console.log("post =", post);
+      state.currentPost = post;
+      console.log("fsdfs", this.state.currentPost);
     },
+
     logUser: function (state, user) {
       userInstance.defaults.headers.common["Authorization"] = user.token;
       localStorage.setItem("user", JSON.stringify(user));
@@ -69,6 +69,10 @@ const store = createStore({
   getters: {
     isLoggedIn(state) {
       return state.isUserLogged;
+    },
+
+    getCurrentPost: (state) => {
+      return state.currentPost;
     },
   },
   actions: {
@@ -110,9 +114,8 @@ const store = createStore({
     },
     async getProfile({ commit }) {
       commit("profile_request");
-      let res = await axios.get(`${userInstance}/profile`);
-      commit("user_profile", res.data.user);
-      return res;
+      let res = await axios.get(`${userInstance}/infos`);
+      console.log(res);
     },
 
     createPost: ({ commit }, postInfos) => {
@@ -122,9 +125,9 @@ const store = createStore({
           .post("/postInfos", postInfos)
           .then((response) => {
             console.log("postInfos response=", response);
-            commit("setPost", "");
-            console.log("postInfos response data =", response.data);
-            resolve(response.data);
+            commit("setPost", response.config.data);
+            console.log("postInfos response data =", response.config.data);
+            resolve(response.config.data);
           })
           .catch(function (error) {
             commit("setStatus", "error_login");

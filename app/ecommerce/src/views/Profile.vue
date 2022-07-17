@@ -1,39 +1,40 @@
 <template>
-  <div class="card">
-    <h1 class="card__title">Espace Perso</h1>
-    <p class="card__subtitle">Voilà donc qui je suis...</p>
-   <p>{{user.firstName}} {{user.lastName}} {{user.email}}</p>
-    <div class="form-row">
-      <button @click="logout()" class="button">Déconnexion</button>
-    </div>
+  <div class="profile">
+    <UserProfile v-bind="user"></UserProfile>
   </div>
 </template>
 
 <script>
+import UserProfile from "@/components/User/UserProfile";
 import { mapState } from "vuex";
+
 export default {
-  name: "Profile",
+  name: "profile",
+  components: {
+    UserProfile,
+  },
   mounted: function () {
-    console.log(this.$store.state.user);
-    console.log("Ici =", this.user);
+    console.log("Todo=", this.user);
     if (this.$store.state.user.userId == -1) {
       this.$router.push("/");
       return;
     }
+    this.$store.dispatch('getProfile');
   },
   computed: {
     ...mapState({
       user: "userInfos",
     }),
   },
-  methods: {
-    logout: function () {
-      this.$store.commit("loginStatus", false);
-      this.$store.commit("logout");
-      this.$router.push("/");
-    },
-  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.profile {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+</style>

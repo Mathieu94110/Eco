@@ -9,7 +9,7 @@
       <img alt="user_logo" class="topbar__img" src="@/assets/logo.png" />
     </router-link>
     <div @click="logout()" icon="fas fa-sign-out">Se déconnecter</div>
-    <NavBarLink to="/user-informations" icon="fas fa-user-circle"
+    <NavBarLink to="/profile" icon="fas fa-user-circle"
       >Mes informations</NavBarLink
     >
     <NavBarLink to="/dashboard" icon="fas fa-columns">Dashboard</NavBarLink>
