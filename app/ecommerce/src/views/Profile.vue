@@ -14,7 +14,6 @@ export default {
     UserProfile,
   },
   mounted: function () {
-    console.log("Todo=", this.user);
     if (this.$store.state.user.userId == -1) {
       this.$router.push("/");
       return;

@@ -83,7 +83,6 @@ const store = createStore({
           .post("/login", userInfos)
           .then((response) => {
             commit("setStatus", "");
-            console.log("login response data =", response.data);
             commit("logUser", response.data);
             commit("loginStatus", true);
             resolve(response.data);

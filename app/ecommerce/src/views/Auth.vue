@@ -16,7 +16,6 @@ export default {
   methods: {
     authenticate(data) {
       const self = this;
-      console.log(data);
       this.$store
         .dispatch("login", {
           email: data.email,

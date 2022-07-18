@@ -13,9 +13,9 @@ const routes = [
     props: true,
   },
   {
-    name: "Dashboard",
+    name: "Adds",
     path: "/dashboard",
-    component: () => import("../views/Dashboard.vue"),
+    component: () => import("../views/Adds.vue"),
   },
   {
     name: "About",
