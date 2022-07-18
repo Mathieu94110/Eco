@@ -1,8 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema({
+  image: { type: String, data: Buffer, required: true },
   title: { type: String, required: true },
-  details: { type: String, required: true }
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
 });
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model("Post", postSchema);
