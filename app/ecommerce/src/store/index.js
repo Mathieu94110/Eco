@@ -8,6 +8,7 @@ const userInstance = axios.create({
 const postInstance = axios.create({
   baseURL: "http://localhost:3000/api/posts",
 });
+
 let user = localStorage.getItem("user");
 if (!user) {
   user = {
@@ -118,15 +119,17 @@ const store = createStore({
     },
 
     createPost: ({ commit }, postInfos) => {
+      commit("setPost", postInfos);
+    },
+
+    sendPost: ({ state, commit }) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         postInstance
-          .post("/postInfos", postInfos)
+          .post("/postInfos", state.currentPost)
           .then((response) => {
-            console.log("postInfos response=", response);
-            commit("setPost", response.config.data);
-            console.log("postInfos response data =", response.config.data);
-            resolve(response.config.data);
+            console.log("tt", response.data);
+            resolve(response.data);
           })
           .catch(function (error) {
             commit("setStatus", "error_login");

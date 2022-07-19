@@ -46,13 +46,15 @@
       <button @click="cancelPost">Annuler</button>
     </div>
     <div class="card__buttons-wrapper" v-else>
-      <button type="submit" value="Envoyer">Créer</button>
+      <button @click="createPost" value="Envoyer">Créer</button>
     </div>
   </form>
 </template>
 
 <script>
-import axios from "axios";
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
+
 export default {
   name: "PostCreate",
   data() {
@@ -66,9 +68,14 @@ export default {
       currentImage: null,
     };
   },
+  setup() {
+    const toast = (message) => {
+      createToast(message);
+    };
+    return { toast };
+  },
   methods: {
-    checkForm: function (e) {
-      e.preventDefault();
+    createPost() {
       this.$store
         .dispatch("createPost", {
           image: this.currentImage,
@@ -76,13 +83,21 @@ export default {
           description: this.description,
           price: this.price,
         })
-        .then(async (res) => {
+        .then(() => {
           this.isCreate = !this.isCreate;
-          if (res.status === 201 || res.status === 200) {
-            let response = axios.get("http://localhost:3000/api/posts");
-            console.log("getPosts =", response);
-          }
+        })
+        .catch((err) => {
+          this.toast(err);
         });
+    },
+
+    checkForm: function (e) {
+      e.preventDefault();
+      this.$store.dispatch("sendPost").then((res) => {
+        console.log(res);
+        this.toast("L'annonce a bien été postée!");
+        this.cancelPost();
+      });
     },
     cancelPost() {
       this.isCreate = !this.isCreate;
@@ -91,6 +106,7 @@ export default {
       this.description = "";
       this.price = 0;
       this.$emit("resetPost");
+      this.toast("L'annonce a été annulée!");
     },
     onPickFile() {
       let input = this.$refs.fileInput;
@@ -125,7 +141,6 @@ export default {
 .card {
   height: 100%;
   width: 320px;
-  margin: 20px;
   padding: 20px;
   font-size: 20px;
   text-align: center;
@@ -134,18 +149,18 @@ export default {
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 20px;
+  border: #616161 1px solid;
 
   &__imagePreviewed {
     width: 250px;
     height: 250px;
     display: block;
     cursor: pointer;
-    margin: 0 auto 30px;
+    margin: 0 auto 14px;
     background-size: cover;
     background-position: center center;
   }
   &__items {
-    height: 40px;
     margin: 20px 0px;
     display: flex;
     flex-direction: column;
@@ -173,6 +188,10 @@ export default {
         outline: none;
         border-color: var(--input-border-focus);
       }
+    }
+    textarea {
+      margin-top: 10px;
+      height: 60px;
     }
   }
   &__buttons-wrapper {

@@ -43,7 +43,8 @@ export default {
   },
   watch: {
     currentPost(newValue) {
-      this.post = JSON.parse(newValue);
+      // this.post = JSON.parse(newValue);
+      this.post = newValue;
     },
   },
 };
