@@ -1,43 +1,51 @@
 <template>
-  <form class="card" @submit="checkForm" method="post">
+  <Form
+    class="card"
+    :validation-schema="createAddSchema"
+    @submit="checkForm"
+    v-slot="{ errors }"
+  >
     <div>
       <div
         class="card__imagePreviewed"
         :style="{ 'background-image': `url(${currentImage})` }"
       ></div>
-      <input ref="fileInput" type="file" @input="onPickFile" />
+
+      <Field type="file" ref="fileInput" name="image" @input="onPickFile" />
     </div>
     <div class="card__items">
       <label for="name">Titre</label>
-      <input
+      <Field
         id="title"
-        v-model="title"
-        type="text"
         name="title"
+        v-model="title"
         placeholder="Titre de l'annonce"
       />
+      <span class="erros">{{ errors.title }}</span>
     </div>
-
     <div class="card__items">
       <label for="name">Description</label>
-      <textarea
+      <Field
         id="description"
         v-model="description"
         type="text"
         name="description"
         placeholder="Détails de l'annonce"
-      ></textarea>
+      />
+      <span>{{ errors.description }}</span>
     </div>
     <div class="card__items">
       <label for="name">Prix</label>
-      <input
+
+      <Field
         class="form-field"
         id="price"
         v-model="price"
-        type="text"
-        name="price"
         placeholder="Indiquez un prix"
+        name="price"
+        type="number"
       />
+      <span>{{ errors.price }}</span>
     </div>
 
     <div class="card__buttons-wrapper" v-if="isCreate">
@@ -46,19 +54,37 @@
       <button @click="cancelPost">Annuler</button>
     </div>
     <div class="card__buttons-wrapper" v-else>
-      <button @click="createPost" value="Envoyer">Créer</button>
+      <button
+        :disabled="errors || missingFields"
+        :class="{ invalid: errors || missingFields }"
+        @click="createPost"
+        value="Envoyer"
+      >
+        Créer
+      </button>
     </div>
-  </form>
+  </Form>
 </template>
 
 <script>
+import { Form, Field } from "vee-validate";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 
 export default {
   name: "PostCreate",
+  components: {
+    Form,
+    Field,
+  },
   data() {
+    const createAddSchema = {
+      title: "required|title|minLength:2",
+      description: "required|description|minLength:20",
+      price: "required|minMax:1,9999",
+    };
     return {
+      createAddSchema,
       posts: [],
       postsUpdated: [],
       title: "",
@@ -96,16 +122,19 @@ export default {
       this.$store.dispatch("sendPost").then((res) => {
         console.log(res);
         this.toast("L'annonce a bien été postée!");
-        this.cancelPost();
+        this.resetPost();
       });
     },
-    cancelPost() {
+    resetPost() {
       this.isCreate = !this.isCreate;
       this.currentImage = null;
       this.title = "";
       this.description = "";
       this.price = 0;
       this.$emit("resetPost");
+    },
+    cancelPost() {
+      this.resetPost();
       this.toast("L'annonce a été annulée!");
     },
     onPickFile() {
@@ -122,16 +151,15 @@ export default {
     mounted() {
       console.log(this.missingFields);
     },
-    computed: {
-      missingFields() {
-        return (
-          this.title === "" ||
-          this.details === "" ||
-          this.price === "" ||
-          this.price === 0 ||
-          this.currentImage === null
-        );
-      },
+  },
+  computed: {
+    missingFields() {
+      return (
+        this.title === "" ||
+        this.description === "" ||
+        this.price === "" ||
+        this.price === 0
+      );
     },
   },
 };

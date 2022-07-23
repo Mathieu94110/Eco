@@ -15,6 +15,7 @@
     "mitt": "^3.0.0",
     "mosha-vue-toastify": "^1.0.23",
     "sass-loader": "^10.3.1",
+    "vee-validate": "^4.6.2",
     "vue": "^3.2.37",
     "vue-router": "^4.0.5",
     "vuex": "^4.0.0"
