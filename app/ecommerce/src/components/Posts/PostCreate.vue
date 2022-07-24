@@ -1,5 +1,6 @@
 <template>
   <Form
+    ref="form"
     class="card"
     :validation-schema="createAddSchema"
     @submit="checkForm"
@@ -11,28 +12,35 @@
         :style="{ 'background-image': `url(${currentImage})` }"
       ></div>
 
-      <Field type="file" ref="fileInput" name="image" @input="onPickFile" />
+      <input
+        id="image"
+        name="image"
+        accept="image/*"
+        ref="fileInput"
+        type="file"
+        @input="onPickFile"
+      />
     </div>
     <div class="card__items">
       <label for="name">Titre</label>
       <Field
         id="title"
         name="title"
-        v-model="title"
+        v-model="form.title"
         placeholder="Titre de l'annonce"
       />
-      <span class="erros">{{ errors.title }}</span>
+      <span class="card__errors">{{ errors.title }}</span>
     </div>
     <div class="card__items">
       <label for="name">Description</label>
       <Field
         id="description"
-        v-model="description"
+        v-model="form.description"
         type="text"
         name="description"
         placeholder="Détails de l'annonce"
       />
-      <span>{{ errors.description }}</span>
+      <span class="card__errors">{{ errors.description }}</span>
     </div>
     <div class="card__items">
       <label for="name">Prix</label>
@@ -40,26 +48,21 @@
       <Field
         class="form-field"
         id="price"
-        v-model="price"
+        v-model="form.price"
         placeholder="Indiquez un prix"
         name="price"
         type="number"
       />
-      <span>{{ errors.price }}</span>
+      <span class="card__errors">{{ errors.price }}</span>
     </div>
 
     <div class="card__buttons-wrapper" v-if="isCreate">
       <input type="submit" value="Envoyer" />
       <br />
-      <button @click="cancelPost">Annuler</button>
+      <button @click="cancelPost()">Annuler</button>
     </div>
     <div class="card__buttons-wrapper" v-else>
-      <button
-        :disabled="errors || missingFields"
-        :class="{ invalid: errors || missingFields }"
-        @click="createPost"
-        value="Envoyer"
-      >
+      <button @click="createPost" value="Envoyer" :disabled="isDisabled">
         Créer
       </button>
     </div>
@@ -80,19 +83,20 @@ export default {
   data() {
     const createAddSchema = {
       title: "required|title|minLength:2",
-      description: "required|description|minLength:20",
+      description: "required|description|minLength:10",
       price: "required|minMax:1,9999",
     };
     return {
       createAddSchema,
+      form: null,
       posts: [],
       postsUpdated: [],
-      title: "",
-      description: "",
-      price: 0,
       isCreate: false,
-      currentImage: null,
     };
+  },
+  created() {
+    this.form = this.$store.state.currentPost;
+    console.log(this.form);
   },
   setup() {
     const toast = (message) => {
@@ -102,19 +106,24 @@ export default {
   },
   methods: {
     createPost() {
-      this.$store
-        .dispatch("createPost", {
-          image: this.currentImage,
-          title: this.title,
-          description: this.description,
-          price: this.price,
-        })
-        .then(() => {
-          this.isCreate = !this.isCreate;
-        })
-        .catch((err) => {
-          this.toast(err);
-        });
+      console.log("Cogon =", this.form);
+      if (this.isDisabled || this.errors) {
+        this.toast("Il manque des éléments pour la création de l'annonce!");
+      } else {
+        this.$store
+          .dispatch("createPost", {
+            title: this.form.title,
+            description: this.form.description,
+            price: this.form.price,
+            image: this.currentImage,
+          })
+          .then(() => {
+            this.isCreate = !this.isCreate;
+          })
+          .catch((err) => {
+            this.toast(err);
+          });
+      }
     },
 
     checkForm: function (e) {
@@ -125,20 +134,23 @@ export default {
         this.resetPost();
       });
     },
-    resetPost() {
-      this.isCreate = !this.isCreate;
-      this.currentImage = null;
-      this.title = "";
-      this.description = "";
-      this.price = 0;
-      this.$emit("resetPost");
-    },
+
     cancelPost() {
-      this.resetPost();
-      this.toast("L'annonce a été annulée!");
+      this.isCreate = !this.isCreate;
+      let formValues = this.form;
+      Object.keys(formValues).forEach((key) => {
+        formValues[key] = null;
+      });
+      this.$store.dispatch("resetForm", formValues).then(() => {
+        this.currentImage = null;
+        document.getElementById("image").value = null;
+        this.$emit("reset-post");
+        this.toast("L'annonce a été annulée!");
+      });
     },
     onPickFile() {
       let input = this.$refs.fileInput;
+      console.log(input.files);
       let file = input.files;
       if (file && file[0]) {
         let reader = new FileReader();
@@ -148,18 +160,21 @@ export default {
         reader.readAsDataURL(file[0]);
       }
     },
-    mounted() {
-      console.log(this.missingFields);
-    },
   },
   computed: {
-    missingFields() {
+    isDisabled: function () {
       return (
-        this.title === "" ||
-        this.description === "" ||
-        this.price === "" ||
-        this.price === 0
+        !this.form.title ||
+        !this.form.description ||
+        !this.form.price ||
+        this.errors
       );
+    },
+  },
+  watch: {
+    currentPost(newValue) {
+      console.log("newVal =", newValue);
+      this.form = newValue;
     },
   },
 };
@@ -180,8 +195,8 @@ export default {
   border: #616161 1px solid;
 
   &__imagePreviewed {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     display: block;
     cursor: pointer;
     margin: 0 auto 14px;
@@ -189,7 +204,8 @@ export default {
     background-position: center center;
   }
   &__items {
-    margin: 20px 0px;
+    margin: 10px 0px;
+    height: 84px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -221,6 +237,10 @@ export default {
       margin-top: 10px;
       height: 60px;
     }
+  }
+  &__errors {
+    color: red;
+    font-size: 14px;
   }
   &__buttons-wrapper {
     display: flex;

@@ -25,8 +25,8 @@
         justify-content: center;
       "
     >
-      <label for="name">Détails</label>
-      <div class="form-field">{{ post.details }}</div>
+      <label for="name">Description</label>
+      <div class="form-field">{{ post.description }}</div>
     </div>
 
     <div
@@ -57,6 +57,7 @@ export default {
     currentPost(newValue) {
       this.post = newValue;
     },
+    immediate: true,
   },
 };
 </script>
@@ -76,5 +77,15 @@ export default {
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 20px;
+  &__img {
+    width: 200px;
+    height: 200px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 14px;
+    background-size: cover;
+    background-position: center center;
+    overflow: hidden;
+  }
 }
 </style>

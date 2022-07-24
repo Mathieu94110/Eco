@@ -31,7 +31,12 @@ const store = createStore({
     status: "",
     user: user,
     isUserLogged: false,
-    currentPost: {},
+    currentPost: {
+      title: "",
+      description: "",
+      price: 0,
+      currentImage: null,
+    },
     userInfos: {
       firstName: "",
       lastName: "",
@@ -46,6 +51,12 @@ const store = createStore({
       console.log("post =", post);
       state.currentPost = post;
       console.log("fsdfs", this.state.currentPost);
+    },
+
+    resetPost: function (state, post) {
+      console.log("post before reset =", post);
+      state.currentPost = post;
+      console.log("resetPost", this.state.currentPost);
     },
 
     logUser: function (state, user) {
@@ -143,6 +154,10 @@ const store = createStore({
       let res = await axios.get("/api/posts");
       commit("user_profile", res.data.user);
       return res;
+    },
+
+    async resetForm({ commit }, formValues) {
+      commit("resetPost", formValues);
     },
   },
 });

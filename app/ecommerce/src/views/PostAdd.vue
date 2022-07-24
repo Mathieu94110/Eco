@@ -5,9 +5,7 @@
       <div>
         <PostCreate @reset-post="resetPost"></PostCreate>
 
-        <div v-show="currentPost">
-          <PostCreated :currentPost="post"></PostCreated>
-        </div>
+        <PostCreated :currentPost="post"></PostCreated>
       </div>
     </div>
   </div>
@@ -29,11 +27,15 @@ export default {
   data() {
     return {
       post: null,
+      showCreatedPost: true,
     };
   },
   methods: {
     resetPost() {
-      this.post = null;
+      this.showCreatedPost = false;
+    },
+    checkPost(value) {
+      return value["title"] !== null ? (this.post = value) : (this.post = null);
     },
   },
   computed: {
@@ -43,8 +45,7 @@ export default {
   },
   watch: {
     currentPost(newValue) {
-      // this.post = JSON.parse(newValue);
-      this.post = newValue;
+      this.checkPost(newValue);
     },
   },
 };
