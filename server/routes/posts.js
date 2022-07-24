@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.post("/postInfos", (req, res, next) => {
   const post = new Post({
-    image: req.body.image,
     title: req.body.title,
     description: req.body.description,
     price: req.body.price,
+    image: req.body.image,
   });
 
   post.save().then((createdPost) => {
