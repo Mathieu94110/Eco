@@ -8,8 +8,10 @@ router.post("/postInfos", (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
+    category: req.body.category,
     price: req.body.price,
     image: req.body.image,
+    category: req.body.category,
   });
 
   post.save().then((createdPost) => {
