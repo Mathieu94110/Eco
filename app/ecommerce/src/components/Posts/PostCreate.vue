@@ -43,6 +43,20 @@
       <span class="card__errors">{{ errors.description }}</span>
     </div>
     <div class="card__items">
+      <label for="name">Catégorie</label>
+      <Field name="field" as="select" v-model="selected">
+        <option value="Informatique">Informatique</option>
+        <option value="Téléphones, tablettes">Téléphones, tablettes</option>
+        <option value="Électro">Électro</option>
+        <option value="Rangements">Rangements</option>
+        <option value="Vetements">Vetements</option>
+        <option value="Cosmétiques">Cosmétiques</option>
+        <option value="Vidéo, son">Vidéo, son</option>
+        <option value="Auto, moto">Auto, moto</option>
+        <option value="Autres">Autres</option>
+      </Field>
+    </div>
+    <div class="card__items">
       <label for="name">Prix</label>
 
       <Field
@@ -59,7 +73,7 @@
     <div class="card__buttons-wrapper" v-if="isCreate">
       <input type="submit" value="Envoyer" />
       <br />
-      <button @click="cancelPost()">Annuler</button>
+      <button @click="reset()">Annuler</button>
     </div>
     <div class="card__buttons-wrapper" v-else>
       <button @click="createPost" value="Envoyer" :disabled="isDisabled">
@@ -89,14 +103,11 @@ export default {
     return {
       createAddSchema,
       form: null,
-      posts: [],
-      postsUpdated: [],
       isCreate: false,
     };
   },
   created() {
     this.form = this.$store.state.currentPost;
-    console.log(this.form);
   },
   setup() {
     const toast = (message) => {
@@ -106,7 +117,6 @@ export default {
   },
   methods: {
     createPost() {
-      console.log("Cogon =", this.form);
       if (this.isDisabled || this.errors) {
         this.toast("Il manque des éléments pour la création de l'annonce!");
       } else {
@@ -114,6 +124,7 @@ export default {
           .dispatch("createPost", {
             title: this.form.title,
             description: this.form.description,
+            category: this.selected,
             price: this.form.price,
             image: this.currentImage,
           })
@@ -126,22 +137,20 @@ export default {
       }
     },
 
-    checkForm: function (e) {
-      e.preventDefault();
+    checkForm: function () {
       this.$store.dispatch("sendPost").then((res) => {
-        console.log(res);
         this.toast("L'annonce a bien été postée!");
-        this.resetPost();
+        this.reset();
       });
     },
 
-    cancelPost() {
-      this.isCreate = !this.isCreate;
+    reset() {
       let formValues = this.form;
       Object.keys(formValues).forEach((key) => {
         formValues[key] = null;
       });
       this.$store.dispatch("resetForm", formValues).then(() => {
+        this.isCreate = !this.isCreate;
         this.currentImage = null;
         document.getElementById("image").value = null;
         this.$emit("reset-post");
@@ -150,7 +159,6 @@ export default {
     },
     onPickFile() {
       let input = this.$refs.fileInput;
-      console.log(input.files);
       let file = input.files;
       if (file && file[0]) {
         let reader = new FileReader();
@@ -171,9 +179,11 @@ export default {
       );
     },
   },
+  selected() {
+    return this.form.field;
+  },
   watch: {
     currentPost(newValue) {
-      console.log("newVal =", newValue);
       this.form = newValue;
     },
   },

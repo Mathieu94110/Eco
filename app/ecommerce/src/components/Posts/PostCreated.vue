@@ -28,7 +28,18 @@
       <label for="name">Description</label>
       <div class="form-field">{{ post.description }}</div>
     </div>
-
+   <div
+      style="
+        height: 60px;
+        margin: 20px 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      "
+    >
+      <label for="name">Catégorie</label>
+      <div class="form-field">{{ post.category }}</div>
+    </div>
     <div
       style="
         height: 60px;

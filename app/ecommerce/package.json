@@ -12,6 +12,7 @@
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "es6-promise": "^4.2.8",
+    "infinite-loading-vue3": "^1.0.1",
     "mitt": "^3.0.0",
     "mosha-vue-toastify": "^1.0.23",
     "sass-loader": "^10.3.1",

@@ -34,6 +34,7 @@ const store = createStore({
     currentPost: {
       title: "",
       description: "",
+      category: "",
       price: 0,
       currentImage: null,
     },
@@ -48,15 +49,11 @@ const store = createStore({
       state.status = status;
     },
     setPost: function (state, post) {
-      console.log("post =", post);
       state.currentPost = post;
-      console.log("fsdfs", this.state.currentPost);
     },
 
     resetPost: function (state, post) {
-      console.log("post before reset =", post);
       state.currentPost = post;
-      console.log("resetPost", this.state.currentPost);
     },
 
     logUser: function (state, user) {
@@ -106,7 +103,6 @@ const store = createStore({
       });
     },
     createAccount: ({ commit }, userInfos) => {
-      console.log(userInfos);
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         commit;
@@ -126,7 +122,6 @@ const store = createStore({
     async getProfile({ commit }) {
       commit("profile_request");
       let res = await axios.get(`${userInstance}/infos`);
-      console.log(res);
     },
 
     createPost: ({ commit }, postInfos) => {
@@ -139,11 +134,11 @@ const store = createStore({
         postInstance
           .post("/postInfos", state.currentPost)
           .then((response) => {
-            console.log("tt", response.data);
             resolve(response.data);
           })
           .catch(function (error) {
-            commit("setStatus", "error_login");
+            console.log(error);
+            commit("setStatus", "error_post");
             reject(error);
           });
       });

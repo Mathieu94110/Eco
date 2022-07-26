@@ -28,6 +28,11 @@ const routes = [
     component: () => import("../views/PostAdd.vue"),
   },
   {
+    name: "UserAdds",
+    path: "/user-adds",
+    component: () => import("../views/UserAdds.vue"),
+  },
+  {
     name: "Favorites",
     path: "/favorites",
     component: () => import("../views/Favorites.vue"),

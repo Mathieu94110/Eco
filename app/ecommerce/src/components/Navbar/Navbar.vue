@@ -36,6 +36,9 @@
       <NavBarLink class="topbar__link" to="/post-add" icon="fas fa-pencil-alt"
         ><span>Déposer une annonce</span></NavBarLink
       >
+      <NavBarLink class="topbar__link" to="/user-adds" icon="fas fa-pencil-alt"
+        ><span>Mes annonces</span></NavBarLink
+      >
       <NavBarLink class="topbar__link" to="/favorites" icon="fas fa-star"
         ><span>Mes favoris</span></NavBarLink
       >
