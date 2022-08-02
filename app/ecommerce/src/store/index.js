@@ -122,6 +122,7 @@ const store = createStore({
     async getProfile({ commit }) {
       commit("profile_request");
       let res = await axios.get(`${userInstance}/infos`);
+      return res;
     },
 
     createPost: ({ commit }, postInfos) => {

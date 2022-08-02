@@ -1,91 +1,111 @@
 <template>
-  <div style="width: 100%; height: 100%">
-    <Toolbar> Mes annonces </Toolbar>
-    <infinite-scroll
-      @infinite-scroll="loadAdds"
-      :message="message"
-      :noResult="noResult"
-    >
-      <div
-        style="
-          width: 100%;
-          height: 100%;
-          margin: 50px;
-          display: flex;
-          overflow-x: wrap;
-        "
-      >
-        <div
-          v-for="item in displayedAdds"
-          :key="item.id"
-          style="height: 500px; width: 260px; justify-content: space-evenly"
-        >
-          <div
-            style="
-              width: 200px;
-              height: 200px;
-              display: block;
-              cursor: pointer;
-              margin: 0 auto 14px;
-              background-size: cover;
-              background-position: center center;
-            "
-          >
-            <img :src="item.image" alt="item.title" style="height: 50px" />
-          </div>
-          <p>{{ item.title }}</p>
-          <p>{{ item.description }}</p>
-          <p>{{ item.category }}</p>
-          <p>{{ item.price }}</p>
-        </div>
-      </div>
-    </infinite-scroll>
-    <Pagination :adds="adds" @page-data="setDataPage"></Pagination>
+  <div id="app">
+    <nav>Mes annonces</nav>
+    <main>
+      <Pagination
+        v-if="tableData"
+        :totalRecords="tableData.length"
+        :perPageOptions="perPageOptions"
+        v-model="pagination"
+      />
+      <Table
+        v-if="tableData"
+        :theData="computedTableData"
+        :config="config"
+        :style="{ height: '600px' }"
+      />
+    </main>
   </div>
 </template>
 
 <script>
+import Table from "../components/Table/Table";
+import Pagination from "../components/Pagination/Pagination";
 import axios from "axios";
-import InfiniteScroll from "infinite-loading-vue3";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import Pagination from "@/components/Pagination/Pagination.vue";
 
+const perPageOptions = [20, 50, 100];
 export default {
-  name: "Adds",
   components: {
-    InfiniteScroll,
-    Toolbar,
+    Table,
     Pagination,
   },
-  data() {
+  data: function () {
     return {
-      adds: [],
-      displayedAdds: [],
-      noResult: false,
+      perPageOptions,
+      tableData: undefined,
+      pagination: { page: 1, perPage: perPageOptions[0] },
+      config: [
+        {
+          key: "image",
+          title: "image",
+          type: "text",
+        },
+        {
+          key: "title",
+          title: "title",
+          type: "text",
+        },
+        {
+          key: "description",
+          title: "description",
+          type: "text",
+        },
+        {
+          key: "category",
+          title: "category",
+          type: "text",
+        },
+        {
+          key: "price",
+          title: "price",
+          type: "number",
+        },
+        {
+          key: "id",
+          title: "id",
+          type: "text",
+        },
+      ],
     };
   },
-  methods: {
-    async loadAdds() {
-      const response = axios.get("http://localhost:3000/api/posts");
-      this.adds = response;
-    },
-    setDataPage(params) {
-      this.displayedAdds = params;
+  computed: {
+    computedTableData() {
+      if (!this.tableData) return [];
+      else {
+        const firstIndex = (this.pagination.page - 1) * this.pagination.perPage;
+        const lastIndex = this.pagination.page * this.pagination.perPage;
+        return this.tableData.slice(firstIndex, lastIndex);
+      }
     },
   },
   mounted() {
-    this.loadAdds();
+    axios.get("http://localhost:3000/api/posts").then(({ data }) => {
+      this.tableData = data.posts;
+    });
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.auth {
-  width: 100%;
-  height: 100vh;
+<style>
+body {
+  font-family: Helvetica, sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+main {
+  margin: 30px;
+  height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+}
+nav {
+  height: 60px;
+  background: #222;
+  font-size: 32px;
+  color: white;
+  display: flex;
   align-items: center;
+  padding-left: 20px;
 }
 </style>

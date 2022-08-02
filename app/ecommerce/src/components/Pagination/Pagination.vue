@@ -1,107 +1,113 @@
 <template>
-  <div class="wrapper">
-    <div class="pagination">
-      <nav style="display: flex">
-        <ul style="display: flex">
-          <li @click="getPreviousPage()">Page précédente</li>
-          <li
-            v-for="page in totalPages()"
-            :key="page.id"
-            :class="isActive(page)"
-          >
-            <a class="page-link" href="#" @click="getDataPerPage(page)">{{
-              page
-            }}</a>
-          </li>
-          <li @click="getNextPage()">Page suivante</li>
-        </ul>
-      </nav>
+  <section>
+    <div class="pagination-container">
+      <button class="fal fa-chevron-double-left" @click="changePage(0)">
+        Double left
+      </button>
+
+      <button class="fal fa-chevron-left" @click="changePage(-1)">Left</button>
+      <span class="inner-pagination-content">
+        Page {{ page }} of {{ pages }}
+      </span>
+      <button class="fal fa-chevron-right" @click="changePage(1)">Rigth</button>
+      <button class="fal fa-chevron-double-right" @click="changePage(pages)">
+        Double rigth
+      </button>
+      <span class="pagination-seperator">|</span>
+      Showing:
+      <span
+        class="showing"
+        :class="perPage === amount && 'active'"
+        v-for="(amount, index) in perPageOptions"
+        :key="index"
+        @click="setPerPage(amount)"
+        >{{ amount }}</span
+      >
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
-  name: "Pagination",
-  props: ["adds"],
-  data() {
+  props: ["totalRecords", "perPageOptions"],
+  data: function () {
     return {
-      itemsPerPage: 10,
-      dataPerPage: [],
-      currentPage: 1,
+      page: 1,
+      perPage: this.perPageOptions[0],
     };
   },
-  mounted() {
-    this.getDataPerPage(1);
+  computed: {
+    pages() {
+      const remainder = this.totalRecords % this.perPage;
+      if (remainder > 0) {
+        return Math.floor(this.totalRecords / this.perPage) + 1;
+      } else {
+        return this.totalRecords / this.perPage;
+      }
+    },
   },
   methods: {
-    totalPages() {
-      return Math.ceil(this.adds.length / this.itemsPerPage);
+    setPerPage(amount) {
+      this.perPage = amount;
+      this.$emit("input", { page: this.page, perPage: amount });
     },
-    getDataPerPage(value) {
-      this.currentPage = value;
-      this.dataPerPage = [];
-      let start = value * this.itemsPerPage - this.itemsPerPage;
-      let end = value * this.itemsPerPage;
-      this.dataPerPage = this.adds.slice(start, end);
-      this.$emit("page-data", this.dataPerPage);
-    },
-
-    getPreviousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
+    changePage(val) {
+      switch (val) {
+        case 0:
+          this.page = 1;
+          break;
+        case -1:
+          this.page = this.page > 1 ? this.page - 1 : this.page;
+          break;
+        case 1:
+          this.page = this.page < this.pages ? this.page + 1 : this.page;
+          break;
+        case this.pages:
+          this.page = this.pages;
+          break;
       }
-      this.getDataPerPage(this.currentPage);
-    },
-    getNextPage() {
-      if (this.currentPage < this.totalPages()) {
-        this.currentPage++;
-      }
-      this.getDataPerPage(this.currentPage);
-    },
-    isActive(page) {
-      return page == this.currentPage ? "active" : "";
+      this.$emit("input", { page: this.page, perPage: this.perPage });
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.wrapper {
+<style lang="scss">
+.pagination-container {
   display: flex;
-  height: 100%;
-  margin-left: 85px;
-  width: calc(100% - 85px);
-  .pagination {
-    position: absolute;
-    width: calc(100% - 85px);
-    right: 0;
-    bottom: 0px;
-    height: 60px;
+  justify-content: flex-end;
+  color: #444;
+  margin-right: 20px;
+  .inner-pagination-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    nav {
-      width: 100%;
-      ul {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        li {
-          padding: 10px;
-          list-style-type: none;
-          border: 1px solid black;
-          a {
-            text-decoration: none;
-          }
-        }
-      }
-    }
-
-    .active {
-      background: blue;
+    margin: 0px 10px;
+  }
+  .pagination-seperator,
+  .showing {
+    font-size: 16px;
+    font-weight: 300;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 10px;
+  }
+  .showing {
+    margin: 0px 5px;
+    cursor: pointer;
+    &.active {
+      color: #2997ff;
     }
   }
+}
+.fal {
+  width: 20px;
+  color: #2997ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2.5px;
+  cursor: pointer;
 }
 </style>
