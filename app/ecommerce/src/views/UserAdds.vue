@@ -6,7 +6,7 @@
         v-if="tableData"
         :totalRecords="tableData.length"
         :perPageOptions="perPageOptions"
-        v-model="pagination"
+        @input="setTable($event)"
       />
       <Table
         v-if="tableData"
@@ -37,36 +37,47 @@ export default {
       config: [
         {
           key: "image",
-          title: "image",
-          type: "text",
+          title: "Image",
+          type: "image",
         },
         {
           key: "title",
-          title: "title",
+          title: "Titre",
           type: "text",
+        },
+                {
+          key: "date",
+          title: "Date",
+          type: "date",
         },
         {
           key: "description",
-          title: "description",
+          title: "Description",
           type: "text",
         },
         {
           key: "category",
-          title: "category",
+          title: "Catégorie",
           type: "text",
         },
         {
           key: "price",
-          title: "price",
+          title: "Prix",
           type: "number",
         },
         {
           key: "id",
-          title: "id",
+          title: "Id",
           type: "text",
         },
       ],
     };
+  },
+  methods: {
+    setTable(data) {
+      console.log(data);
+      this.pagination = data;
+    },
   },
   computed: {
     computedTableData() {
@@ -80,6 +91,7 @@ export default {
   },
   mounted() {
     axios.get("http://localhost:3000/api/posts").then(({ data }) => {
+      console.log("data user =", data);
       this.tableData = data.posts;
     });
   },
