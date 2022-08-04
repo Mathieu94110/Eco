@@ -12,6 +12,7 @@ router.post("/postInfos", (req, res, next) => {
     price: req.body.price,
     image: req.body.image,
     category: req.body.category,
+    date: new Date(),
   });
 
   post.save().then((createdPost) => {
