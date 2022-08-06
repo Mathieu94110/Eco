@@ -138,7 +138,7 @@ export default {
     },
 
     checkForm: function () {
-      this.$store.dispatch("sendPost").then((res) => {
+      this.$store.dispatch("sendPost").then(() => {
         this.toast("L'annonce a bien été postée!");
         this.reset();
       });

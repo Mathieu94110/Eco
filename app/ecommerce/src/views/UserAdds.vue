@@ -21,7 +21,7 @@
 <script>
 import Table from "../components/Table/Table";
 import Pagination from "../components/Pagination/Pagination";
-import axios from "axios";
+import { getUserAdds } from "@/api/adds";
 
 const perPageOptions = [20, 50, 100];
 export default {
@@ -45,7 +45,7 @@ export default {
           title: "Titre",
           type: "text",
         },
-                {
+        {
           key: "date",
           title: "Date",
           type: "date",
@@ -73,10 +73,21 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.getAdds();
+  },
   methods: {
     setTable(data) {
       console.log(data);
       this.pagination = data;
+    },
+    async getAdds() {
+      try {
+        const { data } = await getUserAdds();
+        this.tableData = data.posts;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   computed: {
@@ -88,12 +99,6 @@ export default {
         return this.tableData.slice(firstIndex, lastIndex);
       }
     },
-  },
-  mounted() {
-    axios.get("http://localhost:3000/api/posts").then(({ data }) => {
-      console.log("data user =", data);
-      this.tableData = data.posts;
-    });
   },
 };
 </script>

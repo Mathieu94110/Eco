@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) in theData" :key="index">
+        <tr v-for="(row, index) in theData" :key="index" :id="theData._id">
           <td v-for="(obj, ind) in config" :key="ind">
             <span v-if="obj.type === 'text'">{{ row[obj.key] }}</span>
             <span v-if="obj.type === 'date'"
@@ -20,9 +20,13 @@
               <img :src="row[obj.key]" width="auto" />
             </figure>
           </td>
-          <button type="button" class="btn" @click="showModal">
-            Voir l'annonce
+          <button type="button" class="btn" @click="goToDetails(row['_id'])">
+            Vf
           </button>
+          <!-- <router-link
+            :to="{ path: 'UserAddsDetails', params: { id: theData._id } }"
+            ><a>Voir l'annonce</a></router-link
+          > -->
         </tr>
       </tbody>
     </table>
@@ -43,6 +47,9 @@ export default {
       isModalVisible: false,
     };
   },
+  mounted() {
+    console.log(this.theData);
+  },
   methods: {
     showModal() {
       this.isModalVisible = true;
@@ -53,6 +60,12 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    goToDetails(id) {
+      this.$router.push({
+        name: "UserAddsDetails",
+        params: { id: id },
+      });
     },
   },
 };

@@ -1,12 +1,14 @@
 import { createStore } from "vuex";
+import userApi from "@/api/user";
+// import addsApi from "@/api/adds";
 
 const axios = require("axios");
 
 const userInstance = axios.create({
-  baseURL: "http://localhost:3000/api/user",
+  baseURL: `${process.env.VUE_APP_API_URL}/user`,
 });
 const postInstance = axios.create({
-  baseURL: "http://localhost:3000/api/posts",
+  baseURL: `${process.env.VUE_APP_API_URL}/posts`,
 });
 
 let user = localStorage.getItem("user");
@@ -92,8 +94,6 @@ const store = createStore({
           .post("/login", userInfos)
           .then((response) => {
             commit("setStatus", "");
-            commit("logUser", response.data);
-            commit("loginStatus", true);
             resolve(response.data);
           })
           .catch(function (error) {
@@ -121,8 +121,8 @@ const store = createStore({
     },
     async getProfile({ commit }) {
       commit("profile_request");
-      let res = await axios.get(`${userInstance}/infos`);
-      return res;
+      const user = await axios.get(userApi.getProfile);
+      return user;
     },
 
     createPost: ({ commit }, postInfos) => {
@@ -155,6 +155,23 @@ const store = createStore({
     async resetForm({ commit }, formValues) {
       commit("resetPost", formValues);
     },
+
+    // getUserAdd: ({ commit }, userId) => {
+    //   commit("setStatus", "loading");
+    //   return new Promise((resolve, reject) => {
+    //     postInstance
+    //       .get("/:id", userId)
+    //       .then((response) => {
+    //         commit("setStatus", "");
+    //         commit("logUser", response.data);
+    //         commit("loginStatus", true);
+    //         resolve(response.data);
+    //       })
+    //       .catch(function (error) {
+    //         reject(error);
+    //       });
+    //   });
+    // },
   },
 });
 

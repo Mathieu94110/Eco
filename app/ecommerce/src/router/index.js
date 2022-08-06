@@ -35,7 +35,7 @@ const routes = [
   {
     name: "UserAddsDetails",
     path: "/user-adds/:id",
-    component: () => import("../views/UserAdds.vue"),
+    component: () => import("../views/UserAddsDetails.vue"),
   },
   {
     name: "Favorites",

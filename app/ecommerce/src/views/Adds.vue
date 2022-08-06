@@ -21,10 +21,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import Toolbar from "../components/Toolbar/Toolbar.vue";
 import AddCard from "../components/addCard/addCard.vue";
-
+import { getFakeAdds } from "../api/adds";
 export default {
   name: "Adds",
   components: {
@@ -37,17 +36,13 @@ export default {
     };
   },
   methods: {},
-  created() {
+  async created() {
     try {
-      axios
-        .get("https://dummyjson.com/products")
-        .then((res) => (console.log(res), (this.adds = res.data.products)));
-    } catch (err) {
-      if (err.response) {
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      }
+      const { data } = await getFakeAdds();
+      console.log(data);
+      this.adds = data.products;
+    } catch (error) {
+      console.log(error);
     }
   },
 };
