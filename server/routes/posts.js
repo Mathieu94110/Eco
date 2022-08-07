@@ -11,7 +11,6 @@ router.post("/postInfos", (req, res, next) => {
     category: req.body.category,
     price: req.body.price,
     image: req.body.image,
-    category: req.body.category,
     date: new Date(),
   });
 
@@ -34,13 +33,25 @@ router.get("", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then((post) => {
-    console.log(post);
     if (post) {
       res.status(200).json(post);
     } else {
       res.status(404).json({ message: "Post not found!" });
     }
   });
+});
+
+router.delete("/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then(
+    (result) => {
+      console.log(result);
+      if (result.n > 0) {
+        res.status(200).json({ message: "Deletion successful!" });
+      } else {
+        res.status(401).json({ message: "Not authorized!" });
+      }
+    }
+  );
 });
 
 module.exports = router;
