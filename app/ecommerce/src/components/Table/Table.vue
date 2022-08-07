@@ -1,5 +1,5 @@
 <template>
-  <section class="awesome-table">
+  <section class="table-wrapper">
     <table>
       <thead>
         <tr>
@@ -19,23 +19,45 @@
             <figure v-if="obj.type === 'image'">
               <img :src="row[obj.key]" width="auto" />
             </figure>
+            <span v-if="!obj.type">{{ row[obj.key] }}</span>
+            <span v-if="obj.title === 'Actions'">
+              <router-link
+                :to="{ name: 'UserAddsDetails', params: { id: row['_id'] } }"
+                ><a class="table-wrapper__link">Voir l'annonce</a></router-link
+              >
+              <div class="table-wrapper__delete-icon">
+                <span @click="showDeleteModal(row)">
+                  <i class="fa fa-trash" aria-hidden="true"></i
+                ></span></div
+            ></span>
           </td>
-          <button type="button" class="btn" @click="goToDetails(row['_id'])">
-            Vf
-          </button>
-          <!-- <router-link
-            :to="{ path: 'UserAddsDetails', params: { id: theData._id } }"
-            ><a>Voir l'annonce</a></router-link
-          > -->
         </tr>
       </tbody>
     </table>
   </section>
-  <Modal v-show="isModalVisible" @close="closeModal" />
+
+  <Modal v-show="isModalVisible" @close="closeModal" @delete="deleteAdd()">
+    <template #header>
+      <h2>Vous allez supprimer {{ selectedAdd.title }}</h2>
+    </template>
+
+    <template #body>
+      <p>Crée le {{ new Date(selectedAdd.date).toLocaleDateString() }}</p>
+      <p>Au prix de {{ selectedAdd.price }}</p>
+      <p>Cette action est irréversible !</p>
+    </template>
+
+    <template #footer>
+      <p>Oui, je souhaite supprimer l'annonce</p>
+    </template>
+  </Modal>
 </template>
 
 <script>
 import Modal from "../Modal/Modal.vue";
+import { deleteAdds } from "@/api/adds";
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
 export default {
   props: ["theData", "config"],
@@ -45,19 +67,17 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      selectedAdd: {},
     };
   },
-  mounted() {
-    console.log(this.theData);
+  setup() {
+    const toast = (message) => {
+      createToast(message);
+    };
+    return { toast };
   },
   methods: {
-    showModal() {
-      this.isModalVisible = true;
-      this.$router.push({
-        name: "UserAddsDetails",
-        params: { id: this.theData.id },
-      });
-    },
+    showModal() {},
     closeModal() {
       this.isModalVisible = false;
     },
@@ -67,12 +87,23 @@ export default {
         params: { id: id },
       });
     },
+    showDeleteModal(value) {
+      this.selectedAdd = value;
+      this.isModalVisible = true;
+    },
+    deleteAdd() {
+      const addIndex = this.selectedAdd._id;
+      deleteAdds(addIndex);
+      this.toast("L'annonce a bien été supprimée!");
+      this.$emit("addDeleted", this.selectedAdd._id);
+      this.closeModal();
+    },
   },
 };
 </script>
 
 <style lang="scss">
-.awesome-table {
+.table-wrapper {
   border: 1px solid #999;
   border-radius: 4px;
   color: #333;
@@ -107,6 +138,17 @@ export default {
     td {
       padding: 5px 5px;
       text-align: center;
+    }
+  }
+  a {
+    text-decoration: none;
+    font-weight: 500;
+  }
+  &__delete-icon {
+    padding: 0 20px;
+    &:hover {
+      cursor: pointer;
+      color: red;
     }
   }
 }

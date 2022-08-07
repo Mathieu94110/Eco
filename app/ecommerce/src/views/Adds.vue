@@ -39,7 +39,6 @@ export default {
   async created() {
     try {
       const { data } = await getFakeAdds();
-      console.log(data);
       this.adds = data.products;
     } catch (error) {
       console.log(error);

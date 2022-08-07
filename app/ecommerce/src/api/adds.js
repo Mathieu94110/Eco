@@ -20,6 +20,10 @@ export const postAdds = () => {
 export const getFakeAdds = () => {
   return axios.get("https://dummyjson.com/products");
 };
+export const deleteAdds = (id) => {
+  return http.delete("/posts/" + id);
+};
+
 // export const getUserAdd = ({ id }) => {
 //   return http.get(`/`);
 // };
@@ -28,4 +32,5 @@ export default {
   getFakeAdds,
   getUserAdds,
   getPostId,
+  deleteAdds,
 };

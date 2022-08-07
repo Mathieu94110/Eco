@@ -13,6 +13,7 @@
         :theData="computedTableData"
         :config="config"
         :style="{ height: '600px' }"
+        @addDeleted="refreshCurrentList($event)"
       />
     </main>
   </div>
@@ -66,8 +67,8 @@ export default {
           type: "number",
         },
         {
-          key: "id",
-          title: "Id",
+          key: "actions",
+          title: "Actions",
           type: "text",
         },
       ],
@@ -88,6 +89,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    refreshCurrentList(id) {
+      this.tableData = this.tableData.filter((item) => item._id !== id);
     },
   },
   computed: {

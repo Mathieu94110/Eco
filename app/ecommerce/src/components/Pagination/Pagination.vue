@@ -1,20 +1,16 @@
 <template>
   <section>
     <div class="pagination-container">
-      <button class="fal fa-chevron-double-left" @click="changePage(0)">
-        Double left
-      </button>
+      <button class="fal" @click="changePage(0)">&lt;&lt;</button>
 
-      <button class="fal fa-chevron-left" @click="changePage(-1)">Left</button>
+      <button class="fal" @click="changePage(-1)">&lt;</button>
       <span class="inner-pagination-content">
-        Page {{ page }} of {{ pages }}
+        Page {{ page }} sur {{ pages }}
       </span>
-      <button class="fal fa-chevron-right" @click="changePage(1)">Rigth</button>
-      <button class="fal fa-chevron-double-right" @click="changePage(pages)">
-        Double rigth
-      </button>
+      <button class="fal" @click="changePage(1)">></button>
+      <button class="fal" @click="changePage(pages)">>></button>
       <span class="pagination-seperator">|</span>
-      Showing:
+      Nombre de résultats:
       <span
         class="showing"
         :class="perPage === amount && 'active'"
@@ -74,8 +70,10 @@ export default {
 
 <style lang="scss">
 .pagination-container {
+  min-width: 400px;
+  max-width: 600px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-evenly;
   color: #444;
   margin-right: 20px;
   .inner-pagination-content {

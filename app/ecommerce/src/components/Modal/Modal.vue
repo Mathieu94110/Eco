@@ -3,18 +3,19 @@
     <div class="modal-backdrop">
       <div class="modal">
         <header class="modal-header">
-          <slot name="header"> This is the default title! </slot>
-          <button type="button" class="btn-close" @click="close">x</button>
+          <div class="row">
+            <slot name="header"></slot>
+            <button type="button" class="btn-close" @click="close">x</button>
+          </div>
         </header>
 
         <section class="modal-body">
-          <slot name="body"> This is the default body! </slot>
+          <slot name="body"></slot>
         </section>
 
         <footer class="modal-footer">
-          <slot name="footer"> This is the default footer! </slot>
-          <button type="button" class="btn-green" @click="close">
-            Close Modal
+          <button type="button" class="btn-red" @click="$emit('delete')">
+            <slot name="footer">Fermer </slot>
           </button>
         </footer>
       </div>
@@ -33,7 +34,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -58,13 +59,19 @@ export default {
 .modal-footer {
   padding: 15px;
   display: flex;
+  :hover {
+    cursor: pointer;
+  }
 }
 
 .modal-header {
-  position: relative;
   border-bottom: 1px solid #eeeeee;
-  color: #4aae9b;
   justify-content: space-between;
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .modal-footer {
@@ -76,12 +83,11 @@ export default {
 .modal-body {
   position: relative;
   padding: 20px 10px;
+  font-weight: 600;
 }
 
 .btn-close {
-  position: absolute;
-  top: 0;
-  right: 0;
+  padding-left: 20px;
   border: none;
   font-size: 20px;
   padding: 10px;
@@ -91,10 +97,13 @@ export default {
   background: transparent;
 }
 
-.btn-green {
+.btn-red {
   color: white;
-  background: #4aae9b;
-  border: 1px solid #4aae9b;
+  padding: 20px;
+  font-weight: 600;
+  font-size: 16px;
+  background: #e81704;
+  border: 1px solid#e81704;
   border-radius: 2px;
 }
 .modal-fade-enter,
