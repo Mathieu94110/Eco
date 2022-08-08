@@ -19,6 +19,13 @@ export default {
   computed: {
     ...mapGetters(["isLoggedIn"]),
   },
+  mounted() {
+    if (this.isLoggedIn === true) {
+      console.log("oui");
+    } else {
+      console.log("non");
+    }
+  },
 };
 </script>
 

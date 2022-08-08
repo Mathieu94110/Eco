@@ -1,9 +1,20 @@
 <template>
   <div class="add-details">
-    <div class="add-details__go-back">
-      <input type="button" @click="goBack()" value="Retour" />
+    <div class="add-details__header">
+      <input
+        class="go-back-btn"
+        type="button"
+        @click="goBack()"
+        value="Retour"
+      />
+      <input
+        class="edit-btn"
+        type="button"
+        @click="editAdd()"
+        value="Modifier"
+      />
     </div>
-    <Card :add="userAdd" />
+    <Card :add="userAdd" :edit="editCard" />
   </div>
 </template>
 
@@ -16,6 +27,7 @@ export default {
       userAdd: undefined,
       loading: false,
       selection: 1,
+      editCard: false,
     };
   },
   components: {
@@ -28,6 +40,9 @@ export default {
   methods: {
     goBack() {
       this.$router.back();
+    },
+    editAdd() {
+      this.editCard = true;
     },
   },
 };
@@ -43,15 +58,16 @@ export default {
   align-items: center;
   position: relative;
 
-  &__go-back {
-    width: 100px;
+  &__header {
+    width: 100%;
     height: 80px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: absolute;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
     left: 0;
     top: 0;
+    padding: 0 20px;
 
     input {
       background-image: linear-gradient(#42a1ec, #0070c9);
@@ -64,6 +80,7 @@ export default {
       letter-spacing: -0.022em;
       min-width: 30px;
       padding: 4px 15px;
+      height: 40px;
       text-align: center;
       &:hover {
         background-image: linear-gradient(#51a9ee, #147bcd);
@@ -71,6 +88,11 @@ export default {
         text-decoration: none;
       }
     }
+
+    // .go-back-btn {
+    // }
+    // .edit-btn {
+    // }
   }
 }
 </style>

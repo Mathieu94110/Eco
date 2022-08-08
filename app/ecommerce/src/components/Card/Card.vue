@@ -37,7 +37,18 @@
 
 <script>
 export default {
-  props: ["add"],
+  data() {
+    return {
+      editCard: false,
+    };
+  },
+  props: ["add", "edit"],
+
+  watch: {
+    edit(newValue) {
+      this.editCard = newValue;
+    },
+  },
 };
 </script>
 

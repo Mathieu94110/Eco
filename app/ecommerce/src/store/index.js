@@ -93,7 +93,10 @@ const store = createStore({
         userInstance
           .post("/login", userInfos)
           .then((response) => {
+            console.log(response);
             commit("setStatus", "");
+            commit("logUser", response.data);
+            commit("loginStatus", true);
             resolve(response.data);
           })
           .catch(function (error) {

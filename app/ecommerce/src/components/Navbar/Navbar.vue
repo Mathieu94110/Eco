@@ -1,7 +1,7 @@
 <template>
   <NavBarContainer
     :class="{ 'topbar--active': isHover }"
-    class="topbar is-unshrink"
+    class="topbar"
     @mouseenter="formatSideBar(true)"
     @mouseleave="formatSideBar(false)"
   >
@@ -112,6 +112,7 @@ export default {
   z-index: 5;
   width: 100%;
   overflow: auto;
+  flex-shrink: 0;
   &__items {
     height: 260px;
     display: flex;
@@ -123,6 +124,7 @@ export default {
     padding-left: 30px;
     cursor: pointer;
     white-space: nowrap;
+    flex-shrink: 0;
     &--error {
       color: rgb(255, 30, 30);
     }
