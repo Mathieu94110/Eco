@@ -7,23 +7,29 @@
         @click="goBack()"
         value="Retour"
       />
+
       <input
-        class="edit-btn"
         type="button"
-        @click="editAdd()"
-        value="Modifier"
+        class="edit-btn"
+        v-for="tab in tabs"
+        :key="tab"
+        @click="component = tab"
       />
+      {{ tab }}
     </div>
-    <Card :add="userAdd" :edit="editCard" />
+    <component :is="component" :add="userAdd" />
   </div>
 </template>
 
 <script>
 import { getPostId } from "@/api/adds";
 import Card from "@/components/Card/Card";
+import EditCard from "@/components/Card/EditCard";
 export default {
   data() {
     return {
+      tabs: ["Card", "EditCard"],
+      component: "Card",
       userAdd: undefined,
       loading: false,
       selection: 1,
@@ -32,6 +38,7 @@ export default {
   },
   components: {
     Card,
+    EditCard,
   },
   async mounted() {
     const response = await getPostId(this.$route.params.id);
@@ -41,8 +48,9 @@ export default {
     goBack() {
       this.$router.back();
     },
+
     editAdd() {
-      this.editCard = true;
+      alert("switch");
     },
   },
 };
@@ -88,11 +96,6 @@ export default {
         text-decoration: none;
       }
     }
-
-    // .go-back-btn {
-    // }
-    // .edit-btn {
-    // }
   }
 }
 </style>
