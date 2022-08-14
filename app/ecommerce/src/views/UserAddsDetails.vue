@@ -7,17 +7,25 @@
         @click="goBack()"
         value="Retour"
       />
+      <input
+        v-if="currentState === true"
+        type="button"
+        class="edit-btn"
+        :key="component"
+        @click="sendChanges()"
+        value="Valider"
+      />
 
       <input
         type="button"
         class="edit-btn"
-        v-for="tab in tabs"
-        :key="tab"
-        @click="component = tab"
+        :key="component"
+        @click="switchActive()"
+        :value="isActiveName"
       />
-      {{ tab }}
     </div>
-    <component :is="component" :add="userAdd" />
+
+    <component :is="isActive" :add="userAdd" />
   </div>
 </template>
 
@@ -28,12 +36,11 @@ import EditCard from "@/components/Card/EditCard";
 export default {
   data() {
     return {
-      tabs: ["Card", "EditCard"],
       component: "Card",
+      currentState: false,
       userAdd: undefined,
       loading: false,
       selection: 1,
-      editCard: false,
     };
   },
   components: {
@@ -52,6 +59,17 @@ export default {
     editAdd() {
       alert("switch");
     },
+    switchActive() {
+      this.currentState = !this.currentState;
+    },
+  },
+  computed: {
+    isActive() {
+      return this.currentState === true ? EditCard : Card;
+    },
+    isActiveName() {
+      return this.currentState === true ? "Annonce" : "Modifier";
+    },
   },
 };
 </script>
@@ -59,12 +77,9 @@ export default {
 <style lang="scss">
 .add-details {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
 
   &__header {
     width: 100%;

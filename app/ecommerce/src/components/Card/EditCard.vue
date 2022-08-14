@@ -1,55 +1,59 @@
 <template>
-  <div class="card" v-if="add">
-    <div class="card__product-img" v-if="edit === false">
-      <img
-        class="card__img"
-        :src="add.image"
-        height="200"
-        alt="product-image"
+  <EditAddCard v-if="add">
+    <template #image>
+      <div class="card__product-img" v-if="edit === false">
+        <img
+          class="card__img"
+          :src="add.image"
+          height="200"
+          alt="product-image"
+        />
+      </div>
+      <div
+        v-else
+        class="card__imagePreviewed"
+        :style="{ 'background-image': `url(${currentImage})` }"
+      ></div>
+      <input
+        id="image"
+        name="image"
+        accept="image/*"
+        ref="fileInput"
+        type="file"
+        @input="onPickFile"
       />
-    </div>
-    <div
-      v-if="edit === true"
-      class="card__imagePreviewed"
-      :style="{ 'background-image': `url(${currentImage})` }"
-    ></div>
-    <input
-      id="image"
-      name="image"
-      accept="image/*"
-      ref="fileInput"
-      type="file"
-      @input="onPickFile"
-    />
-    <div class="card__content">
-      <p class="card__items">
-        <span>Titre :</span>
-        <input v-model="title" />
-      </p>
-      <p class="card__items">
-        <span>Description :</span>
-        <Field v-model="description" />
-      </p>
-
-      <div class="card__items">
-        <span>Date de création :</span>
-        <input v-model="date" />
-      </div>
-
-      <div class="card__items">
-        <span>Prix :</span>
-        <input v-model="price" />
-      </div>
-    </div>
-    <div class="card__footer">
-      <span>Catégorie :</span>
-      <input v-model="category" />
-    </div>
-  </div>
+    </template>
+    <template #title>
+      <input v-model="title" class="card__inputs" />
+    </template>
+    <template #description>
+      <textarea v-model="description" class="card__inputs"></textarea>
+    </template>
+    <template #price>
+      <input v-model="price" class="card__inputs" />
+    </template>
+    <template #date>
+      <span>{{ new Date(add.date).toLocaleDateString() }}</span>
+    </template>
+    <template #category>
+      <select v-model="category" class="card__inputs">
+        <option value="Informatique">Informatique</option>
+        <option value="Téléphones, tablettes">Téléphones, tablettes</option>
+        <option value="Électro">Électro</option>
+        <option value="Rangements">Rangements</option>
+        <option value="Vetements">Vetements</option>
+        <option value="Cosmétiques">Cosmétiques</option>
+        <option value="Vidéo, son">Vidéo, son</option>
+        <option value="Auto, moto">Auto, moto</option>
+        <option value="Autres">Autres</option>
+      </select>
+    </template>
+  </EditAddCard>
 </template>
 
 <script>
-import { Field } from "vee-validate";
+import EditAddCard from "../Layout/EditAddCard.vue";
+// import { updateAdds } from "@/api/adds";
 
 export default {
   data() {
@@ -57,19 +61,19 @@ export default {
       editCard: false,
       edit: false,
       currentImage: null,
-      title: null,
-      description: null,
-      date: null,
-      price: null,
-      category: null,
+      titleValue: null,
+      descriptionValue: null,
+      priceValue: null,
+      categoryValue: null,
     };
   },
   props: ["add"],
   components: {
-    Field,
+    EditAddCard,
   },
   methods: {
     onPickFile() {
+      this.edit = true;
       let input = this.$refs.fileInput;
       let file = input.files;
       if (file && file[0]) {
@@ -79,6 +83,49 @@ export default {
         };
         reader.readAsDataURL(file[0]);
       }
+    },
+  },
+  mounted() {
+    if (this.add) {
+      this.titleValue = this.add.title;
+      this.descriptionValue = this.add.description;
+      this.priceValue = this.add.price;
+      this.categoryValue = this.add.category;
+    }
+  },
+  computed: {
+    title: {
+      get() {
+        return this.titleValue;
+      },
+      set(val) {
+        this.titleValue = val;
+      },
+    },
+
+    description: {
+      get() {
+        return this.descriptionValue;
+      },
+      set(val) {
+        this.descriptionValue = val;
+      },
+    },
+    price: {
+      get() {
+        return this.priceValue;
+      },
+      set(val) {
+        this.priceValue = val;
+      },
+    },
+    category: {
+      get() {
+        return this.categoryValue;
+      },
+      set(val) {
+        this.categoryValue = val;
+      },
     },
   },
   watch: {
@@ -91,94 +138,28 @@ export default {
 
 <style scoped lang="scss">
 .card {
-  min-width: 320px;
-  margin: 20px;
-  text-align: center;
-  background-color: rgba(7, 26, 53, 0.8);
-  color: #8bacd9;
-  border-radius: 16px;
-  padding: 16px;
-  font-size: 1.2rem;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    rgba(0, 0, 0, 0.22) 0px 15px 12px;
-
-  @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    padding-bottom: 32px;
-  }
   &__product-img {
     cursor: pointer;
     position: relative;
     border-radius: 8px;
     overflow: hidden;
     text-align: center;
-    @mixin hoverOpacity {
-      content: "";
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      transition: opacity 0.25s ease-out;
-    }
-    &__imagePreviewed {
-      width: 200px;
-      height: 200px;
-      display: block;
-      cursor: pointer;
-      margin: 0 auto 14px;
-      background-size: cover;
-      background-position: center center;
-    }
-    .card__content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-top: 4px;
-      font-size: 1rem;
-      @media screen and (min-width: 768px) {
-        gap: 16px;
-        padding: 24px 0;
-      }
+  }
+  &__imagePreviewed {
+    width: 200px;
+    height: 200px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 14px;
+    background-size: cover;
+    background-position: center center;
+  }
+  &__inputs {
+    font-weight: 600;
 
-      @media screen and (min-width: 768px) {
-        padding-top: 6px;
-      }
-      > * {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-      }
-      .card__items {
-        display: flex;
-        flex-direction: column;
-        > span {
-          &:nth-child(odd) {
-            color: #00fff8;
-          }
-          &:nth-child(even) {
-            color: #fff;
-          }
-        }
-      }
-    }
-    .card__footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-top: 1px solid #2e405a;
-      gap: 16px;
-      padding-top: 16px;
-      > span {
-        &:nth-child(odd) {
-          color: #00fff8;
-        }
-        &:nth-child(even) {
-          color: #fff;
-        }
-      }
+    > options {
+      height: 40px;
+      width: 100%;
     }
   }
 }
