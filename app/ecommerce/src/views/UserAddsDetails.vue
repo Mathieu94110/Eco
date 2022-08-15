@@ -1,19 +1,14 @@
 <template>
   <div class="add-details">
-    <div class="add-details__header">
+    <div
+      class="add-details__header"
+      :style="!currentState && { 'margin-bottom': '60px' }"
+    >
       <input
         class="go-back-btn"
         type="button"
         @click="goBack()"
         value="Retour"
-      />
-      <input
-        v-if="currentState === true"
-        type="button"
-        class="edit-btn"
-        :key="component"
-        @click="sendChanges()"
-        value="Valider"
       />
 
       <input
@@ -25,7 +20,7 @@
       />
     </div>
 
-    <component :is="isActive" :add="userAdd" />
+    <component :is="isActive" :add="userAdd" :currentState="currentState" />
   </div>
 </template>
 
@@ -33,6 +28,8 @@
 import { getPostId } from "@/api/adds";
 import Card from "@/components/Card/Card";
 import EditCard from "@/components/Card/EditCard";
+// import { updateAdds } from "@/api/adds";
+
 export default {
   data() {
     return {

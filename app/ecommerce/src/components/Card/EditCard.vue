@@ -1,59 +1,69 @@
 <template>
-  <EditAddCard v-if="add">
-    <template #image>
-      <div class="card__product-img" v-if="edit === false">
-        <img
-          class="card__img"
-          :src="add.image"
-          height="200"
-          alt="product-image"
+  <div class="edit-card">
+    <input
+      v-if="currentState"
+      type="button"
+      class="edit-card__validate"
+      :key="component"
+      @click="sendChanges(add)"
+      value="Valider"
+    />
+
+    <EditAddCard v-if="add">
+      <template #image>
+        <div class="edit-card__product-img" v-if="!edit">
+          <img
+            class="edit-card__img"
+            :src="add.image"
+            height="200"
+            alt="product-image"
+          />
+        </div>
+        <div
+          v-else
+          class="edit-card__imagePreviewed"
+          :style="{ 'background-image': `url(${currentImage})` }"
+        ></div>
+        <input
+          id="image"
+          name="image"
+          accept="image/*"
+          ref="fileInput"
+          type="file"
+          @input="onPickFile"
         />
-      </div>
-      <div
-        v-else
-        class="card__imagePreviewed"
-        :style="{ 'background-image': `url(${currentImage})` }"
-      ></div>
-      <input
-        id="image"
-        name="image"
-        accept="image/*"
-        ref="fileInput"
-        type="file"
-        @input="onPickFile"
-      />
-    </template>
-    <template #title>
-      <input v-model="title" class="card__inputs" />
-    </template>
-    <template #description>
-      <textarea v-model="description" class="card__inputs"></textarea>
-    </template>
-    <template #price>
-      <input v-model="price" class="card__inputs" />
-    </template>
-    <template #date>
-      <span>{{ new Date(add.date).toLocaleDateString() }}</span>
-    </template>
-    <template #category>
-      <select v-model="category" class="card__inputs">
-        <option value="Informatique">Informatique</option>
-        <option value="Téléphones, tablettes">Téléphones, tablettes</option>
-        <option value="Électro">Électro</option>
-        <option value="Rangements">Rangements</option>
-        <option value="Vetements">Vetements</option>
-        <option value="Cosmétiques">Cosmétiques</option>
-        <option value="Vidéo, son">Vidéo, son</option>
-        <option value="Auto, moto">Auto, moto</option>
-        <option value="Autres">Autres</option>
-      </select>
-    </template>
-  </EditAddCard>
+      </template>
+      <template #title>
+        <input v-model="title" class="edit-card__inputs" />
+      </template>
+      <template #description>
+        <textarea v-model="description" class="edit-card__inputs"></textarea>
+      </template>
+      <template #price>
+        <input v-model="price" class="edit-card__inputs" />
+      </template>
+      <template #date>
+        <span>{{ new Date(add.date).toLocaleDateString() }}</span>
+      </template>
+      <template #category>
+        <select v-model="category" class="edit-card__inputs">
+          <option value="Informatique">Informatique</option>
+          <option value="Téléphones, tablettes">Téléphones, tablettes</option>
+          <option value="Électro">Électro</option>
+          <option value="Rangements">Rangements</option>
+          <option value="Vetements">Vetements</option>
+          <option value="Cosmétiques">Cosmétiques</option>
+          <option value="Vidéo, son">Vidéo, son</option>
+          <option value="Auto, moto">Auto, moto</option>
+          <option value="Autres">Autres</option>
+        </select>
+      </template>
+    </EditAddCard>
+  </div>
 </template>
 
 <script>
 import EditAddCard from "../Layout/EditAddCard.vue";
-// import { updateAdds } from "@/api/adds";
 
 export default {
   data() {
@@ -67,7 +77,7 @@ export default {
       categoryValue: null,
     };
   },
-  props: ["add"],
+  props: ["add", "currentState"],
   components: {
     EditAddCard,
   },
@@ -83,6 +93,9 @@ export default {
         };
         reader.readAsDataURL(file[0]);
       }
+    },
+    sendChanges(add) {
+      console.log(add);
     },
   },
   mounted() {
@@ -137,7 +150,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.card {
+.edit-card {
+  &__validate {
+    display: flex;
+    margin: 0 auto 20px;
+    background-image: linear-gradient(#42a1ec, #0070c9);
+    border: 1px solid #0077cc;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    min-width: 30px;
+    padding: 4px 15px;
+    height: 40px;
+    &:hover {
+      background-image: linear-gradient(#51a9ee, #147bcd);
+      border-color: #169cfc;
+      text-decoration: none;
+    }
+  }
   &__product-img {
     cursor: pointer;
     position: relative;
