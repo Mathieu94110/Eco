@@ -24,9 +24,10 @@ export const deleteAdds = (id) => {
   return http.delete("/posts/" + id);
 };
 
-export const updateAdds = (id) => {
- return http.put("/posts/" + id)
-}
+export const updateAdds = (data) => {
+  const id = data._id;
+  return http.put("/posts/" + id, data);
+};
 // export const getUserAdd = ({ id }) => {
 //   return http.get(`/`);
 // };
@@ -36,5 +37,5 @@ export default {
   getUserAdds,
   getPostId,
   deleteAdds,
-  updateAdds
+  updateAdds,
 };

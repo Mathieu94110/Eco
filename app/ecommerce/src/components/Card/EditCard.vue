@@ -5,7 +5,7 @@
       type="button"
       class="edit-card__validate"
       :key="component"
-      @click="sendChanges(add)"
+      @click="$emit('updateCard', card)"
       value="Valider"
     />
 
@@ -22,7 +22,7 @@
         <div
           v-else
           class="edit-card__imagePreviewed"
-          :style="{ 'background-image': `url(${currentImage})` }"
+          :style="{ 'background-image': `url(${card.image})` }"
         ></div>
         <input
           id="image"
@@ -70,11 +70,7 @@ export default {
     return {
       editCard: false,
       edit: false,
-      currentImage: null,
-      titleValue: null,
-      descriptionValue: null,
-      priceValue: null,
-      categoryValue: null,
+      card: {},
     };
   },
   props: ["add", "currentState"],
@@ -89,55 +85,49 @@ export default {
       if (file && file[0]) {
         let reader = new FileReader();
         reader.onload = (e) => {
-          this.currentImage = e.target.result;
+          this.card.image = e.target.result;
         };
         reader.readAsDataURL(file[0]);
       }
     },
-    sendChanges(add) {
-      console.log(add);
-    },
   },
   mounted() {
     if (this.add) {
-      this.titleValue = this.add.title;
-      this.descriptionValue = this.add.description;
-      this.priceValue = this.add.price;
-      this.categoryValue = this.add.category;
+      this.card = this.add;
     }
   },
   computed: {
     title: {
       get() {
-        return this.titleValue;
+        return this.card.title;
       },
       set(val) {
-        this.titleValue = val;
+        this.card.title = val;
       },
     },
 
     description: {
       get() {
-        return this.descriptionValue;
+        return this.card.description;
       },
       set(val) {
-        this.descriptionValue = val;
+        this.card.description = val;
       },
     },
     price: {
       get() {
-        return this.priceValue;
+        return this.card.price;
       },
       set(val) {
-        this.priceValue = val;
+        this.card.price = val;
       },
     },
     category: {
       get() {
-        return this.categoryValue;
+        return this.card.category;
       },
       set(val) {
-        this.categoryValue = val;
+        this.card.category = val;
       },
     },
   },

@@ -20,7 +20,12 @@
       />
     </div>
 
-    <component :is="isActive" :add="userAdd" :currentState="currentState" />
+    <component
+      :is="isActive"
+      :add="userAdd"
+      :currentState="currentState"
+      @updateCard="updateUserCard"
+    />
   </div>
 </template>
 
@@ -28,7 +33,7 @@
 import { getPostId } from "@/api/adds";
 import Card from "@/components/Card/Card";
 import EditCard from "@/components/Card/EditCard";
-// import { updateAdds } from "@/api/adds";
+import { updateAdds } from "@/api/adds";
 
 export default {
   data() {
@@ -58,6 +63,14 @@ export default {
     },
     switchActive() {
       this.currentState = !this.currentState;
+    },
+    async updateUserCard(card) {
+      try {
+        const response = await updateAdds(card);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
   computed: {
