@@ -56,8 +56,6 @@
 <script>
 import Modal from "../Modal/Modal.vue";
 import { deleteAdds } from "@/api/adds";
-import { createToast } from "mosha-vue-toastify";
-import "mosha-vue-toastify/dist/style.css";
 
 export default {
   props: ["theData", "config"],
@@ -69,12 +67,6 @@ export default {
       isModalVisible: false,
       selectedAdd: {},
     };
-  },
-  setup() {
-    const toast = (message) => {
-      createToast(message);
-    };
-    return { toast };
   },
   methods: {
     showModal() {},
@@ -94,7 +86,7 @@ export default {
     deleteAdd() {
       const addIndex = this.selectedAdd._id;
       deleteAdds(addIndex);
-      this.toast("L'annonce a bien été supprimée!");
+      this.$toastMsg("L'annonce a bien été supprimée !", "success");
       this.$emit("addDeleted", this.selectedAdd._id);
       this.closeModal();
     },

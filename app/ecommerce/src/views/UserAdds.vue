@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <nav>Mes annonces</nav>
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :is-full-page="fullPage"
+    />
     <main>
       <Pagination
         v-if="tableData"
@@ -23,18 +28,23 @@
 import Table from "../components/Table/Table";
 import Pagination from "../components/Pagination/Pagination";
 import { getUserAdds } from "@/api/adds";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 const perPageOptions = [20, 50, 100];
 export default {
   components: {
     Table,
     Pagination,
+    Loading,
   },
   data: function () {
     return {
       perPageOptions,
       tableData: undefined,
       pagination: { page: 1, perPage: perPageOptions[0] },
+      isLoading: false,
+      fullPage: true,
       config: [
         {
           key: "image",
@@ -72,6 +82,8 @@ export default {
           type: "text",
         },
       ],
+      noResult: false,
+      message: "",
     };
   },
   mounted() {
@@ -79,13 +91,16 @@ export default {
   },
   methods: {
     setTable(data) {
-      console.log(data);
       this.pagination = data;
     },
     async getAdds() {
       try {
+        this.isLoading = true;
         const { data } = await getUserAdds();
-        this.tableData = data.posts;
+        if (data.posts) {
+          this.tableData = data.posts;
+          this.isLoading = false;
+        }
       } catch (error) {
         console.log(error);
       }

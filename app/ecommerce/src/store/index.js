@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import userApi from "@/api/user";
-// import addsApi from "@/api/adds";
 
 const axios = require("axios");
 
@@ -21,7 +20,7 @@ if (!user) {
   try {
     user = JSON.parse(user);
     userInstance.defaults.headers.common["Authorization"] = user.token;
-  } catch (ex) {
+  } catch (err) {
     user = {
       userId: -1,
       token: "",
@@ -47,6 +46,11 @@ const store = createStore({
     },
   },
   mutations: {
+    initialiseStore(state) {
+      if (localStorage.getItem("user")) {
+        state.isUserLogged = true;
+      }
+    },
     setStatus: function (state, status) {
       state.status = status;
     },
@@ -93,7 +97,6 @@ const store = createStore({
         userInstance
           .post("/login", userInfos)
           .then((response) => {
-            console.log(response);
             commit("setStatus", "");
             commit("logUser", response.data);
             commit("loginStatus", true);
@@ -122,8 +125,7 @@ const store = createStore({
           });
       });
     },
-    async getProfile({ commit }) {
-      commit("profile_request");
+    async getProfile() {
       const user = await axios.get(userApi.getProfile);
       return user;
     },
@@ -149,7 +151,6 @@ const store = createStore({
     },
 
     async getPosts({ commit }) {
-      commit("profile_request");
       let res = await axios.get("/api/posts");
       commit("user_profile", res.data.user);
       return res;
@@ -158,23 +159,6 @@ const store = createStore({
     async resetForm({ commit }, formValues) {
       commit("resetPost", formValues);
     },
-
-    // getUserAdd: ({ commit }, userId) => {
-    //   commit("setStatus", "loading");
-    //   return new Promise((resolve, reject) => {
-    //     postInstance
-    //       .get("/:id", userId)
-    //       .then((response) => {
-    //         commit("setStatus", "");
-    //         commit("logUser", response.data);
-    //         commit("loginStatus", true);
-    //         resolve(response.data);
-    //       })
-    //       .catch(function (error) {
-    //         reject(error);
-    //       });
-    //   });
-    // },
   },
 });
 

@@ -4,6 +4,9 @@ import router from "./router";
 import store from "./store";
 import "@fortawesome/fontawesome-free/js/all";
 import { defineRule } from "vee-validate";
+import { toastMsg } from "@/mixins/toast.js";
+import VueLoading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 defineRule("required", (value) => {
   if (!value || !value.length) {
@@ -53,4 +56,12 @@ defineRule("minMax", (value, [min, max]) => {
   return true;
 });
 
-createApp(App).use(router).use(store).mount("#app");
+const app = createApp({
+  extends: App,
+  beforeCreate() {
+    this.$store.commit("initialiseStore");
+  },
+});
+
+app.config.globalProperties.$toastMsg = toastMsg;
+app.use(router).use(store).use(VueLoading).mount("#app");

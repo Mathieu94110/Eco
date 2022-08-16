@@ -66,8 +66,8 @@ export default {
     },
     async updateUserCard(card) {
       try {
-        const response = await updateAdds(card);
-        console.log(response);
+        await updateAdds(card);
+        this.$toastMsg("L'annonce a été mise à jour !", "success");
       } catch (err) {
         console.log(err);
       }

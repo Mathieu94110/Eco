@@ -19,13 +19,6 @@ export default {
   computed: {
     ...mapGetters(["isLoggedIn"]),
   },
-  mounted() {
-    if (this.isLoggedIn === true) {
-      console.log("oui");
-    } else {
-      console.log("non");
-    }
-  },
 };
 </script>
 
@@ -47,13 +40,12 @@ export default {
 .app {
   &__container {
     z-index: 1;
-    padding-left: 85px;
     width: 100%;
     height: 100vh;
     margin: auto;
 
     &__auth {
-      padding-left: 0;
+      padding-left: 85px;
     }
   }
 }

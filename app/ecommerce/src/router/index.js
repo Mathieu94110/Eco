@@ -49,4 +49,10 @@ const router = createRouter({
   routes,
 });
 
+router.beforeResolve((to) => {
+  if (to.name === "auth") {
+    localStorage.removeItem("user");
+  }
+});
+
 export default router;

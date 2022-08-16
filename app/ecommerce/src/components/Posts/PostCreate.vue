@@ -85,8 +85,6 @@
 
 <script>
 import { Form, Field } from "vee-validate";
-import { createToast } from "mosha-vue-toastify";
-import "mosha-vue-toastify/dist/style.css";
 
 export default {
   name: "PostCreate",
@@ -109,16 +107,13 @@ export default {
   created() {
     this.form = this.$store.state.currentPost;
   },
-  setup() {
-    const toast = (message) => {
-      createToast(message);
-    };
-    return { toast };
-  },
   methods: {
     createPost() {
       if (this.isDisabled || this.errors) {
-        this.toast("Il manque des éléments pour la création de l'annonce!");
+        this.$toastMsg(
+          "Il manque des éléments pour la création de l'annonce !",
+          "danger"
+        );
       } else {
         this.$store
           .dispatch("createPost", {
@@ -139,7 +134,7 @@ export default {
 
     checkForm: function () {
       this.$store.dispatch("sendPost").then(() => {
-        this.toast("L'annonce a bien été postée!");
+        this.$toastMsg("L'annonce a bien été postée!", "success");
         this.reset();
       });
     },
@@ -154,7 +149,7 @@ export default {
         this.currentImage = null;
         document.getElementById("image").value = null;
         this.$emit("reset-post");
-        this.toast("L'annonce a été annulée!");
+        this.$toastMsg("L'annonce a bien été annulée !", "info");
       });
     },
     onPickFile() {
