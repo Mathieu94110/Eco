@@ -9,6 +9,9 @@ const userInstance = axios.create({
 const postInstance = axios.create({
   baseURL: `${process.env.VUE_APP_API_URL}/posts`,
 });
+const favoriteInstance = axios.create({
+  baseURL: `${process.env.VUE_APP_API_URL}/favorites`,
+});
 
 let user = localStorage.getItem("user");
 if (!user) {
@@ -158,6 +161,22 @@ const store = createStore({
 
     async resetForm({ commit }, formValues) {
       commit("resetPost", formValues);
+    },
+
+    sendFavorite: ({ commit }, FavoriteData) => {
+      commit("setStatus", "loading");
+      return new Promise((resolve, reject) => {
+        favoriteInstance
+          .post("/favoritesInfos", FavoriteData)
+          .then((response) => {
+            resolve(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+            commit("setStatus", "error_post");
+            reject(error);
+          });
+      });
     },
   },
 });

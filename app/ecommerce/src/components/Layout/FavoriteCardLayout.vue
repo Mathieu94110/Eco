@@ -1,41 +1,62 @@
 <template>
-  <div class="edit-add__card">
-    <div class="edit-add__image">
+  <div class="favorite-card__card">
+    <div class="favorite-card__image">
       <slot name="image"></slot>
     </div>
-    <div class="edit-add__content">
-      <p class="edit-add__items">
+    <div class="favorite-card__content">
+      <p class="favorite-card__items">
         <span>Titre :</span>
         <slot name="title"></slot>
       </p>
-      <p class="edit-add__items">
+      <p class="favorite-card__items-description">
         <span>Description :</span>
         <slot name="description"></slot>
       </p>
-      <div class="edit-add__items">
+      <p class="favorite-card__items">
         <span>Prix :</span>
-        <slot name="price"></slot>
+        <span><slot name="price"></slot></span>
+      </p>
+      <p class="favorite-card__items">
+        <span>Catégorie :</span> <span><slot name="category"></slot></span>
+      </p>
+      <div class="favorite-card__footer">
+        <div>
+          <slot name="favorite"></slot>
+        </div>
       </div>
-      <div class="edit-add__items">
-        <span>Date de création :</span>
-        <slot name="date"></slot>
-      </div>
-    </div>
-    <div class="edit-add__footer">
-      <span>Catégorie :</span>
-      <slot name="category"></slot>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      isFavoritePage: false,
+    };
+  },
+  watch: {
+    "$route.name": {
+      handler(newValue) {
+        newValue === "Favorites"
+          ? this.isFavoritePage === true
+          : this.isFavoritePage === false;
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .icon {
   display: flex;
 }
 
-.edit-add {
+.favorite-card {
   &__card {
-    min-width: 320px;
+    width: 320px;
     background-color: #15263f;
     color: #8bacd9;
     border-radius: 16px;
@@ -68,22 +89,23 @@
       }
     }
   }
-  &__footer {
+  &__items-description {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid #2e405a;
-    gap: 16px;
-    padding-top: 16px;
+    flex-direction: column;
+    height: 80px;
+    overflow: hidden;
     > span {
       &:nth-child(odd) {
         color: #00fff8;
-        white-space: nowrap;
       }
       &:nth-child(even) {
         color: #fff;
       }
     }
+  }
+  &__footer {
+    border-top: 1px solid #2e405a;
+    padding-top: 16px;
   }
 }
 </style>

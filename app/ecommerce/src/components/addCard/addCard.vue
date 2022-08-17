@@ -1,80 +1,61 @@
 <template>
   <div class="card">
     <div class="card__product-img">
-      <img class="card__img" :src="img" height="100" alt="product-image" />
+      <img
+        v-if="add.images.length > 0"
+        class="card__img"
+        :src="add.images[0]"
+        height="100"
+        alt="product-image"
+      />
     </div>
     <div class="card__content">
       <p class="card__title">
-        {{ title }} <span v-if="id">#{{ id }}</span>
+        {{ add.title }} <span v-if="add.id">#{{ add.id }}</span>
       </p>
-      <p class="card__description" v-if="description">{{ description }}</p>
+      <p class="card__description" v-if="add.description">
+        {{ add.description }}
+      </p>
       <div class="card__content-bottom">
         <div class="card__price">
           <div class="card__price-items">
-            <span>Prix:</span> <span>{{ price }} $</span>
+            <span>Prix:</span> <span>{{ add.price }} $</span>
           </div>
           <div class="card__price-items">
-            <span>% de réduction:</span> <span>{{ percentage }}</span>
+            <span>% de réduction:</span>
+            <span>{{ add.discountPercentage }}</span>
           </div>
-          <div v-if="rating" class="card__price-items">
-            <span>Avis vendeur: </span><span>{{ rating }} / 5</span>
+          <div v-if="add.rating" class="card__price-items">
+            <span>Avis vendeur: </span><span>{{ add.rating }} / 5</span>
           </div>
         </div>
       </div>
     </div>
     <div class="card__footer">
       <div class="card__avatar">
-        <img alt="avatar-image" :src="avatar" />
+        <img alt="avatar-image" :src="add.thumbnail" />
       </div>
-      <p class="card__category">
-        Catégorie: <span class="card__category--alt-color">{{ category }}</span>
-      </p>
+      <div class="card__category">
+        <div class="card__category-items">
+          <span class="card__price-items">Catégorie:</span>
+          <span class="card__category-items">{{ add.category }}</span>
+        </div>
+        <div class="card__category-items--alt-color">
+          <label :for="id" @click="sendToFavorites(add)">
+            <i class="fas fa-heart"></i>
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    img: {
-      type: String,
-      default: "",
-      required: true,
-    },
-    title: {
-      type: String,
-      default: "",
-      required: true,
-    },
-    description: {
-      type: String,
-      default: "",
-    },
-    id: {
-      type: [String, Number],
-      default: null,
-    },
-    price: {
-      type: Number,
-      default: 0,
-      required: true,
-    },
-    percentage: {
-      type: Number,
-      default: 0,
-      required: true,
-    },
-    rating: {
-      type: Number,
-      default: 0,
-    },
-    category: {
-      type: String,
-      default: "",
-    },
-    avatar: {
-      type: String,
-      default: "",
+  props: ["add"],
+  methods: {
+    sendToFavorites(item) {
+      this.$emit("addItem", item);
     },
   },
 };
@@ -85,12 +66,12 @@ export default {
   display: flex;
 }
 .card {
+  min-width: 300px;
   margin: 20px;
   background-color: #15263f;
-  color: #8bacd9;
+  color: #fff;
   border-radius: 16px;
   padding: 16px;
-  width: 200px;
   font-size: 1.2rem;
   box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   @media screen and (min-width: 768px) {
@@ -98,7 +79,7 @@ export default {
     width: 200px;
     padding-bottom: 32px;
   }
-  .card__product-img {
+  &__product-img {
     cursor: pointer;
     position: relative;
     border-radius: 8px;
@@ -129,7 +110,7 @@ export default {
       }
     }
   }
-  .card__content {
+  &__content {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -138,67 +119,82 @@ export default {
       gap: 16px;
       padding: 24px 0;
     }
-    .card__title {
-      height: 50px;
-      color: white;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      &:hover {
-        color: #00fff8;
-      }
-    }
-    .card__description {
-      height: 155px;
-      overflow: hidden;
-      font-size: 1rem;
-      line-height: 1.2rem;
-      font-weight: lighter;
-    }
-    .card__content-bottom {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-top: 4px;
-      font-size: 1rem;
-      @media screen and (min-width: 768px) {
-        padding-top: 6px;
-      }
-      > * {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-      }
-      .card__price {
-        color: #00fff8;
-        display: block;
-      }
-      .card__price-items {
-        display: flex;
-        flex-direction: column;
-      }
+  }
+  &__title {
+    height: 50px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      color: #00fff8;
     }
   }
-  .card__footer {
+  &__description {
+    height: 155px;
+    overflow: hidden;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    font-weight: lighter;
+  }
+  &__content-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 4px;
+    font-size: 1rem;
+    @media screen and (min-width: 768px) {
+      padding-top: 6px;
+    }
+    > * {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+  }
+  &__price {
+    display: block;
+    text-align: center;
+  }
+  &__price-items {
+    display: flex;
+    flex-direction: column;
+    :nth-child(odd) {
+      color: #00fff8;
+    }
+  }
+  &__footer {
     display: flex;
     align-items: center;
     border-top: 1px solid #2e405a;
     gap: 16px;
     padding-top: 16px;
-    .card__avatar {
-      display: flex;
-      border-radius: 90px;
-      border: 1px solid white;
-      img {
-        width: 33px;
-      }
+  }
+  &__avatar {
+    display: flex;
+    border-radius: 90px;
+    border: 1px solid white;
+    img {
+      width: 33px;
     }
-    .card__category--alt-color {
+  }
+  &__category {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__category-items {
+    :first-child {
+      color: #00fff8;
+    }
+    &--alt-color {
+      padding: 10px;
       color: white;
       cursor: pointer;
       &:hover {
-        color: #00fff8;
+        color: rgb(250, 75, 75);
       }
     }
   }

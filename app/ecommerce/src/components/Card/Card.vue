@@ -1,5 +1,5 @@
 <template>
-  <EditAddCard v-if="add">
+  <CardLayout v-if="add">
     <template #image>
       <img :src="add.image" height="200" alt="product-image" />
     </template>
@@ -18,11 +18,14 @@
     <template #category>
       <span>{{ add.category }}</span>
     </template>
-  </EditAddCard>
+    <template #favorite>
+      <p>Favoris</p>
+    </template>
+  </CardLayout>
 </template>
 
 <script>
-import EditAddCard from "../Layout/EditAddCard.vue";
+import CardLayout from "../Layout/CardLayout.vue";
 
 export default {
   data() {
@@ -31,12 +34,13 @@ export default {
     };
   },
   components: {
-    EditAddCard,
+    CardLayout,
   },
   props: ["add", "edit"],
 
   watch: {
     edit(newValue) {
+      console.log()
       this.editCard = newValue;
     },
   },

@@ -1,53 +1,46 @@
 <template>
-  <Pagination :adds="adds" @page-data="setDataPage"></Pagination>
+  <Toolbar>Mes favoris</Toolbar>
+  <div class="favorites">
+    <FavoriteCard v-for="add in favorites" :key="add.id" :add="add" />
+  </div>
 </template>
 
 <script>
-import axios from "axios";
-// import DropdownMenu from "@/components/Dropdown/DropdownMenu";
-import Pagination from "@/components/Pagination/Pagination.vue";
+import { getFavorites } from "@/api/adds";
+import Toolbar from "../components/Toolbar/Toolbar.vue";
+import FavoriteCard from "@/components/Card/FavoriteCard";
 
 export default {
   name: "Favorites",
-  components: {
-    /*     DropdownMenu, */
-    Pagination,
-  },
+  components: { Toolbar, FavoriteCard },
   data() {
     return {
-      adds: [],
-      displayedAdds: [],
+      favorites: [],
     };
   },
   methods: {
-    async loadAdds() {
+    async getUserFavorites() {
       try {
-        let result = await axios.get(
-          "https://jsonplaceholder.typicode.com/todos"
-        );
-        if (result) {
-          this.adds.push(...result.data);
-        } else {
-          this.noResult = true;
-          this.message = "Aucune annonce enregistrée";
+        this.isLoading = true;
+        const { data } = await getFavorites();
+        console.log(data);
+        if (data.posts) {
+          this.favorites = data.posts;
+          this.isLoading = false;
         }
-      } catch (err) {
-        this.noResult = true;
-        this.message = "Erreur lors du chargement des données";
+      } catch (error) {
+        console.log(error);
       }
-    },
-    setDataPage(params) {
-      this.displayedAdds = params;
     },
   },
   mounted() {
-    this.loadAdds();
+    this.getUserFavorites();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.auth {
+.favorites {
   width: 100%;
   height: 100vh;
   display: flex;

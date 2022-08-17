@@ -5,23 +5,13 @@
     :can-cancel="true"
     :is-full-page="fullPage"
   />
-  <div
-    style="height: 100%; width: 100%; display: flex; flex-wrap: wrap"
-    v-if="adds"
-  >
-    <div v-for="item in adds" :key="item.id">
-      <AddCard
-        :img="item.images[0]"
-        :title="item.title"
-        :id="item.id"
-        :description="item.description"
-        :price="item.price"
-        :rating="item.rating"
-        :category="item.category"
-        :avatar="item.thumbnail"
-        :percentage="item.discountPercentage"
-      />
-    </div>
+  <div class="adds" v-if="adds">
+    <AddCard
+      v-for="add in adds"
+      :key="add.id"
+      :add="add"
+      @add-item="addToFavorites(add)"
+    />
   </div>
 </template>
 
@@ -68,11 +58,21 @@ export default {
         this.message = "Erreur lors du chargement des annonces";
       }
     },
+    async addToFavorites(add) {
+      this.$store.dispatch("sendFavorite", add).then(() => {
+        this.$toastMsg("L'annonce a été ajoutée à vos favoris !", "success");
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.topbar {
+.adds {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

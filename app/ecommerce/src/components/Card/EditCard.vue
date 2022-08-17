@@ -9,7 +9,7 @@
       value="Valider"
     />
 
-    <EditAddCard v-if="add">
+    <CardLayout v-if="add">
       <template #image>
         <div class="edit-card__product-img" v-if="!edit">
           <img
@@ -58,12 +58,12 @@
           <option value="Autres">Autres</option>
         </select>
       </template>
-    </EditAddCard>
+    </CardLayout>
   </div>
 </template>
 
 <script>
-import EditAddCard from "../Layout/EditAddCard.vue";
+import CardLayout from "../Layout/CardLayout.vue";
 
 export default {
   data() {
@@ -75,8 +75,8 @@ export default {
   },
   props: ["add", "currentState"],
   components: {
-    EditAddCard,
-  },
+    CardLayout
+},
   methods: {
     onPickFile() {
       this.edit = true;

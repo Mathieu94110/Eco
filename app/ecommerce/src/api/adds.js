@@ -4,6 +4,9 @@ import { http } from "./index";
 export const getPosts = () => {
   return axios.get("/api/posts");
 };
+export const getFavorites = () => {
+  return http.get("/favorites");
+};
 
 export const getPostId = (id) => {
   return axios.get(`${process.env.VUE_APP_API_URL}/posts/${id}`);
@@ -38,4 +41,5 @@ export default {
   getPostId,
   deleteAdds,
   updateAdds,
+  getFavorites,
 };
