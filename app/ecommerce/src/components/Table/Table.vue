@@ -69,7 +69,6 @@ export default {
     };
   },
   methods: {
-    showModal() {},
     closeModal() {
       this.isModalVisible = false;
     },

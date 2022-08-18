@@ -4,21 +4,25 @@
       <slot name="image"></slot>
     </div>
     <div class="favorite-card__content">
-      <p class="favorite-card__items">
+      <div class="favorite-card__items">
         <span>Titre :</span>
-        <slot name="title"></slot>
-      </p>
-      <p class="favorite-card__items-description">
+        <div class="favorite-card__items-title">
+          <slot name="title"></slot>
+        </div>
+      </div>
+      <div class="favorite-card__items">
         <span>Description :</span>
-        <slot name="description"></slot>
-      </p>
-      <p class="favorite-card__items">
+        <div class="favorite-card__items-description">
+          <slot name="description"></slot>
+        </div>
+      </div>
+      <div class="favorite-card__items">
         <span>Prix :</span>
         <span><slot name="price"></slot></span>
-      </p>
-      <p class="favorite-card__items">
+      </div>
+      <div class="favorite-card__items">
         <span>Catégorie :</span> <span><slot name="category"></slot></span>
-      </p>
+      </div>
       <div class="favorite-card__footer">
         <div>
           <slot name="favorite"></slot>
@@ -42,7 +46,6 @@ export default {
           ? this.isFavoritePage === true
           : this.isFavoritePage === false;
       },
-      deep: true,
       immediate: true,
     },
   },
@@ -88,21 +91,18 @@ export default {
         color: #fff;
       }
     }
-  }
-  &__items-description {
-    display: flex;
-    flex-direction: column;
-    height: 80px;
-    overflow: hidden;
-    > span {
-      &:nth-child(odd) {
-        color: #00fff8;
-      }
-      &:nth-child(even) {
-        color: #fff;
-      }
+
+    &-description {
+      padding: 10px 0px;
+      height: 100px;
+      overflow: auto;
+    }
+    &-title {
+      height: 60px;
+      overflow: auto;
     }
   }
+
   &__footer {
     border-top: 1px solid #2e405a;
     padding-top: 16px;

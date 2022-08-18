@@ -26,7 +26,9 @@ export const getFakeAdds = () => {
 export const deleteAdds = (id) => {
   return http.delete("/posts/" + id);
 };
-
+export const deleteFavorite = (id) => {
+  return http.delete("/favorites/" + id);
+};
 export const updateAdds = (data) => {
   const id = data._id;
   return http.put("/posts/" + id, data);

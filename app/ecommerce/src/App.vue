@@ -57,15 +57,6 @@ img {
 .navbar {
   flex-flow: 1;
 }
-.wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 3;
-}
-
 #nav {
   padding: 30px;
 }
