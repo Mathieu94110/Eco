@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import Toolbar from "../components/Toolbar/Toolbar.vue";
-import AddCard from "../components/addCard/addCard.vue";
+import Toolbar from "../components/Toolbar/Toolbar";
+import AddCard from "../components/AddCard/AddCard";
 import { getFakeAdds } from "../api/adds";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";

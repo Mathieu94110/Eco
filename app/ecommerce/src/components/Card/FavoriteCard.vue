@@ -17,11 +17,11 @@
     </template>
     <template #favorite>
       <div class="favorite-card__actions">
-        <!-- <span><i class="fa fa-eye" aria-hidden="true"></i></span> -->
-        <FavoriteModal :favorite="add"></FavoriteModal>
-        <span @click="showDeleteModal(add)">
-          <i class="fa fa-trash" aria-hidden="true"></i
+        <span @click="sendFavoriteDetails(add)"
+          ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
+
+        <FavoriteModal :favorite="add"> </FavoriteModal>
       </div>
     </template>
   </FavoriteCardLayout>
@@ -46,6 +46,18 @@ export default {
       this.$toastMsg("L'annonce a bien été supprimée !", "success");
       this.closeModal();
     },
+    sendFavoriteDetails(add) {
+      this.$store
+        .dispatch("sendFavoriteDetails", {
+          favorite: add,
+        })
+        .then(() => {
+          this.$router.push({
+            name: "FavoritesDetails",
+            params: { add: this.add.title },
+          });
+        });
+    },
   },
 };
 </script>
@@ -61,7 +73,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
 
-    > span {
+    > * {
       &:nth-child(odd) {
         :hover {
           color: #00fff8;

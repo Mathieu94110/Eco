@@ -39,13 +39,27 @@ const store = createStore({
       title: "",
       description: "",
       category: "",
-      price: 0,
+      price: null,
       currentImage: null,
     },
     userInfos: {
       firstName: "",
       lastName: "",
       email: "",
+    },
+    favoriteDetails: {
+      _id: "",
+      id: null,
+      brand: "",
+      category: "",
+      description: "",
+      discountPercentage: null,
+      images: null,
+      price: null,
+      rating: null,
+      stock: null,
+      thumbnail: "",
+      title: "",
     },
   },
   mutations: {
@@ -83,6 +97,9 @@ const store = createStore({
       };
       localStorage.removeItem("user");
     },
+    setFavoriteData: function (state, favoriteInfo) {
+      state.favoriteDetails = favoriteInfo.favorite;
+    },
   },
   getters: {
     isLoggedIn(state) {
@@ -91,6 +108,9 @@ const store = createStore({
 
     getCurrentPost: (state) => {
       return state.currentPost;
+    },
+    getFavoriteDetails: (state) => {
+      return state.favoriteDetails;
     },
   },
   actions: {
@@ -177,6 +197,10 @@ const store = createStore({
             reject(error);
           });
       });
+    },
+
+    sendFavoriteDetails: ({ commit }, FavoriteInfo) => {
+      commit("setFavoriteData", FavoriteInfo);
     },
   },
 });

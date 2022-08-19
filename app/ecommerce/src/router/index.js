@@ -42,6 +42,11 @@ const routes = [
     path: "/favorites",
     component: () => import("../views/Favorites.vue"),
   },
+  {
+    name: "FavoritesDetails",
+    path: "/favorites/:add",
+    component: () => import("../views/FavoritesDetails.vue"),
+  },
 ];
 
 const router = createRouter({

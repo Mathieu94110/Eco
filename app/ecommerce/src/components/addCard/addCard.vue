@@ -1,5 +1,10 @@
 <template>
-  <div class="card">
+  <div
+    class="card"
+    :style="{
+      padding: isFavoritePage ? '30px' : '16px',
+    }"
+  >
     <div class="card__product-img">
       <img
         v-if="add.images.length > 0"
@@ -17,7 +22,7 @@
         {{ add.description }}
       </p>
       <div class="card__content-bottom">
-        <div class="card__price">
+        <div :class="isFavoritePage ? 'card__price-favorite' : 'card__price'">
           <div class="card__price-items">
             <span>Prix:</span> <span>{{ add.price }} $</span>
           </div>
@@ -27,6 +32,29 @@
           </div>
           <div v-if="add.rating" class="card__price-items">
             <span>Avis vendeur: </span><span>{{ add.rating }} / 5</span>
+          </div>
+        </div>
+        <div v-if="isFavoritePage" class="card__price-favorite">
+          <div class="card__price-items">
+            <span>Marque: </span><span>{{ add.brand }}</span>
+          </div>
+
+          <div class="card__price-items">
+            <span>% de réduction: </span
+            ><span>{{ add.discountPercentage }}</span>
+          </div>
+          <div class="card__price-items">
+            <span>Stock: </span><span>{{ add.stock }}</span>
+          </div>
+          <div class="card__price-items">
+            <span>Miniature: </span>
+            <img
+              v-if="add.images.length > 0"
+              class="card__img"
+              :src="add.images[0]"
+              height="50"
+              alt="product-image"
+            />
           </div>
         </div>
       </div>
@@ -40,7 +68,7 @@
           <span class="card__price-items">Catégorie:</span>
           <span class="card__category-items">{{ add.category }}</span>
         </div>
-        <div class="card__category-items--alt-color">
+        <div class="card__category-items--alt-color" v-if="!isFavoritePage">
           <label :for="id" @click="sendToFavorites(add)">
             <i class="fas fa-heart"></i>
           </label>
@@ -52,11 +80,20 @@
 
 <script>
 export default {
+  name: "AddCard",
   props: ["add"],
   methods: {
     sendToFavorites(item) {
       this.$emit("addItem", item);
     },
+  },
+  computed: {
+    isFavoritePage() {
+      return this.$route.name == "FavoritesDetails";
+    },
+  },
+  mounted() {
+    console.log(this.$route);
   },
 };
 </script>
@@ -71,12 +108,10 @@ export default {
   background-color: #15263f;
   color: #fff;
   border-radius: 16px;
-  padding: 16px;
   font-size: 1.2rem;
   box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
-    width: 200px;
     padding-bottom: 32px;
   }
   &__product-img {
@@ -131,7 +166,7 @@ export default {
     }
   }
   &__description {
-    height: 155px;
+    height: auto;
     overflow: hidden;
     font-size: 1rem;
     line-height: 1.2rem;
@@ -156,6 +191,12 @@ export default {
   &__price {
     display: block;
     text-align: center;
+  }
+  &__price-favorite {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 0;
   }
   &__price-items {
     display: flex;

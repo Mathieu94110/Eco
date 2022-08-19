@@ -1,7 +1,7 @@
 <template>
   <CardLayout v-if="add">
     <template #image>
-      <img :src="add.image" height="200" alt="product-image" />
+      <img :src="add.image || add.images[0]" height="200" alt="product-image" />
     </template>
     <template #title>
       <span>{{ add.title }}</span>
@@ -12,9 +12,9 @@
     <template #price>
       <span>{{ add.price }} €</span>
     </template>
-    <template #date>
+    <!-- <template #date>
       <span>{{ new Date(add.date).toLocaleDateString() }}</span>
-    </template>
+    </template> -->
     <template #category>
       <span>{{ add.category }}</span>
     </template>
@@ -40,7 +40,7 @@ export default {
 
   watch: {
     edit(newValue) {
-      console.log()
+      console.log();
       this.editCard = newValue;
     },
   },
