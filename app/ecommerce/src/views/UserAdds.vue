@@ -1,32 +1,35 @@
 <template>
-  <div id="app">
-    <nav>Mes annonces</nav>
-    <loading
-      v-model:active="isLoading"
-      :can-cancel="true"
-      :is-full-page="fullPage"
-    />
-    <main>
-      <Pagination
-        v-if="tableData"
-        :totalRecords="tableData.length"
-        :perPageOptions="perPageOptions"
-        @input="setTable($event)"
+  <div>
+    <Toolbar>Mes annonces</Toolbar>
+    <div :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }">
+      <loading
+        v-model:active="isLoading"
+        :can-cancel="true"
+        :is-full-page="fullPage"
       />
-      <Table
-        v-if="tableData"
-        :theData="computedTableData"
-        :config="config"
-        :style="{ height: '600px' }"
-        @addDeleted="refreshCurrentList($event)"
-      />
-    </main>
+      <main>
+        <Pagination
+          v-if="tableData"
+          :totalRecords="tableData.length"
+          :perPageOptions="perPageOptions"
+          @input="setTable($event)"
+        />
+        <Table
+          v-if="tableData"
+          :theData="computedTableData"
+          :config="config"
+          :style="{ height: '600px' }"
+          @addDeleted="refreshCurrentList($event)"
+        />
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
 import Table from "../components/Table/Table";
 import Pagination from "../components/Pagination/Pagination";
+import Toolbar from "../components/Toolbar/Toolbar.vue";
 import { getUserAdds } from "@/api/adds";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -37,6 +40,7 @@ export default {
     Table,
     Pagination,
     Loading,
+    Toolbar,
   },
   data: function () {
     return {
@@ -45,6 +49,7 @@ export default {
       pagination: { page: 1, perPage: perPageOptions[0] },
       isLoading: false,
       fullPage: true,
+      spaceOnLeft: this.$collapsed,
       config: [
         {
           key: "image",

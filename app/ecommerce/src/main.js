@@ -5,8 +5,10 @@ import store from "./store";
 import "@fortawesome/fontawesome-free/js/all";
 import { defineRule } from "vee-validate";
 import { toastMsg } from "@/mixins/toast.js";
-import VueLoading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import { collapsed } from "@/mixins/sidebar-collapsed.js";
+import { toggleSidebar } from "@/mixins/sidebar-collapsed.js";
+import VueLoading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 defineRule("required", (value) => {
   if (!value || !value.length) {
@@ -64,4 +66,7 @@ const app = createApp({
 });
 
 app.config.globalProperties.$toastMsg = toastMsg;
+app.config.globalProperties.$collapsed = collapsed;
+app.config.globalProperties.$toggleSidebar = toggleSidebar;
+
 app.use(router).use(store).use(VueLoading).mount("#app");

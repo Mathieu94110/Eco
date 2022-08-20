@@ -1,6 +1,10 @@
 <template>
   <Toolbar>Mes favoris</Toolbar>
-  <div class="favorites">
+
+  <div
+    class="favorites"
+    :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }"
+  >
     <FavoriteCard
       v-for="add in favorites"
       :key="add.id"
@@ -25,6 +29,7 @@ export default {
     return {
       favorites: [],
       isModalOpen: null,
+      spaceOnLeft: this.$collapsed,
     };
   },
   methods: {
@@ -77,12 +82,10 @@ export default {
 
 <style lang="scss" scoped>
 .favorites {
-  padding: 0 60px;
-  width: 100%;
   height: calc(100% - 60px);
+  padding: 20px 0;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
-  overflow: auto;
+  flex-wrap: wrap;
 }
 </style>

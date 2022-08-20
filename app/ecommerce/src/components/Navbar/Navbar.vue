@@ -9,7 +9,7 @@
       <img alt="user_logo" class="topbar__img" src="@/assets/logo.png" />
     </router-link>
     <div class="topbar__items">
-      <div v-if="collapsed" @click="logout()">
+      <div v-if="$collapsed" @click="logout()">
         <NavBarLink
           class="topbar__link"
           to="/profile"
@@ -49,20 +49,14 @@
 <script>
 import NavBarContainer from "./NavBarContainer/NavBarContainer";
 import NavBarLink from "./NavBarLink";
-import { collapsed, toggleSidebar } from "./state";
-
 import mitt from "mitt";
 const emitter = mitt();
-import { mapState } from "vuex";
 
 export default {
   name: "NavBar",
   components: {
     NavBarContainer,
     NavBarLink,
-  },
-  setup() {
-    return { collapsed, toggleSidebar };
   },
   data() {
     return {
@@ -81,13 +75,8 @@ export default {
     },
     formatSideBar(value) {
       this.isHover = value;
-      this.toggleSidebar();
+      this.$toggleSidebar();
     },
-  },
-  computed: {
-    ...mapState({
-      profile: (state) => state.user.profile,
-    }),
   },
   created() {
     this.setWindowWidth();

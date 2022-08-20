@@ -31,17 +31,10 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
-#app {
-  width: 100%;
-  height: 100vh;
-  margin: auto;
-}
 .app {
   &__container {
     z-index: 1;
     width: 100%;
-    height: 100vh;
     margin: auto;
 
     &__auth {

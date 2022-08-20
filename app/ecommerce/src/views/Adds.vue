@@ -5,7 +5,11 @@
     :can-cancel="true"
     :is-full-page="fullPage"
   />
-  <div class="adds" v-if="adds">
+  <div
+    class="adds"
+    v-if="adds"
+    :style="{ marginLeft: spaceOnLeft === true ? '25px' : '210px' }"
+  >
     <AddCard
       v-for="add in adds"
       :key="add.id"
@@ -36,6 +40,7 @@ export default {
       message: "",
       isLoading: false,
       fullPage: true,
+      spaceOnLeft: this.$collapsed,
     };
   },
   mounted() {
@@ -69,8 +74,6 @@ export default {
 
 <style lang="scss" scoped>
 .adds {
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

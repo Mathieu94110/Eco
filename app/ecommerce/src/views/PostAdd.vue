@@ -1,7 +1,10 @@
 <template>
   <div class="post-add-container">
     <Toolbar> Poster une annonce </Toolbar>
-    <div class="post-add-container__items">
+    <div
+      class="post-add-container__items"
+      :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }"
+    >
       <div>
         <PostCreate @reset-post="resetPost"></PostCreate>
 
@@ -28,6 +31,7 @@ export default {
     return {
       post: null,
       showCreatedPost: true,
+      spaceOnLeft: this.$collapsed,
     };
   },
   methods: {

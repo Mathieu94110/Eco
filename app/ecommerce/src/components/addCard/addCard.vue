@@ -3,6 +3,8 @@
     class="card"
     :style="{
       padding: isFavoritePage ? '30px' : '16px',
+      width: isFavoritePage ? '' : '250px',
+      textAlign: isFavoritePage ? '' : 'center',
     }"
   >
     <div class="card__product-img">
@@ -116,7 +118,6 @@ export default {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    text-align: center;
     @mixin hoverOpacity {
       content: "";
       position: absolute;
@@ -180,14 +181,12 @@ export default {
     }
     > * {
       display: flex;
-      align-items: center;
       gap: 8px;
       font-weight: 600;
     }
   }
   &__price {
     display: block;
-    text-align: center;
   }
   &__price-favorite {
     display: flex;
@@ -198,6 +197,7 @@ export default {
   &__price-items {
     display: flex;
     flex-direction: column;
+    padding: 0 5px;
     :nth-child(odd) {
       color: #00fff8;
     }

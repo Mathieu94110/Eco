@@ -1,5 +1,8 @@
 <template>
-  <div class="profile">
+  <div
+    class="profile"
+    :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }"
+  >
     <UserProfile v-bind="user"></UserProfile>
   </div>
 </template>
@@ -10,6 +13,11 @@ import { mapState } from "vuex";
 
 export default {
   name: "profile",
+  data() {
+    return {
+      spaceOnLeft: this.$collapsed,
+    };
+  },
   components: {
     UserProfile,
   },
@@ -18,7 +26,7 @@ export default {
       this.$router.push("/");
       return;
     }
-    this.$store.dispatch('getProfile');
+    this.$store.dispatch("getProfile");
   },
   computed: {
     ...mapState({

@@ -64,6 +64,7 @@ export default {
     color: #8bacd9;
     border-radius: 16px;
     padding: 16px 10px;
+    margin: 20px;
     font-size: 1.2rem;
     box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
