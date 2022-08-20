@@ -1,7 +1,14 @@
 <template>
   <Toolbar>Mes favoris</Toolbar>
   <div class="favorites">
-    <FavoriteCard v-for="add in favorites" :key="add.id" :add="add" />
+    <FavoriteCard
+      v-for="add in favorites"
+      :key="add.id"
+      :add="add"
+      @send-favorite="sendFavoriteDetails($event)"
+      @delete-add="deleteAdd($event)"
+      :toggle="isModalOpen"
+    />
   </div>
 </template>
 
@@ -9,6 +16,7 @@
 import { getFavorites } from "@/api/adds";
 import Toolbar from "../components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard";
+import { deleteFavorite } from "@/api/adds";
 
 export default {
   name: "Favorites",
@@ -16,6 +24,7 @@ export default {
   data() {
     return {
       favorites: [],
+      isModalOpen: null,
     };
   },
   methods: {
@@ -23,7 +32,6 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await getFavorites();
-        console.log(data);
         if (data.posts) {
           this.favorites = data.posts;
           this.isLoading = false;
@@ -32,9 +40,37 @@ export default {
         console.log(error);
       }
     },
+    sendFavoriteDetails(add) {
+      this.$store
+        .dispatch("sendFavoriteDetails", {
+          favorite: add,
+        })
+        .then(() => {
+          this.$router.push({
+            name: "FavoritesDetails",
+            params: { add: add.title },
+          });
+        });
+    },
+    deleteAdd(add) {
+      const index = add._id;
+      deleteFavorite(index);
+      this.$toastMsg("L'annonce a bien été supprimée !", "success");
+      this.isModalOpen = false;
+      this.favorites = this.favorites.filter(
+        (favorite) => favorite._id !== index
+      );
+    },
   },
   mounted() {
     this.getUserFavorites();
+  },
+  watch: {
+    favorites: {
+      handler(newValue) {
+        this.favorites = newValue;
+      },
+    },
   },
 };
 </script>

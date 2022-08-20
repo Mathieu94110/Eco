@@ -7,20 +7,27 @@
     <Teleport to="#modal">
       <div class="FavoriteModal__bg" v-if="isModalOpen">
         <div class="FavoriteModal__modal" ref="modal">
-          <button @click="isModalOpen = false" class="FavoriteModal__close-btn">
-            x
-          </button>
+          <div class="FavoriteModal__close-btn">
+            <span
+              class="FavoriteModal__close-btn-btn"
+              @click.prevent="isModalOpen = false"
+              >X</span
+            >
+          </div>
           <div class="FavoriteModal__text">
             Souhaitez vous supprimer
-            <span class="FavoriteModal__text-title"
-              >" {{ favorite.title }} "</span
-            >
+            <span class="FavoriteModal__text-title">
+              {{ favorite.title }}
+            </span>
             de vos favoris ?
           </div>
-          <button class="btn btn-delete" @click="removefromFavorites(favorite)">
-            <span class="mdi mdi-delete mdi-24px"></span>
-            <span class="mdi mdi-delete-empty mdi-24px"></span>
-            <span><i class="fa fa-trash icon" aria-hidden="true"></i></span>
+          <button
+            class="btn btn-delete"
+            @click="this.$emit('deleteAdd', favorite)"
+          >
+            <span style="width: 100%"
+              ><i class="fa fa-trash icon" aria-hidden="true"></i
+            ></span>
           </button>
         </div>
       </div>
@@ -48,14 +55,12 @@ export default {
   },
   props: {
     favorite: Object,
+    toggle: Boolean,
   },
-
-  onMounted() {
-    console.log(this.favorite);
-  },
-  onUnmounted() {
-    this.modal = ref(null);
-    this.isModalOpen = false;
+  watch: {
+    toggle(newValue) {
+      this.isModalOpen = newValue;
+    },
   },
 };
 </script>
@@ -80,20 +85,28 @@ $delete-red: red;
     align-items: center;
   }
   &__modal {
+    max-width: 320px;
     position: relative;
     background: white;
-    padding: 50px 100px;
+    padding: 10px 10px 10px 20px;
     border-radius: 5px;
     box-shadow: 0px 10px 5px 2px rgba(0, 0, 0, 0.1);
   }
   &__close-btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 5px;
-    margin: 10px 10px 0 0;
-    background: white;
-    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    &-btn {
+      height: 30px;
+      width: 30px;
+      text-align: end;
+      font-weight: 600;
+      text-align: center;
+      &:hover {
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition-delay: 0.2s;
+      }
+    }
   }
   &__text {
     font-size: 1.2rem;
@@ -110,7 +123,7 @@ $delete-red: red;
   background: none;
   border: 1px solid lighten(gray, 24%);
   height: 48px;
-  padding: 0 24px 0 16px;
+  padding: 0 17px 0 17px;
   letter-spacing: 0.25px;
   border-radius: 50%;
   margin: 20px auto 0;

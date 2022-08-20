@@ -30,7 +30,6 @@ export default {
     if (this.getFavoriteDetails) {
       this.favoriteInfos = this.getFavoriteDetails;
     }
-    console.log(this.favoriteInfos);
   },
   computed: {
     ...mapGetters(["getFavoriteDetails"]),

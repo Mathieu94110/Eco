@@ -92,9 +92,6 @@ export default {
       return this.$route.name == "FavoritesDetails";
     },
   },
-  mounted() {
-    console.log(this.$route);
-  },
 };
 </script>
 

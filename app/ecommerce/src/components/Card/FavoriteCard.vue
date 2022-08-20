@@ -17,11 +17,12 @@
     </template>
     <template #favorite>
       <div class="favorite-card__actions">
-        <span @click="sendFavoriteDetails(add)"
+        <span @click="this.$emit('sendFavorite', add)"
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
 
-        <FavoriteModal :favorite="add"> </FavoriteModal>
+        <FavoriteModal :favorite="add" :toggle="isModalOpen" v-bind="$attrs">
+        </FavoriteModal>
       </div>
     </template>
   </FavoriteCardLayout>
@@ -30,35 +31,18 @@
 <script>
 import FavoriteCardLayout from "../Layout/FavoriteCardLayout.vue";
 import FavoriteModal from "../Modal/FavoriteModal.vue";
-import { deleteFavorite } from "@/api/adds";
 
 export default {
+  data() {
+    return {
+      isModalOpen: null,
+    };
+  },
   components: {
     FavoriteCardLayout,
     FavoriteModal,
   },
   props: ["add"],
-  methods: {
-    deleteFavorite() {
-      const index = this.add._id;
-      console.log(index);
-      deleteFavorite(index);
-      this.$toastMsg("L'annonce a bien été supprimée !", "success");
-      this.closeModal();
-    },
-    sendFavoriteDetails(add) {
-      this.$store
-        .dispatch("sendFavoriteDetails", {
-          favorite: add,
-        })
-        .then(() => {
-          this.$router.push({
-            name: "FavoritesDetails",
-            params: { add: this.add.title },
-          });
-        });
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
