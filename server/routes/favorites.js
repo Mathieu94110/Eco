@@ -37,7 +37,7 @@ router.get("", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
+  Favorites.deleteOne({ _id: req.params.id }).then((result) => {
     if (result.n > 0) {
       res.status(200).json({ message: "Deletion successful!" });
     } else {
