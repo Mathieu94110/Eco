@@ -1,6 +1,4 @@
 import { createStore } from "vuex";
-import userApi from "@/api/user";
-
 const axios = require("axios");
 
 const userInstance = axios.create({
@@ -64,7 +62,7 @@ const store = createStore({
   },
   mutations: {
     initialiseStore(state) {
-      if (localStorage.getItem("user")) {
+      if (localStorage.getItem("user") !== null) {
         state.isUserLogged = true;
       }
     },
@@ -112,6 +110,9 @@ const store = createStore({
     getFavoriteDetails: (state) => {
       return state.favoriteDetails;
     },
+    getUserInfos: (state) => {
+      return state.userInfos;
+    },
   },
   actions: {
     login: ({ commit }, userInfos) => {
@@ -147,10 +148,6 @@ const store = createStore({
             reject(error);
           });
       });
-    },
-    async getProfile() {
-      const user = await axios.get(userApi.getProfile);
-      return user;
     },
 
     createPost: ({ commit }, postInfos) => {

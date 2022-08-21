@@ -1,5 +1,5 @@
 <template>
-  <NavBarContainer
+  <SideBarContainer
     :class="{ 'topbar--active': isHover }"
     class="topbar"
     @mouseenter="formatSideBar(true)"
@@ -9,54 +9,55 @@
       <img alt="user_logo" class="topbar__img" src="@/assets/logo.png" />
     </router-link>
     <div class="topbar__items">
-      <div v-if="$collapsed" @click="logout()">
-        <NavBarLink
-          class="topbar__link"
-          to="/profile"
-          icon="fa-solid fa-right-from-bracket"
-        ></NavBarLink>
-      </div>
       <button
-        v-else
+        v-if="isHover"
         class="topbar__link--error"
         @click="logout()"
         icon="fa-solid fa-right-from-bracket"
       >
         Se déconnecter
       </button>
-      <NavBarLink class="topbar__link" to="/profile" icon="fas fa-user-circle"
-        ><span>Mes informations</span></NavBarLink
+      <div v-else @click="logout()">
+        <SideBarLink
+          class="topbar__link"
+          to="/profile"
+          icon="fa-solid fa-right-from-bracket"
+        ></SideBarLink>
+      </div>
+
+      <SideBarLink class="topbar__link" to="/profile" icon="fas fa-user-circle"
+        ><span>Mes informations</span></SideBarLink
       >
-      <NavBarLink
+      <SideBarLink
         class="topbar__link"
         to="/dashboard"
         icon="fa-solid fa-handshake-angle"
-        ><span>Annonces</span></NavBarLink
+        ><span>Annonces</span></SideBarLink
       >
-      <NavBarLink class="topbar__link" to="/post-add" icon="fas fa-pencil-alt"
-        ><span>Déposer une annonce</span></NavBarLink
+      <SideBarLink class="topbar__link" to="/post-add" icon="fas fa-pencil-alt"
+        ><span>Déposer une annonce</span></SideBarLink
       >
-      <NavBarLink class="topbar__link" to="/user-adds" icon="fas fa-pencil-alt"
-        ><span>Mes annonces</span></NavBarLink
+      <SideBarLink class="topbar__link" to="/user-adds" icon="fas fa-pencil-alt"
+        ><span>Mes annonces</span></SideBarLink
       >
-      <NavBarLink class="topbar__link" to="/favorites" icon="fas fa-star"
-        ><span>Mes favoris</span></NavBarLink
+      <SideBarLink class="topbar__link" to="/favorites" icon="fas fa-star"
+        ><span>Mes favoris</span></SideBarLink
       >
     </div>
-  </NavBarContainer>
+  </SideBarContainer>
 </template>
 
 <script>
-import NavBarContainer from "./NavBarContainer/NavBarContainer";
-import NavBarLink from "./NavBarLink";
+import SideBarContainer from "./SideBarContainer/SideBarContainer";
+import SideBarLink from "./SideBarLink";
 import mitt from "mitt";
 const emitter = mitt();
 
 export default {
-  name: "NavBar",
+  name: "SideBar",
   components: {
-    NavBarContainer,
-    NavBarLink,
+    SideBarContainer,
+    SideBarLink,
   },
   data() {
     return {

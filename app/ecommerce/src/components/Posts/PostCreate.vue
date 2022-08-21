@@ -101,6 +101,7 @@ export default {
     return {
       createAddSchema,
       form: null,
+      currentImage: null,
       isCreate: false,
     };
   },

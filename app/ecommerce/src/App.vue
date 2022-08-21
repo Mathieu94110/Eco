@@ -1,20 +1,20 @@
 <template>
   <div id="app">
     <div :class="{ 'app__container--auth': isLoggedIn }" class="app__container">
-      <NavBar v-if="isLoggedIn" />
+      <SideBar v-if="isLoggedIn" />
       <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import NavBar from "@/components/NavBar/NavBar";
+import SideBar from "@/components/SideBar/SideBar";
 import { mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: {
-    NavBar,
+    SideBar,
   },
   computed: {
     ...mapGetters(["isLoggedIn"]),
@@ -47,7 +47,7 @@ img {
   max-width: 100%;
   border-radius: 8px;
 }
-.navbar {
+.sidebar {
   flex-flow: 1;
 }
 #nav {

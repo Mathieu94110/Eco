@@ -75,8 +75,8 @@ export default {
   },
   props: ["add", "currentState"],
   components: {
-    CardLayout
-},
+    CardLayout,
+  },
   methods: {
     onPickFile() {
       this.edit = true;

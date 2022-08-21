@@ -1,26 +1,16 @@
 <template>
-  <div class="user-card" v-if="user">
+  <div class="user-card" v-if="userInfos">
     <h1 class="user-card__items">Informations du profil</h1>
-    <h2 class="user-card__item">{{ firstName }}</h2>
-    <h2 class="user-card__item">{{ lastName }}</h2>
+    <h2 class="user-card__item">{{ userInfos.firstName }}</h2>
+    <h2 class="user-card__item">{{ userInfos.lastName }}</h2>
+    <h2 class="user-card__item">{{ userInfos.email }}</h2>
   </div>
 </template>
 
 <script>
 export default {
   name: "user-profile",
-  props: {
-    user: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  data() {
-    return {
-      firstName: this.user.firstName,
-      lastName: this.user.lastName,
-    };
-  },
+  props: ["userInfos"],
 };
 </script>
 
@@ -28,7 +18,7 @@ export default {
 .user-card {
   width: 500px;
   height: 300px;
-  &__items {
+  color:black &__items {
     justify-content: space-evenly;
   }
 }

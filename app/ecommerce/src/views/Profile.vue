@@ -1,21 +1,22 @@
 <template>
   <div
     class="profile"
-    :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }"
+    :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
   >
-    <UserProfile v-bind="user"></UserProfile>
+    <UserProfile :userInfos="user"></UserProfile>
   </div>
 </template>
 
 <script>
 import UserProfile from "@/components/User/UserProfile";
-import { mapState } from "vuex";
+import { getProfile } from "@/api/user";
 
 export default {
   name: "profile",
   data() {
     return {
-      spaceOnLeft: this.$collapsed,
+      sideBarClosed: this.$collapsed,
+      user: null,
     };
   },
   components: {
@@ -26,12 +27,13 @@ export default {
       this.$router.push("/");
       return;
     }
-    this.$store.dispatch("getProfile");
+    this.getUserInfos();
   },
-  computed: {
-    ...mapState({
-      user: "userInfos",
-    }),
+  methods: {
+    async getUserInfos() {
+      const response = await getProfile(this.$store.state.user.userId);
+      this.user = response.data;
+    },
   },
 };
 </script>

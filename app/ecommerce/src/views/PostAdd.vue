@@ -3,7 +3,7 @@
     <Toolbar> Poster une annonce </Toolbar>
     <div
       class="post-add-container__items"
-      :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }"
+      :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
     >
       <div>
         <PostCreate @reset-post="resetPost"></PostCreate>
@@ -31,7 +31,7 @@ export default {
     return {
       post: null,
       showCreatedPost: true,
-      spaceOnLeft: this.$collapsed,
+      sideBarClosed: this.$collapsed,
     };
   },
   methods: {

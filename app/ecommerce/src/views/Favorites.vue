@@ -3,7 +3,7 @@
 
   <div
     class="favorites"
-    :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }"
+    :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
   >
     <FavoriteCard
       v-for="add in favorites"
@@ -29,7 +29,7 @@ export default {
     return {
       favorites: [],
       isModalOpen: null,
-      spaceOnLeft: this.$collapsed,
+      sideBarClosed: this.$collapsed,
     };
   },
   methods: {

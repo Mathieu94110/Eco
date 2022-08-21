@@ -8,7 +8,7 @@
   <div
     class="adds"
     v-if="adds"
-    :style="{ marginLeft: spaceOnLeft === true ? '25px' : '210px' }"
+    :style="{ marginLeft: sideBarClosed ? '25px' : '230px' }"
   >
     <AddCard
       v-for="add in adds"
@@ -40,7 +40,7 @@ export default {
       message: "",
       isLoading: false,
       fullPage: true,
-      spaceOnLeft: this.$collapsed,
+      sideBarClosed: this.$collapsed,
     };
   },
   mounted() {

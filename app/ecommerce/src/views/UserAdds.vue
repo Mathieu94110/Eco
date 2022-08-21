@@ -1,7 +1,7 @@
 <template>
   <div>
     <Toolbar>Mes annonces</Toolbar>
-    <div :style="{ marginLeft: spaceOnLeft === true ? '115px' : '300px' }">
+    <div :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }">
       <loading
         v-model:active="isLoading"
         :can-cancel="true"
@@ -49,7 +49,7 @@ export default {
       pagination: { page: 1, perPage: perPageOptions[0] },
       isLoading: false,
       fullPage: true,
-      spaceOnLeft: this.$collapsed,
+      sideBarClosed: this.$collapsed,
       config: [
         {
           key: "image",
