@@ -40,7 +40,6 @@ export default {
 
   watch: {
     edit(newValue) {
-      console.log();
       this.editCard = newValue;
     },
   },

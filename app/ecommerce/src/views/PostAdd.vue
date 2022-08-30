@@ -8,51 +8,42 @@
       <div>
         <PostCreate @reset-post="resetPost"></PostCreate>
 
-        <PostCreated :currentPost="post"></PostCreated>
+        <PostCreated
+          v-if="state.showCreatedPost"
+          :currentPost="state.post"
+        ></PostCreated>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, reactive, watch } from "vue";
 import Toolbar from "../components/Toolbar/Toolbar.vue";
-import PostCreate from "../components/Posts/PostCreate.vue";
+import PostCreate from "../components/Posts/PostCreate/PostCreate.vue";
 import PostCreated from "../components/Posts/PostCreated.vue";
-import { mapState } from "vuex";
+import { inject } from "vue";
+import { useStore } from "vuex";
 
-export default {
-  name: "PostAdd",
-  components: {
-    Toolbar,
-    PostCreate,
-    PostCreated,
-  },
-  data() {
-    return {
-      post: null,
-      showCreatedPost: true,
-      sideBarClosed: this.$collapsed,
-    };
-  },
-  methods: {
-    resetPost() {
-      this.showCreatedPost = false;
-    },
-    checkPost(value) {
-      return value["title"] !== null ? (this.post = value) : (this.post = null);
-    },
-  },
-  computed: {
-    ...mapState({
-      currentPost: (state) => state.currentPost,
-    }),
-  },
-  watch: {
-    currentPost(newValue) {
-      this.checkPost(newValue);
-    },
-  },
-};
+const state = reactive({
+  post: null,
+  showCreatedPost: true,
+});
+const sideBarClosed = inject("collapsed");
+const store = useStore();
+
+function resetPost() {
+  state.showCreatedPost = false;
+}
+function checkPost(value) {
+  return value["title"] !== null ? (state.post = value) : (state.post = null);
+}
+
+const currentPost = computed(() => store.state.currentPost);
+
+watch(currentPost, (newValue) => {
+  checkPost(newValue);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -61,7 +52,6 @@ export default {
   width: 100%;
 
   &__items {
-    width: 100%;
     height: calc(100% - 60px);
     display: flex;
     flex-direction: column;
@@ -72,8 +62,7 @@ export default {
 
     div:first-child {
       display: flex;
-      margin: 0 200px;
-      justify-content: space-between;
+      justify-content: space-evenly;
     }
   }
 }

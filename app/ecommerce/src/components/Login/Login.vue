@@ -48,7 +48,7 @@
       <div class="login__form-row">
         <div class="login__form-items">
           <input
-            v-model="zip"
+            v-model="phone"
             class="login__form-input"
             type="number"
             placeholder="Téléphone"
@@ -66,7 +66,7 @@
       <div class="login__form-row">
         <div class="login__form-items">
           <input
-            v-model="adress"
+            v-model="address"
             class="login__form-input"
             type="text"
             placeholder="Adresse"
@@ -80,6 +80,14 @@
             placeholder="Code Postal"
           />
         </div>
+      </div>
+      <div class="login__form-items">
+        <input
+          v-model="password"
+          class="login__form-input"
+          type="password"
+          placeholder="Mot de passe"
+        />
       </div>
     </div>
     <div v-else>
@@ -143,11 +151,14 @@ export default {
   data: function () {
     return {
       mode: "login",
-      email: "",
+      currentImage: null,
       firstName: "",
       lastName: "",
+      phone: null,
+      email: "",
+      address: "",
+      zip: null,
       password: "",
-      currentImage: null,
     };
   },
   methods: {
@@ -167,6 +178,10 @@ export default {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
+        image: this.currentImage,
+        phone: this.phone,
+        address: this.address,
+        zip: this.zip,
       });
     },
     onPickFile() {

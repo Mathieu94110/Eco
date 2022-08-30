@@ -38,6 +38,10 @@ export default {
           lastName: data.lastName,
           firstName: data.firstName,
           password: data.password,
+          image: data.currentImage,
+          phone: data.phone,
+          address: data.address,
+          zip: data.zip,
         })
         .then(
           function () {

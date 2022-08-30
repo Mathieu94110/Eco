@@ -69,4 +69,8 @@ app.config.globalProperties.$toastMsg = toastMsg;
 app.config.globalProperties.$collapsed = collapsed;
 app.config.globalProperties.$toggleSidebar = toggleSidebar;
 
+app.provide("toastMsg", toastMsg);
+app.provide("collapsed", collapsed);
+app.provide("toggleSidebar", toggleSidebar);
+
 app.use(router).use(store).use(VueLoading).mount("#app");

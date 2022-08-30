@@ -20,6 +20,7 @@ if (!user) {
 } else {
   try {
     user = JSON.parse(user);
+
     userInstance.defaults.headers.common["Authorization"] = user.token;
   } catch (err) {
     user = {
@@ -44,6 +45,10 @@ const store = createStore({
       firstName: "",
       lastName: "",
       email: "",
+      image: null,
+      phone: null,
+      address: "",
+      zip: "",
     },
     favoriteDetails: {
       _id: "",
@@ -176,8 +181,8 @@ const store = createStore({
       return res;
     },
 
-    async resetForm({ commit }, formValues) {
-      commit("resetPost", formValues);
+    async resetForm({ commit }) {
+      commit("resetPost", {});
     },
 
     sendFavorite: ({ commit }, FavoriteData) => {
