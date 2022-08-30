@@ -11,6 +11,10 @@ router.post("/signup", (req, res, next) => {
       password: hash,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      image: req.body.currentImage,
+      phone: req.body.phone,
+      address: req.body.address,
+      zip: req.body.zip,
     });
     user
       .save()
