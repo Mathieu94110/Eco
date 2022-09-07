@@ -1,9 +1,10 @@
 import { createWebHistory, createRouter } from "vue-router";
+import store from "../store";
 
 const routes = [
   {
     name: "auth",
-    path: "/",
+    path: "/login",
     component: () => import("../views/Auth.vue"),
   },
   {
@@ -54,9 +55,19 @@ const router = createRouter({
   routes,
 });
 
-router.beforeResolve((to) => {
+router.beforeResolve(async (to) => {
   if (to.name === "auth") {
     localStorage.removeItem("user");
+  }
+});
+
+router.beforeEach(async (to) => {
+  const publicPages = ["/login"];
+  const authRequired = !publicPages.includes(to.path);
+  const isUserLoggedIn = store.getters.isLoggedIn;
+
+  if (authRequired && !isUserLoggedIn) {
+    return "/login";
   }
 });
 
