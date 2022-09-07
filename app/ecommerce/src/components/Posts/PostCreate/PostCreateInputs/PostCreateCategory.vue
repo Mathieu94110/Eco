@@ -27,16 +27,23 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
 import addFormValidation from "@/modules/formValidation";
 export default {
   setup() {
     let input = ref("");
+    const store = useStore();
     const { validateCategoryField, errors } = addFormValidation();
     const validateInput = () => {
       validateCategoryField("category", input.value);
     };
-    return { input, errors, validateInput };
+    const storeCategory = computed(() => store.state.currentPost.description);
+    watch(storeCategory, (newValue) => {
+      if (!newValue) input.value = "";
+      validateInput();
+    });
+    return { input, errors, validateInput, storeCategory };
   },
 };
 </script>

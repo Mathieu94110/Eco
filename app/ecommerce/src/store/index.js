@@ -35,11 +35,11 @@ const store = createStore({
     user: user,
     isUserLogged: false,
     currentPost: {
+      image: "",
       title: "",
       description: "",
-      category: "",
       price: null,
-      currentImage: null,
+      category: "",
     },
     userInfos: {
       firstName: "",
@@ -181,8 +181,8 @@ const store = createStore({
       return res;
     },
 
-    async resetForm({ commit }) {
-      commit("resetPost", {});
+    async resetForm({ commit }, data) {
+      commit("resetPost", data);
     },
 
     sendFavorite: ({ commit }, FavoriteData) => {

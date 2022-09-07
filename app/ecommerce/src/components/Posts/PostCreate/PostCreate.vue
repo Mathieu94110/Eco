@@ -1,16 +1,21 @@
 <template>
   <section class="post-create">
-    <form class="post-create__form" @submit.prevent="checkForm">
+    <form class="post-create__form">
       <PostCreateImage v-model="add.image" />
       <PostCreateTitle v-model="add.title" />
       <PostCreateDescription v-model="add.description" />
       <PostCreatePrice v-model="add.price" />
       <PostCreateCategory v-model="add.category" />
 
-      <div class="post-create__created-button-wrapper" v-if="isAddCreated">
-        <input type="submit" class="post-create__button" value="Envoyer" />
+      <div
+        class="post-create__created-button-wrapper"
+        v-if="props.isAddCreated"
+      >
+        <button class="post-create__button" @click.prevent="$emit('submitAdd')">
+          Valider
+        </button>
         <br />
-        <button class="post-create__cancel-button" @click="reset">
+        <button class="post-create__cancel-button" @click="$emit('resetAdd')">
           Annuler
         </button>
       </div>
@@ -20,7 +25,7 @@
           :class="{
             'post-create__button--disabled': isCreateAddButtonDisabled,
           }"
-          @click="createPost"
+          @click="$emit('createAdd', add)"
           :disabled="isCreateAddButtonDisabled"
         >
           Créer
@@ -31,8 +36,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { useStore } from "vuex";
+import { reactive, defineProps } from "vue";
 import PostCreateImage from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateImage";
 import PostCreateTitle from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateTitle";
 import PostCreateDescription from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateDescription";
@@ -40,17 +44,6 @@ import PostCreatePrice from "@/components/Posts/PostCreate/PostCreateInputs/Post
 import PostCreateCategory from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateCategory";
 import addFormValidation from "@/modules/formValidation";
 import createAddButtonState from "@/modules/isCreateAddButtonDisabled";
-import { useForm } from "vee-validate";
-import { inject } from "vue";
-import { defineEmits } from "vue";
-
-const initialAdd = {
-  image: null,
-  title: "",
-  description: "",
-  price: null,
-  category: "",
-};
 
 const add = reactive({
   image: null,
@@ -59,53 +52,10 @@ const add = reactive({
   price: null,
   category: "",
 });
+const props = defineProps(["isAddCreated"]);
 
-const store = useStore();
 const { errors } = addFormValidation();
 const { isCreateAddButtonDisabled } = createAddButtonState(add, errors);
-const toastMsg = inject("toastMsg");
-const resetEmit = defineEmits(["resetPost"]);
-
-let isAddCreated = ref(false);
-
-const createPost = () => {
-  store
-    .dispatch("createPost", {
-      title: add.title,
-      description: add.description,
-      category: add.category,
-      price: add.price,
-      image: add.image,
-    })
-    .then(() => {
-      isAddCreated.value = true;
-    })
-    .catch((err) => {
-      this.toast(err);
-    });
-};
-
-const { handleSubmit } = useForm();
-
-const checkForm = handleSubmit(() => {
-  store.dispatch("sendPost").then(() => {
-    toastMsg("L'annonce a bien été postée!", "success");
-  });
-  setTimeout(() => {
-    window.location.reload();
-  }, 2000);
-});
-
-const reset = () => {
-  store.dispatch("resetForm", initialAdd).then(() => {
-    isAddCreated.value = false;
-    resetEmit("resetPost");
-    toastMsg("L'annonce a bien été annulée !", "info");
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-  });
-};
 </script>
 
 <style lang="scss" scoped>

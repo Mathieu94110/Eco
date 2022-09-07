@@ -6,7 +6,12 @@
       :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
     >
       <div>
-        <PostCreate @reset-post="resetPost"></PostCreate>
+        <PostCreate
+          :isAddCreated="isAddCreated"
+          @create-add="createAdd"
+          @submit-add="submitAdd"
+          @reset-add="resetAdd"
+        ></PostCreate>
 
         <PostCreated
           v-if="state.showCreatedPost"
@@ -18,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, watch } from "vue";
+import { computed, reactive, watch, ref } from "vue";
 import Toolbar from "../components/Toolbar/Toolbar.vue";
 import PostCreate from "../components/Posts/PostCreate/PostCreate.vue";
 import PostCreated from "../components/Posts/PostCreated.vue";
@@ -29,20 +34,69 @@ const state = reactive({
   post: null,
   showCreatedPost: true,
 });
+
+const toastMsg = inject("toastMsg");
 const sideBarClosed = inject("collapsed");
 const store = useStore();
+let isAddCreated = ref(false);
 
-function resetPost() {
-  state.showCreatedPost = false;
+function createAdd(add) {
+  store
+    .dispatch("createPost", {
+      title: add.title,
+      description: add.description,
+      category: add.category,
+      price: add.price,
+      image: add.image,
+    })
+    .then(() => {
+      state.showCreatedPost = true;
+      state.post;
+      isAddCreated.value = true;
+    })
+    .catch((err) => {
+      this.toast(err);
+    });
 }
-function checkPost(value) {
-  return value["title"] !== null ? (state.post = value) : (state.post = null);
+function submitAdd() {
+  store
+    .dispatch("sendPost")
+    .then(() => {
+      store.dispatch("resetForm", {
+        image: "",
+        title: "",
+        description: "",
+        price: null,
+        category: "",
+      });
+    })
+    .then(() => {
+      isAddCreated.value = false;
+      state.showCreatedPost = false;
+      toastMsg("L'annonce a bien été postée!", "success");
+    });
+}
+
+function resetAdd() {
+  store
+    .dispatch("resetForm", {
+      image: "",
+      title: "",
+      description: "",
+      price: null,
+      category: "",
+    })
+    .then(() => {
+      isAddCreated.value = false;
+      state.showCreatedPost = false;
+      toastMsg("L'annonce a bien été annulée !", "info");
+    });
 }
 
 const currentPost = computed(() => store.state.currentPost);
 
 watch(currentPost, (newValue) => {
-  checkPost(newValue);
+  state.post = newValue;
 });
 </script>
 

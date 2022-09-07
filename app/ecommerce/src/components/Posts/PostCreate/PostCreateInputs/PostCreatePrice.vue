@@ -18,16 +18,23 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
 import addFormValidation from "@/modules/formValidation";
 export default {
   setup() {
     let input = ref();
+    const store = useStore();
     const { validatePriceField, errors } = addFormValidation();
     const validateInput = () => {
       validatePriceField("prix", input.value);
     };
-    return { input, errors, validateInput };
+    const storePrice = computed(() => store.state.currentPost.price);
+    watch(storePrice, (newValue) => {
+      if (!newValue) input.value = "";
+      validateInput();
+    });
+    return { input, errors, validateInput, storePrice };
   },
 };
 </script>

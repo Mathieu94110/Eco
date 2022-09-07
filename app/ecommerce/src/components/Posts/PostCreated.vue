@@ -1,43 +1,31 @@
 <template>
-  <div class="card" v-if="post">
+  <div class="card" v-if="currentPost">
     <div class="card__img">
-      <img :src="post.image" />
+      <img :src="currentPost.image" />
     </div>
     <div class="card__items">
       <div class="card__labels"><label for="name">Titre</label></div>
-      <div class="card__field">{{ post.title }}</div>
+      <div class="card__field">{{ currentPost.title }}</div>
     </div>
 
     <div class="card__items">
       <div class="card__labels"><label for="name">Description</label></div>
-      <div class="card__field">{{ post.description }}</div>
+      <div class="card__field">{{ currentPost.description }}</div>
     </div>
     <div class="card__items">
       <div class="card__labels"><label for="name">Catégorie</label></div>
-      <div class="card__field">{{ post.category }}</div>
+      <div class="card__field">{{ currentPost.category }}</div>
     </div>
     <div class="card__items">
       <div class="card__labels"><label for="name">Prix</label></div>
-      <div class="card__field">{{ post.price }}€</div>
+      <div class="card__field">{{ currentPost.price }}€</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "PostCreated",
-  data() {
-    return {
-      post: null,
-    };
-  },
   props: ["currentPost"],
-  watch: {
-    currentPost(newValue) {
-      this.post = newValue;
-    },
-    immediate: true,
-  },
 };
 </script>
 

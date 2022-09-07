@@ -2,7 +2,6 @@
   <div class="field">
     <div class="card">
       <div
-        v-if="state.currentImage"
         class="card__image"
         :style="{ 'background-image': `url(${state.currentImage})` }"
       ></div>
@@ -23,7 +22,8 @@
 </template>
 
 <script>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, computed, watch } from "vue";
+import { useStore } from "vuex";
 import addFormValidation from "@/modules/formValidation";
 import mysteryImage from "../../../../assets/mystery-image.png";
 
@@ -35,12 +35,18 @@ export default {
     });
 
     const fileInput = ref(null);
-
+    const store = useStore();
     const { validateNameField, errors } = addFormValidation();
     const validateInput = () => {
       validateNameField("image", fileInput.value);
     };
-
+    const storeImage = computed(() => store.state.currentPost.image);
+    watch(storeImage, (newValue) => {
+      if (!newValue) state.currentImage = mysteryImage;
+      // let reader = new FileReader();
+      // reader.readAsDataURL(null);
+      fileInput.value.value = "";
+    });
     const onPickFile = () => {
       let file = fileInput.value.files;
       if (file && file[0]) {
@@ -62,7 +68,7 @@ export default {
         flush: "post",
       }
     );
-    return { fileInput, onPickFile, errors, state, validateInput };
+    return { fileInput, onPickFile, errors, state, validateInput, storeImage };
   },
 };
 </script>
