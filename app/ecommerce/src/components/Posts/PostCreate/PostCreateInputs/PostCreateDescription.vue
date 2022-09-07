@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="post-create-description">
     <div>
       <textarea
         placeholder="Renseigner une description"
@@ -10,7 +10,7 @@
         @blur="validateInput"
       ></textarea>
     </div>
-    <div v-if="errors.description">
+    <div class="post-create-description__errors" v-if="errors.description">
       {{ errors.description }}
     </div>
   </div>
@@ -45,7 +45,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.field {
+.post-create-description {
   width: 100%;
   margin: auto;
   height: 130px;
@@ -54,6 +54,9 @@ export default {
     width: 100%;
     padding: 5px 10px;
     border: 2px solid #000;
+  }
+  &__errors {
+    color: rgb(229, 23, 23);
   }
 }
 </style>

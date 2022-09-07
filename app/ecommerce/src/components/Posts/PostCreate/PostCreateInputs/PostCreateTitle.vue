@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="post-create-title">
     <div>
       <input
         type="text"
@@ -11,8 +11,8 @@
         @blur="validateInput"
       />
     </div>
-    <div class="ui basic label pointing red" v-if="errors.titre">
-      {{ errors.titre }}
+    <div class="post-create-title__errors" v-if="errors.title">
+      {{ errors.title }}
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
     const store = useStore();
     const { validateTitleField, errors } = addFormValidation();
     const validateInput = () => {
-      validateTitleField("titre", input.value);
+      validateTitleField("title", input.value);
     };
     const storeTitle = computed(() => store.state.currentPost.title);
     watch(storeTitle, (newValue) => {
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.field {
+.post-create-title {
   width: 100%;
   margin: auto;
   height: 80px;
@@ -47,6 +47,9 @@ export default {
     width: 100%;
     padding: 5px 10px;
     border: 2px solid #000;
+  }
+  &__errors {
+    color: rgb(229, 23, 23);
   }
 }
 </style>

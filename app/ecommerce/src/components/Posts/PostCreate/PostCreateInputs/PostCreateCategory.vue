@@ -1,13 +1,12 @@
 <template>
-  <div class="field">
+  <div class="post-create-category">
     <div>
       <select
         placeholder="Catégorie"
         autocomplete="off"
         @input="$emit('update:modelValue', $event.target.value)"
         v-model="input"
-        @keyup="validateInput"
-        @blur="validateInput"
+        @change="validateInput"
       >
         <option value="Informatique">Informatique</option>
         <option value="Téléphones, tablettes">Téléphones, tablettes</option>
@@ -20,7 +19,7 @@
         <option value="Autres">Autres</option>
       </select>
     </div>
-    <div class="ui basic label pointing red" v-if="errors.category">
+    <div class="post-create-category__errors" v-if="errors.category">
       {{ errors.category }}
     </div>
   </div>
@@ -48,7 +47,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.field {
+.post-create-category {
   width: 100%;
   margin: auto;
   height: 80px;
@@ -56,6 +55,9 @@ export default {
     width: 100%;
     padding: 5px 10px;
     border: 2px solid #000;
+  }
+  &__errors {
+    color: rgb(229, 23, 23);
   }
 }
 </style>

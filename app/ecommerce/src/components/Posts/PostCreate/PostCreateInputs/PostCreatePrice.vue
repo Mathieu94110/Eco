@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="post-create-price">
     <div>
       <input
         type="number"
@@ -11,8 +11,8 @@
         @blur="validateInput"
       />
     </div>
-    <div v-if="errors.prix">
-      {{ errors.prix }}
+    <div class="post-create-price__errors" v-if="errors.price">
+      {{ errors.price }}
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
     const store = useStore();
     const { validatePriceField, errors } = addFormValidation();
     const validateInput = () => {
-      validatePriceField("prix", input.value);
+      validatePriceField("price", input.value);
     };
     const storePrice = computed(() => store.state.currentPost.price);
     watch(storePrice, (newValue) => {
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.field {
+.post-create-price {
   width: 100%;
   margin: auto;
   height: 80px;
@@ -47,6 +47,9 @@ export default {
     width: 100%;
     padding: 5px 10px;
     border: 2px solid #000;
+  }
+  &__errors {
+    color: rgb(229, 23, 23);
   }
 }
 </style>

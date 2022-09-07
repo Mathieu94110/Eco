@@ -4,7 +4,8 @@ import useValidators from "@/modules/validators";
 const errors = reactive({});
 
 export default function addFormValidation() {
-  const { isEmpty, minLength, maxLength, isMinPrice } = useValidators();
+  const { isEmpty, minLength, maxLength, isMinPrice, isMaxPrice } =
+    useValidators();
 
   const validateImageField = (fieldName, fieldValue) => {
     errors[fieldName] = isEmpty(fieldName, fieldValue);
@@ -32,7 +33,9 @@ export default function addFormValidation() {
   const validatePriceField = (fieldName, fieldValue) => {
     errors[fieldName] = !fieldValue
       ? isEmpty(fieldName, fieldValue)
-      : isMinPrice(fieldName, fieldValue, 5);
+      : fieldValue < 5
+      ? isMinPrice(fieldName, fieldValue, 5)
+      : isMaxPrice(fieldName, fieldValue, 9999);
   };
 
   return {

@@ -27,5 +27,12 @@ export default function validators() {
       : "";
   };
 
-  return { isEmpty, minLength, maxLength, isNum, isMinPrice };
+  const isMaxPrice = (fieldName, fieldValue, maxPrice) => {
+    let isMinPrice = /^\d+$/.test(fieldValue) && fieldValue <= maxPrice;
+    return !isMinPrice
+      ? "Le " + fieldName + ` doit etre au maximum de ${maxPrice}€`
+      : "";
+  };
+
+  return { isEmpty, minLength, maxLength, isNum, isMinPrice, isMaxPrice };
 }
