@@ -21,21 +21,21 @@ export const postAdds = () => {
 };
 
 export const getFakeAdds = () => {
-  return axios.get("https://dummyjson.com/products");
+  return axios.get("https://dummyjson.com/products?limit=100");
 };
+
 export const deleteAdds = (id) => {
   return http.delete("/posts/" + id);
 };
+
 export const deleteFavorite = (id) => {
   return http.delete("/favorites/" + id);
 };
+
 export const updateAdds = (data) => {
   const id = data._id;
   return http.put("/posts/" + id, data);
 };
-// export const getUserAdd = ({ id }) => {
-//   return http.get(`/`);
-// };
 
 export default {
   getFakeAdds,

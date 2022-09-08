@@ -110,7 +110,7 @@ export default {
     justify-content: space-evenly;
   }
   &__link {
-    color: #000;
+    color: #fff;
     padding-left: 30px;
     cursor: pointer;
     white-space: nowrap;
@@ -120,9 +120,9 @@ export default {
     }
     span {
       margin-left: 20px;
-    }
-    &:hover {
-      text-decoration: underline;
+      &:hover {
+        color: #4f95ff;
+      }
     }
     overflow-wrap: normal;
   }

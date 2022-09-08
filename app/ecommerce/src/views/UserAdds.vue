@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import Table from "../components/Table/Table";
-import Pagination from "../components/Pagination/Pagination";
-import Toolbar from "../components/Toolbar/Toolbar.vue";
+import Table from "@/components/Table/Table";
+import Pagination from "@/components/Pagination/Pagination";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { getUserAdds } from "@/api/adds";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -87,8 +87,6 @@ export default {
           type: "text",
         },
       ],
-      noResult: false,
-      message: "",
     };
   },
   mounted() {
