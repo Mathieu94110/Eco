@@ -9,7 +9,7 @@
   >
     <div class="card__product-img">
       <img
-        v-if="add.images.length > 0"
+        v-if="add.images"
         class="card__img"
         :src="add.images[0]"
         height="100"
@@ -18,7 +18,7 @@
     </div>
     <div class="card__content">
       <p class="card__title">
-        {{ add.title }} <span v-if="add.id">#{{ add.id }}</span>
+        {{ add.title }} <span>#{{ add.id }}</span>
       </p>
       <p class="card__description" v-if="add.description">
         {{ add.description }}
@@ -83,10 +83,46 @@
 <script>
 export default {
   name: "AddCard",
-  props: ["add"],
+  props: {
+    add: {
+      brand: {
+        type: String,
+      },
+      category: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
+      discountPercentage: {
+        type: Number,
+      },
+      id: {
+        type: Number,
+      },
+      images: {
+        type: [String],
+      },
+      price: {
+        type: Number,
+      },
+      rating: {
+        type: Number,
+      },
+      stock: {
+        type: Number,
+      },
+      thumbnail: {
+        type: String,
+      },
+      title: {
+        type: String,
+      },
+    },
+  },
   methods: {
-    sendToFavorites(item) {
-      this.$emit("addItem", item);
+    sendToFavorites(add) {
+      this.$emit("addItem", add);
     },
   },
   computed: {

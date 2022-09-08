@@ -18,7 +18,7 @@
 
 <script>
 import { getFavorites } from "@/api/adds";
-import Toolbar from "../components/Toolbar/Toolbar.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard";
 import { deleteFavorite } from "@/api/adds";
 

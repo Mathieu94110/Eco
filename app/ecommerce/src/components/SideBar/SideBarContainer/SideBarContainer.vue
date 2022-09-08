@@ -14,7 +14,7 @@ export default {
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #e7e9f5, #dfe4f2);
+  background: linear-gradient(180deg, #15263f, #dfe4f2);
   padding: 20px 0px;
 }
 </style>

@@ -19,7 +19,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import AddCard from "../components/AddCard/AddCard";
+import AddCard from "@/components/Adds/AddCard/AddCard";
 export default {
   data() {
     return {

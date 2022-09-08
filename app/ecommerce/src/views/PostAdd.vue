@@ -24,9 +24,9 @@
 
 <script setup>
 import { computed, reactive, watch, ref } from "vue";
-import Toolbar from "../components/Toolbar/Toolbar.vue";
-import PostCreate from "../components/Posts/PostCreate/PostCreate.vue";
-import PostCreated from "../components/Posts/PostCreated.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import PostCreate from "@/components/Posts/PostCreate/PostCreate.vue";
+import PostCreated from "@/components/Posts/PostCreated.vue";
 import { inject } from "vue";
 import { useStore } from "vuex";
 
