@@ -1,28 +1,50 @@
 <template>
-  <Toolbar>Liste des annonces</Toolbar>
-  <loading
-    v-model:active="state.isLoading"
-    :can-cancel="true"
-    :is-full-page="state.fullPage"
-  />
-  <div
-    class="adds"
-    v-if="state.adds"
-    :style="{ marginLeft: sideBarClosed ? '125px' : '320px' }"
-  >
-    <Pagination
-      v-if="state.adds"
-      :totalRecords="state.adds.length"
-      :perPageOptions="perPageOptions"
-      @input="setData($event)"
+  <div style="height: 100%">
+    <Toolbar>Liste des annonces</Toolbar>
+    <loading
+      v-model:active="state.isLoading"
+      :can-cancel="true"
+      :is-full-page="state.fullPage"
     />
-    <div class="adds__cards">
-      <AddCard
-        v-for="add in computedAddsData"
-        :key="add.id"
-        :add="add"
-        @add-item="addToFavorites(add)"
-      />
+    <div
+      class="adds"
+      v-if="state.adds"
+      :style="{ paddingLeft: sideBarClosed ? '150px' : '345px' }"
+    >
+      <div
+        style="
+          height: 60px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        "
+      >
+        <!-- <Pagination
+          v-if="state.adds"
+          :totalRecords="state.adds.total"
+          :perPageOptions="perPageOptions"
+          @input="setData($event)"
+        /> -->
+      </div>
+      <div class="adds__wrapper">
+        <div style="height: 100%">
+          <AddCardFilter
+            :filters="state.filters"
+            :add="filteredAdds"
+            @update-filter="updateFilter"
+            style="height: 100%; width: 200px"
+          />
+        </div>
+
+        <div class="adds__cards">
+          <AddCard
+            v-for="add in filteredAdds"
+            :key="add.id"
+            :add="add"
+            @add-item="addToFavorites(add)"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +53,8 @@
 import { onMounted, reactive, computed } from "vue";
 import AddCard from "@/components/Adds/AddCard/AddCard";
 import Toolbar from "@/components/Toolbar/Toolbar";
-import Pagination from "@/components/Pagination/Pagination";
+// import Pagination from "@/components/Pagination/Pagination";
+import AddCardFilter from "@/components/Adds/AddCard/AddCardFilter";
 import { useStore } from "vuex";
 import { getFakeAdds } from "../api/adds";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -47,6 +70,11 @@ const state = reactive({
   fullPage: true,
   perPageOptions,
   pagination: { page: 1, perPage: perPageOptions[0] },
+  filters: {
+    search: "",
+    priceRange: [0, 10000],
+    category: "Tout",
+  },
 });
 
 onMounted(() => {
@@ -75,9 +103,9 @@ async function loadFakeAdds() {
   }
 }
 
-function setData(data) {
-  state.pagination = data;
-}
+// function setData(data) {
+//   state.pagination = data;
+// }
 
 function addToFavorites(add) {
   store.dispatch("sendFavorite", add).then(() => {
@@ -85,25 +113,60 @@ function addToFavorites(add) {
   });
 }
 
-const computedAddsData = computed(() => {
-  if (!state.adds) return [];
-  else {
-    const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
-    const lastIndex = state.pagination.page * state.pagination.perPage;
-    return state.adds.slice(firstIndex, lastIndex);
+function updateFilter(filterUpdate) {
+  if (filterUpdate.search !== undefined) {
+    state.filters.search = filterUpdate.search;
+  } else if (filterUpdate.priceRange) {
+    state.filters.priceRange = filterUpdate.priceRange;
+  } else if (filterUpdate.category) {
+    state.filters.category = filterUpdate.category;
+  } else {
+    state.filters = { search: "", priceRange: [0, 9999], category: "Tout" };
   }
+}
+
+const filteredAdds = computed(() => {
+  return state.adds.filter((add) => {
+    if (
+      add.title
+        .toLocaleLowerCase()
+        .startsWith(state.filters.search.toLocaleLowerCase()) &&
+      add.price >= state.filters.priceRange[0] &&
+      add.price <= state.filters.priceRange[1] &&
+      (add.category === state.filters.category ||
+        state.filters.category === "Tout")
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 });
+
+// const computedAddsData = computed(() => {
+//   if (!filteredAdds) return [];
+//   else {
+//     const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
+//     const lastIndex = state.pagination.page * state.pagination.perPage;
+//     return filteredAdds.slice(firstIndex, lastIndex);
+//   }
+// });
 </script>
 
 <style lang="scss" scoped>
 .adds {
   display: block;
-  width: 100%;
-  height: 100%;
+
+  &__wrapper {
+    display: flex;
+    height: 100%;
+    height: calc(100vh - 120px);
+  }
   &__cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    overflow-y: auto;
   }
 }
 </style>

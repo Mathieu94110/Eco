@@ -5,6 +5,7 @@
       padding: isFavoritePage ? '30px' : '16px',
       width: isFavoritePage ? '' : '250px',
       textAlign: isFavoritePage ? '' : 'center',
+      maxHeight: '600px',
     }"
   >
     <div class="card__product-img">
