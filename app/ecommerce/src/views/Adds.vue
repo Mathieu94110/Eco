@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div class="adds">
     <Toolbar>Liste des annonces</Toolbar>
     <loading
       v-model:active="state.isLoading"
@@ -7,27 +7,11 @@
       :is-full-page="state.fullPage"
     />
     <div
-      class="adds"
       v-if="state.adds"
       :style="{ paddingLeft: sideBarClosed ? '150px' : '345px' }"
     >
-      <div
-        style="
-          height: 60px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        "
-      >
-        <!-- <Pagination
-          v-if="state.adds"
-          :totalRecords="state.adds.total"
-          :perPageOptions="perPageOptions"
-          @input="setData($event)"
-        /> -->
-      </div>
       <div class="adds__wrapper">
-        <div style="height: 100%">
+        <div>
           <AddCardFilter
             :filters="state.filters"
             :add="filteredAdds"
@@ -53,7 +37,6 @@
 import { onMounted, reactive, computed } from "vue";
 import AddCard from "@/components/Adds/AddCard/AddCard";
 import Toolbar from "@/components/Toolbar/Toolbar";
-// import Pagination from "@/components/Pagination/Pagination";
 import AddCardFilter from "@/components/Adds/AddCard/AddCardFilter";
 import { useStore } from "vuex";
 import { getFakeAdds } from "../api/adds";
@@ -72,7 +55,7 @@ const state = reactive({
   pagination: { page: 1, perPage: perPageOptions[0] },
   filters: {
     search: "",
-    priceRange: [0, 10000],
+    priceRange: [0, 9999],
     category: "Tout",
   },
 });
@@ -82,7 +65,6 @@ onMounted(() => {
 });
 
 const store = useStore();
-
 const toast = inject("toastMsg");
 const sideBarClosed = inject("collapsed");
 
@@ -102,10 +84,6 @@ async function loadFakeAdds() {
     state.message = "Erreur lors du chargement des annonces";
   }
 }
-
-// function setData(data) {
-//   state.pagination = data;
-// }
 
 function addToFavorites(add) {
   store.dispatch("sendFavorite", add).then(() => {
@@ -142,25 +120,14 @@ const filteredAdds = computed(() => {
     }
   });
 });
-
-// const computedAddsData = computed(() => {
-//   if (!filteredAdds) return [];
-//   else {
-//     const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
-//     const lastIndex = state.pagination.page * state.pagination.perPage;
-//     return filteredAdds.slice(firstIndex, lastIndex);
-//   }
-// });
 </script>
 
 <style lang="scss" scoped>
 .adds {
-  display: block;
-
+  height: 100vh;
   &__wrapper {
     display: flex;
-    height: 100%;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 60px);
   }
   &__cards {
     display: flex;

@@ -6,7 +6,7 @@
     @mouseleave="formatSideBar(false)"
   >
     <router-link to="/">
-      <img alt="user_logo" class="topbar__img" src="@/assets/logo.png" />
+      <img alt="user_logo" class="topbar__img" src="@/assets/images/logo.png" />
     </router-link>
     <div class="topbar__items">
       <button

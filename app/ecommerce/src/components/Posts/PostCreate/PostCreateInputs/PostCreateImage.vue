@@ -25,7 +25,7 @@
 import { reactive, ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import addFormValidation from "@/modules/formValidation";
-import mysteryImage from "../../../../assets/mystery-image.png";
+import mysteryImage from "@/assets/images/mystery-image.png";
 
 export default {
   name: "PostCreateImage",
