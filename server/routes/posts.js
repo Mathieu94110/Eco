@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/postInfos", (req, res, next) => {
   const post = new Post({
+    userId: req.body.id,
     title: req.body.title,
     description: req.body.description,
     category: req.body.category,

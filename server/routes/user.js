@@ -9,9 +9,10 @@ router.post("/signup", (req, res, next) => {
     const user = new User({
       email: req.body.email,
       password: hash,
+      userName: req.body.firstName,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      image: req.body.currentImage,
+      image: req.body.image,
       phone: req.body.phone,
       address: req.body.address,
       zip: req.body.zip,
@@ -68,27 +69,19 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-router.get("/infos", (req, res, next) => {
-  User.findById(req.params.id)
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
-      }
-    })
+router.get("/:id", (req, res, next) => {
+  return User.findById(req.params.id)
     .then((result) => {
-      if (!result) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
-      }
-      res.status(200).json(result);
+      res.status(201).json({
+        message: "User infos!",
+        result: result,
+      });
     })
     .catch((err) => {
-      return res.status(401).json({
-        message: "Auth failed",
+      res.status(500).json({
+        error: err,
       });
     });
 });
+
 module.exports = router;
