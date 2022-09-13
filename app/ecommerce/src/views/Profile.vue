@@ -1,49 +1,51 @@
 <template>
-  <div
-    class="profile"
-    :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
-  >
-    <UserProfile :userInfos="user"></UserProfile>
+  <div class="profile">
+    <Toolbar>Mon profil</Toolbar>
+    <div
+      :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
+      class="profile__card"
+    >
+      <UserProfile :userInfos="state.user"></UserProfile>
+    </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import UserProfile from "@/components/User/UserProfile";
-import { getProfile } from "@/api/user";
+import Toolbar from "@/components/Toolbar/Toolbar";
+import userApi from "@/api/user";
+import { reactive, onMounted, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+const sideBarClosed = inject("collapsed");
 
-export default {
-  name: "profile",
-  data() {
-    return {
-      sideBarClosed: this.$collapsed,
-      user: null,
-    };
-  },
-  components: {
-    UserProfile,
-  },
-  mounted: function () {
-    if (this.$store.state.user.userId == -1) {
-      this.$router.push("/");
-      return;
-    }
-    this.getUserInfos();
-  },
-  methods: {
-    async getUserInfos() {
-      const response = await getProfile(this.$store.state.user.userId);
-      this.user = response.data;
-    },
-  },
-};
+const state = reactive({
+  user: null,
+});
+
+const store = useStore();
+const router = useRouter();
+
+onMounted(async () => {
+  if (store.state.user.userId == -1) {
+    router.push("/");
+    return;
+  }
+  const response = await userApi.getProfile(store.state.user.userId);
+  state.user = response.data.result;
+});
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .profile {
   width: 100%;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  &__card {
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

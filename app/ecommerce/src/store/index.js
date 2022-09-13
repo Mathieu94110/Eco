@@ -42,6 +42,7 @@ const store = createStore({
       category: "",
     },
     userInfos: {
+      userName: "",
       firstName: "",
       lastName: "",
       email: "",

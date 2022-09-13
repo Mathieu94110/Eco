@@ -81,13 +81,23 @@
           />
         </div>
       </div>
-      <div class="login__form-items">
-        <input
-          v-model="password"
-          class="login__form-input"
-          type="password"
-          placeholder="Mot de passe"
-        />
+      <div class="login__form-row">
+        <div class="login__form-items">
+          <input
+            v-model="password"
+            class="login__form-input"
+            type="password"
+            placeholder="Mot de passe"
+          />
+        </div>
+        <div class="login__form-items">
+          <input
+            v-model="userName"
+            class="login__form-input"
+            type="text"
+            placeholder="Pseudo"
+          />
+        </div>
       </div>
     </div>
     <div v-else>
@@ -152,6 +162,7 @@ export default {
     return {
       mode: "login",
       currentImage: null,
+      userName: "",
       firstName: "",
       lastName: "",
       phone: null,
@@ -172,8 +183,9 @@ export default {
     login() {
       this.$emit("login", { email: this.email, password: this.password });
     },
-    createAccount: function () {
+    createAccount() {
       this.$emit("signup", {
+        userName: this.userName,
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
@@ -223,6 +235,12 @@ export default {
     },
     ...mapState(["status"]),
   },
+  // mounted: function () {
+  //   if (this.$store.state.user.userId != -1) {
+  //     this.$router.push("/profile");
+  //     return;
+  //   }
+  // },
 };
 </script>
 

@@ -34,11 +34,12 @@ export default {
       const self = this;
       this.$store
         .dispatch("createAccount", {
+          userName: data.firstName,
           email: data.email,
           lastName: data.lastName,
           firstName: data.firstName,
           password: data.password,
-          image: data.currentImage,
+          image: data.image,
           phone: data.phone,
           address: data.address,
           zip: data.zip,

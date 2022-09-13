@@ -43,6 +43,7 @@ let isAddCreated = ref(false);
 function createAdd(add) {
   store
     .dispatch("createPost", {
+      id: store.state.user.userId,
       title: add.title,
       description: add.description,
       category: add.category,
