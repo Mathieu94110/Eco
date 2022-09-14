@@ -9,7 +9,7 @@ router.post("/signup", (req, res, next) => {
     const user = new User({
       email: req.body.email,
       password: hash,
-      userName: req.body.firstName,
+      pseudo: req.body.userName,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       image: req.body.image,

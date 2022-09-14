@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/favoritesInfos", (req, res, next) => {
   const post = new Favorites({
+    author: req.body.author,
     id: req.body.id,
     brand: req.body.brand,
     category: req.body.category,
