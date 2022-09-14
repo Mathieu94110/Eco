@@ -4,7 +4,7 @@ import store from "../store";
 const routes = [
   {
     name: "auth",
-    path: "/login",
+    path: "/",
     component: () => import("../views/Auth.vue"),
   },
   {
@@ -62,12 +62,12 @@ router.beforeResolve(async (to) => {
 });
 
 router.beforeEach(async (to) => {
-  const publicPages = ["/login"];
+  const publicPages = ["/"];
   const authRequired = !publicPages.includes(to.path);
   const isUserLoggedIn = store.getters.isLoggedIn;
 
   if (authRequired && !isUserLoggedIn) {
-    return "/login";
+    return "/";
   }
 });
 

@@ -20,6 +20,10 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+  .px-30 {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   .py-20 {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -87,4 +91,18 @@
   
   .m-30 {
     margin: 30px;
+  }
+  // flexbox
+  .d-flex{
+    display:flex
+  }
+  .justify-center{
+  justify-content: center;
+  }
+
+  .center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }

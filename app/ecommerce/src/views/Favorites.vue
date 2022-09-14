@@ -21,7 +21,6 @@ import { getFavorites } from "@/api/adds";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard";
 import { deleteFavorite } from "@/api/adds";
-
 export default {
   name: "Favorites",
   components: { Toolbar, FavoriteCard },
@@ -38,7 +37,10 @@ export default {
         this.isLoading = true;
         const { data } = await getFavorites();
         if (data.posts) {
-          this.favorites = data.posts;
+          //In waiting to recover filtered data by user on back-end side, comming soon !
+          this.favorites = data.posts.filter(
+            (post) => post.author === this.$store.state.user.userId
+          );
           this.isLoading = false;
         }
       } catch (error) {
@@ -67,6 +69,7 @@ export default {
       );
     },
   },
+
   mounted() {
     this.getUserFavorites();
   },

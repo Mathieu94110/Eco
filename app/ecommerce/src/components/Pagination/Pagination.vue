@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div v-if="totalRecords > 0">
     <div class="pagination-container">
       <button class="fal" @click="changePage(0)">&lt;&lt;</button>
 
@@ -20,7 +20,7 @@
         >{{ amount }}</span
       >
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -73,12 +73,14 @@ export default {
   min-width: 400px;
   max-width: 600px;
   display: flex;
+  align-items: center;
   justify-content: space-evenly;
   color: #444;
+  font-weight: 400;
+  font-size: 18px;
   margin-right: 20px;
   .inner-pagination-content {
     display: flex;
-    align-items: center;
     margin: 0px 10px;
   }
   .pagination-seperator,
@@ -93,6 +95,8 @@ export default {
   }
   .showing {
     margin: 0px 5px;
+    font-weight: 400;
+    font-size: 18px;
     cursor: pointer;
     &.active {
       color: #2997ff;
@@ -100,12 +104,10 @@ export default {
   }
 }
 .fal {
-  width: 20px;
-  color: #2997ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 2.5px;
+  color: #fff;
+  padding: 10px;
+  background: #2997ff;
   cursor: pointer;
+  border: 1px solid #000;
 }
 </style>

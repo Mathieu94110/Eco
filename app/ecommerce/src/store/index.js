@@ -35,6 +35,7 @@ const store = createStore({
     user: user,
     isUserLogged: false,
     currentPost: {
+      author: "",
       image: "",
       title: "",
       description: "",

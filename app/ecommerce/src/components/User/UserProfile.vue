@@ -1,37 +1,40 @@
 <template>
-  <div class="user-card" v-if="props.userInfos">
-    <h1 class="mb-20">Informations du profil</h1>
-    <div
-      class="user-card__image"
-      :style="{
-        'background-image': `url(${
-          props.userInfos.image ? props.userInfos.image : mysteryImage
-        })`,
-      }"
-    ></div>
-    <ul>
-      <li class="user-card__item">
-        <span>Pseudo:</span> <span>{{ props.userInfos.firstName }}</span>
-      </li>
-      <li class="user-card__item">
-        <span> Prénom:</span> <span>{{ props.userInfos.firstName }}</span>
-      </li>
-      <li class="user-card__item">
-        <span>Nom:</span> <span>{{ props.userInfos.lastName }}</span>
-      </li>
-      <li class="user-card__item">
-        <span>Email:</span> <span>{{ props.userInfos.email }}</span>
-      </li>
-      <li class="user-card__item">
-        <span>Téléphone: </span> <span>{{ props.userInfos.phone }}</span>
-      </li>
-      <li class="user-card__item">
-        <span>Adresse: </span> <span>{{ props.userInfos.address }}</span>
-      </li>
-      <li class="user-card__item">
-        <span>Code postal:</span> <span>{{ props.userInfos.zip }}</span>
-      </li>
-    </ul>
+  <div class="user-profile-card" v-if="props.userInfos">
+    <div class="user-profile-card__header">
+      <div
+        class="user-profile-card__image"
+        :style="{
+          'background-image': `url(${
+            props.userInfos.image ? props.userInfos.image : mysteryImage
+          })`,
+        }"
+      ></div>
+    </div>
+    <div class="user-profile-card__body">
+      <p class="user-profile-card__main-category">
+        <span>Pseudo</span> <span>{{ props.userInfos.firstName }}</span>
+      </p>
+      <p class="user-profile-card__sub-categories">
+        <span>Prénom</span> {{ props.userInfos.firstName }}
+      </p>
+      <p class="user-profile-card__sub-categories">
+        <span>Nom</span> {{ props.userInfos.lastName }}
+      </p>
+      <p class="user-profile-card__sub-categories">
+        <span>Email</span> {{ props.userInfos.email }}
+      </p>
+      <p class="user-profile-card__sub-categories">
+        <span>Téléphone</span> {{ props.userInfos.phone }}
+      </p>
+      <p class="user-profile-card__sub-categories">
+        <span>Adresse</span> {{ props.userInfos.address }}
+      </p>
+      <p class="user-profile-card__sub-categories">
+        <span>Code postal</span> {{ props.userInfos.zip }}
+      </p>
+    </div>
+
+    <div class="user-profile-card__footer"></div>
   </div>
 </template>
 
@@ -43,33 +46,93 @@ const props = defineProps(["userInfos"]);
 </script>
 
 <style scoped lang="scss">
-.user-card {
-  background-color: #4f95ff;
-  width: 500px;
-  padding: 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+body {
+  font-family: "Montserrat";
+  background-color: #b8b6b6;
+  color: #fdfdfd;
+}
+
+.user-profile-card {
+  max-width: 320px;
+
+  margin: 150px auto 0;
+  background-color: #42515a;
+  box-shadow: 0 10px 90px #00000024;
   text-align: center;
-  border: 1px solid #000;
-  border-radius: 5px;
-  box-shadow: 0px 10px 5px 2px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  border-radius: 15px;
+
+  &__header {
+    position: relative;
+    height: 48px;
+  }
   &__image {
-    width: 120px;
-    height: 120px;
-    display: block;
+    width: 130px;
+    height: 130px;
+    border-radius: 1000px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #4f95ff;
+    box-shadow: 0 0 20px #00000033;
     cursor: pointer;
     margin: 0 auto 14px;
     background-size: cover;
-    background-position: center center;
+    &:hover {
+      width: 180px;
+      height: 180px;
+      border: 8px solid #42515a;
+    }
   }
-  &__item {
+
+  &__body {
+    padding: 10px 20px;
+    min-height: 320px;
+    min-width: 300px;
+  }
+  &__main-category {
     display: flex;
     justify-content: space-between;
-
+    margin-top: 30px;
     font-size: 18px;
-    font-weight: 600;
-
-    :nth-child(odd) {
-      text-decoration: underline;
+    font-weight: bold;
+    color: #c2bdbd;
+    &:hover {
+      margin-top: 30px;
+      font-size: 22px;
+      :nth-child(odd) {
+        color: #4f95ff;
+      }
     }
+  }
+
+  &__sub-categories {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #c2bdbd;
+    &:hover {
+      font-size: 16px;
+      color: #ffffff;
+      :nth-child(odd) {
+        color: #4f95ff;
+      }
+    }
+  }
+  &__footer {
+    background-color: #4f95ff;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 20px 0 20px 0;
   }
 }
 </style>

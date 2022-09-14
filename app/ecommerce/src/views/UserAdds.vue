@@ -1,27 +1,29 @@
 <template>
-  <div>
+  <div class="user-adds">
     <Toolbar>Mes annonces</Toolbar>
-    <div :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }">
+    <div
+      :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
+      class="user-adds__content"
+    >
       <loading
         v-model:active="isLoading"
         :can-cancel="true"
         :is-full-page="fullPage"
       />
-      <main>
-        <Pagination
-          v-if="tableData"
-          :totalRecords="tableData.length"
-          :perPageOptions="perPageOptions"
-          @input="setTable($event)"
-        />
-        <Table
-          v-if="tableData"
-          :theData="computedTableData"
-          :config="config"
-          :style="{ height: '600px' }"
-          @addDeleted="refreshCurrentList($event)"
-        />
-      </main>
+
+      <Pagination
+        v-if="tableData"
+        :totalRecords="tableData.length"
+        :perPageOptions="perPageOptions"
+        @input="setTable($event)"
+      />
+      <Table
+        v-if="tableData"
+        :userAdds="computedTableData"
+        :config="config"
+        :style="{ height: computedTableData.length > 0 ? '600px' : '100%' }"
+        @addDeleted="refreshCurrentList($event)"
+      />
     </div>
   </div>
 </template>
@@ -101,7 +103,10 @@ export default {
         this.isLoading = true;
         const { data } = await getUserAdds();
         if (data.posts) {
-          this.tableData = data.posts;
+          //In waiting to recover filtered data by user on back-end side, comming soon !
+          this.tableData = data.posts.filter(
+            (post) => post.author === this.$store.state.user.userId
+          );
           this.isLoading = false;
         }
       } catch (error) {
@@ -125,19 +130,18 @@ export default {
 };
 </script>
 
-<style>
-body {
+<style lang="scss" scoped>
+.user-adds {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;
+  height: 100vh;
+  &__content {
+    padding: 30px;
+    height: calc(100% - 60px);
+  }
 }
-main {
-  margin: 30px;
-  height: 85vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+
 nav {
   height: 60px;
   background: #222;

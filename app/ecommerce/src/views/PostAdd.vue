@@ -38,12 +38,16 @@ const state = reactive({
 const toastMsg = inject("toastMsg");
 const sideBarClosed = inject("collapsed");
 const store = useStore();
-let isAddCreated = ref(false);
+const isAddCreated = ref(false);
+
+const currentUser = computed(() => {
+  return store.state.user.userId;
+});
 
 function createAdd(add) {
   store
     .dispatch("createPost", {
-      id: store.state.user.userId,
+      author: currentUser.value,
       title: add.title,
       description: add.description,
       category: add.category,
@@ -64,6 +68,7 @@ function submitAdd() {
     .dispatch("sendPost")
     .then(() => {
       store.dispatch("resetForm", {
+        author: "",
         image: "",
         title: "",
         description: "",
@@ -81,6 +86,7 @@ function submitAdd() {
 function resetAdd() {
   store
     .dispatch("resetForm", {
+      author: "",
       image: "",
       title: "",
       description: "",

@@ -84,18 +84,18 @@
       <div class="login__form-row">
         <div class="login__form-items">
           <input
-            v-model="password"
-            class="login__form-input"
-            type="password"
-            placeholder="Mot de passe"
-          />
-        </div>
-        <div class="login__form-items">
-          <input
             v-model="userName"
             class="login__form-input"
             type="text"
             placeholder="Pseudo"
+          />
+        </div>
+        <div class="login__form-items">
+          <input
+            v-model="password"
+            class="login__form-input"
+            type="password"
+            placeholder="Mot de passe"
           />
         </div>
       </div>

@@ -7,10 +7,10 @@
       <section class="mb-20">
         <h3 class="mb-10">Rechercher</h3>
         <input
-          :value="search"
           @input="$emit('updateFilter', { search: $event.target.value })"
           type="text"
           placeholder="Rechercher"
+          class="px-10"
         />
       </section>
       <section>
@@ -107,7 +107,6 @@ export default {
 
   setup(props) {
     const sideBarClosed = inject("collapsed");
-    const search = ref(props.search);
     const rangeFilter = ref(props.filters.priceRange);
     const categoryFilter = computed({
       get() {
@@ -120,7 +119,6 @@ export default {
       },
     });
     return {
-      search,
       rangeFilter,
       categoryFilter,
       numberOfAdds,
