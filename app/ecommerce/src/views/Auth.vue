@@ -34,7 +34,7 @@ export default {
       const self = this;
       this.$store
         .dispatch("createAccount", {
-          userName: data.firstName,
+          userName: data.userName,
           email: data.email,
           lastName: data.lastName,
           firstName: data.firstName,

@@ -5,7 +5,10 @@
       :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
       class="profile__card"
     >
-      <UserProfile :userInfos="state.user"></UserProfile>
+      <UserProfile
+        :userInfos="state.user"
+        @update-user="UpdateInfos"
+      ></UserProfile>
     </div>
   </div>
 </template>
@@ -17,23 +20,35 @@ import userApi from "@/api/user";
 import { reactive, onMounted, inject } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import updateUserInfos from "@/api/user";
+
 const sideBarClosed = inject("collapsed");
 
 const state = reactive({
   user: null,
 });
-
+const toast = inject("toastMsg");
 const store = useStore();
+const userId = store.state.user.userId;
 const router = useRouter();
 
 onMounted(async () => {
-  if (store.state.user.userId == -1) {
+  if (userId == -1) {
     router.push("/");
     return;
   }
-  const response = await userApi.getProfile(store.state.user.userId);
+  const response = await userApi.getProfile(userId);
   state.user = response.data.result;
 });
+
+async function UpdateInfos(data) {
+  try {
+    await updateUserInfos(userId, data);
+    toast("Vos informations ont bien été mises à jour !", "success");
+  } catch (err) {
+    console.log(err);
+  }
+}
 </script>
 
 <style lang="scss" scoped>
