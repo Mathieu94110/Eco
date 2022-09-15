@@ -9,7 +9,7 @@ router.post("/signup", (req, res, next) => {
     const user = new User({
       email: req.body.email,
       password: hash,
-      pseudo: req.body.userName,
+      userName: req.body.userName,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       image: req.body.image,
@@ -82,6 +82,22 @@ router.get("/:id", (req, res, next) => {
         error: err,
       });
     });
+});
+
+router.post("/edit", (req, res, next) => {
+  User.updateOne({ _id: req.user._id }, { $set: req.body }).then((result) => {
+    res
+      .status(201)
+      .json({
+        message: "User infos updated!",
+        result: result,
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+  });
 });
 
 module.exports = router;
