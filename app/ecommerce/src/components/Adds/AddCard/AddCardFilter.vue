@@ -94,7 +94,7 @@
   </div>
 </template>
 <script>
-import { ref, inject, computed } from "vue";
+import { inject, computed } from "vue";
 export default {
   props: {
     add: [],
@@ -107,7 +107,11 @@ export default {
 
   setup(props) {
     const sideBarClosed = inject("collapsed");
-    const rangeFilter = ref(props.filters.priceRange);
+    const rangeFilter = computed({
+      get() {
+        return props.filters.priceRange;
+      },
+    });
     const categoryFilter = computed({
       get() {
         return props.filters.category;

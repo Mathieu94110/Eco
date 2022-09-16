@@ -13,13 +13,12 @@
       <div class="adds__wrapper">
         <div>
           <AddCardFilter
-            v-model="state.filters.search"
+            :filters="state.filters"
             :add="filteredAdds"
             @update-filter="updateFilter"
             style="height: 100%; width: 200px"
           />
         </div>
-
         <div class="adds__cards">
           <AddCard
             v-for="add in filteredAdds"
@@ -46,6 +45,7 @@ import "vue-loading-overlay/dist/vue-loading.css";
 import { inject } from "vue";
 
 const perPageOptions = [20, 50, 100];
+
 const state = reactive({
   adds: null,
   noResult: false,
@@ -68,7 +68,6 @@ onMounted(() => {
 const store = useStore();
 const toast = inject("toastMsg");
 const sideBarClosed = inject("collapsed");
-
 async function loadFakeAdds() {
   try {
     state.isLoading = true;
@@ -87,7 +86,6 @@ async function loadFakeAdds() {
 }
 
 function addToFavorites(add) {
-  console.log(add);
   const userFavorite = { ...add, author: currentUser.value };
   store.dispatch("sendFavorite", userFavorite).then(() => {
     toast("L'annonce a été ajoutée à vos favoris !", "success");
@@ -123,7 +121,6 @@ const filteredAdds = computed(() => {
     }
   });
 });
-
 const currentUser = computed(() => {
   return store.state.user.userId;
 });
