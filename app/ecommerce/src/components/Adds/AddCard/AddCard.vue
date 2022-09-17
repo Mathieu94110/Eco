@@ -5,7 +5,6 @@
       padding: isFavoritePage ? '30px' : '16px',
       width: isFavoritePage ? '' : '250px',
       textAlign: isFavoritePage ? '' : 'center',
-      maxHeight: '600px',
     }"
   >
     <div class="card__product-img">
@@ -73,7 +72,7 @@
         </div>
         <div class="card__category-items--alt-color" v-if="!isFavoritePage">
           <label :for="id" @click="sendToFavorites(add)">
-            <i class="fas fa-heart"></i>
+            <i class="card__category-items--icon fas fa-heart"></i>
           </label>
         </div>
       </div>
@@ -140,6 +139,7 @@ export default {
 }
 .card {
   min-width: 300px;
+  max-height: 600p;
   margin: 20px;
   background-color: #15263f;
   color: #fff;
@@ -264,12 +264,13 @@ export default {
     :first-child {
       color: #00fff8;
     }
-    &--alt-color {
+    &--alt-color,
+    &--icon {
       padding: 10px;
       color: white;
-      cursor: pointer;
       &:hover {
         color: rgb(250, 75, 75);
+        cursor: pointer;
       }
     }
   }

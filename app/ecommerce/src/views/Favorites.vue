@@ -6,80 +6,74 @@
     :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
   >
     <FavoriteCard
-      v-for="add in favorites"
+      v-for="add in state.favorites"
       :key="add.id"
       :add="add"
       @send-favorite="sendFavoriteDetails($event)"
       @delete-add="deleteAdd($event)"
-      :toggle="isModalOpen"
+      :toggle="state.isModalOpen"
     />
   </div>
 </template>
 
-<script>
+<script setup>
 import { getFavorites } from "@/api/adds";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard";
 import { deleteFavorite } from "@/api/adds";
-export default {
-  name: "Favorites",
-  components: { Toolbar, FavoriteCard },
-  data() {
-    return {
-      favorites: [],
-      isModalOpen: null,
-      sideBarClosed: this.$collapsed,
-    };
-  },
-  methods: {
-    async getUserFavorites() {
-      try {
-        this.isLoading = true;
-        const { data } = await getFavorites();
-        if (data.posts) {
-          //In waiting to recover filtered data by user on back-end side, comming soon !
-          this.favorites = data.posts.filter(
-            (post) => post.author === this.$store.state.user.userId
-          );
-          this.isLoading = false;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    sendFavoriteDetails(add) {
-      this.$store
-        .dispatch("sendFavoriteDetails", {
-          favorite: add,
-        })
-        .then(() => {
-          this.$router.push({
-            name: "FavoritesDetails",
-            params: { add: add.title },
-          });
-        });
-    },
-    deleteAdd(add) {
-      const index = add._id;
-      deleteFavorite(index);
-      this.$toastMsg("L'annonce a bien été supprimée !", "success");
-      this.isModalOpen = false;
-      this.favorites = this.favorites.filter(
-        (favorite) => favorite._id !== index
-      );
-    },
-  },
+import { reactive, onMounted, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-  mounted() {
-    this.getUserFavorites();
-  },
-  watch: {
-    favorites: {
-      handler(newValue) {
-        this.favorites = newValue;
-      },
-    },
-  },
+const state = reactive({
+  favorites: [],
+  isModalOpen: false,
+  isLoading: false,
+});
+const sideBarClosed = inject("collapsed");
+const toast = inject("toastMsg");
+const store = useStore();
+const router = useRouter();
+
+onMounted(() => {
+  getUserFavorites();
+});
+
+const getUserFavorites = async () => {
+  try {
+    state.isLoading = true;
+    const { data } = await getFavorites();
+    if (data.posts) {
+      //In waiting to recover filtered data by user on back-end side, comming soon !
+      state.favorites = data.posts.filter(
+        (post) => post.author === store.state.user.userId
+      );
+      state.isLoading = false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const sendFavoriteDetails = (add) => {
+  store
+    .dispatch("sendFavoriteDetails", {
+      favorite: add,
+    })
+    .then(() => {
+      router.push({
+        name: "FavoritesDetails",
+        params: { add: add.title },
+      });
+    });
+};
+const deleteAdd = (add) => {
+  const index = add._id;
+  deleteFavorite(index);
+  toast("L'annonce a bien été supprimée !", "success");
+  state.isModalOpen = false;
+  state.favorites = state.favorites.filter(
+    (favorite) => favorite._id !== index
+  );
 };
 </script>
 

@@ -84,10 +84,7 @@
         Nombre de résultats:
         <strong>{{ numberOfAdds }} </strong>
       </small>
-      <button
-        class="add-card-filter__reset-button"
-        @click="$emit('updateFilter', {})"
-      >
+      <button class="btn btn-danger" @click="$emit('updateFilter', {})">
         Supprimer les filtres
       </button>
     </div>
@@ -134,6 +131,8 @@ export default {
 
 <style lang="scss" scoped>
 .add-card-filter {
+  height: 100%;
+  width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;

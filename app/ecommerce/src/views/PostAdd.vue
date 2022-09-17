@@ -109,7 +109,7 @@ watch(currentPost, (newValue) => {
 
 <style lang="scss" scoped>
 .post-add-container {
-  height: 100vh;
+  height: 100%;
   width: 100%;
 
   &__items {

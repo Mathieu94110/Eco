@@ -44,8 +44,8 @@ const routes = [
     component: () => import("../views/FavoritesDetails.vue"),
   },
   {
-    path: "/:pathMatch(.*)*",
     name: "NotFound",
+    path: "/:pathMatch(.*)*",
     component: () => import("../views/NotFound.vue"),
   },
 ];

@@ -1,9 +1,6 @@
 <template>
   <div class="favorites-details">
-    <div
-      class="favorites-details__header"
-      :style="!currentState && { 'margin-bottom': '60px' }"
-    >
+    <div class="favorites-details__header">
       <input
         class="go-back-btn"
         type="button"
@@ -11,37 +8,33 @@
         value="Retour"
       />
     </div>
-    <div class="adds" v-if="favoriteInfos">
-      <AddCard :add="favoriteInfos" />
+    <div class="adds" v-if="state.favoriteInfos">
+      <AddCard :add="state.favoriteInfos" />
     </div>
   </div>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
+<script setup>
 import AddCard from "@/components/Adds/AddCard/AddCard";
-export default {
-  data() {
-    return {
-      favoriteInfos: null,
-    };
-  },
-  mounted() {
-    if (this.getFavoriteDetails) {
-      this.favoriteInfos = this.getFavoriteDetails;
-    }
-  },
-  computed: {
-    ...mapGetters(["getFavoriteDetails"]),
-  },
-  components: {
-    AddCard,
-  },
-  methods: {
-    goBack() {
-      this.$router.back();
-    },
-  },
+import { reactive, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+const router = useRouter();
+const store = useStore();
+const state = reactive({
+  favoriteInfos: null,
+});
+onMounted(() => {
+  if (favoriteDetails.value) {
+    state.favoriteInfos = favoriteDetails.value;
+  }
+});
+
+const favoriteDetails = computed(() => store.getters.getFavoriteDetails);
+
+const goBack = () => {
+  router.back();
 };
 </script>
 

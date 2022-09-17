@@ -1,18 +1,16 @@
 <template>
   <div class="post-create__created-button-wrapper" v-if="props.isAddCreated">
-    <button class="post-create__button" @click.prevent="$emit('submitAdd')">
+    <button class="btn btn-success" @click.prevent="$emit('submitAdd')">
       Valider
     </button>
     <br />
-    <button class="post-create__cancel-button" @click="$emit('resetAdd')">
-      Annuler
-    </button>
+    <button class="btn btn-danger" @click="$emit('resetAdd')">Annuler</button>
   </div>
   <div v-else class="post-create__button-wrapper">
     <button
-      class="post-create__button"
+      class="btn btn-primary"
       :class="{
-        'post-create__button--disabled': isCreateAddButtonDisabled,
+        'btn-disabled': isCreateAddButtonDisabled,
       }"
       @click="$emit('createAdd', props.add)"
       :disabled="isCreateAddButtonDisabled"
@@ -41,42 +39,6 @@ const { isCreateAddButtonDisabled } = createAddButtonState(props.add, errors);
   }
   &__button-wrapper {
     text-align: center;
-  }
-  &__button {
-    padding: 10px;
-    font-weight: 600;
-    color: #4f95ff;
-    background: #fff;
-    border-radius: 5px;
-    border: 2px solid #000;
-    cursor: pointer;
-    &:hover {
-      color: #fff;
-      background: #4f95ff;
-    }
-    &--disabled {
-      color: #000;
-      cursor: not-allowed;
-      background: none;
-      &:hover {
-        color: #000;
-        background: red;
-        border: 2px solid #000;
-      }
-    }
-  }
-  &__cancel-button {
-    padding: 10px;
-    font-weight: 600;
-    color: red;
-    background: #fff;
-    border-radius: 5px;
-    border: 2px solid red;
-    cursor: pointer;
-    &:hover {
-      color: #000;
-      background: red;
-    }
   }
 }
 </style>

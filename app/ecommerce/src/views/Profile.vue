@@ -19,7 +19,6 @@ import Toolbar from "@/components/Toolbar/Toolbar";
 import userApi from "@/api/user";
 import { reactive, onMounted, inject } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import updateUserInfos from "@/api/user";
 
 const sideBarClosed = inject("collapsed");
@@ -30,13 +29,8 @@ const state = reactive({
 const toast = inject("toastMsg");
 const store = useStore();
 const userId = store.state.user.userId;
-const router = useRouter();
 
 onMounted(async () => {
-  if (userId == -1) {
-    router.push("/");
-    return;
-  }
   const response = await userApi.getProfile(userId);
   state.user = response.data.result;
 });
@@ -54,9 +48,9 @@ async function UpdateInfos(data) {
 <style lang="scss" scoped>
 .profile {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   &__card {
-    height: calc(100vh - 60px);
+    height: calc(100% - 60px);
     display: flex;
     flex-direction: column;
     justify-content: center;

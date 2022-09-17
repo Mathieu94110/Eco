@@ -60,9 +60,6 @@ defineRule("minMax", (value, [min, max]) => {
 
 const app = createApp({
   extends: App,
-  beforeCreate() {
-    this.$store.commit("initialiseStore");
-  },
 });
 
 app.config.globalProperties.$toastMsg = toastMsg;

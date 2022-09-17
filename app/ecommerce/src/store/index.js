@@ -68,11 +68,6 @@ const store = createStore({
     },
   },
   mutations: {
-    initialiseStore(state) {
-      if (localStorage.getItem("user") !== null) {
-        state.isUserLogged = true;
-      }
-    },
     setStatus: function (state, status) {
       state.status = status;
     },

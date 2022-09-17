@@ -6,21 +6,21 @@
       class="user-adds__content"
     >
       <loading
-        v-model:active="isLoading"
+        v-model:active="state.isLoading"
         :can-cancel="true"
-        :is-full-page="fullPage"
+        :is-full-page="state.fullPage"
       />
 
       <Pagination
-        v-if="tableData"
-        :totalRecords="tableData.length"
-        :perPageOptions="perPageOptions"
+        v-if="state.tableData"
+        :totalRecords="state.tableData.length"
+        :perPageOptions="state.perPageOptions"
         @input="setTable($event)"
       />
       <Table
-        v-if="tableData"
+        v-if="state.tableData"
         :userAdds="computedTableData"
-        :config="config"
+        :config="state.config"
         :style="{ height: computedTableData.length > 0 ? '600px' : '100%' }"
         @addDeleted="refreshCurrentList($event)"
       />
@@ -28,106 +28,99 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Table from "@/components/Table/Table";
 import Pagination from "@/components/Pagination/Pagination";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { getUserAdds } from "@/api/adds";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import { reactive, inject, onMounted, computed } from "vue";
+import { useStore } from "vuex";
 
-const perPageOptions = [20, 50, 100];
-export default {
-  components: {
-    Table,
-    Pagination,
-    Loading,
-    Toolbar,
-  },
-  data: function () {
-    return {
-      perPageOptions,
-      tableData: undefined,
-      pagination: { page: 1, perPage: perPageOptions[0] },
-      isLoading: false,
-      fullPage: true,
-      sideBarClosed: this.$collapsed,
-      config: [
-        {
-          key: "image",
-          title: "Image",
-          type: "image",
-        },
-        {
-          key: "title",
-          title: "Titre",
-          type: "text",
-        },
-        {
-          key: "date",
-          title: "Date",
-          type: "date",
-        },
-        {
-          key: "description",
-          title: "Description",
-          type: "text",
-        },
-        {
-          key: "category",
-          title: "Catégorie",
-          type: "text",
-        },
-        {
-          key: "price",
-          title: "Prix",
-          type: "number",
-        },
-        {
-          key: "actions",
-          title: "Actions",
-          type: "text",
-        },
-      ],
-    };
-  },
-  mounted() {
-    this.getAdds();
-  },
-  methods: {
-    setTable(data) {
-      this.pagination = data;
+const perPageOptions = [5, 10, 50];
+const store = useStore();
+const sideBarClosed = inject("collapsed");
+const state = reactive({
+  perPageOptions,
+  tableData: undefined,
+  pagination: { page: 1, perPage: perPageOptions[0] },
+  isLoading: false,
+  fullPage: true,
+  config: [
+    {
+      key: "image",
+      title: "Image",
+      type: "image",
     },
-    async getAdds() {
-      try {
-        this.isLoading = true;
-        const { data } = await getUserAdds();
-        if (data.posts) {
-          //In waiting to recover filtered data by user on back-end side, comming soon !
-          this.tableData = data.posts.filter(
-            (post) => post.author === this.$store.state.user.userId
-          );
-          this.isLoading = false;
-        }
-      } catch (error) {
-        console.log(error);
-      }
+    {
+      key: "title",
+      title: "Titre",
+      type: "text",
     },
-    refreshCurrentList(id) {
-      this.tableData = this.tableData.filter((item) => item._id !== id);
+    {
+      key: "date",
+      title: "Date",
+      type: "date",
     },
-  },
-  computed: {
-    computedTableData() {
-      if (!this.tableData) return [];
-      else {
-        const firstIndex = (this.pagination.page - 1) * this.pagination.perPage;
-        const lastIndex = this.pagination.page * this.pagination.perPage;
-        return this.tableData.slice(firstIndex, lastIndex);
-      }
+    {
+      key: "description",
+      title: "Description",
+      type: "text",
     },
-  },
+    {
+      key: "category",
+      title: "Catégorie",
+      type: "text",
+    },
+    {
+      key: "price",
+      title: "Prix",
+      type: "number",
+    },
+    {
+      key: "actions",
+      title: "Actions",
+      type: "text",
+    },
+  ],
+});
+
+onMounted(() => {
+  getAdds();
+});
+
+const setTable = (data) => {
+  state.pagination = data;
 };
+const getAdds = async () => {
+  try {
+    state.isLoading = true;
+    const { data } = await getUserAdds();
+    if (data.posts) {
+      //In waiting to recover filtered data by user on back-end side, comming soon !
+      state.tableData = data.posts.filter(
+        (post) => post.author === store.state.user.userId
+      );
+      state.isLoading = false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const refreshCurrentList = (id) => {
+  state.tableData = state.tableData.filter((item) => item._id !== id);
+};
+
+const computedTableData = computed(() => {
+  if (!state.tableData) return [];
+  else {
+    const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
+    const lastIndex = state.pagination.page * state.pagination.perPage;
+    return state.tableData.slice(firstIndex, lastIndex);
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -135,7 +128,7 @@ export default {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;
-  height: 100vh;
+  height: 100%;
   &__content {
     padding: 30px;
     height: calc(100% - 60px);

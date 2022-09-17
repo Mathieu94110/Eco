@@ -16,7 +16,6 @@
             :filters="state.filters"
             :add="filteredAdds"
             @update-filter="updateFilter"
-            style="height: 100%; width: 200px"
           />
         </div>
         <div class="adds__cards">
@@ -44,16 +43,12 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import { inject } from "vue";
 
-const perPageOptions = [20, 50, 100];
-
 const state = reactive({
   adds: null,
   noResult: false,
   message: "",
   isLoading: false,
   fullPage: true,
-  perPageOptions,
-  pagination: { page: 1, perPage: perPageOptions[0] },
   filters: {
     search: "",
     priceRange: [0, 9999],
@@ -128,7 +123,7 @@ const currentUser = computed(() => {
 
 <style lang="scss" scoped>
 .adds {
-  height: 100vh;
+  height: 100%;
   &__wrapper {
     display: flex;
     height: calc(100vh - 60px);

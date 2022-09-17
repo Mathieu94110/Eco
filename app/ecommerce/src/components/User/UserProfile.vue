@@ -276,9 +276,10 @@ function onPickFile() {
   }
 
   &__sub-categories {
-    padding: 8px 0;
+    height: 30px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 14px;
     :nth-child(odd) {
       color: #4f95ff;
@@ -301,9 +302,11 @@ function onPickFile() {
 }
 .active {
   &:hover {
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: 600;
+    span:first-child {
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
     :nth-child(odd) {
       color: #c2bdbd;
     }

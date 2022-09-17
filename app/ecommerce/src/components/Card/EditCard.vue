@@ -1,14 +1,15 @@
 <template>
   <div class="edit-card">
-    <input
-      v-if="currentState"
-      type="button"
-      class="edit-card__validate"
-      :key="component"
-      @click="$emit('updateCard', card)"
-      value="Valider"
-    />
-
+    <div class="edit-card__validate-button-wrapper mb-20">
+      <buttton
+        v-if="currentState"
+        type="button"
+        class="btn btn-primary"
+        :key="component"
+        @click="$emit('updateCard', card)"
+        >Valider</buttton
+      >
+    </div>
     <CardLayout v-if="add">
       <template #image>
         <div class="edit-card__product-img" v-if="!edit">
@@ -141,25 +142,9 @@ export default {
 
 <style scoped lang="scss">
 .edit-card {
-  &__validate {
-    display: flex;
-    margin: 0 auto 20px;
-    background-image: linear-gradient(#42a1ec, #0070c9);
-    border: 1px solid #0077cc;
-    border-radius: 4px;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: 400;
-    letter-spacing: -0.022em;
-    min-width: 30px;
-    padding: 4px 15px;
-    height: 40px;
-    &:hover {
-      background-image: linear-gradient(#51a9ee, #147bcd);
-      border-color: #169cfc;
-      text-decoration: none;
-    }
+  &__validate-button-wrapper {
+    width: 100%;
+    text-align: center;
   }
   &__product-img {
     cursor: pointer;

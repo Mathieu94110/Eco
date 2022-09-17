@@ -4,69 +4,58 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Login from "@/components/Login/Login";
-import { mapState } from "vuex";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-export default {
-  name: "Auth",
-  components: {
-    Login,
-  },
-  methods: {
-    authenticate(data) {
-      const self = this;
-      this.$store
-        .dispatch("login", {
-          email: data.email,
-          password: data.password,
-        })
-        .then(
-          () => {
-            self.$router.push("/profile");
-          },
-          function (error) {
-            console.log(error);
-          }
-        );
-    },
-    createAccount(data) {
-      const self = this;
-      this.$store
-        .dispatch("createAccount", {
-          userName: data.userName,
-          email: data.email,
-          lastName: data.lastName,
-          firstName: data.firstName,
-          password: data.password,
-          image: data.image,
-          phone: data.phone,
-          address: data.address,
-          zip: data.zip,
-        })
-        .then(
-          function () {
-            self.authenticate(data);
-          },
-          function (error) {
-            console.log(error);
-          }
-        );
-    },
-  },
-  computed: {
-    userId() {
-      return this.$store.state.user.userId;
-    },
-    ...mapState(["status"]),
-  },
+const store = useStore();
+const router = useRouter();
+
+const authenticate = (data) => {
+  store
+    .dispatch("login", {
+      email: data.email,
+      password: data.password,
+    })
+    .then(
+      () => {
+        router.push("/profile");
+      },
+      function (error) {
+        console.log(error);
+      }
+    );
+};
+
+const createAccount = (data) => {
+  store
+    .dispatch("createAccount", {
+      userName: data.userName,
+      email: data.email,
+      lastName: data.lastName,
+      firstName: data.firstName,
+      password: data.password,
+      image: data.image,
+      phone: data.phone,
+      address: data.address,
+      zip: data.zip,
+    })
+    .then(
+      function () {
+        authenticate(data);
+      },
+      function (error) {
+        console.log(error);
+      }
+    );
 };
 </script>
 
 <style lang="scss" scoped>
 .auth {
+  height: 100%;
   width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

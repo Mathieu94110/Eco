@@ -133,8 +133,8 @@
     <div class="login__form-items">
       <button
         @click="login()"
-        class="login__form-items-button"
-        :class="{ 'button--disabled': !validatedFields }"
+        class="btn btn-primary"
+        :class="{ 'login__button-disabled': !validatedFields }"
         v-if="mode == 'login'"
       >
         <span v-if="status == 'loading'">Connexion en cours...</span>
@@ -142,8 +142,8 @@
       </button>
       <button
         @click="createAccount()"
-        class="login__form-items-button"
-        :class="{ 'button--disabled': !validatedFields }"
+        class="btn btn-primary"
+        :class="{ 'login__button-disabled': !validatedFields }"
         v-else
       >
         <span v-if="status == 'loading'">Création en cours...</span>
@@ -212,10 +212,14 @@ export default {
     validatedFields: function () {
       if (this.mode == "create") {
         if (
-          this.email != "" &&
+          this.userName != "" &&
           this.firstName != "" &&
           this.lastName != "" &&
-          this.password != ""
+          this.email != "" &&
+          this.password != "" &&
+          this.phone != "" &&
+          this.address != "" &&
+          this.zip != ""
         ) {
           return true;
         } else {
@@ -235,12 +239,6 @@ export default {
     },
     ...mapState(["status"]),
   },
-  // mounted: function () {
-  //   if (this.$store.state.user.userId != -1) {
-  //     this.$router.push("/profile");
-  //     return;
-  //   }
-  // },
 };
 </script>
 
@@ -248,7 +246,7 @@ export default {
 .login {
   max-width: 100%;
   width: 540px;
-  background: white;
+  background: var(--primary-color);
   border-radius: 16px;
   padding: 32px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -266,7 +264,7 @@ export default {
     text-align: center;
     color: #2196f3;
     text-decoration: underline;
-
+    font-weight: 600;
     &:hover {
       cursor: pointer;
     }
@@ -302,31 +300,15 @@ export default {
       color: red;
       font-weight: bold;
     }
+  }
 
-    &-button {
-      background: #2196f3;
-      color: white;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 15px;
-      border: none;
-      width: 100%;
-      padding: 16px;
-      transition: 0.4s background-color;
+  &__button-disabled {
+    background: #cecece;
+    color: #ececec;
 
-      &:hover {
-        cursor: pointer;
-        background: #1976d2;
-      }
-    }
-    &--disabled {
+    &:hover {
+      cursor: not-allowed;
       background: #cecece;
-      color: #ececec;
-
-      &:hover {
-        cursor: not-allowed;
-        background: #cecece;
-      }
     }
   }
 
