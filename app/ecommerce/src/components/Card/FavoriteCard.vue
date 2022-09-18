@@ -1,19 +1,19 @@
 <template>
   <FavoriteCardLayout v-if="add">
     <template #image>
-      <img :src="add.images[0]" height="200" alt="product-image" />
+      <img :src="props.add.images[0]" height="200" alt="product-image" />
     </template>
     <template #title>
-      <span>{{ add.title }}</span>
+      <span>{{ props.add.title }}</span>
     </template>
     <template #description>
-      <span>{{ add.description }}</span>
+      <span>{{ props.add.description }}</span>
     </template>
     <template #price>
-      <span>{{ add.price }} €</span>
+      <span>{{ props.add.price }} €</span>
     </template>
     <template class="favorite-card__category" #category>
-      <span>{{ add.category }}</span>
+      <span>{{ props.add.category }}</span>
     </template>
     <template #favorite>
       <div class="favorite-card__actions">
@@ -21,29 +21,27 @@
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
 
-        <FavoriteModal :favorite="add" :toggle="isModalOpen" v-bind="$attrs">
+        <FavoriteModal
+          :favorite="add"
+          :toggle="state.isModalOpen"
+          v-bind="$attrs"
+        >
         </FavoriteModal>
       </div>
     </template>
   </FavoriteCardLayout>
 </template>
 
-<script>
+<script setup>
 import FavoriteCardLayout from "../Layout/FavoriteCardLayout.vue";
 import FavoriteModal from "../Modal/FavoriteModal.vue";
+import { reactive, defineProps } from "vue";
 
-export default {
-  data() {
-    return {
-      isModalOpen: null,
-    };
-  },
-  components: {
-    FavoriteCardLayout,
-    FavoriteModal,
-  },
-  props: ["add"],
-};
+const state = reactive({
+  isModalOpen: null,
+});
+
+const props = defineProps(["add"]);
 </script>
 <style lang="scss" scoped>
 .favorite-card {

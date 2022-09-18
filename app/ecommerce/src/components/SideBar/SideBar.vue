@@ -1,6 +1,6 @@
 <template>
   <SideBarContainer
-    :class="{ 'topbar--active': isHover }"
+    :class="{ 'topbar--active': state.isHover }"
     class="topbar"
     @mouseenter="formatSideBar(true)"
     @mouseleave="formatSideBar(false)"
@@ -10,7 +10,7 @@
     </router-link>
     <div class="topbar__items">
       <button
-        v-if="isHover"
+        v-if="state.isHover"
         class="topbar__link--error"
         @click="logout()"
         icon="fa-solid fa-right-from-bracket"
@@ -47,47 +47,44 @@
   </SideBarContainer>
 </template>
 
-<script>
+<script setup>
 import SideBarContainer from "./SideBarContainer/SideBarContainer";
 import SideBarLink from "./SideBarLink";
+import { reactive, onMounted, inject } from "vue";
+import { useStore } from "vuex";
 import mitt from "mitt";
+import { useRouter } from "vue-router";
+
+const state = reactive({
+  isHover: false,
+  windowWidth: 0,
+});
+
+const store = useStore();
+const router = useRouter();
 const emitter = mitt();
+const toggleSidebar = inject("toggleSidebar");
 
-export default {
-  name: "SideBar",
-  components: {
-    SideBarContainer,
-    SideBarLink,
-  },
-  data() {
-    return {
-      isHover: false,
-      windowWidth: 0,
-    };
-  },
-  methods: {
-    logout: function () {
-      this.$store.commit("loginStatus", false);
-      this.$store.commit("logout");
-      this.$router.push("/");
-    },
-    setWindowWidth() {
-      this.windowWidth = window.innerWidth;
-    },
-    formatSideBar(value) {
-      this.isHover = value;
-      this.$toggleSidebar();
-    },
-  },
-  created() {
-    this.setWindowWidth();
-
-    window.addEventListener("resize", this.setWindowWidth);
-    emitter.on("hook:destroyed", () => {
-      window.removeEventListener("resize", this.setWindowWidth);
-    });
-  },
+const logout = () => {
+  store.commit("loginStatus", false);
+  store.commit("logout");
+  router.push("/");
 };
+const setWindowWidth = () => {
+  state.windowWidth = window.innerWidth;
+};
+const formatSideBar = (value) => {
+  state.isHover = value;
+  toggleSidebar();
+};
+
+onMounted(() => {
+  setWindowWidth();
+  window.addEventListener("resize", setWindowWidth);
+  emitter.on("hook:destroyed", () => {
+    window.removeEventListener("resize", setWindowWidth);
+  });
+});
 </script>
 
 <style lang="scss" scoped>

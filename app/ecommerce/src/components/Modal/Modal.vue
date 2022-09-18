@@ -24,12 +24,18 @@
 </template>
 
 <script>
+import { defineEmits } from "vue";
+
+const emit = defineEmits("close");
 export default {
-  name: "Modal",
-  methods: {
-    close() {
-      this.$emit("close");
-    },
+  setup() {
+    const close = () => {
+      emit("close");
+    };
+
+    return {
+      close,
+    };
   },
 };
 </script>

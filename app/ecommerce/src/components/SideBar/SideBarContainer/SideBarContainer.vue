@@ -4,12 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "sidebar-container",
-};
-</script>
-
 <style lang="scss" scoped>
 .sidebar-container {
   display: flex;

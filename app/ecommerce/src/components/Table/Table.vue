@@ -1,17 +1,21 @@
 <template>
   <div class="table">
-    <div v-if="userAdds.length > 0" class="table__content">
+    <div v-if="props.userAdds.length > 0" class="table__content">
       <table>
         <thead>
           <tr>
-            <th v-for="(obj, ind) in config" :key="ind">
+            <th v-for="(obj, ind) in props.config" :key="ind">
               {{ obj.title }}
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, index) in userAdds" :key="index" :id="userAdds._id">
-            <td v-for="(obj, ind) in config" :key="ind">
+          <tr
+            v-for="(row, index) in props.userAdds"
+            :key="index"
+            :id="props.userAdds._id"
+          >
+            <td v-for="(obj, ind) in props.config" :key="ind">
               <span v-if="obj.type === 'text'">{{ row[obj.key] }}</span>
               <span v-if="obj.type === 'date'"
                 >{{ new Date(row[obj.key]).toLocaleDateString() }}
@@ -44,12 +48,14 @@
     </div>
     <Modal v-show="isModalVisible" @close="closeModal" @delete="deleteAdd()">
       <template #header>
-        <h2>Vous allez supprimer {{ selectedAdd.title }}</h2>
+        <h2>Vous allez supprimer {{ state.selectedAdd.title }}</h2>
       </template>
 
       <template #body>
-        <p>Crée le {{ new Date(selectedAdd.date).toLocaleDateString() }}</p>
-        <p>Au prix de {{ selectedAdd.price }}</p>
+        <p>
+          Crée le {{ new Date(state.selectedAdd.date).toLocaleDateString() }}
+        </p>
+        <p>Au prix de {{ state.selectedAdd.price }}</p>
         <p>Cette action est irréversible !</p>
       </template>
 
@@ -60,43 +66,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { reactive, defineEmits, defineProps, inject } from "vue";
 import Modal from "../Modal/Modal.vue";
 import { deleteAdds } from "@/api/adds";
 
-export default {
-  props: ["userAdds", "config"],
-  components: {
-    Modal,
-  },
-  data() {
-    return {
-      isModalVisible: false,
-      selectedAdd: {},
-    };
-  },
-  methods: {
-    closeModal() {
-      this.isModalVisible = false;
-    },
-    goToDetails(id) {
-      this.$router.push({
-        name: "UserAddsDetails",
-        params: { id: id },
-      });
-    },
-    showDeleteModal(value) {
-      this.selectedAdd = value;
-      this.isModalVisible = true;
-    },
-    deleteAdd() {
-      const addIndex = this.selectedAdd._id;
-      deleteAdds(addIndex);
-      this.$toastMsg("L'annonce a bien été supprimée !", "success");
-      this.$emit("addDeleted", this.selectedAdd._id);
-      this.closeModal();
-    },
-  },
+const state = reactive({
+  isModalVisible: false,
+  selectedAdd: {},
+});
+
+const props = defineProps(["userAdds", "config"]);
+const emit = defineEmits("addDeleted");
+const toast = inject("toastMsg");
+
+const closeModal = () => {
+  state.isModalVisible = false;
+};
+
+const showDeleteModal = (value) => {
+  state.selectedAdd = value;
+  state.isModalVisible = true;
+};
+
+const deleteAdd = () => {
+  const addIndex = state.selectedAdd._id;
+  deleteAdds(addIndex);
+  toast("L'annonce a bien été supprimée !", "success");
+  emit("addDeleted", state.selectedAdd._id);
+  closeModal();
 };
 </script>
 

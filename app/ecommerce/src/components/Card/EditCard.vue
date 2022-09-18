@@ -2,20 +2,20 @@
   <div class="edit-card">
     <div class="edit-card__validate-button-wrapper mb-20">
       <buttton
-        v-if="currentState"
+        v-if="props.currentState"
         type="button"
         class="btn btn-primary"
         :key="component"
-        @click="$emit('updateCard', card)"
+        @click="$emit('updateCard', state.card)"
         >Valider</buttton
       >
     </div>
-    <CardLayout v-if="add">
+    <CardLayout v-if="props.add">
       <template #image>
-        <div class="edit-card__product-img" v-if="!edit">
+        <div class="edit-card__product-img" v-if="!state.edit">
           <img
             class="edit-card__img"
-            :src="add.image"
+            :src="props.add.image"
             height="200"
             alt="product-image"
           />
@@ -23,7 +23,7 @@
         <div
           v-else
           class="edit-card__imagePreviewed"
-          :style="{ 'background-image': `url(${card.image})` }"
+          :style="{ 'background-image': `url(${state.card.image})` }"
         ></div>
         <input
           id="image"
@@ -44,7 +44,7 @@
         <input v-model="price" class="edit-card__inputs" />
       </template>
       <template #date>
-        <span>{{ new Date(add.date).toLocaleDateString() }}</span>
+        <span>{{ new Date(props.add.date).toLocaleDateString() }}</span>
       </template>
       <template #category>
         <select v-model="category" class="edit-card__inputs">
@@ -63,81 +63,76 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { reactive, onMounted, computed, watch, defineProps, ref } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 
-export default {
-  data() {
-    return {
-      editCard: false,
-      edit: false,
-      card: {},
-    };
-  },
-  props: ["add", "currentState"],
-  components: {
-    CardLayout,
-  },
-  methods: {
-    onPickFile() {
-      this.edit = true;
-      let input = this.$refs.fileInput;
-      let file = input.files;
-      if (file && file[0]) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-          this.card.image = e.target.result;
-        };
-        reader.readAsDataURL(file[0]);
-      }
-    },
-  },
-  mounted() {
-    if (this.add) {
-      this.card = this.add;
-    }
-  },
-  computed: {
-    title: {
-      get() {
-        return this.card.title;
-      },
-      set(val) {
-        this.card.title = val;
-      },
-    },
+const state = reactive({
+  editCard: false,
+  edit: false,
+  card: {},
+});
 
-    description: {
-      get() {
-        return this.card.description;
-      },
-      set(val) {
-        this.card.description = val;
-      },
-    },
-    price: {
-      get() {
-        return this.card.price;
-      },
-      set(val) {
-        this.card.price = val;
-      },
-    },
-    category: {
-      get() {
-        return this.card.category;
-      },
-      set(val) {
-        this.card.category = val;
-      },
-    },
-  },
-  watch: {
-    edit(newValue) {
-      this.editCard = newValue;
-    },
-  },
+const props = defineProps(["add", "currentState"]);
+const fileInput = ref(null);
+const onPickFile = () => {
+  state.edit = true;
+  let input = fileInput.value;
+  let file = input.files;
+  if (file && file[0]) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      state.card.image = e.target.result;
+    };
+    reader.readAsDataURL(file[0]);
+  }
 };
+
+onMounted(() => {
+  if (props.add) {
+    state.card = props.add;
+  }
+});
+
+const title = computed({
+  get() {
+    return state.card.title;
+  },
+  set(val) {
+    state.card.title = val;
+  },
+});
+
+const description = computed({
+  get() {
+    return state.card.description;
+  },
+  set(val) {
+    state.card.description = val;
+  },
+});
+
+const price = computed({
+  get() {
+    return state.card.price;
+  },
+  set(val) {
+    state.card.price = val;
+  },
+});
+
+const category = computed({
+  get() {
+    return state.card.category;
+  },
+  set(val) {
+    state.card.category = val;
+  },
+});
+
+watch(state.edit, (newValue) => {
+  state.editCard = newValue;
+});
 </script>
 
 <style scoped lang="scss">

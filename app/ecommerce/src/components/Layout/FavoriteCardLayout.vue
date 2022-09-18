@@ -32,24 +32,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      isFavoritePage: false,
-    };
-  },
-  watch: {
-    "$route.name": {
-      handler(newValue) {
-        newValue === "Favorites"
-          ? this.isFavoritePage === true
-          : this.isFavoritePage === false;
-      },
-      immediate: true,
-    },
-  },
-};
+<script setup>
+import { reactive, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+
+const state = reactive({
+  isFavoritePage: false,
+});
+
+const route = useRoute();
+watchEffect(route.name, (newValue) => {
+  newValue === "Favorites"
+    ? state.isFavoritePage === true
+    : state.isFavoritePage === false;
+});
 </script>
 
 <style scoped lang="scss">

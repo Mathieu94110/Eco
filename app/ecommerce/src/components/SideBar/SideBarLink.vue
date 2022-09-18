@@ -1,6 +1,10 @@
 <template>
-  <router-link :to="to" class="link" :class="{ active: isActive }">
-    <i class="icon" :class="icon" />
+  <router-link
+    :to="to"
+    class="side-bar-link"
+    :class="{ 'side-bar-link--active': isActive }"
+  >
+    <i class="side-bar-link__icon" :class="icon" />
     <transition name="fade">
       <span v-if="$collapsed">
         <slot />
@@ -26,16 +30,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  pointer-events: none;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.link {
+<style lang="scss" scoped>
+.side-bar-link {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -48,16 +44,29 @@ export default {
   height: 1.5em;
   color: white;
   text-decoration: none;
-}
-.link:hover {
-  background-color: var(--sidebar-item-hover);
-}
-.link.active {
-  background-color: var(--sidebar-item-active);
-}
-.link .icon {
   flex-shrink: 0;
   width: 25px;
   margin-right: 10px;
+  &:hover {
+    color: var(--sidebar-item-hover);
+  }
+  &--active {
+    background-color: var(--sidebar-item-active);
+    width: 100%;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 25px;
+    margin-right: 10px;
+  }
+}
+.fade-enter-active,
+.fade-leave-active {
+  pointer-events: none;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

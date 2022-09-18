@@ -16,6 +16,10 @@
         <span>Prix :</span>
         <span><slot name="price"></slot></span>
       </p>
+      <p class="edit-add__items">
+        <span>Date de création :</span>
+        <span><slot name="created_at"></slot></span>
+      </p>
       <div class="edit-add__footer">
         <span>Catégorie :</span>
         <slot name="category"></slot>
@@ -24,25 +28,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      isFavoritePage: false,
-    };
-  },
-  watch: {
-    "$route.name": {
-      handler(newValue) {
-        newValue === "Favorites"
-          ? this.isFavoritePage === true
-          : this.isFavoritePage === false;
-      },
-      deep: true,
-      immediate: true,
-    },
-  },
-};
+<script setup>
+import { reactive, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+
+const state = reactive({
+  isFavoritePage: false,
+});
+const route = useRoute();
+watchEffect(route.name, (newValue) => {
+  newValue === "Favorites"
+    ? state.isFavoritePage === true
+    : state.isFavoritePage === false;
+});
 </script>
 
 <style scoped lang="scss">

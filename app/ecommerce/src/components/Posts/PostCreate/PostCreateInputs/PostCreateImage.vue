@@ -43,8 +43,6 @@ export default {
     const storeImage = computed(() => store.state.currentPost.image);
     watch(storeImage, (newValue) => {
       if (!newValue) state.currentImage = mysteryImage;
-      // let reader = new FileReader();
-      // reader.readAsDataURL(null);
       fileInput.value.value = "";
     });
     const onPickFile = () => {

@@ -9,51 +9,51 @@
   >
     <div class="card__product-img">
       <img
-        v-if="add.images"
+        v-if="props.add.images"
         class="card__img"
-        :src="add.images[0]"
+        :src="props.add.images[0]"
         height="100"
         alt="product-image"
       />
     </div>
     <div class="card__content">
       <p class="card__title">
-        {{ add.title }} <span>#{{ add.id }}</span>
+        {{ props.add.title }} <span>#{{ props.add.id }}</span>
       </p>
-      <p class="card__description" v-if="add.description">
-        {{ add.description }}
+      <p class="card__description" v-if="props.add.description">
+        {{ props.add.description }}
       </p>
       <div class="card__content-bottom">
         <div :class="isFavoritePage ? 'card__price-favorite' : 'card__price'">
           <div class="card__price-items">
-            <span>Prix:</span> <span>{{ add.price }} $</span>
+            <span>Prix:</span> <span>{{ props.add.price }} $</span>
           </div>
           <div class="card__price-items">
             <span>% de réduction:</span>
-            <span>{{ add.discountPercentage }}</span>
+            <span>{{ props.add.discountPercentage }}</span>
           </div>
-          <div v-if="add.rating" class="card__price-items">
-            <span>Avis vendeur: </span><span>{{ add.rating }} / 5</span>
+          <div v-if="props.add.rating" class="card__price-items">
+            <span>Avis vendeur: </span><span>{{ props.add.rating }} / 5</span>
           </div>
         </div>
         <div v-if="isFavoritePage" class="card__price-favorite">
           <div class="card__price-items">
-            <span>Marque: </span><span>{{ add.brand }}</span>
+            <span>Marque: </span><span>{{ props.add.brand }}</span>
           </div>
 
           <div class="card__price-items">
             <span>% de réduction: </span
-            ><span>{{ add.discountPercentage }}</span>
+            ><span>{{ props.add.discountPercentage }}</span>
           </div>
           <div class="card__price-items">
-            <span>Stock: </span><span>{{ add.stock }}</span>
+            <span>Stock: </span><span>{{ props.add.stock }}</span>
           </div>
           <div class="card__price-items">
             <span>Miniature: </span>
             <img
-              v-if="add.images.length > 0"
+              v-if="props.add.images.length > 0"
               class="card__img"
-              :src="add.images[0]"
+              :src="props.add.images[0]"
               height="50"
               alt="product-image"
             />
@@ -63,12 +63,12 @@
     </div>
     <div class="card__footer">
       <div class="card__avatar">
-        <img alt="avatar-image" :src="add.thumbnail" />
+        <img alt="avatar-image" :src="props.add.thumbnail" />
       </div>
       <div class="card__category">
         <div class="card__category-items">
           <span class="card__price-items">Catégorie:</span>
-          <span class="card__category-items">{{ add.category }}</span>
+          <span class="card__category-items">{{ props.add.category }}</span>
         </div>
         <div class="card__category-items--alt-color" v-if="!isFavoritePage">
           <label :for="id" @click="sendToFavorites(add)">
@@ -80,57 +80,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AddCard",
-  props: {
-    add: {
-      brand: {
-        type: String,
-      },
-      category: {
-        type: String,
-      },
-      description: {
-        type: String,
-      },
-      discountPercentage: {
-        type: Number,
-      },
-      id: {
-        type: Number,
-      },
-      images: {
-        type: [String],
-      },
-      price: {
-        type: Number,
-      },
-      rating: {
-        type: Number,
-      },
-      stock: {
-        type: Number,
-      },
-      thumbnail: {
-        type: String,
-      },
-      title: {
-        type: String,
-      },
-    },
+<script setup>
+import { computed, defineProps, defineEmits } from "vue";
+import { useRoute } from "vue-router";
+
+const props = defineProps({
+  add: {
+    brand: String,
+    category: String,
+    description: String,
+    discountPercentage: Number,
+    id: Number,
+    images: [String],
+    price: Number,
+    rating: Number,
+    stock: Number,
+    thumbnail: String,
+    title: String,
   },
-  methods: {
-    sendToFavorites(add) {
-      this.$emit("addItem", add);
-    },
-  },
-  computed: {
-    isFavoritePage() {
-      return this.$route.name == "FavoritesDetails";
-    },
-  },
+});
+const emit = defineEmits("addItem");
+const route = useRoute();
+
+const sendToFavorites = (add) => {
+  emit("addItem", add);
 };
+const isFavoritePage = computed(() => route.name == "FavoritesDetails");
 </script>
 
 <style scoped lang="scss">
