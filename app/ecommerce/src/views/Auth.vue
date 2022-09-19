@@ -1,16 +1,22 @@
 <template>
   <div class="auth">
-    <Login @login="authenticate" @signup="createAccount"></Login>
+    <Login
+      @login="authenticate"
+      @signup="createAccount"
+      :status="status"
+    ></Login>
   </div>
 </template>
 
 <script setup>
 import Login from "@/components/Login/Login";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
+const status = computed(() => store.state.status);
 
 const authenticate = (data) => {
   store
@@ -54,8 +60,8 @@ const createAccount = (data) => {
 
 <style lang="scss" scoped>
 .auth {
-  height: 100%;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
