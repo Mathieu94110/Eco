@@ -3,9 +3,15 @@
     <Toolbar> Poster une annonce </Toolbar>
     <div
       class="post-add-container__items"
-      :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
+      :style="{
+        marginLeft: isMobileScreen
+          ? 'auto'
+          : sideBarClosed && !isMobileScreen
+          ? '115px'
+          : '300px',
+      }"
     >
-      <div>
+      <div class="post-add-container__items-wrapper">
         <PostCreate
           :isAddCreated="isAddCreated"
           @create-add="createAdd"
@@ -33,6 +39,7 @@ import { useStore } from "vuex";
 const state = reactive({
   post: null,
   showCreatedPost: true,
+  windowWidth: window.innerHeight,
 });
 
 const toastMsg = inject("toastMsg");
@@ -42,6 +49,10 @@ const isAddCreated = ref(false);
 
 const currentUser = computed(() => {
   return store.state.user.userId;
+});
+
+const isMobileScreen = computed(() => {
+  return state.windowWidth < 575;
 });
 
 function createAdd(add) {
@@ -108,22 +119,39 @@ watch(currentPost, (newValue) => {
 </script>
 
 <style lang="scss" scoped>
+@use "../assets/scss/mixins" as m;
 .post-add-container {
-  height: 100%;
-  width: 100%;
+  align-items: center;
+  display: block;
 
   &__items {
-    height: calc(100% - 60px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-weight: 700;
+    display: block;
+    margin: 0;
+    height: 100%;
     color: #181818;
-    margin: 0 140px;
-
+    font-weight: 700;
     div:first-child {
-      display: flex;
-      justify-content: space-evenly;
+      display: block;
+    }
+    &-wrapper {
+      display: block;
+      height: 100%;
+    }
+  }
+}
+
+@include m.md {
+  .post-add-container {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    &__items {
+      height: calc(100% - 60px);
+      div:first-child {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
     }
   }
 }

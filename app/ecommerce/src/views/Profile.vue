@@ -2,22 +2,25 @@
   <div class="profile">
     <Toolbar>Mon profil</Toolbar>
     <div
-      :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
+      :style="{
+        marginLeft:
+          isMobileScreen < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
+      }"
       class="profile__card"
     >
-      <UserProfile
+      <UserProfileCard
         :userInfos="state.user"
         @update-user="UpdateInfos"
-      ></UserProfile>
+      ></UserProfileCard>
     </div>
   </div>
 </template>
 
 <script setup>
-import UserProfile from "@/components/User/UserProfile";
+import UserProfileCard from "@/components/User/UserProfileCard";
 import Toolbar from "@/components/Toolbar/Toolbar";
 import userApi from "@/api/user";
-import { reactive, onMounted, inject } from "vue";
+import { reactive, onMounted, inject, computed } from "vue";
 import { useStore } from "vuex";
 import updateUserInfos from "@/api/user";
 
@@ -25,6 +28,7 @@ const sideBarClosed = inject("collapsed");
 
 const state = reactive({
   user: null,
+  windowWidth: window.innerHeight,
 });
 const toast = inject("toastMsg");
 const store = useStore();
@@ -33,6 +37,10 @@ const userId = store.state.user.userId;
 onMounted(async () => {
   const response = await userApi.getProfile(userId);
   state.user = response.data.result;
+});
+
+const isMobileScreen = computed(() => {
+  return state.windowWidth < 575;
 });
 
 async function UpdateInfos(data) {

@@ -35,14 +35,16 @@ const props = defineProps(["isAddCreated"]);
 </script>
 
 <style lang="scss" scoped>
+@use "../../../assets/scss/mixins" as m;
 .post-create {
+  font-size: 0.8vw;
   display: flex;
   justify-content: center;
   align-items: center;
   &__form {
-    width: 320px;
+    width: 80%;
     background: #dbe0dc;
-    padding: 20px;
+    padding: 10px;
     overflow-wrap: break-word;
     text-shadow: 0px 2px 2px #bbbbbb;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
@@ -50,6 +52,18 @@ const props = defineProps(["isAddCreated"]);
       rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     border-radius: 20px;
     font-size: 15px;
+    overflow-wrap: break-word;
+    margin: 20px 0;
+  }
+}
+@include m.sm {
+  .post-create {
+    font-size: 16px;
+    &__form {
+      width: 320px;
+      padding: 20px;
+      margin: 20px 0px;
+    }
   }
 }
 </style>

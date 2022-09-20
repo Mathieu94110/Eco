@@ -45,10 +45,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@use "../../../../assets/scss/mixins" as m;
 .post-create-description {
   width: 100%;
   margin: auto;
-  height: 130px;
+  height: 64px;
 
   textarea {
     width: 100%;
@@ -57,6 +58,12 @@ export default {
   }
   &__errors {
     color: rgb(229, 23, 23);
+  }
+}
+
+@include m.sm {
+  .post-create-description {
+    height: 100px;
   }
 }
 </style>

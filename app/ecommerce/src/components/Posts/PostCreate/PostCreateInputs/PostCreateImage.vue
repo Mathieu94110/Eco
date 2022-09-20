@@ -71,17 +71,29 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@use "../../../../assets/scss/mixins" as m;
 .card {
   display: block;
   margin-bottom: 20px;
+  input {
+    font-size: 8px;
+  }
   &__image {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     display: block;
     cursor: pointer;
     margin: 0 auto 14px;
     background-size: cover;
     background-position: center center;
+  }
+}
+@include m.sm {
+  .card {
+    &__image {
+      width: 160px;
+      height: 160px;
+    }
   }
 }
 </style>

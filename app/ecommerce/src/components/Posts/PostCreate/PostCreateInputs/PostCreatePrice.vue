@@ -39,10 +39,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@use "../../../../assets/scss/mixins" as m;
 .post-create-price {
   width: 100%;
   margin: auto;
-  height: 80px;
+  height: 47px;
   input {
     width: 100%;
     padding: 5px 10px;
@@ -50,6 +51,11 @@ export default {
   }
   &__errors {
     color: rgb(229, 23, 23);
+  }
+}
+@include m.sm {
+  .post-create-price {
+    height: 80px;
   }
 }
 </style>

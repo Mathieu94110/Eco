@@ -197,33 +197,22 @@ function onPickFile() {
 </script>
 
 <style scoped lang="scss">
+@use "../../assets/scss/mixins" as m;
 .user-profile-card {
+  width: 80%;
   background-color: #42515a;
   box-shadow: 0 10px 90px #00000024;
   text-align: center;
   font-size: 20px;
   border-radius: 15px;
-
   &__header {
     position: relative;
     height: 48px;
   }
-  &__image {
-    width: 130px;
-    height: 130px;
-    border-radius: 1000px;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 8px solid #4f95ff;
-    box-shadow: 0 0 20px #00000033;
-    cursor: pointer;
-    background-size: cover;
-    &:hover {
-      width: 180px;
-      height: 180px;
-      border: 8px solid #42515a;
-    }
+  &__body {
+    padding: 10px 20px;
+    min-height: 320px;
+    min-width: 0px;
   }
   &__file-input {
     opacity: 0;
@@ -255,10 +244,36 @@ function onPickFile() {
     left: 88%;
     top: 33%;
   }
-  &__body {
-    padding: 10px 20px;
-    min-height: 320px;
-    min-width: 340px;
+
+  &__image {
+    width: 90px;
+    height: 90px;
+    border-radius: 1000px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #4f95ff;
+    box-shadow: 0 0 20px #00000033;
+    cursor: pointer;
+    background-size: cover;
+  }
+  &__main-category input,
+  &__sub-categories input {
+    :nth-child(odd) {
+      color: #4f95ff;
+    }
+    color: #c2bdbd;
+  }
+  &__sub-categories {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    :nth-child(odd) {
+      color: #4f95ff;
+    }
+    color: #c2bdbd;
   }
   &__main-category {
     display: flex;
@@ -273,18 +288,6 @@ function onPickFile() {
     &:hover {
       margin-top: 30px;
     }
-  }
-
-  &__sub-categories {
-    height: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    :nth-child(odd) {
-      color: #4f95ff;
-    }
-    color: #c2bdbd;
   }
   &__footer {
     background-color: #4f95ff;
@@ -308,6 +311,35 @@ function onPickFile() {
       font-weight: 600;
     }
     :nth-child(odd) {
+      color: #c2bdbd;
+    }
+  }
+}
+@include m.sm {
+  .user-profile-card {
+    width: auto;
+
+    &__image {
+      width: 130px;
+      height: 130px;
+      &:hover {
+        width: 180px;
+        height: 180px;
+        border: 8px solid #42515a;
+      }
+    }
+    &__body {
+      width: 400px;
+    }
+    &__sub-categories {
+      height: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      :nth-child(odd) {
+        color: #4f95ff;
+      }
       color: #c2bdbd;
     }
   }
