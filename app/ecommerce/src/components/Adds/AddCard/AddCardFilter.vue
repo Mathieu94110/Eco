@@ -10,7 +10,7 @@
           @input="$emit('updateFilter', { search: $event.target.value })"
           type="text"
           placeholder="Rechercher"
-          class="px-10"
+          class="add-card-filter__search"
         />
       </section>
       <section>
@@ -80,9 +80,9 @@
           </p>
         </div>
       </section>
-      <small class="mb-5">
+      <small class="my-10">
         Nombre de résultats:
-        <strong>{{ numberOfAdds }} </strong>
+        <strong class="primary">{{ numberOfAdds }} </strong>
       </small>
       <button class="btn btn-danger" @click="$emit('updateFilter', {})">
         Supprimer les filtres
@@ -140,11 +140,17 @@ export default {
     padding: 20px 10px;
     display: flex;
     flex-direction: column;
-    width: 220px;
     max-height: 800px;
     justify-content: space-evenly;
-  }
 
+    > input:first-child {
+      width: 180px;
+    }
+  }
+  &__search {
+    max-width: 180px;
+    padding: 0 10px;
+  }
   &__category {
     padding: 10px 0;
     display: flex;
