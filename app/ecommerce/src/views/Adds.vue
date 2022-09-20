@@ -8,23 +8,42 @@
     />
     <div
       v-if="state.adds"
-      :style="{ paddingLeft: sideBarClosed ? '150px' : '345px' }"
+      :style="{
+        paddingLeft: state.isMobile
+          ? 'auto'
+          : sideBarClosed && !state.isMobile
+          ? '150px'
+          : '345px',
+      }"
     >
       <div class="adds__wrapper">
-        <div>
-          <AddCardFilter
-            :filters="state.filters"
-            :add="filteredAdds"
-            @update-filter="updateFilter"
-          />
-        </div>
-        <div class="adds__cards">
-          <AddCard
-            v-for="add in filteredAdds"
-            :key="add.id"
-            :add="add"
-            @add-item="addToFavorites(add)"
-          />
+        <Transition>
+          <div class="adds__filter">
+            <AddCardFilter
+              v-if="state.open"
+              :filters="state.filters"
+              :add="filteredAdds"
+              @update-filter="updateFilter"
+            />
+          </div>
+        </Transition>
+        <div class="d-flex flex-column">
+          <button
+            class="adds__search-button btn btn-primary"
+            @click="state.open = !state.open"
+          >
+            <i class="fa-solid fa-magnifying-glass mr-10"></i>
+            <span>Rechercher</span>
+          </button>
+
+          <div class="adds__cards">
+            <AddCard
+              v-for="add in filteredAdds"
+              :key="add.id"
+              :add="add"
+              @add-item="addToFavorites(add)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -54,6 +73,8 @@ const state = reactive({
     priceRange: [0, 9999],
     category: "Tout",
   },
+  open: !matchMedia("(max-width: 575px)").matches,
+  isMobile: matchMedia("(max-width: 575px)").matches,
 });
 
 onMounted(() => {
@@ -122,11 +143,28 @@ const currentUser = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@use "../assets/scss/mixins";
+
 .adds {
   height: 100%;
   &__wrapper {
     display: flex;
     height: calc(100vh - 60px);
+  }
+  &__filter {
+    @include mixins.xs {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-color: white;
+      z-index: 2;
+    }
+  }
+  &__search-button {
+    margin: 20px 20px 0px 20px;
+    @include mixins.sm {
+      display: none;
+    }
   }
   &__cards {
     display: flex;
@@ -134,5 +172,16 @@ const currentUser = computed(() => {
     justify-content: center;
     overflow-y: auto;
   }
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s;
 }
 </style>

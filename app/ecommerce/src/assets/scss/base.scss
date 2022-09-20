@@ -156,8 +156,18 @@ body {
   .d-flex{
     display:flex
   }
+  .flex-row {
+    flex-direction: row;
+  }
+
+  .flex-column{
+    flex-direction: column;
+  }
   .justify-center{
   justify-content: center;
+  }
+  .align-center{
+    align-items: center;
   }
 .justify-end{
   justify-content: flex-end;
@@ -168,7 +178,9 @@ body {
     justify-content: center;
     align-items: center;
   }
-
+.primary{
+  color : var(--primary-2)
+}
   //buttons
 
   .btn {
