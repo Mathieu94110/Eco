@@ -78,11 +78,16 @@ const deleteAdd = (add) => {
 </script>
 
 <style lang="scss" scoped>
+@use "../assets/scss/mixins";
 .favorites {
   height: calc(100% - 60px);
   padding: 20px 0;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+
+  @include mixins.xs {
+    justify-content: center;
+  }
 }
 </style>

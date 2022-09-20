@@ -1,7 +1,11 @@
 <template>
   <FavoriteCardLayout v-if="add">
     <template #image>
-      <img :src="props.add.images[0]" height="200" alt="product-image" />
+      <img
+        :src="props.add.images[0]"
+        class="favorite-card__image"
+        alt="product-image"
+      />
     </template>
     <template #title>
       <span>{{ props.add.title }}</span>
@@ -44,12 +48,24 @@ const state = reactive({
 const props = defineProps(["add"]);
 </script>
 <style lang="scss" scoped>
+@use "../../assets/../assets/scss/mixins";
 .favorite-card {
   &__category {
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
+  }
+  &__image {
+    overflow: hidden;
+    height: 100px;
+    @include mixins.sm {
+      height: 200px;
+      display: block;
+      margin: 0 auto 14px;
+      background-size: cover;
+      background-position: center center;
+    }
   }
   &__actions {
     display: flex;

@@ -49,6 +49,7 @@ watchEffect(route.name, (newValue) => {
 </script>
 
 <style scoped lang="scss">
+@use "../../assets/scss/mixins";
 .icon {
   display: flex;
 }
@@ -63,6 +64,12 @@ watchEffect(route.name, (newValue) => {
     margin: 20px;
     font-size: 1.2rem;
     box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    @include mixins.xs {
+      font-size: 1rem;
+      margin: 10px 10px 0 10px;
+      padding: 16px 10px 0px 10px;
+      width: 90%;
+    }
   }
   &__image {
     cursor: pointer;
@@ -93,10 +100,16 @@ watchEffect(route.name, (newValue) => {
       padding: 10px 0px;
       height: 100px;
       overflow: auto;
+      @include mixins.xs {
+        height: 60px;
+      }
     }
     &-title {
       height: 60px;
       overflow: auto;
+      @include mixins.xs {
+        height: 30px;
+      }
     }
   }
 
