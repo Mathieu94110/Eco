@@ -163,6 +163,9 @@ body {
   .flex-column{
     flex-direction: column;
   }
+  .flex-fill {
+    flex: 1 1 auto;
+  }
   .justify-center{
   justify-content: center;
   }
@@ -227,4 +230,9 @@ body {
         border: 2px solid #000;
       }
     
+  }
+  .hide-xs {
+    @include mixins.xs {
+      display: none;
+    }
   }

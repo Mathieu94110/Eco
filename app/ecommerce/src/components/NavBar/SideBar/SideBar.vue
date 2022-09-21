@@ -1,47 +1,51 @@
 <template>
   <SideBarContainer
-    :class="{ 'topbar--active': state.isHover }"
-    class="topbar"
+    :class="{ 'side-bar--active': state.isHover }"
+    class="side-bar"
     @mouseenter="formatSideBar(true)"
     @mouseleave="formatSideBar(false)"
   >
     <router-link to="/">
-      <img alt="user_logo" class="topbar__img" src="@/assets/images/logo.png" />
+      <img
+        alt="user_logo"
+        class="side-bar__img"
+        src="@/assets/images/logo.png"
+      />
     </router-link>
-    <div class="topbar__items">
+    <div class="side-bar__items">
       <button
         v-if="state.isHover"
-        class="topbar__link--error"
+        class="side-bar__link--error"
         @click="logout()"
         icon="fa-solid fa-right-from-bracket"
       >
         Se déconnecter
       </button>
       <div v-else @click="logout()">
-        <SideBarLink
-          class="topbar__link"
+        <NavLink
+          class="side-bar__link"
           to="/profile"
           icon="fa-solid fa-right-from-bracket"
-        ></SideBarLink>
+        ></NavLink>
       </div>
 
-      <SideBarLink class="topbar__link" to="/profile" icon="fas fa-user-circle"
-        ><span>Mes informations</span></SideBarLink
+      <NavLink class="side-bar__link" to="/profile" icon="fas fa-user-circle"
+        ><span>Mes informations</span></NavLink
       >
-      <SideBarLink
-        class="topbar__link"
+      <NavLink
+        class="side-bar__link"
         to="/dashboard"
         icon="fa-solid fa-handshake-angle"
-        ><span>Annonces</span></SideBarLink
+        ><span>Annonces</span></NavLink
       >
-      <SideBarLink class="topbar__link" to="/post-add" icon="fas fa-pencil-alt"
-        ><span>Déposer une annonce</span></SideBarLink
+      <NavLink class="side-bar__link" to="/post-add" icon="fas fa-pencil-alt"
+        ><span>Déposer une annonce</span></NavLink
       >
-      <SideBarLink class="topbar__link" to="/user-adds" icon="fas fa-pencil-alt"
-        ><span>Mes annonces</span></SideBarLink
+      <NavLink class="side-bar__link" to="/user-adds" icon="fas fa-pencil-alt"
+        ><span>Mes annonces</span></NavLink
       >
-      <SideBarLink class="topbar__link" to="/favorites" icon="fas fa-star"
-        ><span>Mes favoris</span></SideBarLink
+      <NavLink class="side-bar__link" to="/favorites" icon="fas fa-star"
+        ><span>Mes favoris</span></NavLink
       >
     </div>
   </SideBarContainer>
@@ -49,7 +53,7 @@
 
 <script setup>
 import SideBarContainer from "./SideBarContainer/SideBarContainer";
-import SideBarLink from "./SideBarLink";
+import NavLink from "../NavLink.vue";
 import { reactive, onMounted, inject } from "vue";
 import { useStore } from "vuex";
 import mitt from "mitt";
@@ -88,7 +92,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.topbar {
+.side-bar {
   height: 100%;
   position: fixed;
   left: 0;
@@ -96,7 +100,7 @@ onMounted(() => {
   max-width: 85px;
   box-shadow: 0 3px 6px #00000029;
   transition: 0.3s;
-  z-index: 5;
+  z-index: 2;
   width: 100%;
   overflow: auto;
   flex-shrink: 0;
@@ -134,30 +138,6 @@ onMounted(() => {
 
   &__img {
     height: 35px;
-  }
-
-  &__help {
-    margin-top: auto;
-    bottom: 85px;
-    right: 8px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 2.3em;
-    font-weight: bold;
-    z-index: 100;
-    transition: 0.15s;
-
-    &:focus,
-    &:visited {
-      color: blue;
-    }
-
-    &:hover {
-      background: blue;
-      color: #fff;
-      cursor: pointer;
-    }
   }
 }
 </style>

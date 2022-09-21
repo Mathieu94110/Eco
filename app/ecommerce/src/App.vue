@@ -1,20 +1,20 @@
 <template>
   <div id="app">
     <div :class="{ 'app__container--auth': isLoggedIn }" class="app__container">
-      <SideBar v-if="isLoggedIn" />
+      <NavBar v-if="isLoggedIn" />
       <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import SideBar from "@/components/SideBar/SideBar";
+import NavBar from "@/components/NavBar/NavBar";
 import { mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: {
-    SideBar,
+    NavBar,
   },
   computed: {
     ...mapGetters(["isLoggedIn"]),

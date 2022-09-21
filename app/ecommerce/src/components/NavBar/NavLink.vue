@@ -1,10 +1,10 @@
 <template>
   <router-link
     :to="to"
-    class="side-bar-link"
-    :class="{ 'side-bar-link--active': isActive }"
+    class="nav-link"
+    :class="{ 'nav-link--active': isActive }"
   >
-    <i class="side-bar-link__icon" :class="icon" />
+    <i class="nav-link__icon" :class="icon" />
     <transition name="fade">
       <span v-if="$collapsed">
         <slot />
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.side-bar-link {
+.nav-link {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -45,8 +45,6 @@ export default {
   color: white;
   text-decoration: none;
   flex-shrink: 0;
-  width: 25px;
-  margin-right: 10px;
   &:hover {
     color: var(--sidebar-item-hover);
   }

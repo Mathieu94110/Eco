@@ -39,7 +39,7 @@ import { useStore } from "vuex";
 const state = reactive({
   post: null,
   showCreatedPost: true,
-  windowWidth: window.innerHeight,
+  windowWidth: window.innerWidth,
 });
 
 const toastMsg = inject("toastMsg");
