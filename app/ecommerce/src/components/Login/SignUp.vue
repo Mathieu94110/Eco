@@ -255,7 +255,7 @@ const validatedFields = computed(() => {
     color: #666;
 
     &--error {
-      color: red;
+      color: var(--danger-2);
       font-weight: bold;
     }
   }

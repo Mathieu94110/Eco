@@ -140,7 +140,7 @@ const validatedFields = computed(() => {
     margin: 16px 0px;
     &--error {
       grid-area: error-message;
-      color: red;
+      color: var(--danger-2);
       font-weight: bold;
     }
   }

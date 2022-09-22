@@ -89,7 +89,7 @@ export default {
     font-weight: bold;
     color: #000;
     &-title {
-      color: red;
+      color: var(--danger-2);
     }
   }
 }

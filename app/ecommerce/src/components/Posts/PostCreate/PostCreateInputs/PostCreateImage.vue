@@ -15,7 +15,7 @@
         @input="onPickFile"
       />
     </div>
-    <div class="ui basic label pointing red" v-if="errors.image">
+    <div v-if="errors.image">
       {{ errors.image }}
     </div>
   </div>
