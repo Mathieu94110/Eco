@@ -4,11 +4,7 @@
     <div
       class="post-add-container__items"
       :style="{
-        marginLeft: isMobileScreen
-          ? 'auto'
-          : sideBarClosed && !isMobileScreen
-          ? '115px'
-          : '300px',
+        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
       }"
     >
       <div class="post-add-container__items-wrapper">
@@ -39,7 +35,6 @@ import { useStore } from "vuex";
 const state = reactive({
   post: null,
   showCreatedPost: true,
-  windowWidth: window.innerWidth,
 });
 
 const toastMsg = inject("toastMsg");
@@ -50,9 +45,8 @@ const isAddCreated = ref(false);
 const currentUser = computed(() => {
   return store.state.user.userId;
 });
-
-const isMobileScreen = computed(() => {
-  return state.windowWidth < 575;
+const isMobile = computed(() => {
+  return store.state.windowWidth < 575;
 });
 
 function createAdd(add) {

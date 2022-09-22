@@ -5,14 +5,19 @@
 
       <button class="btn btn-primary" @click="changePage(-1)">&lt;</button>
       <span class="pagination__pages">
-        Page {{ state.page }} sur {{ pages }}
+        {{
+          isMobile
+            ? `${state.page}/${pages}`
+            : `Page ${state.page} sur  ${pages}`
+        }}
       </span>
       <button class="btn btn-primary" @click="changePage(1)">></button>
       <button class="btn btn-primary" @click="changePage(`${pages.value}`)">
         >>
       </button>
       <span class="pagination__seperator">|</span>
-      Nombre de résultats:
+
+      {{ isMobile ? "Résultats:" : "Nombre de résultats:" }}
       <span
         class="pagination__quantity"
         :class="state.perPage === amount && 'active'"
@@ -32,7 +37,7 @@ const state = reactive({
   perPage: props.perPageOptions[0],
 });
 
-const props = defineProps(["totalRecords", "perPageOptions"]);
+const props = defineProps(["totalRecords", "perPageOptions", "isMobile"]);
 const emit = defineEmits(["input"]);
 
 const pages = computed(() => {
@@ -68,37 +73,51 @@ const changePage = (val) => {
 </script>
 
 <style lang="scss">
+@use "../../assets/scss/mixins";
 .pagination {
-  min-width: 400px;
   max-width: 600px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   color: #444;
   font-weight: 400;
-  font-size: 18px;
   margin-right: 20px;
+  @include mixins.xs {
+    font-size: 14px;
+    margin-right: 0;
+  }
   &__pages {
     display: flex;
     margin: 0px 10px;
+    @include mixins.xs {
+      margin: 0px 5px;
+    }
   }
   &__seperator,
   &__quantity {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 300;
     color: #888;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0px 10px;
+    @include mixins.xs {
+      margin: 0px 5px;
+      font-size: 14px;
+    }
   }
   &__quantity {
     margin: 0px 5px;
     font-weight: 400;
-    font-size: 18px;
     cursor: pointer;
     &.active {
       color: #2997ff;
+    }
+  }
+  button {
+    @include mixins.xs {
+      padding: 4px 8px;
     }
   }
 }

@@ -2,7 +2,9 @@
   <div class="user-adds">
     <Toolbar>Mes annonces</Toolbar>
     <div
-      :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
+      :style="{
+        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
+      }"
       class="user-adds__content"
     >
       <loading
@@ -15,6 +17,7 @@
         v-if="state.tableData"
         :totalRecords="state.tableData.length"
         :perPageOptions="state.perPageOptions"
+        :isMobile="isMobile"
         @input="setTable($event)"
       />
       <Table
@@ -49,14 +52,14 @@ const state = reactive({
   fullPage: true,
   config: [
     {
-      key: "image",
-      title: "Image",
-      type: "image",
-    },
-    {
       key: "title",
       title: "Titre",
       type: "text",
+    },
+    {
+      key: "image",
+      title: "Image",
+      type: "image",
     },
     {
       key: "date",
@@ -121,9 +124,13 @@ const computedTableData = computed(() => {
     return state.tableData.slice(firstIndex, lastIndex);
   }
 });
+const isMobile = computed(() => {
+  return store.state.windowWidth < 575;
+});
 </script>
 
 <style lang="scss" scoped>
+@use "../assets/scss/mixins";
 .user-adds {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
@@ -132,6 +139,9 @@ const computedTableData = computed(() => {
   &__content {
     padding: 30px;
     height: calc(100% - 60px);
+    @media (max-width: 800px) {
+      padding: 10px;
+    }
   }
 }
 

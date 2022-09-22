@@ -66,6 +66,7 @@ const store = createStore({
       thumbnail: "",
       title: "",
     },
+    windowWidth: window.innerWidth,
   },
   mutations: {
     setStatus: function (state, status) {
@@ -99,6 +100,9 @@ const store = createStore({
     },
     setFavoriteData: function (state, favoriteInfo) {
       state.favoriteDetails = favoriteInfo.favorite;
+    },
+    setWindowWidth(state) {
+      state.windowWidth = window.innerWidth;
     },
   },
   getters: {

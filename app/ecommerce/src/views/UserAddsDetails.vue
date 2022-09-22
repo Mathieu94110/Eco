@@ -1,7 +1,9 @@
 <template>
   <div
     class="add-details"
-    :style="{ marginLeft: sideBarClosed ? '75px' : '270px' }"
+    :style="{
+      marginLeft: isMobile ? 'auto' : sideBarClosed ? '75px' : '270px',
+    }"
   >
     <loading
       v-model:active="state.isLoading"
@@ -43,10 +45,12 @@ import EditCard from "@/components/Card/EditCard";
 import { updateAdds } from "@/api/adds";
 import { useRouter, useRoute } from "vue-router";
 import Loading from "vue-loading-overlay";
+import { useStore } from "vuex";
 
 const sideBarClosed = inject("collapsed");
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 const toast = inject("toastMsg");
 
 const state = reactive({
@@ -86,6 +90,9 @@ const updateUserCard = async (card) => {
 };
 const isActive = computed(() => {
   return state.currentState === true ? EditCard : Card;
+});
+const isMobile = computed(() => {
+  return store.state.windowWidth < 575;
 });
 </script>
 

@@ -9,24 +9,25 @@
     <div
       v-if="state.adds"
       :style="{
-        paddingLeft: state.isMobile
-          ? 'auto'
-          : sideBarClosed && !state.isMobile
-          ? '150px'
-          : '345px',
+        paddingLeft: isMobile ? 'auto' : sideBarClosed ? '150px' : '345px',
       }"
     >
       <div class="adds__wrapper">
-        <Transition>
-          <div class="adds__filter">
+        <Calc
+          :open="isMobile && state.open"
+          @close="state.open = false"
+          :transparent="true"
+        />
+        <div class="adds__filter">
+          <Transition>
             <AddCardFilter
               v-if="state.open"
               :filters="state.filters"
               :add="filteredAdds"
               @update-filter="updateFilter"
             />
-          </div>
-        </Transition>
+          </Transition>
+        </div>
         <div class="d-flex flex-column">
           <button
             class="adds__search-button btn btn-primary"
@@ -55,6 +56,7 @@ import { onMounted, reactive, computed } from "vue";
 import AddCard from "@/components/Adds/AddCard/AddCard";
 import Toolbar from "@/components/Toolbar/Toolbar";
 import AddCardFilter from "@/components/Adds/AddCard/AddCardFilter";
+import Calc from "@/components/Calc/Calc";
 import { useStore } from "vuex";
 import { getFakeAdds } from "../api/adds";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -74,7 +76,6 @@ const state = reactive({
     category: "Tout",
   },
   open: !matchMedia("(max-width: 575px)").matches,
-  isMobile: matchMedia("(max-width: 575px)").matches,
 });
 
 onMounted(() => {
@@ -140,6 +141,9 @@ const filteredAdds = computed(() => {
 const currentUser = computed(() => {
   return store.state.user.userId;
 });
+const isMobile = computed(() => {
+  return store.state.windowWidth < 575;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -182,6 +186,6 @@ const currentUser = computed(() => {
 
 .v-enter-active,
 .v-leave-active {
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 </style>

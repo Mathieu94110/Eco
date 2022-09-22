@@ -16,6 +16,17 @@ export default {
   components: {
     NavBar,
   },
+  mounted() {
+    window.addEventListener("resize", () => {
+      this.$store.commit("setWindowWidth");
+    });
+  },
+  provide() {
+    // use function syntax so that we can access `this`
+    return {
+      screenWidth: this.windowSizeinPx,
+    };
+  },
   computed: {
     ...mapGetters(["isLoggedIn"]),
   },

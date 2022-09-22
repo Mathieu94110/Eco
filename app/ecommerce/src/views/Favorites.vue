@@ -3,7 +3,9 @@
 
   <div
     class="favorites"
-    :style="{ marginLeft: sideBarClosed ? '115px' : '300px' }"
+    :style="{
+      marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
+    }"
   >
     <FavoriteCard
       v-for="add in state.favorites"
@@ -21,7 +23,7 @@ import { getFavorites } from "@/api/adds";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard";
 import { deleteFavorite } from "@/api/adds";
-import { reactive, onMounted, inject } from "vue";
+import { reactive, onMounted, computed, inject } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -32,11 +34,18 @@ const state = reactive({
 });
 const sideBarClosed = inject("collapsed");
 const toast = inject("toastMsg");
+const screenWidth = inject("screenWidth");
+
 const store = useStore();
 const router = useRouter();
 
 onMounted(() => {
   getUserFavorites();
+  console.log("on fav=", screenWidth);
+});
+
+const isMobile = computed(() => {
+  return store.state.windowWidth < 575;
 });
 
 const getUserFavorites = async () => {
@@ -85,7 +94,6 @@ const deleteAdd = (add) => {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-
   @include mixins.xs {
     justify-content: center;
   }

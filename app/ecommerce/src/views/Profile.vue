@@ -3,8 +3,7 @@
     <Toolbar>Mon profil</Toolbar>
     <div
       :style="{
-        marginLeft:
-          isMobileScreen < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
+        marginLeft: isMobile < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
       }"
       class="profile__card"
     >
@@ -28,7 +27,6 @@ const sideBarClosed = inject("collapsed");
 
 const state = reactive({
   user: null,
-  windowWidth: window.innerHeight,
 });
 const toast = inject("toastMsg");
 const store = useStore();
@@ -39,8 +37,8 @@ onMounted(async () => {
   state.user = response.data.result;
 });
 
-const isMobileScreen = computed(() => {
-  return state.windowWidth < 575;
+const isMobile = computed(() => {
+  return store.state.windowWidth < 575;
 });
 
 async function UpdateInfos(data) {
