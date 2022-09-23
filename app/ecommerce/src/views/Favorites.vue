@@ -13,7 +13,6 @@
         :add="add"
         @send-favorite="sendFavoriteDetails($event)"
         @delete="deleteAdd($event)"
-        :toggle="state.isModalOpen"
       />
     </TransitionGroup>
   </div>
@@ -30,7 +29,6 @@ import { useRouter } from "vue-router";
 
 const state = reactive({
   favorites: [],
-  isModalOpen: false,
   isLoading: false,
 });
 const sideBarClosed = inject("collapsed");
@@ -75,13 +73,10 @@ const sendFavoriteDetails = (add) => {
     });
 };
 const deleteAdd = (add) => {
-  console.log(add);
-  const index = add._id;
-  deleteFavorite(index);
+  deleteFavorite(add._id);
   toast("L'annonce a bien été supprimée !", "success");
-  state.isModalOpen = false;
   state.favorites = state.favorites.filter(
-    (favorite) => favorite._id !== index
+    (favorite) => favorite._id !== add._id
   );
 };
 </script>

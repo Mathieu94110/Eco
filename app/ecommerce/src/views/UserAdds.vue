@@ -23,7 +23,6 @@
       <Table
         v-if="state.tableData"
         :userAdds="computedTableData"
-        :toogle="state.isModalOpen"
         :config="state.config"
         :style="{ height: computedTableData.length > 0 ? '600px' : '100%' }"
         @delete="deleteAdd($event)"
@@ -46,6 +45,7 @@ import { deleteAdds } from "@/api/adds";
 const perPageOptions = [5, 10, 50];
 const store = useStore();
 const sideBarClosed = inject("collapsed");
+const toast = inject("toastMsg");
 const state = reactive({
   perPageOptions,
   tableData: undefined,
@@ -89,7 +89,6 @@ const state = reactive({
       type: "text",
     },
   ],
-  isModalOpen: false,
 });
 
 onMounted(() => {
@@ -115,16 +114,10 @@ const getAdds = async () => {
   }
 };
 
-const deleteAdd = (add) => {
-  const addIndex = state.tableData.find((element) => element._id == add._id);
-  // const addIndex = state.selectedAdd._id;
-
-  deleteAdds(addIndex);
+const deleteAdd = async (add) => {
+  deleteAdds(add._id);
   toast("L'annonce a bien été supprimée !", "success");
-  // emit("addDeleted", state.selectedAdd._id);
-  state.isModalOpen = true;
-  state.tableData = state.tableData.filter((item) => item !== addIndex);
-  // state.tableData = state.tableData.filter((item) => item._id !== id);
+  state.tableData = state.tableData.filter((item) => item._id !== add._id);
 };
 
 const computedTableData = computed(() => {
@@ -138,7 +131,6 @@ const computedTableData = computed(() => {
 const isMobile = computed(() => {
   return store.state.windowWidth < 575;
 });
-const toast = inject("toastMsg");
 </script>
 
 <style lang="scss" scoped>
