@@ -19,7 +19,7 @@ const emit = defineEmits("close");
   height: 100vh;
   width: 100%;
   background-color: #0000005e;
-  z-index: 1;
+  z-index: 2;
 }
 .transparent {
   background-color: transparent;

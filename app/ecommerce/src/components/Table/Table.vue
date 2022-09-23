@@ -104,7 +104,11 @@
         <h2>Vous n'avez aucune annonce en ligne</h2>
       </div>
     </div>
-    <Modal v-show="isModalVisible" @close="closeModal" @delete="deleteAdd()">
+    <Modal
+      v-show="state.isModalVisible"
+      @close="closeModal"
+      @delete="deleteAdd()"
+    >
       <template #header>
         <h2>Vous allez supprimer {{ state.selectedAdd.title }}</h2>
       </template>

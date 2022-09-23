@@ -5,7 +5,9 @@
         <header class="modal-header">
           <div class="row">
             <slot name="header"></slot>
-            <button type="button" class="btn-close" @click="close">x</button>
+            <button type="button" class="btn-close" @click="$emit('close')">
+              x
+            </button>
           </div>
         </header>
 
@@ -23,22 +25,7 @@
   </transition>
 </template>
 
-<script>
-import { defineEmits } from "vue";
-
-const emit = defineEmits("close");
-export default {
-  setup() {
-    const close = () => {
-      emit("close");
-    };
-
-    return {
-      close,
-    };
-  },
-};
-</script>
+<script></script>
 
 <style lang="scss">
 .modal-backdrop {
