@@ -2,19 +2,20 @@
   <Toolbar>Mes favoris</Toolbar>
 
   <div
-    class="favorites"
     :style="{
       marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
     }"
   >
-    <FavoriteCard
-      v-for="add in state.favorites"
-      :key="add.id"
-      :add="add"
-      @send-favorite="sendFavoriteDetails($event)"
-      @delete-add="deleteAdd($event)"
-      :toggle="state.isModalOpen"
-    />
+    <TransitionGroup name="list" tag="ul" class="favorites">
+      <FavoriteCard
+        v-for="add in state.favorites"
+        :key="add.id"
+        :add="add"
+        @send-favorite="sendFavoriteDetails($event)"
+        @delete="deleteAdd($event)"
+        :toggle="state.isModalOpen"
+      />
+    </TransitionGroup>
   </div>
 </template>
 
@@ -34,14 +35,12 @@ const state = reactive({
 });
 const sideBarClosed = inject("collapsed");
 const toast = inject("toastMsg");
-const screenWidth = inject("screenWidth");
 
 const store = useStore();
 const router = useRouter();
 
 onMounted(() => {
   getUserFavorites();
-  console.log("on fav=", screenWidth);
 });
 
 const isMobile = computed(() => {
@@ -76,6 +75,7 @@ const sendFavoriteDetails = (add) => {
     });
 };
 const deleteAdd = (add) => {
+  console.log(add);
   const index = add._id;
   deleteFavorite(index);
   toast("L'annonce a bien été supprimée !", "success");
@@ -96,6 +96,23 @@ const deleteAdd = (add) => {
   flex-wrap: wrap;
   @include mixins.xs {
     justify-content: center;
+  }
+}
+.list-enter-active {
+  animation: bounce-in 0.5s;
+}
+.list-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

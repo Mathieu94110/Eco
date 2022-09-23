@@ -24,13 +24,16 @@
         <span @click="this.$emit('sendFavorite', add)"
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
+        <Modal :add="props.add" :toggle="state.isModalOpen" v-bind="$attrs">
+          <template #header>
+            <h2>Supprimer {{ props.add.title }}</h2>
+          </template>
 
-        <FavoriteModal
-          :favorite="add"
-          :toggle="state.isModalOpen"
-          v-bind="$attrs"
-        >
-        </FavoriteModal>
+          <template #body>
+            <p>Au prix de {{ props.add.price }}</p>
+            <p>Cette action est irréversible !</p>
+          </template>
+        </Modal>
       </div>
     </template>
   </FavoriteCardLayout>
@@ -38,14 +41,18 @@
 
 <script setup>
 import FavoriteCardLayout from "../Layout/FavoriteCardLayout.vue";
-import FavoriteModal from "../Modal/FavoriteModal.vue";
-import { reactive, defineProps } from "vue";
+import Modal from "../Modal/Modal";
+import { reactive, defineProps, watch } from "vue";
 
 const state = reactive({
-  isModalOpen: null,
+  isModalOpen: false,
 });
 
 const props = defineProps(["add"]);
+
+watch(props.toggle, (newValue) => {
+  state.isModalOpen.value = newValue;
+});
 </script>
 <style lang="scss" scoped>
 @use "../../assets/../assets/scss/mixins";

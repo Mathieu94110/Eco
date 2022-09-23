@@ -89,9 +89,24 @@
                   ><i class="fa fa-eye" aria-hidden="true"></i
                 ></router-link>
                 <div>
-                  <span @click="showDeleteModal(row)">
+                  <!-- <span @click="showDeleteModal(row)">
                     <i class="fa fa-trash" aria-hidden="true"></i
-                  ></span>
+                  ></span> -->
+
+                  <Modal
+                    :add="state.selectedAdd"
+                    :toggle="state.isModalOpen"
+                    v-bind="$attrs"
+                  >
+                    <template #header>
+                      <h2>Supprimer {{ state.selectedAdd.title }}</h2>
+                    </template>
+
+                    <template #body>
+                      <p>Au prix de {{ state.selectedAdd.price }}</p>
+                      <p>Cette action est irréversible !</p>
+                    </template>
+                  </Modal>
                 </div>
               </div>
             </th>
@@ -104,8 +119,8 @@
         <h2>Vous n'avez aucune annonce en ligne</h2>
       </div>
     </div>
-    <Modal
-      v-show="state.isModalVisible"
+    <!-- <Modal
+      v-show="state.isModalOpen"
       @close="closeModal"
       @delete="deleteAdd()"
     >
@@ -124,44 +139,75 @@
       <template #footer>
         <p>Oui, je souhaite supprimer l'annonce</p>
       </template>
-    </Modal>
+    </Modal> -->
+
+    <!-- <Modal
+      v-show="state.isModalOpen"
+      :toggle="state.isModalOpen"
+      v-bind="$attrs"
+      @close="closeModal"
+      @delete="deleteAdd()"
+    >
+      <template #header>
+        <h2>Supprimer {{ state.selectedAdd.title }}</h2>
+      </template>
+
+      <template #body>
+        <p>
+          Crée le {{ new Date(state.selectedAdd.date).toLocaleDateString() }}
+        </p>
+        <p>Au prix de {{ state.selectedAdd.price }}</p>
+        <p>Cette action est irréversible !</p>
+      </template>
+
+      <template #footer></template>
+    </Modal> -->
   </div>
 </template>
 
 <script setup>
-import { reactive, computed, defineEmits, defineProps, inject } from "vue";
+import {
+  reactive,
+  computed,
+  /*  defineEmits, */ defineProps,
+  /* inject */ watch,
+} from "vue";
 import { useStore } from "vuex";
-import Modal from "../Modal/Modal.vue";
-import { deleteAdds } from "@/api/adds";
+import Modal from "../Modal/Modal";
+// import { deleteAdds } from "@/api/adds";
 
 const state = reactive({
-  isModalVisible: false,
+  isModalOpen: false,
   selectedAdd: {},
 });
 
-const props = defineProps(["userAdds", "config"]);
-const emit = defineEmits("addDeleted");
+const props = defineProps(["userAdds", "config", "toogle"]);
+// const emit = defineEmits("addDeleted");
 const store = useStore();
-const toast = inject("toastMsg");
+// const toast = inject("toastMsg");
 
-const closeModal = () => {
-  state.isModalVisible = false;
-};
+// const closeModal = () => {
+//   state.isModalOpen = false;
+// };
 
 const showDeleteModal = (value) => {
   state.selectedAdd = value;
-  state.isModalVisible = true;
+  state.isModalOpen = true;
 };
 
-const deleteAdd = () => {
-  const addIndex = state.selectedAdd._id;
-  deleteAdds(addIndex);
-  toast("L'annonce a bien été supprimée !", "success");
-  emit("addDeleted", state.selectedAdd._id);
-  closeModal();
-};
+// const deleteAdd = () => {
+//   const addIndex = state.selectedAdd._id;
+//   deleteAdds(addIndex);
+//   toast("L'annonce a bien été supprimée !", "success");
+//   emit("addDeleted", state.selectedAdd._id);
+//   closeModal();
+// };
 const isTabletOrMobile = computed(() => {
   return store.state.windowWidth < 800;
+});
+
+watch(props.toggle, (newValue) => {
+  state.isModalOpen.value = newValue;
 });
 </script>
 

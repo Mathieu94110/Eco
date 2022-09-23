@@ -1,33 +1,72 @@
 <template>
-  <transition name="modal-fade">
-    <div class="modal-backdrop">
-      <div class="modal">
-        <header class="modal-header">
-          <div class="row">
+  <span @click.prevent="isModalOpen = true"
+    ><i class="fa fa-trash icon" aria-hidden="true"></i
+  ></span>
+
+  <Teleport to="#modal">
+    <Transition name="modal-fade">
+      <div class="modal-backdrop" v-if="isModalOpen">
+        <div ref="modal" class="modal">
+          <header class="modal-header">
             <slot name="header"></slot>
-            <button type="button" class="btn-close" @click="$emit('close')">
+            <button
+              type="button"
+              class="close-btn"
+              @click.prevent="isModalOpen = false"
+            >
               x
             </button>
-          </div>
-        </header>
+          </header>
 
-        <section class="modal-body">
-          <slot name="body"></slot>
-        </section>
+          <main class="modal-body">
+            <slot name="body"></slot>
+          </main>
 
-        <footer class="modal-footer">
-          <button type="button" class="btn-red" @click="$emit('delete')">
-            <slot name="footer">Fermer </slot>
-          </button>
-        </footer>
+          <footer class="modal-footer">
+            <slot name="footer">
+              <button
+                type="button"
+                class="btn-open-modal"
+                @click="$emit('delete', add)"
+              >
+                Supprimer
+              </button>
+            </slot>
+          </footer>
+        </div>
       </div>
-    </div>
-  </transition>
+    </Transition>
+  </Teleport>
 </template>
 
-<script></script>
+<script>
+import { onClickOutside } from "@vueuse/core";
+import { ref, watch } from "vue";
+export default {
+  props: {
+    add: Object,
+    toggle: Boolean,
+  },
+  setup(props) {
+    const isModalOpen = ref(false);
 
-<style lang="scss">
+    const modal = ref(null);
+
+    onClickOutside(modal, () => (isModalOpen.value = false));
+
+    watch(props.toggle, (newValue) => {
+      console.log(newValue);
+      isModalOpen.value = newValue;
+    });
+
+    return {
+      isModalOpen,
+      modal,
+    };
+  },
+};
+</script>
+<style>
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -46,29 +85,25 @@
   overflow-x: auto;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  width: 80%;
 }
 
 .modal-header,
 .modal-footer {
   padding: 15px;
   display: flex;
-  :hover {
-    cursor: pointer;
-  }
 }
 
 .modal-header {
-  border-bottom: 1px solid #eeeeee;
+  position: relative;
+  border-bottom: 1px solid rgb(227, 231, 233);
+  color: blue;
   justify-content: space-between;
-
-  .row {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .modal-footer {
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid rgb(227, 231, 233);
   flex-direction: column;
   justify-content: flex-end;
 }
@@ -76,36 +111,37 @@
 .modal-body {
   position: relative;
   padding: 20px 10px;
-  font-weight: 600;
 }
 
-.btn-close {
-  padding-left: 20px;
+.close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
   border: none;
   font-size: 20px;
   padding: 10px;
   cursor: pointer;
   font-weight: bold;
-  color: #4aae9b;
+  color: red;
   background: transparent;
 }
 
-.btn-red {
+.btn-open-modal {
   color: white;
-  padding: 20px;
-  font-weight: 600;
-  font-size: 16px;
-  background: #e81704;
-  border: 1px solid#e81704;
-  border-radius: 2px;
+  background: green;
+  border: 1px solid green;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 5px;
+  width: 40%;
 }
-.modal-fade-enter,
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.5s ease;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
 }
 </style>
