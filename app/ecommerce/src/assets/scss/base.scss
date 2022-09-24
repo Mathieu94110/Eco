@@ -2,7 +2,7 @@
 
 :root {
   --primary-1: #42a1ec;
-  --primary-2: #0070c9;
+  --primary-2: #0070c9; 
   --danger-1: #e74c3c;
   --danger-2: #c0392b;
   --success-1: #2ecc71;
@@ -14,9 +14,8 @@
   --primary-color: #ffffff;
   --border: 1px solid var(--gray-2);
   --border-radius: 4px;
-  --font-family: 'Roboto', sans-serif;
+  --font-family: 'Poppins', 'Roboto', sans-serif;
   --sidebar-item-active :#15263f;
-  --sidebar-item-hover : #4f95ff;
 }
 * {
   box-sizing: border-box;
@@ -183,9 +182,6 @@ body {
   }
 .primary{
   color : var(--primary-2)
-}
-.danger{
-  color : var(--danger-2)
 }
 .danger{
   color : var(--danger-2)

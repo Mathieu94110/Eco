@@ -4,15 +4,21 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use "../../assets/scss/mixins";
+
 .toolbar {
   width: 100%;
-  font: 26px bold;
+  font-size: 26px;
+  font-weight: 600;
   height: 60px;
-  background: #4f95ff;
+  background: var(--primary-1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @include mixins.xs {
+    font-size: 20px;
+  }
 }
 </style>

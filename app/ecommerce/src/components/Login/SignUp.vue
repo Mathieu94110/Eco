@@ -105,11 +105,11 @@
     <div class="sign-up__footer">
       <button
         @click="createAccount()"
-        class="btn btn-primary"
+        class="btn btn-primary font-600"
         :class="{ 'sign-up__button-disabled': !validatedFields }"
       >
         <span v-if="status == 'loading'">Création en cours...</span>
-        <span v-else>Créer mon compte</span>
+        <span v-else class="color-white">Créer mon compte</span>
       </button>
     </div>
   </div>
@@ -125,10 +125,10 @@ const state = reactive({
   userName: "",
   firstName: "",
   lastName: "",
-  phone: null,
+  phone: "",
   email: "",
   address: "",
-  zip: null,
+  zip: "",
   password: "",
 });
 const store = useStore();
@@ -318,7 +318,7 @@ const validatedFields = computed(() => {
       grid-area: subtitle-secondary;
       align-self: center;
       text-align: left;
-      color: #2196f3;
+      color: var(--primary-2);
       font-weight: 600;
       font-size: 20px;
       padding: 10px;

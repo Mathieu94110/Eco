@@ -4,7 +4,7 @@
       <buttton
         v-if="props.currentState"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary font-600"
         :key="component"
         @click="$emit('updateCard', state.card)"
         >Valider</buttton
@@ -137,6 +137,7 @@ watch(state.edit, (newValue) => {
 
 <style scoped lang="scss">
 .edit-card {
+  width: 100%;
   &__validate-button-wrapper {
     width: 100%;
     text-align: center;

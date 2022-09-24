@@ -76,7 +76,7 @@ export default {
   display: block;
   margin-bottom: 20px;
   input {
-    font-size: 8px;
+    font-size: 12px;
   }
   &__image {
     width: 100px;

@@ -1,10 +1,12 @@
 <template>
   <div class="post-create__created-button-wrapper" v-if="props.isAddCreated">
     <button class="btn btn-success" @click.prevent="$emit('submitAdd')">
-      Valider
+      <span class="font-600">Valider</span>
     </button>
     <br />
-    <button class="btn btn-danger" @click="$emit('resetAdd')">Annuler</button>
+    <button class="btn btn-danger" @click="$emit('resetAdd')">
+      <span class="font-600">Annuler</span>
+    </button>
   </div>
   <div v-else class="post-create__button-wrapper">
     <button
@@ -15,7 +17,7 @@
       @click="$emit('createAdd', props.add)"
       :disabled="isCreateAddButtonDisabled"
     >
-      Créer
+      <span class="font-600">Créer</span>
     </button>
   </div>
 </template>

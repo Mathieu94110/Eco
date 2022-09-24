@@ -1,5 +1,5 @@
 <template>
-  <span class="icon" @click.prevent="isModalOpen = true"
+  <span @click.prevent="isModalOpen = true"
     ><i class="fa fa-trash icon" aria-hidden="true"></i
   ></span>
 
@@ -68,7 +68,7 @@ const deleteAdd = () => {
   align-items: center;
   &__modal {
     border: 2px solid var(--danger-1);
-    background: #ffffff;
+    background: var(--primary-color);
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
     display: flex;
@@ -83,10 +83,12 @@ const deleteAdd = () => {
   }
   &__header {
     position: relative;
-    color: blue;
     justify-content: space-between;
     padding: 15px;
     display: flex;
+    @include mixins.xs {
+      padding-right: 30px;
+    }
   }
   &__title {
     width: 100%;
@@ -121,6 +123,12 @@ const deleteAdd = () => {
   }
 }
 
+.icon {
+  :hover {
+    cursor: pointer;
+  }
+}
+//Transition
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.5s ease;

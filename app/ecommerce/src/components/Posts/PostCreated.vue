@@ -1,81 +1,41 @@
 <template>
-  <div class="card" v-if="currentPost">
-    <div class="card__img-wrapper">
-      <div class="card__img-content">
-        <img :src="currentPost.image" />
-      </div>
-    </div>
-    <div class="card__items-title">
-      <div class="card__labels"><label for="name">Titre</label></div>
-      <div class="card__field">{{ currentPost.title }}</div>
-    </div>
-
-    <div class="card__items-description">
-      <div class="card__labels"><label for="name">Description</label></div>
-      <div class="card__field">{{ currentPost.description }}</div>
-    </div>
-    <div class="card__items-category">
-      <div class="card__labels"><label for="name">Catégorie</label></div>
-      <div class="card__field">{{ currentPost.category }}</div>
-    </div>
-    <div class="card__items-price">
-      <div class="card__labels"><label for="name">Prix</label></div>
-      <div class="card__field">{{ currentPost.price }}€</div>
-    </div>
+  <div v-if="props.currentPost">
+    <CardLayout class="post-created">
+      <template #image class="post-created__img-wrapper">
+        <img
+          :src="props.currentPost.image"
+          class="post-created__img-content"
+          alt="product-image"
+        />
+      </template>
+      <template #title>
+        <span>{{ props.currentPost.title }}</span>
+      </template>
+      <template #description>
+        <span>{{ props.currentPost.description }}</span>
+      </template>
+      <template #price>
+        <span>{{ props.currentPost.price }} €</span>
+      </template>
+      <template class="favorite-card__category" #category>
+        <span>{{ props.currentPost.category }}</span>
+      </template>
+    </CardLayout>
   </div>
 </template>
 
-<script>
-export default {
-  props: ["currentPost"],
-};
+<script setup>
+import CardLayout from "../Layout/CardLayout";
+import { defineProps } from "vue";
+
+const props = defineProps(["currentPost"]);
 </script>
 
 <style lang="scss" scoped>
 @use "../../assets/scss/mixins" as m;
 
-.card {
+.post-created {
   width: 80%;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: space-evenly;
-  text-shadow: 0px 2px 2px #bbbbbb;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  border-radius: 20px;
-  margin: 0;
-
-  &__items {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    &-title {
-      height: 46px;
-    }
-    &-description {
-      height: 64px;
-    }
-    &-category {
-      height: 47px;
-    }
-    &-price {
-      height: 47px;
-    }
-  }
-  &__labels {
-    background: #4f95ff;
-    color: #fff;
-    font-size: 18px;
-  }
-  &__field {
-    font-size: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
   &__img-wrapper {
     height: 114px;
     margin-bottom: 20px;
@@ -93,18 +53,14 @@ export default {
   }
 }
 @media (max-width: 768px) {
-  .card {
+  .post-created {
     margin: auto;
   }
 }
 @include m.sm {
-  .card {
+  .post-created {
     height: 630px;
     width: 320px;
-
-    &__field {
-      height: 100%;
-    }
     &__img-wrapper {
       height: auto;
       margin-bottom: 0px;

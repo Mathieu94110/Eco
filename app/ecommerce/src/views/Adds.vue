@@ -19,6 +19,7 @@
           :transparent="true"
         />
         <div class="adds__filter">
+          <!--On elow adding open/close transition on mobile, for large screen it's always true -->
           <Transition>
             <AddCardFilter
               v-if="state.open"
@@ -160,7 +161,7 @@ const isMobile = computed(() => {
       position: absolute;
       top: 0px;
       left: 0px;
-      background-color: white;
+      background-color: var(--primary-color);
       z-index: 2;
     }
   }

@@ -93,6 +93,7 @@ const deleteAdd = (add) => {
     justify-content: center;
   }
 }
+//Transition
 .list-enter-active {
   animation: bounce-in 0.5s;
 }

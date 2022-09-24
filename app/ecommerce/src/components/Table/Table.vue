@@ -176,7 +176,7 @@ const isTabletOrMobile = computed(() => {
     }
     table {
       border-collapse: collapse;
-      border: 1px solid #4f95ff;
+      border: 1px solid var(--primary-1);
       width: 100%;
       tr {
         @media (min-width: 800px) {
@@ -189,7 +189,7 @@ const isTabletOrMobile = computed(() => {
           position: sticky;
           top: 0;
           @media (min-width: 800px) {
-            background: #4f95ff;
+            background: var(--primary-1);
           }
           width: 50px;
           padding: 10px 5px;
@@ -239,7 +239,7 @@ const isTabletOrMobile = computed(() => {
     &-title {
       height: 100px;
       padding: 0;
-      background-color: #4f95ff;
+      background-color: var(--primary-1);
       font-size: 16px;
       @include mixins.xs {
         font-size: 10px;

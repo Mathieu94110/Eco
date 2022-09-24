@@ -10,6 +10,7 @@ import { toggleSidebar } from "@/mixins/sidebar-collapsed.js";
 import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 
+// rules for login form
 defineRule("required", (value) => {
   if (!value || !value.length) {
     return "Ce champs est requis";
@@ -57,14 +58,18 @@ defineRule("minMax", (value, [min, max]) => {
   }
   return true;
 });
-
+//
 const app = createApp({
   extends: App,
 });
 
 app.config.globalProperties.$toastMsg = toastMsg;
+// Used to detect the space that must be left when sidebar is open or closed
 app.config.globalProperties.$collapsed = collapsed;
+//
+// Used to check sideBar size on mouse enter and on mouse leave
 app.config.globalProperties.$toggleSidebar = toggleSidebar;
+//
 
 app.provide("toastMsg", toastMsg);
 app.provide("collapsed", collapsed);

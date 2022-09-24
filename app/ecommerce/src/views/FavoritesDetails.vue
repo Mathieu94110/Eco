@@ -59,9 +59,9 @@ const goBack = () => {
 
     input {
       background-image: linear-gradient(#42a1ec, #0070c9);
-      border: 1px solid #0077cc;
+      border: 1px solid var(----primary-2);
       border-radius: 4px;
-      color: #ffffff;
+      color: var(--primary-color);
       cursor: pointer;
       font-size: 17px;
       font-weight: 400;
@@ -72,7 +72,7 @@ const goBack = () => {
       text-align: center;
       &:hover {
         background-image: linear-gradient(#51a9ee, #147bcd);
-        border-color: #169cfc;
+        border-color: var(----primary-2);
         text-decoration: none;
       }
     }

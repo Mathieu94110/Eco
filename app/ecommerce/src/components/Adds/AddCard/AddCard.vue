@@ -117,7 +117,7 @@ const isFavoritePage = computed(() => route.name == "FavoritesDetails");
   max-height: 600p;
   margin: 20px;
   background-color: #15263f;
-  color: #fff;
+  color: var(--primary-color);
   border-radius: 16px;
   font-size: 1.2rem;
   box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
@@ -141,7 +141,7 @@ const isFavoritePage = computed(() => route.name == "FavoritesDetails");
     }
     &::before {
       @include hoverOpacity;
-      background-color: cyan;
+      background-color: var(--primary-1);
     }
     &::after {
       @include hoverOpacity;
@@ -163,16 +163,17 @@ const isFavoritePage = computed(() => route.name == "FavoritesDetails");
     @media screen and (min-width: 768px) {
       gap: 16px;
       padding: 24px 0;
+      height: 320px;
     }
   }
   &__title {
     height: 50px;
-    color: white;
+    color: var(--primary-color);
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     &:hover {
-      color: #00fff8;
+      color: var(--primary-1);
     }
   }
   &__description {
@@ -181,6 +182,10 @@ const isFavoritePage = computed(() => route.name == "FavoritesDetails");
     font-size: 1rem;
     line-height: 1.2rem;
     font-weight: lighter;
+    @media screen and (min-width: 768px) {
+      height: 76px;
+      overflow-y: auto;
+    }
   }
   &__content-bottom {
     display: flex;
@@ -211,22 +216,23 @@ const isFavoritePage = computed(() => route.name == "FavoritesDetails");
     flex-direction: column;
     padding: 0 5px;
     :nth-child(odd) {
-      color: #00fff8;
+      color: var(--primary-1);
     }
   }
   &__footer {
     display: flex;
     align-items: center;
-    border-top: 1px solid #2e405a;
+    border-top: 1px solid var(--gray-3);
     gap: 16px;
     padding-top: 16px;
   }
   &__avatar {
     display: flex;
     border-radius: 90px;
-    border: 1px solid white;
+    border: 1px solid var(--primary-color);
     img {
       width: 33px;
+      max-height: 33px;
     }
   }
   &__category {
@@ -237,14 +243,14 @@ const isFavoritePage = computed(() => route.name == "FavoritesDetails");
   }
   &__category-items {
     :first-child {
-      color: #00fff8;
+      color: var(--primary-1);
     }
     &--alt-color,
     &--icon {
       padding: 10px;
-      color: white;
+      color: var(--primary-color);
       &:hover {
-        color: rgb(250, 75, 75);
+        color: var(--danger-2);
         cursor: pointer;
       }
     }

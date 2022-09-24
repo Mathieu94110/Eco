@@ -200,7 +200,7 @@ function onPickFile() {
 @use "../../assets/scss/mixins" as m;
 .user-profile-card {
   width: 80%;
-  background-color: #42515a;
+  background-color: var(--gray-3);
   box-shadow: 0 10px 90px #00000024;
   text-align: center;
   font-size: 20px;
@@ -237,7 +237,7 @@ function onPickFile() {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--primary-color);
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s ease-out;
@@ -252,7 +252,7 @@ function onPickFile() {
     position: relative;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 8px solid #4f95ff;
+    border: 8px solid var(--primary-1);
     box-shadow: 0 0 20px #00000033;
     cursor: pointer;
     background-size: cover;
@@ -260,9 +260,9 @@ function onPickFile() {
   &__main-category input,
   &__sub-categories input {
     :nth-child(odd) {
-      color: #4f95ff;
+      color: var(--primary-1);
     }
-    color: #c2bdbd;
+    color: var(--gray-1);
   }
   &__sub-categories {
     height: 30px;
@@ -271,9 +271,9 @@ function onPickFile() {
     align-items: center;
     font-size: 14px;
     :nth-child(odd) {
-      color: #4f95ff;
+      color: var(--primary-1);
     }
-    color: #c2bdbd;
+    color: var(--gray-1);
   }
   &__main-category {
     display: flex;
@@ -281,16 +281,16 @@ function onPickFile() {
     margin-top: 30px;
     font-size: 18px;
     font-weight: bold;
-    color: #c2bdbd;
+    color: var(--gray-1);
     :nth-child(odd) {
-      color: #4f95ff;
+      color: var(--primary-1);
     }
     &:hover {
       margin-top: 30px;
     }
   }
   &__footer {
-    background-color: #4f95ff;
+    background-color: var(--primary-1);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     padding: 20px 0 20px 0;
@@ -298,7 +298,7 @@ function onPickFile() {
   &__edit-icon {
     &:hover {
       font-size: 24px;
-      color: #c2bdbd;
+      color: var(--gray-1);
       cursor: pointer;
     }
   }
@@ -311,7 +311,7 @@ function onPickFile() {
       font-weight: 600;
     }
     :nth-child(odd) {
-      color: #c2bdbd;
+      color: var(--gray-1);
     }
   }
 }
@@ -325,7 +325,7 @@ function onPickFile() {
       &:hover {
         width: 180px;
         height: 180px;
-        border: 8px solid #42515a;
+        border: 8px solid var(--gray-3);
       }
     }
     &__body {
@@ -338,9 +338,9 @@ function onPickFile() {
       align-items: center;
       font-size: 14px;
       :nth-child(odd) {
-        color: #4f95ff;
+        color: var(--primary-1);
       }
-      color: #c2bdbd;
+      color: var(--gray-1);
     }
   }
 }

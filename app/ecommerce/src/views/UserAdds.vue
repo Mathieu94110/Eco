@@ -153,7 +153,7 @@ nav {
   height: 60px;
   background: #222;
   font-size: 32px;
-  color: white;
+  color: var(--primary-color);
   display: flex;
   align-items: center;
   padding-left: 20px;

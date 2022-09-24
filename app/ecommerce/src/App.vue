@@ -16,16 +16,11 @@ export default {
   components: {
     NavBar,
   },
+  // Used to detect globally screen width changes due to a variable saved in store
   mounted() {
     window.addEventListener("resize", () => {
       this.$store.commit("setWindowWidth");
     });
-  },
-  provide() {
-    // use function syntax so that we can access `this`
-    return {
-      screenWidth: this.windowSizeinPx,
-    };
   },
   computed: {
     ...mapGetters(["isLoggedIn"]),

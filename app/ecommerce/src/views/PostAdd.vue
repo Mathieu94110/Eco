@@ -14,11 +14,12 @@
           @submit-add="submitAdd"
           @reset-add="resetAdd"
         ></PostCreate>
-
-        <PostCreated
-          v-if="state.showCreatedPost"
-          :currentPost="state.post"
-        ></PostCreated>
+        <Transition name="nested">
+          <PostCreated
+            v-if="state.showCreatedPost"
+            :currentPost="state.post"
+          ></PostCreated>
+        </Transition>
       </div>
     </div>
   </div>
@@ -148,5 +149,16 @@ watch(currentPost, (newValue) => {
       }
     }
   }
+}
+//Transition
+.nested-enter-active,
+.nested-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+
+.nested-enter-from,
+.nested-leave-to {
+  transform: translateX(30px);
+  opacity: 0;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <FavoriteCardLayout v-if="add">
+  <CardLayout v-if="add">
     <template #image>
       <img
         :src="props.add.images[0]"
@@ -26,21 +26,21 @@
         ></span>
         <Modal :add="props.add" v-bind="$attrs">
           <template #header>
-            <h2>Supprimer {{ props.add.title }}</h2>
+            <h2><span class="danger">Supprimer</span> {{ props.add.title }}</h2>
           </template>
 
           <template #body>
             <p>Au prix de {{ props.add.price }} €</p>
-            <p>Cette action est irréversible !</p>
+            <p span class="danger">Cette action est irréversible !</p>
           </template>
         </Modal>
       </div>
     </template>
-  </FavoriteCardLayout>
+  </CardLayout>
 </template>
 
 <script setup>
-import FavoriteCardLayout from "../Layout/FavoriteCardLayout.vue";
+import CardLayout from "../Layout/CardLayout";
 import Modal from "../Modal/Modal";
 import { defineProps } from "vue";
 
@@ -69,21 +69,17 @@ const props = defineProps(["add"]);
   &__actions {
     display: flex;
     justify-content: space-evenly;
-
-    > * {
-      &:nth-child(odd) {
-        :hover {
-          color: #00fff8;
-          cursor: pointer;
-        }
-      }
-      &:nth-child(even) {
-        :hover {
-          color: #00fff8;
-          cursor: pointer;
-        }
+    > {
+      :hover {
+        color: var(--primary-1);
+        cursor: pointer;
       }
     }
+  }
+}
+h2 {
+  @include mixins.xs {
+    font-size: 18px;
   }
 }
 </style>

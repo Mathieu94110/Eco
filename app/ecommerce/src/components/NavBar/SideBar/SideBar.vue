@@ -16,12 +16,12 @@
       <button
         v-if="state.isHover"
         class="side-bar__link--error"
-        @click="logout()"
+        @click="logOut()"
         icon="fa-solid fa-right-from-bracket"
       >
         Se déconnecter
       </button>
-      <div v-else @click="logout()">
+      <div v-else @click="logOut()">
         <NavLink
           class="side-bar__link"
           to="/profile"
@@ -34,7 +34,7 @@
       >
       <NavLink
         class="side-bar__link"
-        to="/dashboard"
+        to="/adds"
         icon="fa-solid fa-handshake-angle"
         ><span>Annonces</span></NavLink
       >
@@ -69,9 +69,9 @@ const router = useRouter();
 const emitter = mitt();
 const toggleSidebar = inject("toggleSidebar");
 
-const logout = () => {
+const logOut = () => {
   store.commit("loginStatus", false);
-  store.commit("logout");
+  store.commit("logOut");
   router.push("/");
 };
 const setWindowWidth = () => {
@@ -81,7 +81,7 @@ const formatSideBar = (value) => {
   state.isHover = value;
   toggleSidebar();
 };
-
+// setWindowWidth detect width screen changes in order to be used in components to know when user is on mobile
 onMounted(() => {
   setWindowWidth();
   window.addEventListener("resize", setWindowWidth);
@@ -111,18 +111,18 @@ onMounted(() => {
     justify-content: space-evenly;
   }
   &__link {
-    color: #fff;
+    color: var(--primary-color);
     padding-left: 30px;
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
     &--error {
-      color: rgb(255, 30, 30);
+      color: var(--danger-1);
     }
     span {
       margin-left: 20px;
       &:hover {
-        color: #4f95ff;
+        color: var(--primary-1);
       }
     }
     overflow-wrap: normal;

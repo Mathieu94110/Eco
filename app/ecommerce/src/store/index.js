@@ -91,7 +91,7 @@ const store = createStore({
     loginStatus: function (state, loginStatus) {
       state.isUserLogged = loginStatus;
     },
-    logout: function (state) {
+    logOut: function (state) {
       state.user = {
         userId: -1,
         token: "",

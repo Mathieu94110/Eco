@@ -85,6 +85,7 @@ const updateUserCard = async (card) => {
     await updateAdds(card);
     toast("L'annonce a été mise à jour !", "success");
   } catch (err) {
+    toast("Aucun changement détecté !", "warning");
     console.log(err);
   }
 };

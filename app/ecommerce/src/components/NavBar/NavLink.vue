@@ -5,11 +5,7 @@
     :class="{ 'nav-link--active': isActive }"
   >
     <i class="nav-link__icon" :class="icon" />
-    <transition name="fade">
-      <span v-if="$collapsed">
-        <slot />
-      </span>
-    </transition>
+    <slot />
   </router-link>
 </template>
 
@@ -42,11 +38,11 @@ export default {
   padding: 0.4em;
   border-radius: 0.25em;
   height: 1.5em;
-  color: white;
+  color: var(--primary-color);
   text-decoration: none;
   flex-shrink: 0;
   &:hover {
-    color: var(--sidebar-item-hover);
+    color: var(--primary-1);
   }
   &--active {
     background-color: var(--sidebar-item-active);
@@ -58,13 +54,5 @@ export default {
     width: 25px;
     margin-right: 10px;
   }
-}
-.fade-enter-active,
-.fade-leave-active {
-  pointer-events: none;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

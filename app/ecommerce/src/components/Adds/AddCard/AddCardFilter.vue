@@ -170,7 +170,7 @@ export default {
     }
   }
   &__reset-button {
-    color: #fff;
+    color: var(--primary-color);
     background: var(--danger-2);
     padding: 10px 20px;
     border-radius: 5px;

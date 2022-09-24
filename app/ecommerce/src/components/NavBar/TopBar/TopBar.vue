@@ -16,13 +16,13 @@
             @click="state.open = false"
             v-if="state.open"
           >
-            <NavLink to="/" icon="fas fa-user-circle"
-              ><span>Déconnection</span></NavLink
+            <NavLink to="" icon="fas fa-user-circle"
+              ><span @click="logOut()">Déconnection</span></NavLink
             >
             <NavLink to="/profile" icon="fas fa-user-circle"
               ><span>Mes informations</span></NavLink
             >
-            <NavLink to="/dashboard" icon="fa-solid fa-handshake-angle"
+            <NavLink to="/adds" icon="fa-solid fa-handshake-angle"
               ><span>Annonces</span></NavLink
             >
             <NavLink to="/post-add" icon="fas fa-pencil-alt"
@@ -45,10 +45,21 @@
 import NavLink from "../NavLink.vue";
 import Calc from "@/components/Calc/Calc.vue";
 import { reactive } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const state = reactive({
   open: false,
 });
+
+const store = useStore();
+const router = useRouter();
+
+const logOut = () => {
+  store.commit("loginStatus", false);
+  store.commit("logOut");
+  router.push("/");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -61,7 +72,7 @@ const state = reactive({
     align-items: center;
     flex: 1 1 auto;
     position: absolute;
-    top: 24px;
+    top: 20px;
     right: 20px;
     @include mixins.xs {
       justify-content: end;
@@ -74,7 +85,7 @@ const state = reactive({
         display: none;
       }
       justify-self: end;
-      color: white;
+      color: var(--primary-color);
       font-size: 20px;
       cursor: pointer;
     }
@@ -84,12 +95,12 @@ const state = reactive({
     position: absolute;
     top: 20px;
     right: 0px;
-    background-color: white;
+    background-color: var(--primary-color);
     border: var(--border);
     border-radius: var(--border-radius);
     padding: 10px;
     height: 200px;
-    width: 228px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -101,6 +112,7 @@ const state = reactive({
     }
   }
 }
+//Transition
 .v-leave-to,
 .v-enter-from {
   transform: translateY(-10px);
@@ -109,6 +121,6 @@ const state = reactive({
 
 .v-leave-active,
 .v-enter-active {
-  transition: all 0.2s;
+  transition: all 0.4s;
 }
 </style>

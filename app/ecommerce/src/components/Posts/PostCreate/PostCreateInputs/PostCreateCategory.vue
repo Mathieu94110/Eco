@@ -60,11 +60,16 @@ export default {
   }
   &__errors {
     color: rgb(229, 23, 23);
+    font-size: 12px;
   }
 }
 @include m.sm {
   .post-create-category {
     height: 80px;
+
+    &__errors {
+      font-size: 15px;
+    }
   }
 }
 </style>

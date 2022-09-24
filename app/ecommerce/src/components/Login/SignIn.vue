@@ -1,7 +1,7 @@
 <template>
   <div class="sign-in">
     <div class="sign-in__title">
-      <h1>Connexion</h1>
+      <h1>Connection</h1>
     </div>
     <div class="sign-in__subtitle-main">Tu n'as pas encore de compte ?</div>
     <div class="sign-in__subtitle-secondary" @click="switchComponent()">
@@ -34,11 +34,11 @@
     <div class="sign-in__footer">
       <button
         @click="login()"
-        class="btn btn-primary"
+        class="btn btn-primary font-600"
         :class="{ 'sign-in__button-disabled': !validatedFields }"
       >
-        <span v-if="props.status == 'loading'">Connexion en cours...</span>
-        <span v-else>Connexion</span>
+        <span v-if="props.status == 'loading'">Connection en cours...</span>
+        <span v-else class="color-white">Connection</span>
       </button>
     </div>
   </div>
@@ -90,13 +90,13 @@ const validatedFields = computed(() => {
 
     text-align: center;
 
-    color: #666666;
+    color: var(--text-color);
     font-weight: 600;
     padding: 10px;
   }
   &__subtitle {
     text-align: center;
-    color: #666;
+    color: var(--text-color);
     font-weight: 600;
     font-size: 20px;
   }
@@ -116,11 +116,11 @@ const validatedFields = computed(() => {
     }
   }
   &__button-disabled {
-    background: #cecece;
+    background: var(--gray-1);
     color: #ececec;
     &:hover {
       cursor: not-allowed;
-      background: #cecece;
+      background: var(--gray-1);
     }
   }
   &__form-input {
@@ -128,12 +128,12 @@ const validatedFields = computed(() => {
     padding: 8px;
     border: none;
     border-radius: 8px;
-    background: #f2f2f2;
+    background: var(--gray-2);
     font-weight: 500;
     font-size: 16px;
     flex: 1;
     min-width: 100px;
-    color: black;
+    color: #000;
   }
   &__form-items {
     display: flex;
@@ -146,7 +146,7 @@ const validatedFields = computed(() => {
   }
   &__subtitle-main {
     grid-area: subtitle-main;
-    color: #666;
+    color: var(--text-color);
     font-weight: 600;
     align-self: center;
     text-align: center;

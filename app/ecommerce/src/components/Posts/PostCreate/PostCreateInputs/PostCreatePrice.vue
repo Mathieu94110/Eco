@@ -43,7 +43,7 @@ export default {
 .post-create-price {
   width: 100%;
   margin: auto;
-  height: 47px;
+  height: 64px;
   input {
     width: 100%;
     padding: 5px 10px;
@@ -51,11 +51,16 @@ export default {
   }
   &__errors {
     color: rgb(229, 23, 23);
+    font-size: 12px;
   }
 }
 @include m.sm {
   .post-create-price {
     height: 80px;
+
+    &__errors {
+      font-size: 15px;
+    }
   }
 }
 </style>

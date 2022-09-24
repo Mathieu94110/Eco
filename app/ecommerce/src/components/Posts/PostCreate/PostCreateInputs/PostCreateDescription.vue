@@ -1,15 +1,14 @@
 <template>
   <div class="post-create-description">
-    <div>
-      <textarea
-        placeholder="Renseigner une description"
-        autocomplete="off"
-        @input="$emit('update:modelValue', $event.target.value)"
-        v-model="input"
-        @keyup="validateInput"
-        @blur="validateInput"
-      ></textarea>
-    </div>
+    <textarea
+      placeholder="Renseigner une description"
+      autocomplete="off"
+      @input="$emit('update:modelValue', $event.target.value)"
+      v-model="input"
+      @keyup="validateInput"
+      @blur="validateInput"
+    ></textarea>
+
     <div class="post-create-description__errors" v-if="errors.description">
       {{ errors.description }}
     </div>
@@ -49,7 +48,7 @@ export default {
 .post-create-description {
   width: 100%;
   margin: auto;
-  height: 64px;
+  height: 88px;
 
   textarea {
     width: 100%;
@@ -58,12 +57,17 @@ export default {
   }
   &__errors {
     color: rgb(229, 23, 23);
+    font-size: 12px;
   }
 }
 
 @include m.sm {
   .post-create-description {
     height: 100px;
+
+    &__errors {
+      font-size: 15px;
+    }
   }
 }
 </style>

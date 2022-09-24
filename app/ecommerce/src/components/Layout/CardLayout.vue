@@ -1,62 +1,73 @@
 <template>
-  <div class="edit-add__card">
-    <div class="edit-add__image">
+  <div class="card-layout__card">
+    <div class="card-layout__image">
       <slot name="image"></slot>
     </div>
-    <div class="edit-add__content">
-      <p class="edit-add__items">
+    <div class="card-layout__content">
+      <div class="card-layout__items">
         <span>Titre :</span>
-        <slot name="title"></slot>
-      </p>
-      <p class="edit-add__items-description">
+        <div class="card-layout__items-title">
+          <slot name="title"></slot>
+        </div>
+      </div>
+      <div class="card-layout__items">
         <span>Description :</span>
-        <slot name="description"></slot>
-      </p>
-      <p class="edit-add__items">
+        <div class="card-layout__items-description">
+          <slot name="description"></slot>
+        </div>
+      </div>
+      <div class="card-layout__items">
         <span>Prix :</span>
         <span><slot name="price"></slot></span>
-      </p>
-      <p class="edit-add__items">
+      </div>
+      <div class="card-layout__items">
         <span>Date de création :</span>
-        <span><slot name="created_at"></slot></span>
-      </p>
-      <div class="edit-add__footer">
-        <span>Catégorie :</span>
-        <slot name="category"></slot>
+        <span><slot name="price"></slot></span>
+      </div>
+      <div class="card-layout__items">
+        <span>Catégorie :</span> <span><slot name="category"></slot></span>
+      </div>
+      <div class="card-layout__footer" v-if="currentRoute === 'Favorites'">
+        <div>
+          <slot name="favorite"></slot>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, watchEffect } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-const state = reactive({
-  isFavoritePage: false,
-});
 const route = useRoute();
-watchEffect(route.name, (newValue) => {
-  newValue === "Favorites"
-    ? state.isFavoritePage === true
-    : state.isFavoritePage === false;
+const currentRoute = computed(() => {
+  return route.name;
 });
 </script>
 
 <style scoped lang="scss">
+@use "../../assets/scss/mixins";
 .icon {
   display: flex;
 }
 
-.edit-add {
+.card-layout {
   &__card {
     width: 320px;
     background-color: #15263f;
     color: #8bacd9;
     border-radius: 16px;
     padding: 16px 10px;
+    margin: 20px;
     font-size: 1.2rem;
     box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    @include mixins.xs {
+      font-size: 1rem;
+      padding: 16px 10px 0px 10px;
+      width: 80%;
+      margin: auto;
+    }
   }
   &__image {
     cursor: pointer;
@@ -68,7 +79,7 @@ watchEffect(route.name, (newValue) => {
   &__content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    // gap: 12px;
     padding: 12px 0 16px 0;
   }
   &__items {
@@ -76,43 +87,33 @@ watchEffect(route.name, (newValue) => {
     flex-direction: column;
     > span {
       &:nth-child(odd) {
-        color: #00fff8;
+        color: var(--primary-1);
       }
       &:nth-child(even) {
-        color: #fff;
+        color: var(--primary-color);
+      }
+    }
+
+    &-description {
+      padding: 10px 0px;
+      height: 100px;
+      overflow: auto;
+      @include mixins.xs {
+        height: 60px;
+      }
+    }
+    &-title {
+      height: 60px;
+      overflow: auto;
+      @include mixins.xs {
+        height: 30px;
       }
     }
   }
-  &__items-description {
-    display: flex;
-    flex-direction: column;
-    height: 80px;
-    overflow: hidden;
-    > span {
-      &:nth-child(odd) {
-        color: #00fff8;
-      }
-      &:nth-child(even) {
-        color: #fff;
-      }
-    }
-  }
+
   &__footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid #2e405a;
-    gap: 16px;
+    border-top: 1px solid var(--gray-3);
     padding-top: 16px;
-    > span {
-      &:nth-child(odd) {
-        color: #00fff8;
-        white-space: nowrap;
-      }
-      &:nth-child(even) {
-        color: #fff;
-      }
-    }
   }
 }
 </style>
