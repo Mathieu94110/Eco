@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-in">
+  <form class="sign-in" @submit.prevent="submit">
     <div class="sign-in__title">
       <h1>Connection</h1>
     </div>
@@ -10,6 +10,7 @@
     <main class="sign-in__inputs">
       <div class="sign-in__form-items">
         <input
+          id="email"
           v-model="state.email"
           class="sign-in__form-input"
           type="text"
@@ -18,6 +19,7 @@
       </div>
       <div class="sign-in__form-items">
         <input
+          id="password"
           v-model="state.password"
           class="sign-in__form-input"
           type="password"
@@ -33,15 +35,17 @@
     </div>
     <div class="sign-in__footer">
       <button
-        @click="login()"
+        id="login-button"
+        type="submit"
         class="btn btn-primary font-600"
+        :disabled="!validatedFields"
         :class="{ 'sign-in__button-disabled': !validatedFields }"
       >
         <span v-if="props.status == 'loading'">Connection en cours...</span>
         <span v-else class="color-white">Connection</span>
       </button>
     </div>
-  </div>
+  </form>
 </template>
 
 <script setup>
@@ -58,12 +62,12 @@ const emit = defineEmits(["login", "switch"]);
 const switchComponent = () => {
   emit("switch", "create");
 };
-const login = () => {
+const submit = () => {
   emit("login", { email: state.email, password: state.password });
 };
 
 const validatedFields = computed(() => {
-  return state.email != "" && state.password != "";
+  return state.email !== "" && state.password !== "";
 });
 </script>
 
@@ -116,11 +120,9 @@ const validatedFields = computed(() => {
     }
   }
   &__button-disabled {
-    background: var(--gray-1);
     color: #ececec;
     &:hover {
       cursor: not-allowed;
-      background: var(--gray-1);
     }
   }
   &__form-input {
