@@ -1,6 +1,5 @@
 import { mount, shallowMount } from "@vue/test-utils";
-import SignIn from "../../components/Login/SignIn.vue";
-import { describe, expect, test } from "vitest";
+import SignIn from "@/components/Login/SignIn.vue";
 
 describe("SignIn Component", () => {
   test("email input value should update successfully", async () => {

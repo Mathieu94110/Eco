@@ -28,7 +28,7 @@ export default {
       validateDescriptionField("description", input.value);
     };
     const storeDescription = computed(
-      () => store.state.currentPost.description
+      () => store?.state.currentPost.description
     );
     watch(storeDescription, (newValue) => {
       if (!newValue) input.value = "";

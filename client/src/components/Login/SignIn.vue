@@ -1,5 +1,5 @@
 <template>
-  <form class="sign-in" @submit.prevent="submit">
+  <form class="sign-in" @submit.prevent="login">
     <div class="sign-in__title">
       <h1>Connection</h1>
     </div>
@@ -62,7 +62,7 @@ const emit = defineEmits(["login", "switch"]);
 const switchComponent = () => {
   emit("switch", "create");
 };
-const submit = () => {
+const login = () => {
   emit("login", { email: state.email, password: state.password });
 };
 

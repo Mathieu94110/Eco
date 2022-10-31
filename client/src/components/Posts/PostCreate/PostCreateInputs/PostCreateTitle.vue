@@ -29,7 +29,7 @@ export default {
     const validateInput = () => {
       validateTitleField("title", input.value);
     };
-    const storeTitle = computed(() => store.state.currentPost.title);
+    const storeTitle = computed(() => store?.state.currentPost.title);
     watch(storeTitle, (newValue) => {
       if (!newValue) input.value = "";
       validateInput();

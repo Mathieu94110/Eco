@@ -129,7 +129,7 @@ const computedTableData = computed(() => {
   }
 });
 const isMobile = computed(() => {
-  return store.state.windowWidth < 575;
+  return store?.state.windowWidth < 575;
 });
 </script>
 

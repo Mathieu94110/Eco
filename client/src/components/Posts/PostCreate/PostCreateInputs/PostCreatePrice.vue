@@ -29,7 +29,7 @@ export default {
     const validateInput = () => {
       validatePriceField("price", input.value);
     };
-    const storePrice = computed(() => store.state.currentPost.price);
+    const storePrice = computed(() => store?.state.currentPost.price);
     watch(storePrice, (newValue) => {
       if (!newValue) input.value = "";
       validateInput();

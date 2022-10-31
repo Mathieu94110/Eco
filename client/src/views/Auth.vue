@@ -16,7 +16,7 @@ import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
-const status = computed(() => store.state.status);
+const status = computed(() => store?.state.status);
 
 const authenticate = (data) => {
   store

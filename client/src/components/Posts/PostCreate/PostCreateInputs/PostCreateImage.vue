@@ -40,7 +40,7 @@ export default {
     const validateInput = () => {
       validateNameField("image", fileInput.value);
     };
-    const storeImage = computed(() => store.state.currentPost.image);
+    const storeImage = computed(() => store?.state.currentPost.image);
     watch(storeImage, (newValue) => {
       if (!newValue) state.currentImage = mysteryImage;
       fileInput.value.value = "";

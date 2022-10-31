@@ -18,6 +18,7 @@
           <PostCreated
             v-if="state.showCreatedPost"
             :currentPost="state.post"
+            id="post-created"
           ></PostCreated>
         </Transition>
       </div>
@@ -35,7 +36,7 @@ import { useStore } from "vuex";
 
 const state = reactive({
   post: null,
-  showCreatedPost: true,
+  showCreatedPost: false,
 });
 
 const toastMsg = inject("toastMsg");
@@ -44,10 +45,10 @@ const store = useStore();
 const isAddCreated = ref(false);
 
 const currentUser = computed(() => {
-  return store.state.user.userId;
+  return store?.state.user.userId;
 });
 const isMobile = computed(() => {
-  return store.state.windowWidth < 575;
+  return store?.state.windowWidth < 575;
 });
 
 function createAdd(add) {
@@ -62,7 +63,6 @@ function createAdd(add) {
     })
     .then(() => {
       state.showCreatedPost = true;
-      state.post;
       isAddCreated.value = true;
     })
     .catch((err) => {
@@ -106,7 +106,7 @@ function resetAdd() {
     });
 }
 
-const currentPost = computed(() => store.state.currentPost);
+const currentPost = computed(() => store?.state.currentPost);
 
 watch(currentPost, (newValue) => {
   state.post = newValue;

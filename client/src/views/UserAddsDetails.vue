@@ -93,7 +93,7 @@ const isActive = computed(() => {
   return state.currentState === true ? EditCard : Card;
 });
 const isMobile = computed(() => {
-  return store.state.windowWidth < 575;
+  return store?.state.windowWidth < 575;
 });
 </script>
 

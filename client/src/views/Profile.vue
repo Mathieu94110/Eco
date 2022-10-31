@@ -32,14 +32,18 @@ const toast = inject("toastMsg");
 const store = useStore();
 const userId = store.state.user.userId;
 
-onMounted(async () => {
-  const response = await userApi.getProfile(userId);
-  state.user = response.data.result;
+onMounted(() => {
+  getProfile();
 });
 
 const isMobile = computed(() => {
-  return store.state.windowWidth < 575;
+  return store?.state.windowWidth < 575;
 });
+
+const getProfile = async () => {
+  const response = await userApi.getProfile(userId);
+  state.user = response.data.result;
+};
 
 async function UpdateInfos(data) {
   try {

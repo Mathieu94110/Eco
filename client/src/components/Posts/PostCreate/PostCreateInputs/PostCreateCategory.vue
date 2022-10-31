@@ -37,7 +37,7 @@ export default {
     const validateInput = () => {
       validateCategoryField("category", input.value);
     };
-    const storeCategory = computed(() => store.state.currentPost.category);
+    const storeCategory = computed(() => store?.state.currentPost.category);
     watch(storeCategory, (newValue) => {
       if (!newValue) input.value = "";
       validateInput();

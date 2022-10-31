@@ -42,7 +42,7 @@ onMounted(() => {
 });
 
 const isMobile = computed(() => {
-  return store.state.windowWidth < 575;
+  return store?.state.windowWidth < 575;
 });
 
 const getUserFavorites = async () => {

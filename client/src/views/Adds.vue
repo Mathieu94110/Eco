@@ -140,10 +140,10 @@ const filteredAdds = computed(() => {
   });
 });
 const currentUser = computed(() => {
-  return store.state.user.userId;
+  return store?.state.user.userId;
 });
 const isMobile = computed(() => {
-  return store.state.windowWidth < 575;
+  return store?.state.windowWidth < 575;
 });
 </script>
 

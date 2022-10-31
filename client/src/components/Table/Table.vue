@@ -143,7 +143,7 @@ const props = defineProps(["userAdds", "config"]);
 const store = useStore();
 
 const isTabletOrMobile = computed(() => {
-  return store.state.windowWidth < 800;
+  return store?.state.windowWidth < 800;
 });
 </script>
 

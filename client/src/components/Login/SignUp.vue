@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up">
+  <form class="sign-up" @submit.prevent="createAccount">
     <div class="sign-up__title">
       <h1>Inscription</h1>
     </div>
@@ -32,6 +32,7 @@
     <main class="sign-up__main">
       <div>
         <input
+          id="firstName"
           v-model="state.firstName"
           class="sign-up__form-input"
           type="text"
@@ -40,6 +41,7 @@
       </div>
       <div>
         <input
+          id="lastName"
           v-model="state.lastName"
           class="sign-up__form-input"
           type="text"
@@ -49,6 +51,7 @@
 
       <div>
         <input
+          id="phone"
           v-model="state.phone"
           class="sign-up__form-input"
           type="number"
@@ -57,6 +60,7 @@
       </div>
       <div>
         <input
+          id="email"
           v-model="state.email"
           class="sign-up__form-input"
           type="text"
@@ -66,6 +70,7 @@
 
       <div>
         <input
+          id="address"
           v-model="state.address"
           class="sign-up__form-input"
           type="text"
@@ -74,6 +79,7 @@
       </div>
       <div>
         <input
+          id="zip"
           v-model="state.zip"
           class="sign-up__form-input"
           type="number"
@@ -83,6 +89,7 @@
 
       <div>
         <input
+          id="userName"
           v-model="state.userName"
           class="sign-up__form-input"
           type="text"
@@ -91,6 +98,7 @@
       </div>
       <div>
         <input
+          id="password"
           v-model="state.password"
           class="sign-up__form-input"
           type="password"
@@ -104,7 +112,7 @@
     </div>
     <div class="sign-up__footer">
       <button
-        @click="createAccount()"
+        type="submit"
         class="btn btn-primary font-600"
         :class="{ 'sign-up__button-disabled': !validatedFields }"
       >
@@ -112,7 +120,7 @@
         <span v-else class="color-white">Créer mon compte</span>
       </button>
     </div>
-  </div>
+  </form>
 </template>
 
 <script setup>
@@ -132,7 +140,7 @@ const state = reactive({
   password: "",
 });
 const store = useStore();
-const status = computed(() => store.state.status);
+const status = computed(() => store?.state.status);
 const emit = defineEmits(["switch", "signup"]);
 const fileInput = ref(null);
 
