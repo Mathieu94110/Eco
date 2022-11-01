@@ -30,7 +30,7 @@ const state = reactive({
 });
 const toast = inject("toastMsg");
 const store = useStore();
-const userId = store.state.user.userId;
+const userId = store?.state.user.userId;
 
 onMounted(() => {
   getProfile();

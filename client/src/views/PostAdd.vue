@@ -9,6 +9,7 @@
     >
       <div class="post-add-container__items-wrapper">
         <PostCreate
+          ref="post-create"
           :isAddCreated="isAddCreated"
           @create-add="createAdd"
           @submit-add="submitAdd"
@@ -39,8 +40,8 @@ const state = reactive({
   showCreatedPost: false,
 });
 
-const toastMsg = inject("toastMsg");
-const sideBarClosed = inject("collapsed");
+const toastMsg = inject("toastMsg", () => {});
+const sideBarClosed = inject("collapsed", () => {});
 const store = useStore();
 const isAddCreated = ref(false);
 

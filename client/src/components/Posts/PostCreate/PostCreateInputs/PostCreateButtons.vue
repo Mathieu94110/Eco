@@ -14,8 +14,9 @@
       :class="{
         'btn-disabled': isCreateAddButtonDisabled,
       }"
-      @click="$emit('createAdd', props.add)"
+      @click="createAdd()"
       :disabled="isCreateAddButtonDisabled"
+      data-test-id="create-button"
     >
       <span class="font-600">Créer</span>
     </button>
@@ -28,6 +29,10 @@ import addFormValidation from "@/modules/formValidation";
 import createAddButtonState from "@/modules/isCreateAddButtonDisabled";
 
 const props = defineProps(["isAddCreated", "add"]);
+
+function createAdd() {
+  this.$emit("createAdd", props.add);
+}
 
 const { errors } = addFormValidation();
 const { isCreateAddButtonDisabled } = createAddButtonState(props.add, errors);

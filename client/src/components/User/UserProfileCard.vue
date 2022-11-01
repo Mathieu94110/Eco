@@ -31,7 +31,7 @@
       >
         <span>Pseudo</span>
         <span v-if="isEditMode"><input class="pl-5" v-model="userName" /> </span
-        ><span v-else>{{ userName }}</span>
+        ><span id="userName" v-else>{{ userName }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -40,7 +40,7 @@
         <span>Prénom</span>
         <span v-if="isEditMode"
           ><input class="pl-5" v-model="firstName" /> </span
-        ><span v-else>{{ firstName }}</span>
+        ><span id="firstName" v-else>{{ firstName }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -48,7 +48,7 @@
       >
         <span>Nom</span>
         <span v-if="isEditMode"><input class="pl-5" v-model="lastName" /> </span
-        ><span v-else>{{ lastName }}</span>
+        ><span id="lastName" v-else>{{ lastName }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -56,7 +56,7 @@
       >
         <span>Email</span
         ><span v-if="isEditMode"><input class="pl-5" v-model="email" /> </span
-        ><span v-else>{{ email }}</span>
+        ><span v-else id="email">{{ email }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -64,7 +64,7 @@
       >
         <span>Téléphone</span
         ><span v-if="isEditMode"><input class="pl-5" v-model="phone" /> </span
-        ><span v-else>{{ phone }}</span>
+        ><span id="phone" v-else>{{ phone }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -72,7 +72,7 @@
       >
         <span>Adresse</span
         ><span v-if="isEditMode"><input class="pl-5" v-model="address" /></span
-        ><span v-else>{{ address }}</span>
+        ><span id="address" v-else>{{ address }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -80,7 +80,7 @@
       >
         <span>Code postal</span>
         <span v-if="isEditMode"><input class="pl-5" v-model="zip" /></span>
-        <span v-else>{{ zip }}</span>
+        <span id="zip" v-else>{{ zip }}</span>
       </p>
     </div>
 
