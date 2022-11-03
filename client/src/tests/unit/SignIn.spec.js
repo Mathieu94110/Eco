@@ -1,23 +1,43 @@
-import { mount, shallowMount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import SignIn from "@/components/Login/SignIn.vue";
+import { createStore } from "vuex";
+
+const store = createStore({
+  state() {
+    return {
+      user: { userId: "1125533495595" },
+      windowWidth: 747,
+      currentPost: {
+        author: "",
+        image: "image.png",
+      },
+    };
+  },
+});
 
 describe("SignIn Component", () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = mount(SignIn, {
+      global: {
+        plugins: [store],
+      },
+    });
+  });
+
   test("email input value should update successfully", async () => {
-    const wrapper = mount(SignIn);
     const emailInput = wrapper.find("#email");
     await emailInput.setValue("myName@gmail.com");
     expect(emailInput.element.value).toBe("myName@gmail.com");
   });
 
   test("password input value should update successfully", async () => {
-    const wrapper = mount(SignIn);
     const passwordInput = wrapper.find("#password");
     await passwordInput.setValue("toto94");
     expect(passwordInput.element.value).toBe("toto94");
   });
 
   test("email value and password value should be emitted successfully", async () => {
-    const wrapper = mount(SignIn);
     const newEmail = "toto94@gmail.com";
     const newPassword = "toto941";
     await wrapper.find("#email").setValue(newEmail);
@@ -31,7 +51,6 @@ describe("SignIn Component", () => {
   });
 
   test("no email value or no password value should locked login button", async () => {
-    const wrapper = mount(SignIn);
     const newEmail = "toto94@gmail.com";
     const newPassword = "toto941";
     await wrapper.find("#email").setValue(newEmail);

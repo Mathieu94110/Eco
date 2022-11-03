@@ -1,10 +1,18 @@
 <template>
   <div class="post-create__created-button-wrapper" v-if="props.isAddCreated">
-    <button class="btn btn-success" @click.prevent="$emit('submitAdd')">
+    <button
+      class="btn btn-success"
+      data-test="submit-button"
+      @click.prevent="$emit('submitAdd')"
+    >
       <span class="font-600">Valider</span>
     </button>
     <br />
-    <button class="btn btn-danger" @click="$emit('resetAdd')">
+    <button
+      class="btn btn-danger"
+      data-test="cancel-button"
+      @click="$emit('resetAdd')"
+    >
       <span class="font-600">Annuler</span>
     </button>
   </div>
@@ -14,9 +22,9 @@
       :class="{
         'btn-disabled': isCreateAddButtonDisabled,
       }"
-      @click="createAdd()"
+      @click="$emit('createAdd', props.add)"
       :disabled="isCreateAddButtonDisabled"
-      data-test-id="create-button"
+      id="create-button"
     >
       <span class="font-600">Créer</span>
     </button>
@@ -29,11 +37,6 @@ import addFormValidation from "@/modules/formValidation";
 import createAddButtonState from "@/modules/isCreateAddButtonDisabled";
 
 const props = defineProps(["isAddCreated", "add"]);
-
-function createAdd() {
-  this.$emit("createAdd", props.add);
-}
-
 const { errors } = addFormValidation();
 const { isCreateAddButtonDisabled } = createAddButtonState(props.add, errors);
 </script>

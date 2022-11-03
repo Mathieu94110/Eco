@@ -63,12 +63,15 @@ function createAdd(add) {
       image: add.image,
     })
     .then(() => {
-      state.showCreatedPost = true;
+      postIsCreate();
       isAddCreated.value = true;
     })
     .catch((err) => {
       this.toast(err);
     });
+}
+function postIsCreate() {
+  state.showCreatedPost = true;
 }
 function submitAdd() {
   store

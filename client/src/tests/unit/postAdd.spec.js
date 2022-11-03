@@ -20,6 +20,12 @@ describe("PostAdd Component", () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallowMount(PostAdd, {
+      data() {
+        return {
+          post: null,
+          showCreatedPost: true,
+        };
+      },
       global: {
         plugins: [store],
       },
@@ -31,22 +37,12 @@ describe("PostAdd Component", () => {
     expect(postCreateComponent.exists()).toBe(true);
   });
 
-  test("createAdd button exist", async () => {
-    const PostCreateBtn = shallowMount(PostCreateButton, {
-      emits: ["submitAdd", "resetAdd", "createAdd"],
-    });
-    const createAddEmitter = PostCreateBtn.find(
-      '[data-test-id="create-button"]'
-    );
-    expect(createAddEmitter.exists()).toBe(true);
-  });
-
   test("isaddCreated props should be false by default", async () => {
     const PostCreateComponent = wrapper.findComponent(PostCreate);
     expect(PostCreateComponent.attributes("isaddcreated")).toBe("false");
   });
 
-  test("should post-created component not existing at the beginning", () => {
+  test("should post-created component not exist at the beginning", () => {
     const postCreated = wrapper.find("#post-created");
     expect(postCreated.exists()).toBe(false);
   });
