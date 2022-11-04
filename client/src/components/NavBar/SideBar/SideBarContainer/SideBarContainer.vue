@@ -10,5 +10,6 @@
   flex-direction: column;
   background: linear-gradient(180deg, #15263f, #dfe4f2);
   padding: 20px 0px;
+  text-align: center;
 }
 </style>

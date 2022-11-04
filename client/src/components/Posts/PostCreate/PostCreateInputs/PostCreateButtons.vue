@@ -22,7 +22,7 @@
       :class="{
         'btn-disabled': isCreateAddButtonDisabled,
       }"
-      @click="$emit('createAdd', props.add)"
+      @click="createAdd()"
       :disabled="isCreateAddButtonDisabled"
       id="create-button"
     >
@@ -32,13 +32,18 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 import addFormValidation from "@/modules/formValidation";
 import createAddButtonState from "@/modules/isCreateAddButtonDisabled";
 
 const props = defineProps(["isAddCreated", "add"]);
 const { errors } = addFormValidation();
 const { isCreateAddButtonDisabled } = createAddButtonState(props.add, errors);
+const emit = defineEmits("createAdd");
+
+const createAdd = () => {
+  emit("createAdd", props.add);
+};
 </script>
 
 <style lang="scss" scoped>

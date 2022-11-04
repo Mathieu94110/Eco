@@ -19,7 +19,7 @@
           <PostCreated
             v-if="state.showCreatedPost"
             :currentPost="state.post"
-            id="post-created"
+            ref="post-created"
           ></PostCreated>
         </Transition>
       </div>

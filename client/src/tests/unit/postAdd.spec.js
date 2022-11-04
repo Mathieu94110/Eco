@@ -1,8 +1,6 @@
-import { shallowMount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import PostAdd from "@/views/PostAdd.vue";
 import { createStore } from "vuex";
-import PostCreateButton from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons.vue";
-import PostCreate from "@/components/Posts/PostCreate/PostCreate.vue";
 
 const store = createStore({
   state() {
@@ -19,11 +17,11 @@ const store = createStore({
 describe("PostAdd Component", () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallowMount(PostAdd, {
+    wrapper = mount(PostAdd, {
       data() {
         return {
           post: null,
-          showCreatedPost: true,
+          showCreatedPost: false,
         };
       },
       global: {
@@ -32,18 +30,13 @@ describe("PostAdd Component", () => {
     });
   });
 
-  test("PostCreate exist", async () => {
+  test("should post-create component exist  ", async () => {
     const postCreateComponent = wrapper.findComponent({ ref: "post-create" });
     expect(postCreateComponent.exists()).toBe(true);
   });
 
-  test("isaddCreated props should be false by default", async () => {
-    const PostCreateComponent = wrapper.findComponent(PostCreate);
-    expect(PostCreateComponent.attributes("isaddcreated")).toBe("false");
-  });
-
-  test("should post-created component not exist at the beginning", () => {
-    const postCreated = wrapper.find("#post-created");
+  test("should post-created component not exist on the beginning", () => {
+    const postCreated = wrapper.findComponent({ ref: "#post-created" });
     expect(postCreated.exists()).toBe(false);
   });
 });
