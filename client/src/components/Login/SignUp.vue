@@ -107,7 +107,7 @@
       </div>
     </main>
 
-    <div class="sign-up__form-input--error" v-if="status == 'error_create'">
+    <div class="sign-up__form-input--error" v-if="status === 'error_create'">
       Adresse mail déjà utilisée
     </div>
     <div class="sign-up__footer">
@@ -116,7 +116,7 @@
         class="btn btn-primary font-600"
         :class="{ 'sign-up__button-disabled': !validatedFields }"
       >
-        <span v-if="status == 'loading'">Création en cours...</span>
+        <span v-if="status === 'loading'">Création en cours...</span>
         <span v-else class="color-white">Créer mon compte</span>
       </button>
     </div>
@@ -124,32 +124,34 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
-import { reactive, defineEmits, computed, ref } from "vue";
+import { useStore } from 'vuex';
+import {
+  reactive, defineEmits, computed, ref,
+} from 'vue';
 
 const state = reactive({
-  mode: "create",
+  mode: 'create',
   currentImage: null,
-  userName: "",
-  firstName: "",
-  lastName: "",
-  phone: "",
-  email: "",
-  address: "",
-  zip: "",
-  password: "",
+  userName: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  email: '',
+  address: '',
+  zip: '',
+  password: '',
 });
 const store = useStore();
 const status = computed(() => store?.state.status);
-const emit = defineEmits(["switch", "signup"]);
+const emit = defineEmits(['switch', 'signup']);
 const fileInput = ref(null);
 
 const switchComponent = () => {
-  emit("switch", "login");
+  emit('switch', 'login');
 };
 
 const createAccount = () => {
-  emit("signup", {
+  emit('signup', {
     userName: state.userName,
     firstName: state.firstName,
     lastName: state.lastName,
@@ -163,10 +165,10 @@ const createAccount = () => {
 };
 
 const onPickFile = () => {
-  let input = fileInput.value;
-  let file = input.files;
+  const input = fileInput.value;
+  const file = input.files;
   if (file && file[0]) {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (e) => {
       state.currentImage = e.target.result;
     };
@@ -176,19 +178,18 @@ const onPickFile = () => {
 
 const validatedFields = computed(() => {
   if (
-    state.userName != "" &&
-    state.firstName != "" &&
-    state.lastName != "" &&
-    state.email != "" &&
-    state.password != "" &&
-    state.phone != "" &&
-    state.address != "" &&
-    state.zip != ""
+    state.userName != ''
+    && state.firstName != ''
+    && state.lastName != ''
+    && state.email != ''
+    && state.password != ''
+    && state.phone != ''
+    && state.address != ''
+    && state.zip != ''
   ) {
     return true;
-  } else {
-    return false;
   }
+  return false;
 });
 </script>
 

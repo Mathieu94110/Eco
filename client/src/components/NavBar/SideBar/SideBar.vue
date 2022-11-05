@@ -52,12 +52,12 @@
 </template>
 
 <script setup>
-import SideBarContainer from "./SideBarContainer/SideBarContainer";
-import NavLink from "../NavLink.vue";
-import { reactive, onMounted, inject } from "vue";
-import { useStore } from "vuex";
-import mitt from "mitt";
-import { useRouter } from "vue-router";
+import { reactive, onMounted, inject } from 'vue';
+import { useStore } from 'vuex';
+import mitt from 'mitt';
+import { useRouter } from 'vue-router';
+import NavLink from '../NavLink.vue';
+import SideBarContainer from './SideBarContainer/SideBarContainer.vue';
 
 const state = reactive({
   isHover: false,
@@ -67,12 +67,12 @@ const state = reactive({
 const store = useStore();
 const router = useRouter();
 const emitter = mitt();
-const toggleSidebar = inject("toggleSidebar");
+const toggleSidebar = inject('toggleSidebar');
 
 const logOut = () => {
-  store.commit("loginStatus", false);
-  store.commit("logOut");
-  router.push("/");
+  store.commit('loginStatus', false);
+  store.commit('logOut');
+  router.push('/');
 };
 const setWindowWidth = () => {
   state.windowWidth = window.innerWidth;
@@ -84,9 +84,9 @@ const formatSideBar = (value) => {
 // setWindowWidth detect width screen changes in order to be used in components to know when user is on mobile
 onMounted(() => {
   setWindowWidth();
-  window.addEventListener("resize", setWindowWidth);
-  emitter.on("hook:destroyed", () => {
-    window.removeEventListener("resize", setWindowWidth);
+  window.addEventListener('resize', setWindowWidth);
+  emitter.on('hook:destroyed', () => {
+    window.removeEventListener('resize', setWindowWidth);
   });
 });
 </script>

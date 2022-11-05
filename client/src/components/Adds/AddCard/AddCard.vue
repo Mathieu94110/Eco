@@ -81,8 +81,8 @@
 </template>
 
 <script setup>
-import { computed, defineProps, defineEmits } from "vue";
-import { useRoute } from "vue-router";
+import { computed, defineProps, defineEmits } from 'vue';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
   add: {
@@ -99,13 +99,13 @@ const props = defineProps({
     title: String,
   },
 });
-const emit = defineEmits("addItem");
+const emit = defineEmits('addItem');
 const route = useRoute();
 
 const sendToFavorites = (add) => {
-  emit("addItem", add);
+  emit('addItem', add);
 };
-const isFavoritePage = computed(() => route.name == "FavoritesDetails");
+const isFavoritePage = computed(() => route.name === 'FavoritesDetails');
 </script>
 
 <style scoped lang="scss">

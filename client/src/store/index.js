@@ -1,5 +1,6 @@
-import { createStore } from "vuex";
-const axios = require("axios");
+import { createStore } from 'vuex';
+
+const axios = require('axios');
 
 const userInstance = axios.create({
   baseURL: `${process.env.VUE_APP_API_URL}/user`,
@@ -11,94 +12,94 @@ const favoriteInstance = axios.create({
   baseURL: `${process.env.VUE_APP_API_URL}/favorites`,
 });
 
-let user = localStorage.getItem("user");
+let user = localStorage.getItem('user');
 if (!user) {
   user = {
     userId: -1,
-    token: "",
+    token: '',
   };
 } else {
   try {
     user = JSON.parse(user);
 
-    userInstance.defaults.headers.common["Authorization"] = user.token;
+    userInstance.defaults.headers.common.Authorization = user.token;
   } catch (err) {
     user = {
       userId: -1,
-      token: "",
+      token: '',
     };
   }
 }
 const store = createStore({
   state: {
-    status: "",
-    user: user,
+    status: '',
+    user,
     isUserLogged: false,
     currentPost: {
-      author: "",
-      image: "",
-      title: "",
-      description: "",
+      author: '',
+      image: '',
+      title: '',
+      description: '',
       price: null,
-      category: "",
+      category: '',
     },
     userInfos: {
-      userName: "",
-      firstName: "",
-      lastName: "",
-      email: "",
+      userName: '',
+      firstName: '',
+      lastName: '',
+      email: '',
       image: null,
       phone: null,
-      address: "",
-      zip: "",
+      address: '',
+      zip: '',
     },
     favoriteDetails: {
-      _id: "",
+      _id: '',
       id: null,
-      brand: "",
-      category: "",
-      description: "",
+      brand: '',
+      category: '',
+      description: '',
       discountPercentage: null,
       images: null,
       price: null,
       rating: null,
       stock: null,
-      thumbnail: "",
-      title: "",
+      thumbnail: '',
+      title: '',
     },
     windowWidth: window.innerWidth,
   },
   mutations: {
-    setStatus: function (state, status) {
+    setStatus(state, status) {
       state.status = status;
     },
-    setPost: function (state, post) {
+    setPost(state, post) {
       state.currentPost = post;
     },
 
-    resetPost: function (state, post) {
+    resetPost(state, post) {
       state.currentPost = post;
     },
 
-    logUser: function (state, user) {
-      userInstance.defaults.headers.common["Authorization"] = user.token;
-      localStorage.setItem("user", JSON.stringify(user));
+    logUser(state, user) {
+      userInstance.defaults.headers.common.Authorization = user.token;
+      localStorage.setItem('user', JSON.stringify(user));
       state.user = user;
     },
-    userInfos: function (state, userInfos) {
+    userInfos(state, userInfos) {
       state.userInfos = userInfos;
     },
-    loginStatus: function (state, loginStatus) {
+    loginStatus(state, loginStatus) {
       state.isUserLogged = loginStatus;
     },
-    logOut: function (state) {
+    logOut(state) {
       state.user = {
         userId: -1,
-        token: "",
+        token: '',
       };
-      localStorage.removeItem("user");
+      localStorage.removeItem('user');
     },
-    setFavoriteData: function (state, favoriteInfo) {
+    setFavoriteData(state, favoriteInfo) {
       state.favoriteDetails = favoriteInfo.favorite;
     },
     setWindowWidth(state) {
@@ -110,100 +111,94 @@ const store = createStore({
       return state.isUserLogged;
     },
 
-    getCurrentPost: (state) => {
-      return state.currentPost;
-    },
-    getFavoriteDetails: (state) => {
-      return state.favoriteDetails;
-    },
-    getUserInfos: (state) => {
-      return state.userInfos;
-    },
+    getCurrentPost: (state) => state.currentPost,
+    getFavoriteDetails: (state) => state.favoriteDetails,
+    getUserInfos: (state) => state.userInfos,
   },
   actions: {
     login: ({ commit }, userInfos) => {
-      commit("setStatus", "loading");
+      commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         userInstance
-          .post("/login", userInfos)
+          .post('/login', userInfos)
           .then((response) => {
-            commit("setStatus", "");
-            commit("logUser", response.data);
-            commit("loginStatus", true);
+            commit('setStatus', '');
+            commit('logUser', response.data);
+            commit('loginStatus', true);
             resolve(response.data);
           })
-          .catch(function (error) {
-            commit("setStatus", "error_login");
+          .catch((error) => {
+            commit('setStatus', 'error_login');
             reject(error);
           });
       });
     },
     createAccount: ({ commit }, userInfos) => {
-      commit("setStatus", "loading");
+      commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         commit;
         userInstance
-          .post("/signup", userInfos)
-          .then(function (response) {
-            commit("setStatus", "created");
+          .post('/signup', userInfos)
+          .then((response) => {
+            commit('setStatus', 'created');
             resolve(response);
-            commit("userInfos", userInfos);
+            commit('userInfos', userInfos);
           })
-          .catch(function (error) {
-            commit("setStatus", "error_create");
+          .catch((error) => {
+            commit('setStatus', 'error_create');
             reject(error);
           });
       });
     },
 
     createPost: ({ commit }, postInfos) => {
-      commit("setPost", postInfos);
+      commit('setPost', postInfos);
     },
 
     sendPost: ({ state, commit }) => {
-      commit("setStatus", "loading");
+      commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         postInstance
-          .post("/postInfos", state.currentPost)
+          .post('/postInfos', state.currentPost)
           .then((response) => {
             resolve(response.data);
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
-            commit("setStatus", "error_post");
+            commit('setStatus', 'error_post');
             reject(error);
           });
       });
     },
 
     async getPosts({ commit }) {
-      let res = await axios.get("/api/posts");
-      commit("user_profile", res.data.user);
+      const res = await axios.get('/api/posts');
+      commit('user_profile', res.data.user);
       return res;
     },
 
     async resetForm({ commit }, data) {
-      commit("resetPost", data);
+      commit('resetPost', data);
     },
 
     sendFavorite: ({ commit }, FavoriteData) => {
-      commit("setStatus", "loading");
+      commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         favoriteInstance
-          .post("/favoritesInfos", FavoriteData)
+          .post('/favoritesInfos', FavoriteData)
           .then((response) => {
             resolve(response.data);
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
-            commit("setStatus", "error_post");
+            commit('setStatus', 'error_post');
             reject(error);
           });
       });
     },
 
     sendFavoriteDetails: ({ commit }, FavoriteInfo) => {
-      commit("setFavoriteData", FavoriteInfo);
+      commit('setFavoriteData', FavoriteInfo);
     },
   },
 });

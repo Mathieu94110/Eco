@@ -1,9 +1,9 @@
-import { computed } from "vue";
+import { computed } from 'vue';
 
 export default function createAddButtonState(user, errors) {
   const isCreateAddButtonDisabled = computed(() => {
     let disabled = true;
-    for (let prop in user) {
+    for (const prop in user) {
       if (!user[prop] || errors[prop]) {
         disabled = true;
         break;

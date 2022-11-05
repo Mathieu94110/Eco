@@ -22,13 +22,15 @@
 </template>
 
 <script>
-import { reactive, ref, computed, watch } from "vue";
-import { useStore } from "vuex";
-import addFormValidation from "@/modules/formValidation";
-import mysteryImage from "@/assets/images/mystery-image.png";
+import {
+  reactive, ref, computed, watch,
+} from 'vue';
+import { useStore } from 'vuex';
+import addFormValidation from '@/modules/formValidation';
+import mysteryImage from '@/assets/images/mystery-image.png';
 
 export default {
-  name: "PostCreateImage",
+  name: 'PostCreateImage',
   setup(props, { emit }) {
     const state = reactive({
       currentImage: mysteryImage,
@@ -38,17 +40,17 @@ export default {
     const store = useStore();
     const { validateNameField, errors } = addFormValidation();
     const validateInput = () => {
-      validateNameField("image", fileInput.value);
+      validateNameField('image', fileInput.value);
     };
     const storeImage = computed(() => store?.state.currentPost.image);
     watch(storeImage, (newValue) => {
       if (!newValue) state.currentImage = mysteryImage;
-      fileInput.value.value = "";
+      fileInput.value.value = '';
     });
     const onPickFile = () => {
-      let file = fileInput.value.files;
+      const file = fileInput.value.files;
       if (file && file[0]) {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = (e) => {
           state.currentImage = e.target.result;
         };
@@ -59,14 +61,16 @@ export default {
     watch(
       () => state.currentImage,
       (newValue) => {
-        emit("update:modelValue", newValue);
+        emit('update:modelValue', newValue);
       },
-      emit("update:modelValue", state.currentImage),
+      emit('update:modelValue', state.currentImage),
       {
-        flush: "post",
-      }
+        flush: 'post',
+      },
     );
-    return { fileInput, onPickFile, errors, state, validateInput, storeImage };
+    return {
+      fileInput, onPickFile, errors, state, validateInput, storeImage,
+    };
   },
 };
 </script>

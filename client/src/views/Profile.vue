@@ -16,43 +16,43 @@
 </template>
 
 <script setup>
-import UserProfileCard from "@/components/User/UserProfileCard";
-import Toolbar from "@/components/Toolbar/Toolbar";
-import userApi from "@/api/user";
-import { reactive, onMounted, inject, computed } from "vue";
-import { useStore } from "vuex";
-import updateUserInfos from "@/api/user";
+import UserProfileCard from '@/components/User/UserProfileCard.vue';
+import Toolbar from '@/components/Toolbar/Toolbar.vue';
+import {
+  reactive, onMounted, inject, computed,
+} from 'vue';
+import { useStore } from 'vuex';
+import userApi from '@/api/user';
 
-const sideBarClosed = inject("collapsed");
+const sideBarClosed = inject('collapsed');
 
 const state = reactive({
   user: null,
 });
-const toast = inject("toastMsg");
+const toast = inject('toastMsg');
 const store = useStore();
 const userId = store?.state.user.userId;
 
-onMounted(() => {
-  getProfile();
-});
-
-const isMobile = computed(() => {
-  return store?.state.windowWidth < 575;
-});
+const isMobile = computed(() => store?.state.windowWidth < 575);
 
 const getProfile = async () => {
-  const response = await userApi.getProfile(userId);
+  const response = await userApi.userApi.getProfile(userId);
   state.user = response.data.result;
 };
 
 async function UpdateInfos(data) {
   try {
-    await updateUserInfos(userId, data);
-    toast("Vos informations ont bien été mises à jour !", "success");
+    await userApi.updateUserInfos(userId, data);
+    toast('Vos informations ont bien été mises à jour !', 'success');
   } catch (err) {
     console.log(err);
   }
 }
+
+onMounted(() => {
+  getProfile();
+});
+
 </script>
 
 <style lang="scss" scoped>

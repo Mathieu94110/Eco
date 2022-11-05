@@ -3,17 +3,15 @@
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import { reactive, computed } from 'vue';
+import SignIn from './SignIn.vue';
+import SignUp from './SignUp.vue';
 
 const state = reactive({
-  mode: "login",
+  mode: 'login',
 });
 
-const isActive = computed(() => {
-  return state.mode === "login" ? SignIn : SignUp;
-});
+const isActive = computed(() => (state.mode === 'login' ? SignIn : SignUp));
 
 const switchComponent = (value) => {
   state.mode = value;

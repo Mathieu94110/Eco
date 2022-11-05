@@ -1,20 +1,20 @@
-import { mount } from "@vue/test-utils";
-import PostAdd from "@/views/PostAdd.vue";
-import { createStore } from "vuex";
+import { mount } from '@vue/test-utils';
+import PostAdd from '@/views/PostAdd.vue';
+import { createStore } from 'vuex';
 
 const store = createStore({
   state() {
     return {
-      user: { userId: "1125533495595" },
+      user: { userId: '1125533495595' },
       windowWidth: 747,
       currentPost: {
-        author: "",
-        image: "image.png",
+        author: '',
+        image: 'image.png',
       },
     };
   },
 });
-describe("PostAdd Component", () => {
+describe('PostAdd Component', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = mount(PostAdd, {
@@ -30,13 +30,13 @@ describe("PostAdd Component", () => {
     });
   });
 
-  test("should post-create component exist  ", async () => {
-    const postCreateComponent = wrapper.findComponent({ ref: "post-create" });
+  test('should post-create component exist  ', async () => {
+    const postCreateComponent = wrapper.findComponent({ ref: 'post-create' });
     expect(postCreateComponent.exists()).toBe(true);
   });
 
-  test("should post-created component not exist on the beginning", () => {
-    const postCreated = wrapper.findComponent({ ref: "#post-created" });
+  test('should post-created component not exist on the beginning', () => {
+    const postCreated = wrapper.findComponent({ ref: '#post-created' });
     expect(postCreated.exists()).toBe(false);
   });
 });

@@ -19,40 +19,36 @@
 </template>
 
 <script setup>
-import { getFavorites } from "@/api/adds";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import FavoriteCard from "@/components/Card/FavoriteCard";
-import { deleteFavorite } from "@/api/adds";
-import { reactive, onMounted, computed, inject } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { getFavorites, deleteFavorite } from '@/api/adds';
+import Toolbar from '@/components/Toolbar/Toolbar.vue';
+import FavoriteCard from '@/components/Card/FavoriteCard.vue';
+
+import {
+  reactive, onMounted, computed, inject,
+} from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const state = reactive({
   favorites: [],
   isLoading: false,
 });
-const sideBarClosed = inject("collapsed");
-const toast = inject("toastMsg");
+const sideBarClosed = inject('collapsed');
+const toast = inject('toastMsg');
 
 const store = useStore();
 const router = useRouter();
 
-onMounted(() => {
-  getUserFavorites();
-});
-
-const isMobile = computed(() => {
-  return store?.state.windowWidth < 575;
-});
+const isMobile = computed(() => store?.state.windowWidth < 575);
 
 const getUserFavorites = async () => {
   try {
     state.isLoading = true;
     const { data } = await getFavorites();
     if (data.posts) {
-      //In waiting to recover filtered data by user on back-end side, comming soon !
+      // In waiting to recover filtered data by user on back-end side, comming soon !
       state.favorites = data.posts.filter(
-        (post) => post.author === store.state.user.userId
+        (post) => post.author === store.state.user.userId,
       );
       state.isLoading = false;
     }
@@ -62,23 +58,28 @@ const getUserFavorites = async () => {
 };
 const sendFavoriteDetails = (add) => {
   store
-    .dispatch("sendFavoriteDetails", {
+    .dispatch('sendFavoriteDetails', {
       favorite: add,
     })
     .then(() => {
       router.push({
-        name: "FavoritesDetails",
+        name: 'FavoritesDetails',
         params: { add: add.title },
       });
     });
 };
 const deleteAdd = (add) => {
   deleteFavorite(add._id);
-  toast("L'annonce a bien été supprimée !", "success");
+  toast("L'annonce a bien été supprimée !", 'success');
   state.favorites = state.favorites.filter(
-    (favorite) => favorite._id !== add._id
+    (favorite) => favorite._id !== add._id,
   );
 };
+
+onMounted(() => {
+  getUserFavorites();
+});
+
 </script>
 
 <style lang="scss" scoped>

@@ -1,25 +1,25 @@
 <template>
-  <div class="post-add-container">
+  <div class='post-add-container'>
     <Toolbar> Poster une annonce </Toolbar>
     <div
-      class="post-add-container__items"
-      :style="{
+      class='post-add-container__items'
+      :style='{
         marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
-      }"
+      }'
     >
-      <div class="post-add-container__items-wrapper">
+      <div class='post-add-container__items-wrapper'>
         <PostCreate
-          ref="post-create"
-          :isAddCreated="isAddCreated"
-          @create-add="createAdd"
-          @submit-add="submitAdd"
-          @reset-add="resetAdd"
+          ref='post-create'
+          :isAddCreated='isAddCreated'
+          @create-add='createAdd'
+          @submit-add='submitAdd'
+          @reset-add='resetAdd'
         ></PostCreate>
-        <Transition name="nested">
+        <Transition name='nested'>
           <PostCreated
-            v-if="state.showCreatedPost"
-            :currentPost="state.post"
-            ref="post-created"
+            v-if='state.showCreatedPost'
+            :currentPost='state.post'
+            ref='post-created'
           ></PostCreated>
         </Transition>
       </div>
@@ -28,33 +28,31 @@
 </template>
 
 <script setup>
-import { computed, reactive, watch, ref } from "vue";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import PostCreate from "@/components/Posts/PostCreate/PostCreate.vue";
-import PostCreated from "@/components/Posts/PostCreated.vue";
-import { inject } from "vue";
-import { useStore } from "vuex";
+
+import {
+  computed, reactive, watch, ref, inject,
+} from 'vue';
+import Toolbar from '@/components/Toolbar/Toolbar.vue';
+import PostCreate from '@/components/Posts/PostCreate/PostCreate.vue';
+import PostCreated from '@/components/Posts/PostCreated.vue';
+import { useStore } from 'vuex';
 
 const state = reactive({
   post: null,
   showCreatedPost: false,
 });
 
-const toastMsg = inject("toastMsg", () => {});
-const sideBarClosed = inject("collapsed", () => {});
+const toastMsg = inject('toastMsg', () => {});
+const sideBarClosed = inject('collapsed', () => {});
 const store = useStore();
 const isAddCreated = ref(false);
 
-const currentUser = computed(() => {
-  return store?.state.user.userId;
-});
-const isMobile = computed(() => {
-  return store?.state.windowWidth < 575;
-});
+const currentUser = computed(() => store?.state.user.userId);
+const isMobile = computed(() => store?.state.windowWidth < 575);
 
 function createAdd(add) {
   store
-    .dispatch("createPost", {
+    .dispatch('createPost', {
       author: currentUser.value,
       title: add.title,
       description: add.description,
@@ -75,38 +73,38 @@ function postIsCreate() {
 }
 function submitAdd() {
   store
-    .dispatch("sendPost")
+    .dispatch('sendPost')
     .then(() => {
-      store.dispatch("resetForm", {
-        author: "",
-        image: "",
-        title: "",
-        description: "",
+      store.dispatch('resetForm', {
+        author: '',
+        image: '',
+        title: '',
+        description: '',
         price: null,
-        category: "",
+        category: '',
       });
     })
     .then(() => {
       isAddCreated.value = false;
       state.showCreatedPost = false;
-      toastMsg("L'annonce a bien été postée!", "success");
+      toastMsg('L\'annonce a bien été postée!', 'success');
     });
 }
 
 function resetAdd() {
   store
-    .dispatch("resetForm", {
-      author: "",
-      image: "",
-      title: "",
-      description: "",
+    .dispatch('resetForm', {
+      author: '',
+      image: '',
+      title: '',
+      description: '',
       price: null,
-      category: "",
+      category: '',
     })
     .then(() => {
       isAddCreated.value = false;
       state.showCreatedPost = false;
-      toastMsg("L'annonce a bien été annulée !", "info");
+      toastMsg('L\'annonce a bien été annulée !', 'info');
     });
 }
 
@@ -115,10 +113,11 @@ const currentPost = computed(() => store?.state.currentPost);
 watch(currentPost, (newValue) => {
   state.post = newValue;
 });
+
 </script>
 
-<style lang="scss" scoped>
-@use "../assets/scss/mixins" as m;
+<style lang='scss' scoped>
+@use '../assets/scss/mixins' as m;
 .post-add-container {
   align-items: center;
   display: block;

@@ -53,39 +53,38 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, computed } from "vue";
-import AddCard from "@/components/Adds/AddCard/AddCard";
-import Toolbar from "@/components/Toolbar/Toolbar";
-import AddCardFilter from "@/components/Adds/AddCard/AddCardFilter";
-import Calc from "@/components/Calc/Calc";
-import { useStore } from "vuex";
-import { getFakeAdds } from "../api/adds";
-import "vue-loading-overlay/dist/vue-loading.css";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
-import { inject } from "vue";
+import {
+  onMounted, reactive, computed, inject,
+} from 'vue';
+import AddCard from '@/components/Adds/AddCard/AddCard.vue';
+import Toolbar from '@/components/Toolbar/Toolbar.vue';
+import AddCardFilter from '@/components/Adds/AddCard/AddCardFilter.vue';
+import Calc from '@/components/Calc/Calc.vue';
+import { useStore } from 'vuex';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import { getFakeAdds } from '../api/adds';
 
 const state = reactive({
   adds: null,
   noResult: false,
-  message: "",
+  message: '',
   isLoading: false,
   fullPage: true,
   filters: {
-    search: "",
+    search: '',
     priceRange: [0, 9999],
-    category: "Tout",
+    category: 'Tout',
   },
-  open: !matchMedia("(max-width: 575px)").matches,
-});
-
-onMounted(() => {
-  loadFakeAdds();
+  open: !matchMedia('(max-width: 575px)').matches,
 });
 
 const store = useStore();
-const toast = inject("toastMsg");
-const sideBarClosed = inject("collapsed");
+const toast = inject('toastMsg');
+const sideBarClosed = inject('collapsed');
+const currentUser = computed(() => store?.state.user.userId);
+const isMobile = computed(() => store?.state.windowWidth < 575);
+
 async function loadFakeAdds() {
   try {
     state.isLoading = true;
@@ -95,18 +94,18 @@ async function loadFakeAdds() {
       state.isLoading = false;
     } else {
       state.noResult = true;
-      state.message = "Aucunes annonces trouvées !";
+      state.message = 'Aucunes annonces trouvées !';
     }
   } catch (error) {
     state.noResult = true;
-    state.message = "Erreur lors du chargement des annonces";
+    state.message = 'Erreur lors du chargement des annonces';
   }
 }
 
 function addToFavorites(add) {
   const userFavorite = { ...add, author: currentUser.value };
-  store.dispatch("sendFavorite", userFavorite).then(() => {
-    toast("L'annonce a été ajoutée à vos favoris !", "success");
+  store.dispatch('sendFavorite', userFavorite).then(() => {
+    toast("L'annonce a été ajoutée à vos favoris !", 'success');
   });
 }
 
@@ -118,33 +117,29 @@ function updateFilter(filterUpdate) {
   } else if (filterUpdate.category) {
     state.filters.category = filterUpdate.category;
   } else {
-    state.filters = { search: "", priceRange: [0, 9999], category: "Tout" };
+    state.filters = { search: '', priceRange: [0, 9999], category: 'Tout' };
   }
 }
 
-const filteredAdds = computed(() => {
-  return state.adds.filter((add) => {
-    if (
-      add.title
-        .toLocaleLowerCase()
-        .startsWith(state.filters.search.toLocaleLowerCase()) &&
-      add.price >= state.filters.priceRange[0] &&
-      add.price <= state.filters.priceRange[1] &&
-      (add.category === state.filters.category ||
-        state.filters.category === "Tout")
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+const filteredAdds = computed(() => state.adds.filter((add) => {
+  if (
+    add.title
+      .toLocaleLowerCase()
+      .startsWith(state.filters.search.toLocaleLowerCase())
+      && add.price >= state.filters.priceRange[0]
+      && add.price <= state.filters.priceRange[1]
+      && (add.category === state.filters.category
+        || state.filters.category === 'Tout')
+  ) {
+    return true;
+  }
+  return false;
+}));
+
+onMounted(() => {
+  loadFakeAdds();
 });
-const currentUser = computed(() => {
-  return store?.state.user.userId;
-});
-const isMobile = computed(() => {
-  return store?.state.windowWidth < 575;
-});
+
 </script>
 
 <style lang="scss" scoped>

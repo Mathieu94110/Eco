@@ -29,7 +29,7 @@
     </main>
     <div
       class="sign-in__form-items--error"
-      v-if="props.status == 'error_login'"
+      v-if="props.status === 'error_login'"
     >
       Adresse mail et/ou mot de passe invalide
     </div>
@@ -41,7 +41,7 @@
         :disabled="!validatedFields"
         :class="{ 'sign-in__button-disabled': !validatedFields }"
       >
-        <span v-if="props.status == 'loading'">Connection en cours...</span>
+        <span v-if="props.status === 'loading'">Connection en cours...</span>
         <span v-else class="color-white">Connection</span>
       </button>
     </div>
@@ -49,26 +49,26 @@
 </template>
 
 <script setup>
-import { reactive, defineEmits, defineProps, computed } from "vue";
+import {
+  reactive, defineEmits, defineProps, computed,
+} from 'vue';
 
 const state = reactive({
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 });
 
-const props = defineProps(["status"]);
-const emit = defineEmits(["login", "switch"]);
+const props = defineProps(['status']);
+const emit = defineEmits(['login', 'switch']);
 
 const switchComponent = () => {
-  emit("switch", "create");
+  emit('switch', 'create');
 };
 const login = () => {
-  emit("login", { email: state.email, password: state.password });
+  emit('login', { email: state.email, password: state.password });
 };
 
-const validatedFields = computed(() => {
-  return state.email !== "" && state.password !== "";
-});
+const validatedFields = computed(() => state.email !== '' && state.password !== '');
 </script>
 
 <style lang="scss" scoped>

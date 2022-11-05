@@ -32,20 +32,21 @@
 </template>
 
 <script setup>
-import Table from "@/components/Table/Table";
-import Pagination from "@/components/Pagination/Pagination";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import { getUserAdds } from "@/api/adds";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
-import { reactive, inject, onMounted, computed } from "vue";
-import { useStore } from "vuex";
-import { deleteAdds } from "@/api/adds";
+import Table from '@/components/Table/Table.vue';
+import Pagination from '@/components/Pagination/Pagination.vue';
+import Toolbar from '@/components/Toolbar/Toolbar.vue';
+import { getUserAdds, deleteAdds } from '@/api/adds';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import {
+  reactive, inject, onMounted, computed,
+} from 'vue';
+import { useStore } from 'vuex';
 
 const perPageOptions = [5, 10, 50];
 const store = useStore();
-const sideBarClosed = inject("collapsed");
-const toast = inject("toastMsg");
+const sideBarClosed = inject('collapsed');
+const toast = inject('toastMsg');
 const state = reactive({
   perPageOptions,
   tableData: undefined,
@@ -54,45 +55,41 @@ const state = reactive({
   fullPage: true,
   config: [
     {
-      key: "title",
-      title: "Titre",
-      type: "text",
+      key: 'title',
+      title: 'Titre',
+      type: 'text',
     },
     {
-      key: "image",
-      title: "Image",
-      type: "image",
+      key: 'image',
+      title: 'Image',
+      type: 'image',
     },
     {
-      key: "date",
-      title: "Date",
-      type: "date",
+      key: 'date',
+      title: 'Date',
+      type: 'date',
     },
     {
-      key: "description",
-      title: "Description",
-      type: "text",
+      key: 'description',
+      title: 'Description',
+      type: 'text',
     },
     {
-      key: "category",
-      title: "Catégorie",
-      type: "text",
+      key: 'category',
+      title: 'Catégorie',
+      type: 'text',
     },
     {
-      key: "price",
-      title: "Prix",
-      type: "number",
+      key: 'price',
+      title: 'Prix',
+      type: 'number',
     },
     {
-      key: "actions",
-      title: "Actions",
-      type: "text",
+      key: 'actions',
+      title: 'Actions',
+      type: 'text',
     },
   ],
-});
-
-onMounted(() => {
-  getAdds();
 });
 
 const setTable = (data) => {
@@ -103,9 +100,9 @@ const getAdds = async () => {
     state.isLoading = true;
     const { data } = await getUserAdds();
     if (data.posts) {
-      //In waiting to recover filtered data by user on back-end side, comming soon !
+      // In waiting to recover filtered data by user on back-end side, comming soon !
       state.tableData = data.posts.filter(
-        (post) => post.author === store.state.user.userId
+        (post) => post.author === store.state.user.userId,
       );
       state.isLoading = false;
     }
@@ -116,21 +113,23 @@ const getAdds = async () => {
 
 const deleteAdd = async (add) => {
   deleteAdds(add._id);
-  toast("L'annonce a bien été supprimée !", "success");
+  toast("L'annonce a bien été supprimée !", 'success');
   state.tableData = state.tableData.filter((item) => item._id !== add._id);
 };
 
 const computedTableData = computed(() => {
   if (!state.tableData) return [];
-  else {
-    const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
-    const lastIndex = state.pagination.page * state.pagination.perPage;
-    return state.tableData.slice(firstIndex, lastIndex);
-  }
+
+  const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
+  const lastIndex = state.pagination.page * state.pagination.perPage;
+  return state.tableData.slice(firstIndex, lastIndex);
 });
-const isMobile = computed(() => {
-  return store?.state.windowWidth < 575;
+const isMobile = computed(() => store?.state.windowWidth < 575);
+
+onMounted(() => {
+  getAdds();
 });
+
 </script>
 
 <style lang="scss" scoped>

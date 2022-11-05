@@ -15,20 +15,15 @@
 </template>
 
 <script setup>
-import AddCard from "@/components/Adds/AddCard/AddCard";
-import { reactive, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import AddCard from '@/components/Adds/AddCard/AddCard.vue';
+import { reactive, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const store = useStore();
 const state = reactive({
   favoriteInfos: null,
-});
-onMounted(() => {
-  if (favoriteDetails.value) {
-    state.favoriteInfos = favoriteDetails.value;
-  }
 });
 
 const favoriteDetails = computed(() => store.getters.getFavoriteDetails);
@@ -36,6 +31,12 @@ const favoriteDetails = computed(() => store.getters.getFavoriteDetails);
 const goBack = () => {
   router.back();
 };
+
+onMounted(() => {
+  if (favoriteDetails.value) {
+    state.favoriteInfos = favoriteDetails.value;
+  }
+});
 </script>
 
 <style lang="scss">

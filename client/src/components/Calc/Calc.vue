@@ -1,8 +1,9 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
-defineProps(["open", "transparent"]);
+import { defineProps, defineEmits } from 'vue';
 
-const emit = defineEmits("close");
+defineProps(['open', 'transparent']);
+
+const emit = defineEmits('close');
 </script>
 
 <template>

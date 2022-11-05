@@ -31,27 +31,29 @@
 </template>
 
 <script setup>
-import { reactive, computed, defineProps, defineEmits } from "vue";
+import {
+  reactive, computed, defineProps, defineEmits,
+} from 'vue';
+
 const state = reactive({
   page: 1,
   perPage: props.perPageOptions[0],
 });
 
-const props = defineProps(["totalRecords", "perPageOptions", "isMobile"]);
-const emit = defineEmits(["input"]);
+const props = defineProps(['totalRecords', 'perPageOptions', 'isMobile']);
+const emit = defineEmits(['input']);
 
 const pages = computed(() => {
   const remainder = props.totalRecords % state.perPage;
   if (remainder > 0) {
     return Math.floor(props.totalRecords / state.perPage) + 1;
-  } else {
-    return props.totalRecords / state.perPage;
   }
+  return props.totalRecords / state.perPage;
 });
 
 const setPerPage = (amount) => {
   state.perPage = amount;
-  emit("input", { page: state.page, perPage: amount });
+  emit('input', { page: state.page, perPage: amount });
 };
 const changePage = (val) => {
   switch (val) {
@@ -68,7 +70,7 @@ const changePage = (val) => {
       state.page = pages.value;
       break;
   }
-  emit("input", { page: state.page, perPage: state.perPage });
+  emit('input', { page: state.page, perPage: state.perPage });
 };
 </script>
 

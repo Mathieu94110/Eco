@@ -38,10 +38,11 @@
 </template>
 
 <script setup>
-import { onClickOutside } from "@vueuse/core";
-import { ref, defineProps, defineEmits } from "vue";
-const props = defineProps(["add"]);
-const emit = defineEmits(["delete"]);
+import { onClickOutside } from '@vueuse/core';
+import { ref, defineProps, defineEmits } from 'vue';
+
+const props = defineProps(['add']);
+const emit = defineEmits(['delete']);
 
 const isModalOpen = ref(false);
 const modal = ref(null);
@@ -49,7 +50,7 @@ const modal = ref(null);
 onClickOutside(modal, () => (isModalOpen.value = false));
 
 const deleteAdd = () => {
-  emit("delete", props.add);
+  emit('delete', props.add);
   isModalOpen.value = false;
 };
 </script>

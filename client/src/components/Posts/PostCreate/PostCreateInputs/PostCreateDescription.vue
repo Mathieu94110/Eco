@@ -16,22 +16,23 @@
 </template>
 
 <script>
-import { ref, computed, watch } from "vue";
-import { useStore } from "vuex";
-import addFormValidation from "@/modules/formValidation";
+import { ref, computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import addFormValidation from '@/modules/formValidation';
+
 export default {
   setup() {
-    let input = ref("");
+    const input = ref('');
     const store = useStore();
     const { validateDescriptionField, errors } = addFormValidation();
     const validateInput = () => {
-      validateDescriptionField("description", input.value);
+      validateDescriptionField('description', input.value);
     };
     const storeDescription = computed(
-      () => store?.state.currentPost.description
+      () => store?.state.currentPost.description,
     );
     watch(storeDescription, (newValue) => {
-      if (!newValue) input.value = "";
+      if (!newValue) input.value = '';
       validateInput();
     });
     return {

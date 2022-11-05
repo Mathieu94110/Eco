@@ -23,7 +23,7 @@
                 </span>
                 <span v-if="obj.type === 'number'">{{ row[obj.key] }}</span>
                 <figure v-if="obj.type === 'image'">
-                  <img :src="row[obj.key]" width="auto" />
+                  <img :src="row[obj.key]" width="auto" alt="add picture" />
                 </figure>
                 <span v-if="!obj.type">{{ row[obj.key] }}</span>
                 <div
@@ -84,7 +84,7 @@
               </span>
               <span v-if="obj.type === 'number'">{{ row[obj.key] }}</span>
               <figure v-if="obj.type === 'image'">
-                <img :src="row[obj.key]" width="auto" />
+                <img :src="row[obj.key]" width="auto" alt="add picture" />
               </figure>
               <span v-if="!obj.type">{{ row[obj.key] }}</span>
               <div
@@ -135,16 +135,14 @@
 </template>
 
 <script setup>
-import { computed, defineProps } from "vue";
-import { useStore } from "vuex";
-import Modal from "../Modal/Modal";
+import { computed, defineProps } from 'vue';
+import { useStore } from 'vuex';
+import Modal from '../Modal/Modal.vue';
 
-const props = defineProps(["userAdds", "config"]);
+const props = defineProps(['userAdds', 'config']);
 const store = useStore();
 
-const isTabletOrMobile = computed(() => {
-  return store?.state.windowWidth < 800;
-});
+const isTabletOrMobile = computed(() => store?.state.windowWidth < 800);
 </script>
 
 <style lang="scss">

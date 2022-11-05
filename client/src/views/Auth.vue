@@ -9,10 +9,10 @@
 </template>
 
 <script setup>
-import Login from "@/components/Login/Login";
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import Login from '@/components/Login/Login.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
 const router = useRouter();
@@ -20,23 +20,23 @@ const status = computed(() => store?.state.status);
 
 const authenticate = (data) => {
   store
-    .dispatch("login", {
+    .dispatch('login', {
       email: data.email,
       password: data.password,
     })
     .then(
       () => {
-        router.push("/profile");
+        router.push('/profile');
       },
-      function (error) {
+      (error) => {
         console.log(error);
-      }
+      },
     );
 };
 
 const createAccount = (data) => {
   store
-    .dispatch("createAccount", {
+    .dispatch('createAccount', {
       userName: data.userName,
       email: data.email,
       lastName: data.lastName,
@@ -48,12 +48,12 @@ const createAccount = (data) => {
       zip: data.zip,
     })
     .then(
-      function () {
+      () => {
         authenticate(data);
       },
-      function (error) {
+      (error) => {
         console.log(error);
-      }
+      },
     );
 };
 </script>

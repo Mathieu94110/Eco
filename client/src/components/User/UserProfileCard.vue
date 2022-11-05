@@ -15,7 +15,11 @@
             ref="fileInput"
             @input="onPickFile"
           />
-          <label class="user-profile-card__label" for="file">
+          <label
+            class="user-profile-card__label"
+            for="file"
+            role="user avatar picture"
+          >
             <i
               class="fa-solid fa-pen-to-square user-profile-card__edit-icon"
             ></i>
@@ -184,9 +188,9 @@ function confirmInfo() {
 }
 
 function onPickFile() {
-  let file = fileInput.value.files;
+  const file = fileInput.value.files;
   if (file && file[0]) {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (e) => {
       image.value = e.target.result;
     };

@@ -38,23 +38,25 @@
 </template>
 
 <script setup>
-import { inject, computed, reactive, onMounted } from "vue";
-import { getPostId } from "@/api/adds";
-import Card from "@/components/Card/Card";
-import EditCard from "@/components/Card/EditCard";
-import { updateAdds } from "@/api/adds";
-import { useRouter, useRoute } from "vue-router";
-import Loading from "vue-loading-overlay";
-import { useStore } from "vuex";
+import {
+  inject, computed, reactive, onMounted,
+} from 'vue';
+import { getPostId, updateAdds } from '@/api/adds';
+import Card from '@/components/Card/Card.vue';
+import EditCard from '@/components/Card/EditCard.vue';
 
-const sideBarClosed = inject("collapsed");
+import { useRouter, useRoute } from 'vue-router';
+import Loading from 'vue-loading-overlay';
+import { useStore } from 'vuex';
+
+const sideBarClosed = inject('collapsed');
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const toast = inject("toastMsg");
+const toast = inject('toastMsg');
 
 const state = reactive({
-  component: "Card",
+  component: 'Card',
   currentState: false,
   userAdd: undefined,
   loading: false,
@@ -83,18 +85,14 @@ const switchActive = () => {
 const updateUserCard = async (card) => {
   try {
     await updateAdds(card);
-    toast("L'annonce a été mise à jour !", "success");
+    toast("L'annonce a été mise à jour !", 'success');
   } catch (err) {
-    toast("Aucun changement détecté !", "warning");
+    toast('Aucun changement détecté !', 'warning');
     console.log(err);
   }
 };
-const isActive = computed(() => {
-  return state.currentState === true ? EditCard : Card;
-});
-const isMobile = computed(() => {
-  return store?.state.windowWidth < 575;
-});
+const isActive = computed(() => (state.currentState === true ? EditCard : Card));
+const isMobile = computed(() => store?.state.windowWidth < 575);
 </script>
 
 <style lang="scss">

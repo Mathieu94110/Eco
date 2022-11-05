@@ -1,13 +1,13 @@
-import { createToast } from "mosha-vue-toastify";
-import "mosha-vue-toastify/dist/style.css";
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
 
-export const toastMsg = (message, type) => {
-  return createToast(message, {
-    type: type,
-    position: "top-right",
-    hideProgressBar: false,
-    showIcon: false,
-    transition: "slide",
-    timeout: 2000,
-  });
-};
+const toastMsg = (message, type) => createToast(message, {
+  type,
+  position: 'top-right',
+  hideProgressBar: false,
+  showIcon: false,
+  transition: 'slide',
+  timeout: 2000,
+});
+
+export default toastMsg;

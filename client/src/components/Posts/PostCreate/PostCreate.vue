@@ -16,22 +16,22 @@
 </template>
 
 <script setup>
-import { reactive, defineProps } from "vue";
-import PostCreateImage from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateImage";
-import PostCreateTitle from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateTitle";
-import PostCreateDescription from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateDescription";
-import PostCreatePrice from "@/components/Posts/PostCreate/PostCreateInputs/PostCreatePrice";
-import PostCreateCategory from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateCategory";
-import PostCreateButtons from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons";
+import { reactive, defineProps } from 'vue';
+import PostCreateImage from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateImage.vue';
+import PostCreateTitle from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateTitle.vue';
+import PostCreateDescription from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateDescription.vue';
+import PostCreatePrice from '@/components/Posts/PostCreate/PostCreateInputs/PostCreatePrice.vue';
+import PostCreateCategory from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateCategory.vue';
+import PostCreateButtons from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons.vue';
 
 const add = reactive({
   image: null,
-  title: "",
-  description: "",
+  title: '',
+  description: '',
   price: null,
-  category: "",
+  category: '',
 });
-const props = defineProps(["isAddCreated"]);
+const props = defineProps(['isAddCreated']);
 </script>
 
 <style lang="scss" scoped>

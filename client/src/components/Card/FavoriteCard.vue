@@ -40,11 +40,11 @@
 </template>
 
 <script setup>
-import CardLayout from "../Layout/CardLayout";
-import Modal from "../Modal/Modal";
-import { defineProps } from "vue";
+import { defineProps } from 'vue';
+import CardLayout from '../Layout/CardLayout.vue';
+import Modal from '../Modal/Modal.vue';
 
-const props = defineProps(["add"]);
+const props = defineProps(['add']);
 </script>
 <style lang="scss" scoped>
 @use "../../assets/../assets/scss/mixins";

@@ -64,8 +64,10 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, computed, watch, defineProps, ref } from "vue";
-import CardLayout from "../Layout/CardLayout.vue";
+import {
+  reactive, onMounted, computed, watch, defineProps, ref,
+} from 'vue';
+import CardLayout from '../Layout/CardLayout.vue';
 
 const state = reactive({
   editCard: false,
@@ -73,14 +75,14 @@ const state = reactive({
   card: {},
 });
 
-const props = defineProps(["add", "currentState"]);
+const props = defineProps(['add', 'currentState']);
 const fileInput = ref(null);
 const onPickFile = () => {
   state.edit = true;
-  let input = fileInput.value;
-  let file = input.files;
+  const input = fileInput.value;
+  const file = input.files;
   if (file && file[0]) {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (e) => {
       state.card.image = e.target.result;
     };

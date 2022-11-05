@@ -37,13 +37,11 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const currentRoute = computed(() => {
-  return route.name;
-});
+const currentRoute = computed(() => route.name);
 </script>
 
 <style scoped lang="scss">
