@@ -7,19 +7,24 @@
       <p class="sign-up__subtitle-main">Tu as déjà un compte ?</p>
     </header>
     <nav class="sign-up__subtitle-secondary">
-      <span class="sign-up__action" @click="switchComponent()"
+      <span
+        class="sign-up__action"
+        @click="switchComponent()"
+        @keydown="switchComponent()"
         >Se connecter</span
       >
     </nav>
     <div class="sign-up__file-input">
-      <input
-        id="image"
-        name="image"
-        accept="image/*"
-        ref="fileInput"
-        type="file"
-        @input="onPickFile"
-      />
+      <label for="image">
+        <input
+          id="image"
+          name="image"
+          accept="image/*"
+          ref="fileInput"
+          type="file"
+          @input="onPickFile"
+        />
+      </label>
     </div>
 
     <div class="sign-up__file-image">
@@ -31,79 +36,95 @@
 
     <main class="sign-up__main">
       <div>
-        <input
-          id="firstName"
-          v-model="state.firstName"
-          class="sign-up__form-input"
-          type="text"
-          placeholder="Prénom"
-        />
+        <label for="firstName">
+          <input
+            id="firstName"
+            v-model="state.firstName"
+            class="sign-up__form-input"
+            type="text"
+            placeholder="Prénom"
+          />
+        </label>
       </div>
       <div>
-        <input
-          id="lastName"
-          v-model="state.lastName"
-          class="sign-up__form-input"
-          type="text"
-          placeholder="Nom"
-        />
-      </div>
-
-      <div>
-        <input
-          id="phone"
-          v-model="state.phone"
-          class="sign-up__form-input"
-          type="number"
-          placeholder="Téléphone"
-        />
-      </div>
-      <div>
-        <input
-          id="email"
-          v-model="state.email"
-          class="sign-up__form-input"
-          type="text"
-          placeholder="Adresse mail"
-        />
+        <label for="lastName">
+          <input
+            id="lastName"
+            v-model="state.lastName"
+            class="sign-up__form-input"
+            type="text"
+            placeholder="Nom"
+          />
+        </label>
       </div>
 
       <div>
-        <input
-          id="address"
-          v-model="state.address"
-          class="sign-up__form-input"
-          type="text"
-          placeholder="Adresse"
-        />
+        <label for="phone">
+          <input
+            id="phone"
+            v-model="state.phone"
+            class="sign-up__form-input"
+            type="number"
+            placeholder="Téléphone"
+          />
+        </label>
       </div>
       <div>
-        <input
-          id="zip"
-          v-model="state.zip"
-          class="sign-up__form-input"
-          type="number"
-          placeholder="Code Postal"
-        />
+        <label for="email">
+          <input
+            id="email"
+            v-model="state.email"
+            class="sign-up__form-input"
+            type="text"
+            placeholder="Adresse mail"
+          />
+        </label>
       </div>
 
       <div>
-        <input
-          id="userName"
-          v-model="state.userName"
-          class="sign-up__form-input"
-          type="text"
-          placeholder="Pseudo"
-        />
+        <label for="address">
+          <input
+            id="address"
+            v-model="state.address"
+            class="sign-up__form-input"
+            type="text"
+            placeholder="Adresse"
+          />
+        </label>
       </div>
       <div>
-        <input
-          id="password"
-          v-model="state.password"
-          class="sign-up__form-input"
-          type="password"
-          placeholder="Mot de passe"
-        />
+        <label for="zip">
+          <input
+            id="zip"
+            v-model="state.zip"
+            class="sign-up__form-input"
+            type="number"
+            placeholder="Code Postal"
+          />
+        </label>
+      </div>
+
+      <div>
+        <label for="userName">
+          <input
+            id="userName"
+            v-model="state.userName"
+            class="sign-up__form-input"
+            type="text"
+            placeholder="Pseudo"
+          />
+        </label>
+      </div>
+      <div>
+        <label for="password">
+          <input
+            id="password"
+            v-model="state.password"
+            class="sign-up__form-input"
+            type="password"
+            placeholder="Mot de passe"
+          />
+        </label>
       </div>
     </main>
 
@@ -178,14 +199,14 @@ const onPickFile = () => {
 
 const validatedFields = computed(() => {
   if (
-    state.userName != ''
-    && state.firstName != ''
-    && state.lastName != ''
-    && state.email != ''
-    && state.password != ''
-    && state.phone != ''
-    && state.address != ''
-    && state.zip != ''
+    state.userName !== ''
+    && state.firstName !== ''
+    && state.lastName !== ''
+    && state.email !== ''
+    && state.password !== ''
+    && state.phone !== ''
+    && state.address !== ''
+    && state.zip !== ''
   ) {
     return true;
   }

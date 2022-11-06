@@ -6,12 +6,14 @@
     >
       <section class="mb-20">
         <h3 class="mb-10">Rechercher</h3>
+        <label for="search">
         <input
           @input="$emit('updateFilter', { search: $event.target.value })"
           type="text"
           placeholder="Rechercher"
           class="add-card-filter__search"
         />
+      </label>
       </section>
       <section>
         <h3 class="mb-10">Trier par prix</h3>
@@ -26,15 +28,17 @@
           ]"
           v-bind:key="index"
         >
-          <input
-            :checked="rangeFilter[0] === priceRange[0]"
-            type="radio"
-            @input="$emit('updateFilter', { priceRange })"
-            name="priceRange"
-            :id="priceRange[0] + ''"
-            class="mr-10"
-          />
-          <label class="ml-10" :for="priceRange[0] + ''">
+          <label for="priceRange">
+            <input
+              :checked="rangeFilter[0] === priceRange[0]"
+              type="radio"
+              @input="$emit('updateFilter', { priceRange })"
+              name="priceRange"
+              :id="priceRange[0] + ''"
+              class="mr-10"
+            />
+          </label>
+          <span class="ml-10" :for="priceRange[0] + ''">
             {{
               priceRange[0] === 0
                 ? "Tous les prix"
@@ -42,7 +46,7 @@
                 ? "Plus de 2000€"
                 : `Entre ${priceRange[0]} et ${priceRange[1]}€`
             }}
-          </label>
+          </span>
         </div>
       </section>
       <section class="add-card-filter__category">
@@ -75,6 +79,7 @@
             ]"
             v-bind:key="index"
             @click="$emit('updateFilter', { category })"
+            @keydown="$emit('updateFilter', { category })"
           >
             {{ category }}
           </p>

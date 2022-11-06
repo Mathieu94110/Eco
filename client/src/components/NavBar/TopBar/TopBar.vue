@@ -7,17 +7,18 @@
           @close="state.open = false"
           :transparent="true"
         />
-        <span @click="state.open = !state.open"
+        <span @click="state.open = !state.open" @keydown="state.open = !state.open"
           ><i class="fa-solid fa-bars"></i
         ></span>
         <Transition>
           <div
             class="topbar__menu"
             @click="state.open = false"
+            @keydown="state.open = false"
             v-if="state.open"
           >
             <NavLink to="" icon="fas fa-user-circle"
-              ><span @click="logOut()">Déconnection</span></NavLink
+              ><span @click="logOut()" @keydown="logOut()">Déconnection</span></NavLink
             >
             <NavLink to="/profile" icon="fas fa-user-circle"
               ><span>Mes informations</span></NavLink

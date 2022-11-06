@@ -1,15 +1,17 @@
 <template>
   <div class="post-create-title">
     <div>
-      <input
-        type="text"
-        placeholder="Titre"
-        autocomplete="off"
-        @input="$emit('update:modelValue', $event.target.value)"
-        v-model="input"
-        @keyup="validateInput"
-        @blur="validateInput"
-      />
+      <label for="title">
+        <input
+          type="text"
+          placeholder="Titre"
+          autocomplete="off"
+          @input="$emit('update:modelValue', $event.target.value)"
+          v-model="input"
+          @keyup="validateInput"
+          @blur="validateInput"
+        />
+      </label>
     </div>
     <div class="post-create-title__errors" v-if="errors.title">
       {{ errors.title }}
@@ -36,7 +38,10 @@ export default {
       validateInput();
     });
     return {
-      input, errors, validateInput, storeTitle,
+      input,
+      errors,
+      validateInput,
+      storeTitle,
     };
   },
 };

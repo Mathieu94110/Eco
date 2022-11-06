@@ -12,28 +12,10 @@ const favoriteInstance = axios.create({
   baseURL: `${process.env.VUE_APP_API_URL}/favorites`,
 });
 
-let user = localStorage.getItem('user');
-if (!user) {
-  user = {
-    userId: -1,
-    token: '',
-  };
-} else {
-  try {
-    user = JSON.parse(user);
-
-    userInstance.defaults.headers.common.Authorization = user.token;
-  } catch (err) {
-    user = {
-      userId: -1,
-      token: '',
-    };
-  }
-}
 const store = createStore({
   state: {
     status: '',
-    user,
+    user: {},
     isUserLogged: false,
     currentPost: {
       author: '',
@@ -202,5 +184,23 @@ const store = createStore({
     },
   },
 });
+
+const userData = localStorage.getItem('user');
+if (!userData) {
+  store.state.user = {
+    userId: -1,
+    token: '',
+  };
+} else {
+  try {
+    const user = JSON.parse(userData);
+    userInstance.defaults.headers.common.Authorization = user.token;
+  } catch (err) {
+    store.state.user = {
+      userId: -1,
+      token: '',
+    };
+  }
+}
 
 export default store;

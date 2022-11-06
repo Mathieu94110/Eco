@@ -1,23 +1,25 @@
 <template>
   <div class="post-create-category">
     <div>
-      <select
-        placeholder="Catégorie"
-        autocomplete="off"
-        @input="$emit('update:modelValue', $event.target.value)"
-        v-model="input"
-        @change="validateInput"
-      >
-        <option value="Informatique">Informatique</option>
-        <option value="Téléphones, tablettes">Téléphones, tablettes</option>
-        <option value="Électro">Électro</option>
-        <option value="Rangements">Rangements</option>
-        <option value="Vetements">Vetements</option>
-        <option value="Cosmétiques">Cosmétiques</option>
-        <option value="Vidéo, son">Vidéo, son</option>
-        <option value="Auto, moto">Auto, moto</option>
-        <option value="Autres">Autres</option>
-      </select>
+      <label for="category">
+        <select
+          placeholder="Catégorie"
+          autocomplete="off"
+          @input="$emit('update:modelValue', $event.target.value)"
+          v-model="input"
+          @change="validateInput"
+        >
+          <option value="Informatique">Informatique</option>
+          <option value="Téléphones, tablettes">Téléphones, tablettes</option>
+          <option value="Électro">Électro</option>
+          <option value="Rangements">Rangements</option>
+          <option value="Vetements">Vetements</option>
+          <option value="Cosmétiques">Cosmétiques</option>
+          <option value="Vidéo, son">Vidéo, son</option>
+          <option value="Auto, moto">Auto, moto</option>
+          <option value="Autres">Autres</option>
+        </select>
+      </label>
     </div>
     <div class="post-create-category__errors" v-if="errors.category">
       {{ errors.category }}
@@ -44,7 +46,10 @@ export default {
       validateInput();
     });
     return {
-      input, errors, validateInput, storeCategory,
+      input,
+      errors,
+      validateInput,
+      storeCategory,
     };
   },
 };

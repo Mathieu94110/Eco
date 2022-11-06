@@ -36,7 +36,7 @@ const userId = store?.state.user.userId;
 const isMobile = computed(() => store?.state.windowWidth < 575);
 
 const getProfile = async () => {
-  const response = await userApi.userApi.getProfile(userId);
+  const response = await userApi.getProfile(userId);
   state.user = response.data.result;
 };
 

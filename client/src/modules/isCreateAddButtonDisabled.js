@@ -12,6 +12,5 @@ export default function createAddButtonState(user, errors) {
     }
     return disabled;
   });
-
   return { isCreateAddButtonDisabled };
 }

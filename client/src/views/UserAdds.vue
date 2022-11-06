@@ -35,7 +35,7 @@
 import Table from '@/components/Table/Table.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
 import Toolbar from '@/components/Toolbar/Toolbar.vue';
-import { getUserAdds, deleteAdds } from '@/api/adds';
+import addsApi from '@/api/adds';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import {
@@ -98,7 +98,7 @@ const setTable = (data) => {
 const getAdds = async () => {
   try {
     state.isLoading = true;
-    const { data } = await getUserAdds();
+    const { data } = await addsApi.getUserAdds();
     if (data.posts) {
       // In waiting to recover filtered data by user on back-end side, comming soon !
       state.tableData = data.posts.filter(
@@ -112,7 +112,7 @@ const getAdds = async () => {
 };
 
 const deleteAdd = async (add) => {
-  deleteAdds(add._id);
+  addsApi.deleteAdds(add._id);
   toast("L'annonce a bien été supprimée !", 'success');
   state.tableData = state.tableData.filter((item) => item._id !== add._id);
 };

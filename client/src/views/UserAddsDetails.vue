@@ -12,7 +12,6 @@
     />
     <div
       class="add-details__header"
-      :style="!currentState && { 'margin-bottom': '60px' }"
     >
       <button class="btn btn-primary" type="button" @click="goBack()">
         Retour
@@ -41,7 +40,7 @@
 import {
   inject, computed, reactive, onMounted,
 } from 'vue';
-import { getPostId, updateAdds } from '@/api/adds';
+import addsApi from '@/api/adds';
 import Card from '@/components/Card/Card.vue';
 import EditCard from '@/components/Card/EditCard.vue';
 
@@ -67,7 +66,7 @@ const state = reactive({
 onMounted(async () => {
   try {
     state.isLoading = true;
-    const response = await getPostId(route.params.id);
+    const response = await addsApi.getPostId(route.params.id);
     state.userAdd = response.data;
     state.isLoading = false;
   } catch (error) {
@@ -84,7 +83,7 @@ const switchActive = () => {
 };
 const updateUserCard = async (card) => {
   try {
-    await updateAdds(card);
+    await addsApi.updateAdds(card);
     toast("L'annonce a été mise à jour !", 'success');
   } catch (err) {
     toast('Aucun changement détecté !', 'warning');

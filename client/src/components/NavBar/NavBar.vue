@@ -11,14 +11,15 @@ const state = reactive({
   width: document.documentElement.clientWidth,
 });
 
-onMounted(() => {
-  window.addEventListener('resize', getDimensions);
-});
-
 const getDimensions = () => {
   state.width = document.documentElement.clientWidth;
 };
 const isActive = computed(() => (state.width < 575 ? TopBar : SideBar));
+
+onMounted(() => {
+  window.addEventListener('resize', getDimensions);
+});
+
 </script>
 
 <style lang="" scss scoped></style>

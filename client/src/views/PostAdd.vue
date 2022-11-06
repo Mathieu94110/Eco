@@ -1,25 +1,25 @@
 <template>
-  <div class='post-add-container'>
+  <div class="post-add-container">
     <Toolbar> Poster une annonce </Toolbar>
     <div
-      class='post-add-container__items'
-      :style='{
-        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
-      }'
+      class="post-add-container__items"
+      :style="{
+        marginLeft: isMobile < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
+      }"
     >
-      <div class='post-add-container__items-wrapper'>
+      <div class="post-add-container__items-wrapper">
         <PostCreate
-          ref='post-create'
-          :isAddCreated='isAddCreated'
-          @create-add='createAdd'
-          @submit-add='submitAdd'
-          @reset-add='resetAdd'
+          ref="post-create"
+          :isAddCreated="isAddCreated"
+          @create-add="createAdd"
+          @submit-add="submitAdd"
+          @reset-add="resetAdd"
         ></PostCreate>
-        <Transition name='nested'>
+        <Transition name="nested">
           <PostCreated
-            v-if='state.showCreatedPost'
-            :currentPost='state.post'
-            ref='post-created'
+            v-if="state.showCreatedPost"
+            :currentPost="state.post"
+            ref="post-created"
           ></PostCreated>
         </Transition>
       </div>
@@ -28,7 +28,6 @@
 </template>
 
 <script setup>
-
 import {
   computed, reactive, watch, ref, inject,
 } from 'vue';
@@ -42,15 +41,20 @@ const state = reactive({
   showCreatedPost: false,
 });
 
-const toastMsg = inject('toastMsg', () => {});
-const sideBarClosed = inject('collapsed', () => {});
+const toastMsg = inject('toastMsg');
+const sideBarClosed = inject('collapsed');
+
 const store = useStore();
 const isAddCreated = ref(false);
 
 const currentUser = computed(() => store?.state.user.userId);
 const isMobile = computed(() => store?.state.windowWidth < 575);
 
-function createAdd(add) {
+const postIsCreate = () => {
+  state.showCreatedPost = true;
+};
+
+const createAdd = (add) => {
   store
     .dispatch('createPost', {
       author: currentUser.value,
@@ -67,11 +71,8 @@ function createAdd(add) {
     .catch((err) => {
       this.toast(err);
     });
-}
-function postIsCreate() {
-  state.showCreatedPost = true;
-}
-function submitAdd() {
+};
+const submitAdd = () => {
   store
     .dispatch('sendPost')
     .then(() => {
@@ -87,11 +88,11 @@ function submitAdd() {
     .then(() => {
       isAddCreated.value = false;
       state.showCreatedPost = false;
-      toastMsg('L\'annonce a bien été postée!', 'success');
+      toastMsg("L'annonce a bien été postée!", 'success');
     });
-}
+};
 
-function resetAdd() {
+const resetAdd = () => {
   store
     .dispatch('resetForm', {
       author: '',
@@ -104,20 +105,19 @@ function resetAdd() {
     .then(() => {
       isAddCreated.value = false;
       state.showCreatedPost = false;
-      toastMsg('L\'annonce a bien été annulée !', 'info');
+      toastMsg("L'annonce a bien été annulée !", 'info');
     });
-}
+};
 
 const currentPost = computed(() => store?.state.currentPost);
 
 watch(currentPost, (newValue) => {
   state.post = newValue;
 });
-
 </script>
 
-<style lang='scss' scoped>
-@use '../assets/scss/mixins' as m;
+<style lang="scss" scoped>
+@use "../assets/scss/mixins" as m;
 .post-add-container {
   align-items: center;
   display: block;

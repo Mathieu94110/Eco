@@ -1,15 +1,17 @@
 <template>
   <div class="post-create-price">
     <div>
-      <input
-        type="number"
-        placeholder="Prix"
-        autocomplete="off"
-        @input="$emit('update:modelValue', $event.target.value)"
-        v-model="input"
-        @keyup="validateInput"
-        @blur="validateInput"
-      />
+      <label for="price">
+        <input
+          type="number"
+          placeholder="Prix"
+          autocomplete="off"
+          @input="$emit('update:modelValue', $event.target.value)"
+          v-model="input"
+          @keyup="validateInput"
+          @blur="validateInput"
+        />
+      </label>
     </div>
     <div class="post-create-price__errors" v-if="errors.price">
       {{ errors.price }}
@@ -36,7 +38,10 @@ export default {
       validateInput();
     });
     return {
-      input, errors, validateInput, storePrice,
+      input,
+      errors,
+      validateInput,
+      storePrice,
     };
   },
 };

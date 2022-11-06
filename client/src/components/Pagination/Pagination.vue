@@ -24,6 +24,7 @@
         v-for="(amount, index) in props.perPageOptions"
         :key="index"
         @click="setPerPage(amount)"
+        @keydown="setPerPage(amount)"
         >{{ amount }}</span
       >
     </div>
@@ -35,12 +36,13 @@ import {
   reactive, computed, defineProps, defineEmits,
 } from 'vue';
 
+const props = defineProps(['totalRecords', 'perPageOptions', 'isMobile']);
+
 const state = reactive({
   page: 1,
   perPage: props.perPageOptions[0],
 });
 
-const props = defineProps(['totalRecords', 'perPageOptions', 'isMobile']);
 const emit = defineEmits(['input']);
 
 const pages = computed(() => {

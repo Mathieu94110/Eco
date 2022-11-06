@@ -4,6 +4,8 @@
     class="side-bar"
     @mouseenter="formatSideBar(true)"
     @mouseleave="formatSideBar(false)"
+    @focus="formatSideBar(true)"
+    @blur="formatSideBar(false)"
   >
     <router-link to="/">
       <img
@@ -17,11 +19,12 @@
         v-if="state.isHover"
         class="side-bar__link--error"
         @click="logOut()"
+        @keydown="logOut()"
         icon="fa-solid fa-right-from-bracket"
       >
         Se déconnecter
       </button>
-      <div v-else @click="logOut()">
+      <div v-else @click="logOut()" @keydown="logOut()">
         <NavLink
           class="side-bar__link"
           to="/profile"

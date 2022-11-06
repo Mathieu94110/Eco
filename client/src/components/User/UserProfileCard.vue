@@ -8,23 +8,24 @@
         }"
       >
         <div class="user-profile-card__edit-image" v-if="isEditMode">
-          <input
-            type="file"
-            id="file"
-            class="user-profile-card__file-input"
-            ref="fileInput"
-            @input="onPickFile"
-          />
-          <label
+          <label for="file">
+            <input
+              type="file"
+              id="file"
+              class="user-profile-card__file-input"
+              ref="fileInput"
+              @input="onPickFile"
+            />
+          </label>
+          <span
             class="user-profile-card__label"
             for="file"
-            role="user avatar picture"
           >
             <i
               class="fa-solid fa-pen-to-square user-profile-card__edit-icon"
             ></i>
             <p class="user-profile-card__file-name"></p>
-          </label>
+          </span>
         </div>
       </div>
     </div>
@@ -89,10 +90,14 @@
     </div>
 
     <div class="user-profile-card__footer">
-      <span v-if="!isEditMode" @click="editProfileInfo()">
+      <span
+        v-if="!isEditMode"
+        @click="editProfileInfo()"
+        @keydown="editProfileInfo()"
+      >
         <i class="fa-solid fa-pen-to-square user-profile-card__edit-icon"></i
       ></span>
-      <span v-else @click="confirmInfo()">
+      <span v-else @click="confirmInfo()" @keydown="confirmInfo()">
         <i class="fa-solid fa-check user-profile-card__edit-icon"></i>
       </span>
     </div>
@@ -100,11 +105,13 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed, defineEmits } from "vue";
-import mysteryImage from "@/assets/images/mystery-image.png";
+import {
+  defineProps, ref, computed, defineEmits,
+} from 'vue';
+import mysteryImage from '@/assets/images/mystery-image.png';
 
-const props = defineProps(["userInfos"]);
-const emit = defineEmits(["updateUser"]);
+const props = defineProps(['userInfos']);
+const emit = defineEmits(['updateUser']);
 
 const isEditMode = ref(false);
 const fileInput = ref(null);
@@ -183,7 +190,7 @@ function editProfileInfo() {
   isEditMode.value = true;
 }
 function confirmInfo() {
-  emit("updateUser", newUserInfos);
+  emit('updateUser', newUserInfos);
   isEditMode.value = false;
 }
 

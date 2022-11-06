@@ -57,7 +57,7 @@ const currentRoute = computed(() => route.name);
     color: #8bacd9;
     border-radius: 16px;
     padding: 16px 10px;
-    margin: 20px;
+    margin: 10px auto;
     font-size: 1.2rem;
     box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
     @include mixins.xs {

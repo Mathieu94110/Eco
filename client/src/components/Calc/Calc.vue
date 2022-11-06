@@ -8,7 +8,7 @@ const emit = defineEmits('close');
 
 <template>
   <Teleport v-if="open" to="body">
-    <div @click="emit('close')" class="calc" :class="{ transparent }"></div>
+    <div @click="emit('close')" @keydown="emit('close')" class="calc" :class="{ transparent }"></div>
   </Teleport>
 </template>
 

@@ -4,11 +4,12 @@
       <h1>Connection</h1>
     </div>
     <div class="sign-in__subtitle-main">Tu n'as pas encore de compte ?</div>
-    <div class="sign-in__subtitle-secondary" @click="switchComponent()">
+    <div class="sign-in__subtitle-secondary" @click="switchComponent()" @keydown="switchComponent()">
       Créer un compte
     </div>
     <main class="sign-in__inputs">
       <div class="sign-in__form-items">
+        <label for="email">
         <input
           id="email"
           v-model="state.email"
@@ -16,8 +17,10 @@
           type="text"
           placeholder="Adresse mail"
         />
+      </label>
       </div>
       <div class="sign-in__form-items">
+        <label for="email">
         <input
           id="password"
           v-model="state.password"
@@ -25,6 +28,7 @@
           type="password"
           placeholder="Mot de passe"
         />
+        </label>
       </div>
     </main>
     <div

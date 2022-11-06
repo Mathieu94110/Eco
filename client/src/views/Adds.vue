@@ -63,7 +63,7 @@ import Calc from '@/components/Calc/Calc.vue';
 import { useStore } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import { getFakeAdds } from '../api/adds';
+import addsApi from '../api/adds';
 
 const state = reactive({
   adds: null,
@@ -88,7 +88,7 @@ const isMobile = computed(() => store?.state.windowWidth < 575);
 async function loadFakeAdds() {
   try {
     state.isLoading = true;
-    const { data } = await getFakeAdds();
+    const { data } = await addsApi.getFakeAdds();
     if (data.products) {
       state.adds = data.products;
       state.isLoading = false;

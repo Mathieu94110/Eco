@@ -5,15 +5,16 @@
         class="card__image"
         :style="{ 'background-image': `url(${state.currentImage})` }"
       ></div>
-
-      <input
-        id="image"
-        name="image"
-        accept="image/*"
-        ref="fileInput"
-        type="file"
-        @input="onPickFile"
-      />
+      <label for="image">
+        <input
+          id="image"
+          name="image"
+          accept="image/*"
+          ref="fileInput"
+          type="file"
+          @input="onPickFile"
+        />
+      </label>
     </div>
     <div v-if="errors.image">
       {{ errors.image }}
@@ -69,7 +70,12 @@ export default {
       },
     );
     return {
-      fileInput, onPickFile, errors, state, validateInput, storeImage,
+      fileInput,
+      onPickFile,
+      errors,
+      state,
+      validateInput,
+      storeImage,
     };
   },
 };

@@ -11,6 +11,11 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-underscore-dangle': 'off',
+    'no-return-assign': 'off',
+    'max-len': ['error', { code: 120 }],
+    'no-unused-expressions': 'off', // error on store promise
+    'consistent-return': 'off',
+    'no-restricted-syntax': 'off', // error on isCreateAddButtonDisabled
   },
   overrides: [
     {

@@ -21,7 +21,7 @@
     </template>
     <template #favorite>
       <div class="favorite-card__actions">
-        <span @click="this.$emit('sendFavorite', add)"
+        <span @click="this.$emit('sendFavorite', add)" @keydown="this.$emit('sendFavorite', add)"
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
         <Modal :add="props.add" v-bind="$attrs">

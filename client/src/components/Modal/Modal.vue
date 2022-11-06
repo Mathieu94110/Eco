@@ -1,5 +1,5 @@
 <template>
-  <span @click.prevent="isModalOpen = true"
+  <span @click.prevent="isModalOpen = true" @keydown.prevent="isModalOpen = true"
     ><i class="fa fa-trash icon" aria-hidden="true"></i
   ></span>
 

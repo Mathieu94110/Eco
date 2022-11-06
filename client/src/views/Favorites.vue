@@ -6,28 +6,28 @@
       marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
     }"
   >
-    <TransitionGroup name="list" tag="ul" class="favorites">
+    <TransitionGroup name='list' tag='ul' class='favorites'>
       <FavoriteCard
-        v-for="add in state.favorites"
-        :key="add.id"
-        :add="add"
-        @send-favorite="sendFavoriteDetails($event)"
-        @delete="deleteAdd($event)"
+        v-for='add in state.favorites'
+        :key='add.id'
+        :add='add'
+        @send-favorite='sendFavoriteDetails($event)'
+        @delete='deleteAdd($event)'
       />
     </TransitionGroup>
   </div>
 </template>
 
 <script setup>
-import { getFavorites, deleteFavorite } from '@/api/adds';
-import Toolbar from '@/components/Toolbar/Toolbar.vue';
-import FavoriteCard from '@/components/Card/FavoriteCard.vue';
 
 import {
   reactive, onMounted, computed, inject,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import Toolbar from '@/components/Toolbar/Toolbar.vue';
+import FavoriteCard from '@/components/Card/FavoriteCard.vue';
+import addsApi from '../api/adds';
 
 const state = reactive({
   favorites: [],
@@ -44,7 +44,7 @@ const isMobile = computed(() => store?.state.windowWidth < 575);
 const getUserFavorites = async () => {
   try {
     state.isLoading = true;
-    const { data } = await getFavorites();
+    const { data } = await addsApi.getFavorites();
     if (data.posts) {
       // In waiting to recover filtered data by user on back-end side, comming soon !
       state.favorites = data.posts.filter(
@@ -69,21 +69,22 @@ const sendFavoriteDetails = (add) => {
     });
 };
 const deleteAdd = (add) => {
-  deleteFavorite(add._id);
-  toast("L'annonce a bien été supprimée !", 'success');
+  addsApi.deleteFavorite(add._id);
+  toast('L\'annonce a bien été supprimée !', 'success');
   state.favorites = state.favorites.filter(
     (favorite) => favorite._id !== add._id,
   );
 };
 
 onMounted(() => {
+  console.log(addsApi);
   getUserFavorites();
 });
 
 </script>
 
-<style lang="scss" scoped>
-@use "../assets/scss/mixins";
+<style lang='scss' scoped>
+@use '../assets/scss/mixins';
 .favorites {
   height: calc(100% - 60px);
   padding: 20px 0;

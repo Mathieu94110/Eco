@@ -61,7 +61,7 @@ router.beforeResolve(async (to) => {
   }
 });
 
-router.beforeEach(async (to) => {
+router.beforeEach((to) => {
   const publicPages = ['/'];
   const authRequired = !publicPages.includes(to.path);
   const isUserLoggedIn = store.getters.isLoggedIn;
@@ -69,7 +69,6 @@ router.beforeEach(async (to) => {
   if (authRequired && !isUserLoggedIn) {
     return '/';
   }
-  return to.path;
 });
 
 export default router;

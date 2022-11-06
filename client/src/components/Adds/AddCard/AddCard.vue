@@ -71,9 +71,9 @@
           <span class="card__category-items">{{ props.add.category }}</span>
         </div>
         <div class="card__category-items--alt-color" v-if="!isFavoritePage">
-          <label :for="id" @click="sendToFavorites(add)">
+          <span :for="id" @click="sendToFavorites(add)" @keydown="sendToFavorites(add)">
             <i class="card__category-items--icon fas fa-heart"></i>
-          </label>
+          </span>
         </div>
       </div>
     </div>

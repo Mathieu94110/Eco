@@ -1,14 +1,15 @@
 <template>
   <div class="post-create-description">
-    <textarea
-      placeholder="Renseigner une description"
-      autocomplete="off"
-      @input="$emit('update:modelValue', $event.target.value)"
-      v-model="input"
-      @keyup="validateInput"
-      @blur="validateInput"
-    ></textarea>
-
+    <label for="description">
+      <textarea
+        placeholder="Renseigner une description"
+        autocomplete="off"
+        @input="$emit('update:modelValue', $event.target.value)"
+        v-model="input"
+        @keyup="validateInput"
+        @blur="validateInput"
+      ></textarea>
+    </label>
     <div class="post-create-description__errors" v-if="errors.description">
       {{ errors.description }}
     </div>
