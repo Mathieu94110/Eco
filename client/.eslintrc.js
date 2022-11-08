@@ -16,6 +16,7 @@ module.exports = {
     'no-unused-expressions': 'off', // error on store promise
     'consistent-return': 'off',
     'no-restricted-syntax': 'off', // error on isCreateAddButtonDisabled
+    'guard-for-in': 'off',
   },
   overrides: [
     {
