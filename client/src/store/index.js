@@ -127,7 +127,7 @@ const store = createStore({
             commit('userInfos', userInfos);
           })
           .catch((error) => {
-            commit('setStatus', 'error_create');
+            console.error(error);
             reject(error);
           });
       });

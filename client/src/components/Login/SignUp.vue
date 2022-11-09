@@ -35,108 +35,108 @@
     </div>
 
     <main class="sign-up__main">
-      <div>
+      <div class="d-flex flex-column">
         <label for="firstName">
           <input
             id="firstName"
-            v-model="state.firstName"
+            v-model="firstName"
             class="sign-up__form-input"
             type="text"
             placeholder="Prénom"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['firstName'] }}</span>
       </div>
-      <div>
+      <div class="d-flex flex-column">
         <label for="lastName">
           <input
             id="lastName"
-            v-model="state.lastName"
+            v-model="lastName"
             class="sign-up__form-input"
             type="text"
             placeholder="Nom"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['lastName'] }}</span>
       </div>
 
-      <div>
+      <div class="d-flex flex-column">
         <label for="phone">
           <input
             id="phone"
-            v-model="state.phone"
+            v-model="phone"
             class="sign-up__form-input"
             type="number"
             placeholder="Téléphone"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['phone'] }}</span>
       </div>
-      <div>
+      <div class="d-flex flex-column">
         <label for="email">
           <input
             id="email"
-            v-model="state.email"
+            v-model="email"
             class="sign-up__form-input"
             type="text"
             placeholder="Adresse mail"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['email'] }}</span>
       </div>
 
-      <div>
+      <div class="d-flex flex-column">
         <label for="address">
           <input
             id="address"
-            v-model="state.address"
+            v-model="address"
             class="sign-up__form-input"
             type="text"
             placeholder="Adresse"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['address'] }}</span>
       </div>
-      <div>
+      <div class="d-flex flex-column">
         <label for="zip">
           <input
             id="zip"
-            v-model="state.zip"
+            v-model="zip"
             class="sign-up__form-input"
             type="number"
             placeholder="Code Postal"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['zip'] }}</span>
       </div>
 
-      <div>
+      <div class="d-flex flex-column">
         <label for="userName">
           <input
             id="userName"
-            v-model="state.userName"
+            v-model="userName"
             class="sign-up__form-input"
             type="text"
             placeholder="Pseudo"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['userName'] }}</span>
       </div>
-      <div>
+      <div class="d-flex flex-column">
         <label for="password">
           <input
             id="password"
-            v-model="state.password"
+            v-model="password"
             class="sign-up__form-input"
             type="password"
             placeholder="Mot de passe"
           />
         </label>
+        <span class="sign-up__errors">{{ errors['password'] }}</span>
       </div>
     </main>
-
-    <div class="sign-up__form-input--error" v-if="status === 'error_create'">
-      Adresse mail déjà utilisée
-    </div>
     <div class="sign-up__footer">
-      <button
-        type="submit"
-        class="btn btn-primary font-600"
-        :class="{ 'sign-up__button-disabled': !validatedFields }"
-      >
+      <button type="submit" class="btn btn-primary font-600">
         <span v-if="status === 'loading'">Création en cours...</span>
         <span v-else class="color-white">Créer mon compte</span>
       </button>
@@ -149,20 +149,64 @@ import { useStore } from 'vuex';
 import {
   reactive, defineEmits, computed, ref,
 } from 'vue';
+import { useField, useForm } from 'vee-validate';
+import * as yup from 'yup';
 
 const state = reactive({
   mode: 'create',
   currentImage: null,
-  userName: '',
-  firstName: '',
-  lastName: '',
-  phone: '',
-  email: '',
-  address: '',
-  zip: '',
-  password: '',
 });
 const store = useStore();
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: yup.object({
+    userName: yup
+      .string()
+      .min(4, "Le nom d'utilisateur doit contenir au moins 4 caractères")
+      .required('Le pseudo est requis'),
+    firstName: yup
+      .string()
+      .min(2, 'Le prénom doit contenir au moins 2 caractères')
+      .required('Le prénom est requis'),
+    lastName: yup
+      .string()
+      .min(2, 'Le nom doit contenir au moins 2 caractères')
+      .required('Le nom est requis'),
+    phone: yup
+      .string()
+      .required('Le téléphone est requis')
+      .matches(
+        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+        'Le format est incorrect',
+      ),
+    email: yup
+      .string()
+      .required("L'émail est requis")
+      .email("L'émail indiqué est invalide"),
+    address: yup
+      .string()
+      .min(10, "L'adresse doit contenir au moins 10 caractères")
+      .required("L'adresse est requise"),
+    zip: yup
+      .string()
+      .required('Le code postal est requis')
+      .min(5, 'Le code postal doit contenir au moins 5 caractères'),
+    password: yup
+      .string()
+      .min(4, 'Le mot de passe doit contenir au moins 4 caractères')
+      .required('Le mot de passe est requis'),
+  }),
+});
+
+const { value: userName } = useField('userName');
+const { value: firstName } = useField('firstName');
+const { value: lastName } = useField('lastName');
+const { value: phone } = useField('phone');
+const { value: email } = useField('email');
+const { value: address } = useField('address');
+const { value: zip } = useField('zip');
+const { value: password } = useField('password');
+
 const status = computed(() => store?.state.status);
 const emit = defineEmits(['switch', 'signup']);
 const fileInput = ref(null);
@@ -171,19 +215,11 @@ const switchComponent = () => {
   emit('switch', 'login');
 };
 
-const createAccount = () => {
-  emit('signup', {
-    userName: state.userName,
-    firstName: state.firstName,
-    lastName: state.lastName,
-    email: state.email,
-    password: state.password,
-    image: state.currentImage,
-    phone: state.phone,
-    address: state.address,
-    zip: state.zip,
-  });
-};
+const createAccount = handleSubmit((values) => {
+  const image = { image: state.currentImage };
+  const allValues = Object.assign(image, values);
+  emit('signup', allValues);
+});
 
 const onPickFile = () => {
   const input = fileInput.value;
@@ -196,38 +232,23 @@ const onPickFile = () => {
     reader.readAsDataURL(file[0]);
   }
 };
-
-const validatedFields = computed(() => {
-  if (
-    state.userName !== ''
-    && state.firstName !== ''
-    && state.lastName !== ''
-    && state.email !== ''
-    && state.password !== ''
-    && state.phone !== ''
-    && state.address !== ''
-    && state.zip !== ''
-  ) {
-    return true;
-  }
-  return false;
-});
 </script>
 
 <style lang="scss" scoped>
 .sign-up {
+  height: auto;
   margin: 20px 0;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(6, minmax(25px, auto));
   grid-template-areas:
-    "title"
-    "subtitle-main"
-    "subtitle-secondary"
-    "file-input"
-    "file-image"
-    "main"
-    "footer";
+    'title'
+    'subtitle-main'
+    'subtitle-secondary'
+    'file-input'
+    'file-image'
+    'main'
+    'footer';
 
   background: var(--primary-color);
   border-radius: 16px;
@@ -283,11 +304,6 @@ const validatedFields = computed(() => {
     flex: 1;
     min-width: 100px;
     color: #666;
-
-    &--error {
-      color: var(--danger-2);
-      font-weight: bold;
-    }
   }
   &__action {
     text-align: center;
@@ -330,19 +346,21 @@ const validatedFields = computed(() => {
   &__footer {
     grid-area: footer;
   }
+  &__errors {
+    max-width: 200px;
+    color: red;
+    font-weight: bold;
+  }
 }
 
 @media screen and (min-width: 768px) {
   .sign-up {
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(4, minmax(50px, auto));
     grid-template-areas:
-      "title title title title title title"
-      "subtitle-main subtitle-main subtitle-main subtitle-main subtitle-secondary subtitle-secondary"
-      "file-input file-input file-input file-image  file-image  file-image"
-      "main main main main main main "
-      "footer footer footer footer footer footer";
-    grid-gap: 20px;
+      'title title title title title title'
+      'subtitle-main subtitle-main subtitle-main subtitle-main subtitle-secondary subtitle-secondary'
+      'file-input file-input file-input file-image  file-image  file-image'
+      'main main main main main main '
+      'footer footer footer footer footer footer';
     padding: 16px;
     &__subtitle-secondary {
       grid-area: subtitle-secondary;
