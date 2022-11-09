@@ -111,10 +111,14 @@ const getAdds = async () => {
   }
 };
 
-const deleteAdd = async (add) => {
-  addsApi.deleteAdds(add._id);
-  toast("L'annonce a bien été supprimée !", 'success');
-  state.tableData = state.tableData.filter((item) => item._id !== add._id);
+const deleteAdd = (add) => {
+  try {
+    addsApi.deleteAdds(add._id);
+    toast("L'annonce a bien été supprimée !", 'success');
+    state.tableData = state.tableData.filter((item) => item._id !== add._id);
+  } catch (e) {
+    console.error(e.message);
+  }
 };
 
 const computedTableData = computed(() => {
@@ -126,14 +130,13 @@ const computedTableData = computed(() => {
 });
 const isMobile = computed(() => store?.state.windowWidth < 575);
 
-onMounted(() => {
-  getAdds();
+onMounted(async () => {
+  await getAdds();
 });
-
 </script>
 
 <style lang="scss" scoped>
-@use "../assets/scss/mixins";
+@use '../assets/scss/mixins';
 .user-adds {
   font-family: Helvetica, sans-serif;
   font-weight: 400;

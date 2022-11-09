@@ -54,59 +54,60 @@ const postIsCreate = () => {
   state.showCreatedPost = true;
 };
 
-const createAdd = (add) => {
-  store
-    .dispatch('createPost', {
+const createAdd = async (add) => {
+  try {
+    await store.dispatch('createPost', {
       author: currentUser.value,
       title: add.title,
       description: add.description,
       category: add.category,
       price: add.price,
       image: add.image,
-    })
-    .then(() => {
-      postIsCreate();
-      isAddCreated.value = true;
-    })
-    .catch((err) => {
-      this.toast(err);
     });
-};
-const submitAdd = () => {
-  store
-    .dispatch('sendPost')
-    .then(() => {
-      store.dispatch('resetForm', {
-        author: '',
-        image: '',
-        title: '',
-        description: '',
-        price: null,
-        category: '',
-      });
-    })
-    .then(() => {
-      isAddCreated.value = false;
-      state.showCreatedPost = false;
-      toastMsg("L'annonce a bien été postée!", 'success');
-    });
-};
 
-const resetAdd = () => {
-  store
-    .dispatch('resetForm', {
+    postIsCreate();
+    isAddCreated.value = true;
+  } catch (e) {
+    this.toast(e);
+  }
+};
+const submitAdd = async () => {
+  try {
+    await store.dispatch('sendPost');
+    await store.dispatch('resetForm', {
       author: '',
       image: '',
       title: '',
       description: '',
       price: null,
       category: '',
-    })
-    .then(() => {
-      isAddCreated.value = false;
-      state.showCreatedPost = false;
-      toastMsg("L'annonce a bien été annulée !", 'info');
     });
+
+    isAddCreated.value = false;
+    state.showCreatedPost = false;
+    toastMsg("L'annonce a bien été postée!", 'success');
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const resetAdd = async () => {
+  try {
+    await store.dispatch('resetForm', {
+      author: '',
+      image: '',
+      title: '',
+      description: '',
+      price: null,
+      category: '',
+    });
+
+    isAddCreated.value = false;
+    state.showCreatedPost = false;
+    toastMsg("L'annonce a bien été annulée !", 'info');
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const currentPost = computed(() => store?.state.currentPost);
@@ -117,7 +118,7 @@ watch(currentPost, (newValue) => {
 </script>
 
 <style lang="scss" scoped>
-@use "../assets/scss/mixins" as m;
+@use '../assets/scss/mixins' as m;
 .post-add-container {
   align-items: center;
   display: block;

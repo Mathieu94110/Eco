@@ -136,8 +136,8 @@ const filteredAdds = computed(() => state.adds.filter((add) => {
   return false;
 }));
 
-onMounted(() => {
-  loadFakeAdds();
+onMounted(async () => {
+  await loadFakeAdds();
 });
 
 </script>

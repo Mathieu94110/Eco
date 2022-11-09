@@ -127,7 +127,7 @@
       </div>
     </div>
     <div v-else class="table__empty-wrapper center">
-      <div class="table__empty-content p-20">
+      <div class="p-20">
         <h2>Vous n'avez aucune annonce en ligne</h2>
       </div>
     </div>

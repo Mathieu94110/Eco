@@ -22,7 +22,7 @@
       </div>
       <div class="card-layout__items">
         <span>Date de création :</span>
-        <span><slot name="price"></slot></span>
+        <span><slot name="date"></slot></span>
       </div>
       <div class="card-layout__items">
         <span>Catégorie :</span> <span><slot name="category"></slot></span>

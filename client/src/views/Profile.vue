@@ -1,6 +1,11 @@
 <template>
   <div class="profile">
     <Toolbar>Mon profil</Toolbar>
+    <loading
+      v-model:active="state.isLoading"
+      :can-cancel="true"
+      :is-full-page="state.fullPage"
+    />
     <div
       :style="{
         marginLeft: isMobile < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
@@ -19,16 +24,24 @@
 import UserProfileCard from '@/components/User/UserProfileCard.vue';
 import Toolbar from '@/components/Toolbar/Toolbar.vue';
 import {
-  reactive, onMounted, inject, computed,
+  reactive,
+  onMounted,
+  inject,
+  computed,
 } from 'vue';
 import { useStore } from 'vuex';
 import userApi from '@/api/user';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 const sideBarClosed = inject('collapsed');
 
 const state = reactive({
   user: null,
+  isLoading: true,
+  fullPage: true,
 });
+
 const toast = inject('toastMsg');
 const store = useStore();
 const userId = store?.state.user.userId;
@@ -36,23 +49,27 @@ const userId = store?.state.user.userId;
 const isMobile = computed(() => store?.state.windowWidth < 575);
 
 const getProfile = async () => {
-  const response = await userApi.getProfile(userId);
-  state.user = response.data.result;
+  try {
+    const response = await userApi.getProfile(userId);
+    state.user = response.data.result;
+    state.isLoading = false;
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-async function UpdateInfos(data) {
+const UpdateInfos = async (data) => {
   try {
     await userApi.updateUserInfos(userId, data);
     toast('Vos informations ont bien été mises à jour !', 'success');
-  } catch (err) {
-    console.log(err);
+  } catch (e) {
+    console.log(e);
   }
-}
+};
 
-onMounted(() => {
-  getProfile();
+onMounted(async () => {
+  await getProfile();
 });
-
 </script>
 
 <style lang="scss" scoped>

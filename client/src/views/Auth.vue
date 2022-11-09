@@ -18,25 +18,21 @@ const store = useStore();
 const router = useRouter();
 const status = computed(() => store?.state.status);
 
-const authenticate = (data) => {
-  store
-    .dispatch('login', {
+const authenticate = async (data) => {
+  try {
+    await store.dispatch('login', {
       email: data.email,
       password: data.password,
-    })
-    .then(
-      () => {
-        router.push('/profile');
-      },
-      (error) => {
-        console.log(error);
-      },
-    );
+    });
+    router.push('/profile');
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-const createAccount = (data) => {
-  store
-    .dispatch('createAccount', {
+const createAccount = async (data) => {
+  try {
+    await store.dispatch('createAccount', {
       userName: data.userName,
       email: data.email,
       lastName: data.lastName,
@@ -46,15 +42,11 @@ const createAccount = (data) => {
       phone: data.phone,
       address: data.address,
       zip: data.zip,
-    })
-    .then(
-      () => {
-        authenticate(data);
-      },
-      (error) => {
-        console.log(error);
-      },
-    );
+    });
+    authenticate(data);
+  } catch (e) {
+    console.error(e);
+  }
 };
 </script>
 

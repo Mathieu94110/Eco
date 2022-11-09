@@ -1,25 +1,34 @@
 <template>
   <Toolbar>Mes favoris</Toolbar>
-
+  <loading
+    v-model:active="state.isLoading"
+    :can-cancel="true"
+    :is-full-page="state.fullPage"
+  />
   <div
+  v-if="state.favorites.length > 0"
     :style="{
       marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
     }"
   >
-    <TransitionGroup name='list' tag='ul' class='favorites'>
+    <TransitionGroup name="list" tag="ul" class="favorites">
       <FavoriteCard
-        v-for='add in state.favorites'
-        :key='add.id'
-        :add='add'
-        @send-favorite='sendFavoriteDetails($event)'
-        @delete='deleteAdd($event)'
+        v-for="add in state.favorites"
+        :key="add.id"
+        :add="add"
+        @send-favorite="sendFavoriteDetails($event)"
+        @delete="deleteAdd($event)"
       />
     </TransitionGroup>
   </div>
+  <div v-else class="favorites__empty-wrapper center">
+      <div class="p-20">
+        <h2>Vous n'avez pas ajouté de favoris</h2>
+      </div>
+    </div>
 </template>
 
 <script setup>
-
 import {
   reactive, onMounted, computed, inject,
 } from 'vue';
@@ -27,12 +36,15 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Toolbar from '@/components/Toolbar/Toolbar.vue';
 import FavoriteCard from '@/components/Card/FavoriteCard.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import addsApi from '../api/adds';
 
 const state = reactive({
   favorites: [],
   isLoading: false,
 });
+
 const sideBarClosed = inject('collapsed');
 const toast = inject('toastMsg');
 
@@ -56,34 +68,37 @@ const getUserFavorites = async () => {
     console.log(error);
   }
 };
-const sendFavoriteDetails = (add) => {
-  store
-    .dispatch('sendFavoriteDetails', {
+const sendFavoriteDetails = async (add) => {
+  try {
+    await store.dispatch('sendFavoriteDetails', {
       favorite: add,
-    })
-    .then(() => {
-      router.push({
-        name: 'FavoritesDetails',
-        params: { add: add.title },
-      });
     });
+    router.push({
+      name: 'FavoritesDetails',
+      params: { add: add.title },
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
 const deleteAdd = (add) => {
-  addsApi.deleteFavorite(add._id);
-  toast('L\'annonce a bien été supprimée !', 'success');
-  state.favorites = state.favorites.filter(
-    (favorite) => favorite._id !== add._id,
-  );
+  try {
+    addsApi.deleteFavorite(add._id);
+    toast("L'annonce a bien été supprimée !", 'success');
+    state.favorites = state.favorites.filter(
+      (favorite) => favorite._id !== add._id,
+    );
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-onMounted(() => {
-  console.log(addsApi);
-  getUserFavorites();
+onMounted(async () => {
+  await getUserFavorites();
 });
-
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @use '../assets/scss/mixins';
 .favorites {
   height: calc(100% - 60px);
@@ -93,6 +108,10 @@ onMounted(() => {
   flex-wrap: wrap;
   @include mixins.xs {
     justify-content: center;
+  }
+  &__empty-wrapper {
+    width: 100%;
+    height: calc(100% - 60px);
   }
 }
 //Transition
