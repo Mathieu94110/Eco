@@ -7,7 +7,9 @@
           @close="state.open = false"
           :transparent="true"
         />
-        <span @click="state.open = !state.open" @keydown="state.open = !state.open"
+        <span
+          @click="state.open = !state.open"
+          @keydown="state.open = !state.open"
           ><i class="fa-solid fa-bars"></i
         ></span>
         <Transition>
@@ -18,7 +20,9 @@
             v-if="state.open"
           >
             <NavLink to="" icon="fas fa-user-circle"
-              ><span @click="logOut()" @keydown="logOut()">Déconnection</span></NavLink
+              ><span @click="logOut()" @keydown="logOut()"
+                >Déconnection</span
+              ></NavLink
             >
             <NavLink to="/profile" icon="fas fa-user-circle"
               ><span>Mes informations</span></NavLink
@@ -64,7 +68,7 @@ const logOut = () => {
 </script>
 
 <style lang="scss" scoped>
-@use "../../../assets/scss/mixins";
+@use '@/assets/scss/mixins';
 
 .topbar {
   &__action-container {

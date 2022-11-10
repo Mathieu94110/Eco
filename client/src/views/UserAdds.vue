@@ -24,7 +24,7 @@
         v-if="state.tableData"
         :userAdds="computedTableData"
         :config="state.config"
-        :style="{ height: computedTableData.length > 0 ? '600px' : '100%' }"
+        :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
         @delete="deleteAdd($event)"
       />
     </div>
@@ -57,37 +57,30 @@ const state = reactive({
     {
       key: 'title',
       title: 'Titre',
-      type: 'text',
     },
     {
       key: 'image',
       title: 'Image',
-      type: 'image',
     },
     {
-      key: 'date',
+      key: 'created_at',
       title: 'Date',
-      type: 'date',
     },
     {
       key: 'description',
       title: 'Description',
-      type: 'text',
     },
     {
       key: 'category',
       title: 'Catégorie',
-      type: 'text',
     },
     {
       key: 'price',
       title: 'Prix',
-      type: 'number',
     },
     {
       key: 'actions',
       title: 'Actions',
-      type: 'text',
     },
   ],
 });
@@ -141,7 +134,6 @@ onMounted(async () => {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;
-  height: 100%;
   &__content {
     padding: 30px;
     height: calc(100% - 60px);
