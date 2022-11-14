@@ -2,7 +2,7 @@
 
 :root {
   --primary-1: #42a1ec;
-  --primary-2: #0070c9; 
+  --primary-2: #0070c9;
   --danger-1: #e74c3c;
   --danger-2: #c0392b;
   --success-1: #2ecc71;
@@ -15,7 +15,7 @@
   --border: 1px solid var(--gray-2);
   --border-radius: 4px;
   --font-family: 'Poppins', 'Roboto', sans-serif;
-  --sidebar-item-active :#15263f;
+  --sidebar-item-active: #15263f;
 }
 * {
   box-sizing: border-box;
@@ -33,7 +33,7 @@ ul {
   padding: 0;
 }
 
-img{
+img {
   max-width: 100%;
 }
 body {
@@ -44,206 +44,204 @@ body {
   color: var(--text-color);
   background-color: var(--gray-1);
 }
-  
-  // padding
-  .p-10 {
-    padding: 10px;
-  }
-  
-  .p-20 {
-    padding: 20px;
-  }
-  .pl-5 {
-    padding-left: 5px;
-  }
-  .pl-10 {
-    padding-left: 10px;
-  }
-  .px-10 {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .py-10 {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  
-  .px-20 {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .px-30 {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .py-20 {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  
-  .p-30 {
-    padding: 30px;
-  }
 
-  // margin
-  
-  .m-10 {
-    margin: 10px;
-  }
-  
-  .mb-5 {
-    margin-bottom: 5px;
-  }
-  
-  .mb-10 {
-    margin-bottom: 10px;
-  }
+// padding
+.p-10 {
+  padding: 10px;
+}
 
-  .mb-20 {
-    margin-bottom: 20px;
-  }
-  
-  .mt-10 {
-    margin-top: 10px;
-  }
-  .mt-20 {
-    margin-top: 20px;
-  }
+.p-20 {
+  padding: 20px;
+}
+.pl-5 {
+  padding-left: 5px;
+}
+.pl-10 {
+  padding-left: 10px;
+}
+.px-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.py-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 
-  .mr-10 {
-    margin-right: 10px;
-  }
+.px-20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.px-30 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.py-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 
-  .mr-20 {
-    margin-right: 20px;
-  }
+.p-30 {
+  padding: 30px;
+}
 
-  .ml-10 {
-    margin-left: 10px;
-  }
+// margin
 
-  .ml-20 {
-    margin-left: 20px;
-  }
+.m-10 {
+  margin: 10px;
+}
 
-  .mx-10 {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-  .my-10 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .mx-20 {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  .my-20 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+.mb-5 {
+  margin-bottom: 5px;
+}
 
-  .m-20 {
-    margin: 20px;
-  }
-  
-  .m-30 {
-    margin: 30px;
-  }
-  // flexbox
-  .d-flex{
-    display:flex
-  }
-  .flex-row {
-    flex-direction: row;
-  }
+.mb-10 {
+  margin-bottom: 10px;
+}
 
-  .flex-column{
-    flex-direction: column;
-  }
-  .flex-fill {
-    flex: 1 1 auto;
-  }
-  .justify-center{
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mx-10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.my-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mx-20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.my-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.m-20 {
+  margin: 20px;
+}
+
+.m-30 {
+  margin: 30px;
+}
+// flexbox
+.d-flex {
+  display: flex;
+}
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+.flex-fill {
+  flex: 1 1 auto;
+}
+.justify-center {
   justify-content: center;
-  }
-  .align-center{
-    align-items: center;
-  }
-.justify-end{
+}
+.align-center {
+  align-items: center;
+}
+.justify-end {
   justify-content: flex-end;
 }
-  .center{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-.primary{
-  color : var(--primary-2)
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.danger{
-  color : var(--danger-2)
+.primary {
+  color: var(--primary-2);
 }
-.default-color{
-  color : var(--gray-3)
+.danger {
+  color: var(--danger-2);
 }
-.font-600{
- font-weight: 600;
+.default-color {
+  color: var(--gray-3);
 }
-.color-white{
-  color: var(--primary-color)
+.font-600 {
+  font-weight: 600;
 }
-  //buttons
+.color-white {
+  color: var(--primary-color);
+}
+//buttons
 
-  .btn {
-    padding: 8px 15px;
-    border: 0;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
+.btn {
+  padding: 8px 15px;
+  border: 0;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-1);
+  color: var(--text-primary-color);
+  &:hover {
+    background-color: var(--primary-2);
   }
-  
-  .btn-primary {
-    background-color: var(--primary-1);
-    color: var(--text-primary-color);
-    &:hover {
-      background-color: var(--primary-2);
-    }
+}
+
+.btn-danger {
+  background-color: var(--danger-1);
+  color: var(--text-primary-color);
+  &:hover {
+    background-color: var(--danger-2);
   }
-  
-  .btn-danger {
+}
+
+.btn-success {
+  background-color: var(--success-1);
+  color: var(--text-primary-color);
+  &:hover {
+    background-color: var(--success-2);
+  }
+}
+
+.btn-disabled {
+  color: #000;
+  cursor: not-allowed;
+  background: none;
+  &:hover {
+    color: #000;
     background-color: var(--danger-1);
-    color: var(--text-primary-color);
-    &:hover {
-      background-color: var(--danger-2);
-    }
+    border: 2px solid #000;
   }
-  
-  .btn-success {
-    background-color: var(--success-1);
-    color: var(--text-primary-color);
-    &:hover {
-      background-color: var(--success-2);
-    }
+}
+.hide-xs {
+  @include mixins.xs {
+    display: none;
   }
-
-  .btn-disabled {
-
-      color: #000;
-      cursor: not-allowed;
-      background: none;
-      &:hover {
-        color: #000;
-        background-color: var(--danger-1);
-        border: 2px solid #000;
-      }
-    
-  }
-  .hide-xs {
-    @include mixins.xs {
-      display: none;
-    }
-  }
+}

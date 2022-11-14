@@ -84,20 +84,13 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-router.post("/edit", (req, res, next) => {
-  User.updateOne({ _id: req.user._id }, { $set: req.body }).then((result) => {
-    res
-      .status(201)
-      .json({
-        message: "User infos updated!",
-        result: result,
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: err,
-        });
-      });
+router.put("/:id", (req, res, next) => {
+  User.updateOne({ _id: req.params.id }, req.body).then((result) => {
+    if (result.modifiedCount > 0) {
+      res.status(200).json({ message: "Update successful!" });
+    } else {
+      res.status(401).json({ message: "Not authorized!" });
+    }
   });
 });
-
 module.exports = router;

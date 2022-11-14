@@ -60,10 +60,11 @@ const getProfile = async () => {
 
 const UpdateInfos = async (data) => {
   try {
-    await userApi.updateUserInfos(userId, data);
+    await userApi.updateUserInfos(data);
     toast('Vos informations ont bien été mises à jour !', 'success');
   } catch (e) {
-    console.log(e);
+    console.error(e);
+    toast(`${e.message} !`, 'error');
   }
 };
 

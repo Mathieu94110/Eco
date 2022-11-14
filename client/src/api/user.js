@@ -1,8 +1,12 @@
 import axios from 'axios';
-import baseURL from './index';
+import http from './index';
 
 const getProfile = (id) => axios.get(`${process.env.VUE_APP_API_URL}/user/${id}`);
-const updateUserInfos = (id, data) => baseURL.http.post(`/user/edit/${id}`, data);
+
+const updateUserInfos = (data) => {
+  const id = data._id;
+  return http.put(`/user/${id}`, data);
+};
 
 export default {
   getProfile,

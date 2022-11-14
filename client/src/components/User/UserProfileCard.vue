@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile-card" v-if="props.userInfos">
+  <div class="user-profile-card" v-if="state.newUserInfos">
     <div class="user-profile-card__header">
       <div
         class="user-profile-card__image"
@@ -9,6 +9,11 @@
       >
         <div class="user-profile-card__edit-image" v-if="isEditMode">
           <label for="file">
+            <span class="user-profile-card__label" for="file">
+              <i
+                class="fa-solid fa-pen-to-square user-profile-card__edit-icon"
+              ></i>
+            </span>
             <input
               type="file"
               id="file"
@@ -17,15 +22,6 @@
               @input="onPickFile"
             />
           </label>
-          <span
-            class="user-profile-card__label"
-            for="file"
-          >
-            <i
-              class="fa-solid fa-pen-to-square user-profile-card__edit-icon"
-            ></i>
-            <p class="user-profile-card__file-name"></p>
-          </span>
         </div>
       </div>
     </div>
@@ -35,7 +31,7 @@
         :class="{ active: isEditMode }"
       >
         <span>Pseudo</span>
-        <span v-if="isEditMode"><input class="pl-5" v-model="userName" /> </span
+        <span v-if="isEditMode"><input class="pl-5 font-600" v-model="userName" /> </span
         ><span id="userName" v-else>{{ userName }}</span>
       </p>
       <p
@@ -44,7 +40,7 @@
       >
         <span>Prénom</span>
         <span v-if="isEditMode"
-          ><input class="pl-5" v-model="firstName" /> </span
+          ><input class="pl-5 font-600" v-model="firstName" /> </span
         ><span id="firstName" v-else>{{ firstName }}</span>
       </p>
       <p
@@ -52,7 +48,7 @@
         :class="{ active: isEditMode }"
       >
         <span>Nom</span>
-        <span v-if="isEditMode"><input class="pl-5" v-model="lastName" /> </span
+        <span v-if="isEditMode"><input class="pl-5 font-600" v-model="lastName" /> </span
         ><span id="lastName" v-else>{{ lastName }}</span>
       </p>
       <p
@@ -60,7 +56,7 @@
         :class="{ active: isEditMode }"
       >
         <span>Email</span
-        ><span v-if="isEditMode"><input class="pl-5" v-model="email" /> </span
+        ><span v-if="isEditMode"><input class="pl-5 font-600" v-model="email" /> </span
         ><span v-else id="email">{{ email }}</span>
       </p>
       <p
@@ -68,7 +64,7 @@
         :class="{ active: isEditMode }"
       >
         <span>Téléphone</span
-        ><span v-if="isEditMode"><input class="pl-5" v-model="phone" /> </span
+        ><span v-if="isEditMode"><input class="pl-5 font-600" v-model="phone" /> </span
         ><span id="phone" v-else>{{ phone }}</span>
       </p>
       <p
@@ -76,7 +72,7 @@
         :class="{ active: isEditMode }"
       >
         <span>Adresse</span
-        ><span v-if="isEditMode"><input class="pl-5" v-model="address" /></span
+        ><span v-if="isEditMode"><input class="pl-5 font-600" v-model="address" /></span
         ><span id="address" v-else>{{ address }}</span>
       </p>
       <p
@@ -84,7 +80,7 @@
         :class="{ active: isEditMode }"
       >
         <span>Code postal</span>
-        <span v-if="isEditMode"><input class="pl-5" v-model="zip" /></span>
+        <span v-if="isEditMode"><input class="pl-5 font-600" v-model="zip" /></span>
         <span id="zip" v-else>{{ zip }}</span>
       </p>
     </div>
@@ -106,83 +102,91 @@
 
 <script setup>
 import {
-  defineProps, ref, computed, defineEmits,
+  reactive,
+  defineProps,
+  ref,
+  computed,
+  defineEmits,
+  watch,
 } from 'vue';
 import mysteryImage from '@/assets/images/mystery-image.png';
+
+const state = reactive({
+  newUserInfos: {},
+});
 
 const props = defineProps(['userInfos']);
 const emit = defineEmits(['updateUser']);
 
 const isEditMode = ref(false);
 const fileInput = ref(null);
-const newUserInfos = {};
 
 const image = computed({
   get() {
-    return props.userInfos.image;
+    return state.newUserInfos.image;
   },
   set(val) {
-    newUserInfos.image = val;
+    state.newUserInfos.image = val;
   },
 });
 
 const userName = computed({
   get() {
-    return props.userInfos.userName;
+    return state.newUserInfos.userName;
   },
   set(val) {
-    newUserInfos.userName = val;
+    state.newUserInfos.userName = val;
   },
 });
 
 const firstName = computed({
   get() {
-    return props.userInfos.firstName;
+    return state.newUserInfos.firstName;
   },
   set(val) {
-    newUserInfos.firstName = val;
+    state.newUserInfos.firstName = val;
   },
 });
 const lastName = computed({
   get() {
-    return props.userInfos.lastName;
+    return state.newUserInfos.lastName;
   },
   set(val) {
-    newUserInfos.lastName = val;
+    state.newUserInfos.lastName = val;
   },
 });
 const email = computed({
   get() {
-    return props.userInfos.email;
+    return state.newUserInfos.email;
   },
   set(val) {
-    newUserInfos.email = val;
+    state.newUserInfos.email = val;
   },
 });
 const phone = computed({
   get() {
-    return props.userInfos.phone;
+    return state.newUserInfos.phone;
   },
   set(val) {
-    newUserInfos.phone = val;
+    state.newUserInfos.phone = val;
   },
 });
 
 const address = computed({
   get() {
-    return props.userInfos.address;
+    return state.newUserInfos.address;
   },
   set(val) {
-    newUserInfos.address = val;
+    state.newUserInfos.address = val;
   },
 });
 
 const zip = computed({
   get() {
-    return props.userInfos.zip;
+    return state.newUserInfos.zip;
   },
   set(val) {
-    newUserInfos.zip = val;
+    state.newUserInfos.zip = val;
   },
 });
 
@@ -190,7 +194,8 @@ function editProfileInfo() {
   isEditMode.value = true;
 }
 function confirmInfo() {
-  emit('updateUser', newUserInfos);
+  console.log(state.newUserInfos);
+  emit('updateUser', state.newUserInfos);
   isEditMode.value = false;
 }
 
@@ -199,16 +204,23 @@ function onPickFile() {
   if (file && file[0]) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      image.value = e.target.result;
+      state.newUserInfos.image = e.target.result;
     };
 
     reader.readAsDataURL(file[0]);
   }
 }
+
+const userInfos = computed(() => props.userInfos);
+
+watch(userInfos, (newValue) => {
+  state.newUserInfos = newValue;
+});
+
 </script>
 
 <style scoped lang="scss">
-@use "../../assets/scss/mixins" as m;
+@use '../../assets/scss/mixins' as m;
 .user-profile-card {
   width: 80%;
   background-color: var(--gray-3);
@@ -320,8 +332,6 @@ function onPickFile() {
       font-size: 16px;
       cursor: pointer;
       font-weight: 600;
-    }
-    :nth-child(odd) {
       color: var(--gray-1);
     }
   }
