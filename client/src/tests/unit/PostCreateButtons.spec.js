@@ -1,8 +1,9 @@
 import PostCreateButtons from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons.vue';
 import { mount } from '@vue/test-utils';
+import { describe, it, expect } from 'vitest';
 
 describe('Emitter', () => {
-  it('emits an event with two arguments', () => {
+  it('should emits an event with two arguments', () => {
     const wrapper = mount(PostCreateButtons, {
       props: {
         add: {
@@ -11,8 +12,7 @@ describe('Emitter', () => {
           description: 'Crème de soin pour les peaux sensibles',
           category: 'Cosmétiques',
           price: '12',
-          image:
-            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEA',
+          image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEA',
         },
       },
     });

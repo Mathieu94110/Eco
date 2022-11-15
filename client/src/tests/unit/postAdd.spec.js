@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import PostAdd from '@/views/PostAdd.vue';
 import { createStore } from 'vuex';
+import { describe, it, expect } from 'vitest';
 
 const store = createStore({
   state() {
@@ -30,12 +31,12 @@ describe('PostAdd Component', () => {
     });
   });
 
-  test('should post-create component exist  ', async () => {
+  it('should post-create component exist  ', async () => {
     const postCreateComponent = wrapper.findComponent({ ref: 'post-create' });
     expect(postCreateComponent.exists()).toBe(true);
   });
 
-  test('should post-created component not exist on the beginning', () => {
+  it('should post-created component not exist on the beginning', () => {
     const postCreated = wrapper.findComponent({ ref: '#post-created' });
     expect(postCreated.exists()).toBe(false);
   });

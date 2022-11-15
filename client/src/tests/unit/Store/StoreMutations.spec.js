@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import { describe, expect, it, vi } from 'vitest';
 
 const axios = require('axios');
 
@@ -86,50 +87,51 @@ const store = createStore({
   },
 });
 
-test('logUser should update store state and localStorage user object', () => {
-  const userInfos = {
-    expiresIn: 3600,
-    token: 'eyJhbGciOiJIUzI...',
-    userId: '631f8g98b899f92dfa0f28a4',
-  };
-  jest.spyOn(Storage.prototype, 'setItem');
-  Storage.prototype.setItem = jest.fn();
-  store.commit('logUser', userInfos);
-  expect(localStorage.setItem).toHaveBeenCalled();
-  expect(store.state.user).toStrictEqual({
-    expiresIn: 3600,
-    token: 'eyJhbGciOiJIUzI...',
-    userId: '631f8g98b899f92dfa0f28a4',
+describe('store mutations', () => {
+  it('should logUser update store state and localStorage user object', () => {
+    const userInfos = {
+      expiresIn: 3600,
+      token: 'eyJhbGciOiJIUzI...',
+      userId: '631f8g98b899f92dfa0f28a4',
+    };
+    vi.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = vi.fn();
+    store.commit('logUser', userInfos);
+    expect(localStorage.setItem).toHaveBeenCalled();
+    expect(store.state.user).toStrictEqual({
+      expiresIn: 3600,
+      token: 'eyJhbGciOiJIUzI...',
+      userId: '631f8g98b899f92dfa0f28a4',
+    });
   });
-});
 
-test('logOut should remove userId and token from store and remove user data on localStorage', () => {
-  jest.spyOn(Storage.prototype, 'removeItem');
-  Storage.prototype.removeItem = jest.fn();
-  store.commit('logOut');
-  expect(store.state.user.userId).toBe(-1);
-  expect(store.state.user.token).toBe('');
-  expect(localStorage.removeItem).toHaveBeenCalled();
-});
-
-test('posts should update', () => {
-  const newPost = {
-    author: 'mathieu',
-    image: 'mgpgkdkqsn.png',
-    title: 'coco chanel',
-    description: 'parfum neuf jamais déballé',
-    price: 50,
-    category: 'cosmétiques',
-  };
-  store.commit('setPost', newPost);
-  expect(localStorage.removeItem).toHaveBeenCalled();
-  expect(store.state.currentPost).toStrictEqual({
-    author: 'mathieu',
-    image: 'mgpgkdkqsn.png',
-    title: 'coco chanel',
-    description: 'parfum neuf jamais déballé',
-    price: 50,
-    category: 'cosmétiques',
+  it('should logOut remove userId and token from store and remove user data on localStorage', () => {
+    vi.spyOn(Storage.prototype, 'removeItem');
+    Storage.prototype.removeItem = vi.fn();
+    store.commit('logOut');
+    expect(store.state.user.userId).toBe(-1);
+    expect(store.state.user.token).toBe('');
+    expect(localStorage.removeItem).toHaveBeenCalled();
   });
-  console.log(store.state.currentPost);
+
+  it('should posts update', () => {
+    const newPost = {
+      author: 'mathieu',
+      image: 'mgpgkdkqsn.png',
+      title: 'coco chanel',
+      description: 'parfum neuf jamais déballé',
+      price: 50,
+      category: 'cosmétiques',
+    };
+    store.commit('setPost', newPost);
+    expect(localStorage.removeItem).toHaveBeenCalled();
+    expect(store.state.currentPost).toStrictEqual({
+      author: 'mathieu',
+      image: 'mgpgkdkqsn.png',
+      title: 'coco chanel',
+      description: 'parfum neuf jamais déballé',
+      price: 50,
+      category: 'cosmétiques',
+    });
+  });
 });

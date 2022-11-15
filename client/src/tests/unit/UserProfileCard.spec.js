@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
 import UserProfileCard from '@/components/User/UserProfileCard.vue';
+import { describe, it, expect } from 'vitest';
 
 describe('UserProfileCard', () => {
-  test('email input value should update successfully', async () => {
+  it('should email input value update successfully', async () => {
     const wrapper = mount(UserProfileCard, {
       props: {
         userInfos: {
@@ -16,25 +17,12 @@ describe('UserProfileCard', () => {
         },
       },
     });
-    const inputName = wrapper.get('#userName');
-    expect(inputName.text()).toBe('Tom');
-
-    const firstName = wrapper.get('#firstName');
-    expect(firstName.text()).toBe('Despières');
-
-    const lastName = wrapper.get('#lastName');
-    expect(lastName.text()).toBe('TomDes');
-
-    const email = wrapper.get('#email');
-    expect(email.text()).toBe('tom31@gmail.com');
-
-    const phone = wrapper.get('#phone');
-    expect(phone.text()).toBe('0625852200');
-
-    const address = wrapper.get('#address');
-    expect(address.text()).toBe('15 rue du général leclerc');
-
-    const zip = wrapper.get('#zip');
-    expect(zip.text()).toBe('75011');
+    expect(wrapper.vm.userInfos.userName).toBe('Tom');
+    expect(wrapper.vm.userInfos.firstName).toBe('Despières');
+    expect(wrapper.vm.userInfos.lastName).toBe('TomDes');
+    expect(wrapper.vm.userInfos.email).toBe('tom31@gmail.com');
+    expect(wrapper.vm.userInfos.phone).toBe('0625852200');
+    expect(wrapper.vm.userInfos.address).toBe('15 rue du général leclerc');
+    expect(wrapper.vm.userInfos.zip).toBe('75011');
   });
 });
