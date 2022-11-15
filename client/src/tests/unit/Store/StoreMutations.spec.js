@@ -1,5 +1,7 @@
 import { createStore } from 'vuex';
-import { describe, expect, it, vi } from 'vitest';
+import {
+  describe, expect, it, vi,
+} from 'vitest';
 
 const axios = require('axios');
 

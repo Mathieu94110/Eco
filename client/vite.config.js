@@ -8,7 +8,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
   },
-  root: '.',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

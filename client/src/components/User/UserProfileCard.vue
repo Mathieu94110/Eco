@@ -31,8 +31,13 @@
         :class="{ active: isEditMode }"
       >
         <span>Pseudo</span>
-        <span v-if="isEditMode"><input class="pl-5 font-600" v-model="userName" /> </span
-        ><span id="userName" v-else>{{ userName }}</span>
+        <span v-if="isEditMode"
+          ><input
+            data-test="userName"
+            class="pl-5 font-600"
+            v-model="userName"
+          /> </span
+        ><span v-else>{{ userName }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
@@ -40,60 +45,91 @@
       >
         <span>Prénom</span>
         <span v-if="isEditMode"
-          ><input class="pl-5 font-600" v-model="firstName" /> </span
-        ><span id="firstName" v-else>{{ firstName }}</span>
+          ><input
+            data-test="firstName"
+            class="pl-5 font-600"
+            v-model="firstName"
+          /> </span
+        ><span v-else>{{ firstName }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
         :class="{ active: isEditMode }"
       >
         <span>Nom</span>
-        <span v-if="isEditMode"><input class="pl-5 font-600" v-model="lastName" /> </span
-        ><span id="lastName" v-else>{{ lastName }}</span>
+        <span v-if="isEditMode"
+          ><input
+            data-test="lastName"
+            class="pl-5 font-600"
+            v-model="lastName"
+          /> </span
+        ><span v-else>{{ lastName }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
         :class="{ active: isEditMode }"
       >
         <span>Email</span
-        ><span v-if="isEditMode"><input class="pl-5 font-600" v-model="email" /> </span
-        ><span v-else id="email">{{ email }}</span>
+        ><span v-if="isEditMode"
+          ><input
+            data-test="email"
+            class="pl-5 font-600"
+            v-model="email"
+          /> </span
+        ><span v-else>{{ email }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
         :class="{ active: isEditMode }"
       >
         <span>Téléphone</span
-        ><span v-if="isEditMode"><input class="pl-5 font-600" v-model="phone" /> </span
-        ><span id="phone" v-else>{{ phone }}</span>
+        ><span v-if="isEditMode"
+          ><input
+            data-test="phone"
+            class="pl-5 font-600"
+            v-model="phone"
+          /> </span
+        ><span v-else>{{ phone }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
         :class="{ active: isEditMode }"
       >
         <span>Adresse</span
-        ><span v-if="isEditMode"><input class="pl-5 font-600" v-model="address" /></span
-        ><span id="address" v-else>{{ address }}</span>
+        ><span v-if="isEditMode"
+          ><input
+            data-test="address"
+            class="pl-5 font-600"
+            v-model="address" /></span
+        ><span v-else>{{ address }}</span>
       </p>
       <p
         class="user-profile-card__sub-categories"
         :class="{ active: isEditMode }"
       >
         <span>Code postal</span>
-        <span v-if="isEditMode"><input class="pl-5 font-600" v-model="zip" /></span>
-        <span id="zip" v-else>{{ zip }}</span>
+        <span v-if="isEditMode"
+          ><input data-test="zip" class="pl-5 font-600" v-model="zip"
+        /></span>
+        <span v-else>{{ zip }}</span>
       </p>
     </div>
 
     <div class="user-profile-card__footer">
       <span
+        id="edit-profile"
         v-if="!isEditMode"
         @click="editProfileInfo()"
         @keydown="editProfileInfo()"
       >
         <i class="fa-solid fa-pen-to-square user-profile-card__edit-icon"></i
       ></span>
-      <span v-else @click="confirmInfo()" @keydown="confirmInfo()">
+      <span
+        v-else
+        id="confirm-info"
+        @click="confirmInfo()"
+        @keydown="confirmInfo()"
+      >
         <i class="fa-solid fa-check user-profile-card__edit-icon"></i>
       </span>
     </div>
@@ -194,7 +230,6 @@ function editProfileInfo() {
   isEditMode.value = true;
 }
 function confirmInfo() {
-  console.log(state.newUserInfos);
   emit('updateUser', state.newUserInfos);
   isEditMode.value = false;
 }
@@ -216,7 +251,6 @@ const userInfos = computed(() => props.userInfos);
 watch(userInfos, (newValue) => {
   state.newUserInfos = newValue;
 });
-
 </script>
 
 <style scoped lang="scss">

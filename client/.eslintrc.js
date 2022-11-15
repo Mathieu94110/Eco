@@ -17,6 +17,7 @@ module.exports = {
     'consistent-return': 'off',
     'no-restricted-syntax': 'off', // error on isCreateAddButtonDisabled
     'guard-for-in': 'off',
+    'import/extensions': 'off',
   },
   overrides: [
     {
