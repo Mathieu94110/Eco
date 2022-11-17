@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import addFormValidation from '@/modules/formValidation';

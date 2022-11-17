@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AddCard from '@/components/Adds/AddCard/AddCard.vue';
 import { reactive, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';

@@ -59,7 +59,7 @@
   </table>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps } from 'vue';
 import Modal from '@/components/Modal/Modal.vue';
 

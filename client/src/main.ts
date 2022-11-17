@@ -1,23 +1,23 @@
-import { createApp } from 'vue';
-import VueLoading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-import { defineRule } from 'vee-validate';
-import toastMsg from '@/mixins/toast';
-import { collapsed, toggleSidebar } from '@/mixins/sidebar-collapsed';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import '@fortawesome/fontawesome-free/js/all';
+import { createApp } from "vue";
+import VueLoading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+import { defineRule } from "vee-validate";
+import toastMsg from "@/mixins/toast";
+import { collapsed, toggleSidebar } from "@/mixins/sidebar-collapsed";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import "@fortawesome/fontawesome-free/js/all";
 
 // rules for login form
-defineRule('required', (value) => {
+defineRule("required", (value) => {
   if (!value || !value.length) {
-    return 'Ce champs est requis';
+    return "Ce champs est requis";
   }
   return true;
 });
 
-defineRule('minLength', (value, [limit]) => {
+defineRule("minLength", (value, [limit]) => {
   // The field is empty so it should pass
   if (!value || !value.length) {
     return true;
@@ -28,23 +28,23 @@ defineRule('minLength', (value, [limit]) => {
   return true;
 });
 
-defineRule('title', (value) => {
+defineRule("title", (value) => {
   if (!value || !value.length) {
-    return 'Vous devez indiquer un titre';
+    return "Vous devez indiquer un titre";
   }
 
   return true;
 });
 
-defineRule('description', (value) => {
+defineRule("description", (value) => {
   if (!value || !value.length) {
-    return 'Vous devez indiquer une description';
+    return "Vous devez indiquer une description";
   }
 
   return true;
 });
 
-defineRule('minMax', (value, [min, max]) => {
+defineRule("minMax", (value, [min, max]) => {
   if (!value || !value.length) {
     return true;
   }
@@ -70,8 +70,8 @@ app.config.globalProperties.$collapsed = collapsed;
 app.config.globalProperties.$toggleSidebar = toggleSidebar;
 //
 
-app.provide('toastMsg', toastMsg);
-app.provide('collapsed', collapsed);
-app.provide('toggleSidebar', toggleSidebar);
+app.provide("toastMsg", toastMsg);
+app.provide("collapsed", collapsed);
+app.provide("toggleSidebar", toggleSidebar);
 
-app.use(router).use(store).use(VueLoading).mount('#app');
+app.use(router).use(store).use(VueLoading).mount("#app");

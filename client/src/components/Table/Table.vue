@@ -2,11 +2,11 @@
   <div class="table">
     <div v-if="props.userAdds.length > 0" class="table__content">
       <component
-      :is="isActive"
-      :userAdds="props.userAdds"
-      :userConfig="props.config"
-      v-bind="$attrs"
-    />
+        :is="isActive"
+        :userAdds="props.userAdds"
+        :userConfig="props.config"
+        v-bind="$attrs"
+      />
     </div>
     <div v-else class="table__empty-wrapper center">
       <div class="p-20">
@@ -16,17 +16,19 @@
   </div>
 </template>
 
-<script setup>
-import { computed, defineProps } from 'vue';
-import { useStore } from 'vuex';
-import TableLargeScreen from '@/components/Table/TableLargeScreen.vue';
-import TableSmallScreen from '@/components/Table/TableSmallScreen.vue';
+<script setup lang="ts">
+import { computed, defineProps } from "vue";
+import { useStore } from "vuex";
+import TableLargeScreen from "@/components/Table/TableLargeScreen.vue";
+import TableSmallScreen from "@/components/Table/TableSmallScreen.vue";
 
-const props = defineProps(['userAdds', 'config']);
+const props = defineProps(["userAdds", "config"]);
 const store = useStore();
 
 const isTabletOrMobile = computed(() => store?.state.windowWidth < 800);
-const isActive = computed(() => (isTabletOrMobile.value === true ? TableSmallScreen : TableLargeScreen));
+const isActive = computed(() =>
+  isTabletOrMobile.value === true ? TableSmallScreen : TableLargeScreen
+);
 </script>
 
 <style lang="scss">

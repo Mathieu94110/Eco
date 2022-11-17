@@ -2,7 +2,7 @@
   <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, computed } from 'vue';
 import SignIn from './SignIn.vue';
 import SignUp from './SignUp.vue';

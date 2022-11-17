@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 import addFormValidation from '@/modules/formValidation';
 import createAddButtonState from '@/modules/isCreateAddButtonDisabled';

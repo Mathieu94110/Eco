@@ -31,13 +31,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Table from '@/components/Table/Table.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
 import Toolbar from '@/components/Toolbar/Toolbar.vue';
 import addsApi from '@/api/adds';
 import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import 'vue-loading-overlay/dist/css/index.css';
 import {
   reactive, inject, onMounted, computed,
 } from 'vue';

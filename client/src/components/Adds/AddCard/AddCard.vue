@@ -71,7 +71,7 @@
           <span class="card__category-items">{{ props.add.category }}</span>
         </div>
         <div class="card__category-items--alt-color" v-if="!isFavoritePage">
-          <span :for="id" @click="sendToFavorites(add)" @keydown="sendToFavorites(add)">
+          <span @click="emit('add-item', $event)">
             <i class="card__category-items--icon fas fa-heart"></i>
           </span>
         </div>
@@ -80,32 +80,21 @@
   </div>
 </template>
 
-<script setup>
-import { computed, defineProps, defineEmits } from 'vue';
-import { useRoute } from 'vue-router';
+<script setup lang="ts">
+import { computed, defineProps } from "vue";
+import { useRoute } from "vue-router";
+import type { AddInterface } from "../../../shared/interfaces/Add.interface";
 
-const props = defineProps({
-  add: {
-    brand: String,
-    category: String,
-    description: String,
-    discountPercentage: Number,
-    id: Number,
-    images: [String],
-    price: Number,
-    rating: Number,
-    stock: Number,
-    thumbnail: String,
-    title: String,
-  },
-});
-const emit = defineEmits('addItem');
+const props = defineProps<{
+  add: AddInterface;
+}>();
+
+const emit = defineEmits<{
+  (e: "add-item", add: AddInterface): void;
+}>();
 const route = useRoute();
 
-const sendToFavorites = (add) => {
-  emit('addItem', add);
-};
-const isFavoritePage = computed(() => route.name === 'FavoritesDetails');
+const isFavoritePage = computed(() => route.name === "FavoritesDetails");
 </script>
 
 <style scoped lang="scss">

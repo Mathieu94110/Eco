@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   reactive, ref, computed, watch,
 } from 'vue';

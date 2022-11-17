@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   inject, computed, reactive, onMounted,
 } from 'vue';

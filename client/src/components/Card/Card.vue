@@ -28,7 +28,7 @@
   </CardLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, watch, defineProps } from 'vue';
 import CardLayout from '../Layout/CardLayout.vue';
 

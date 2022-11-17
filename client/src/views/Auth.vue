@@ -8,11 +8,11 @@
   </div>
 </template>
 
-<script setup>
-import Login from '@/components/Login/Login.vue';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+<script setup lang="ts">
+import Login from "@/components/Login/Login.vue";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
@@ -20,11 +20,11 @@ const status = computed(() => store?.state.status);
 
 const authenticate = async (data) => {
   try {
-    await store.dispatch('login', {
+    await store.dispatch("login", {
       email: data.email,
       password: data.password,
     });
-    router.push('/profile');
+    router.push("/profile");
   } catch (e) {
     console.error(e);
   }
@@ -32,7 +32,7 @@ const authenticate = async (data) => {
 
 const createAccount = async (data) => {
   try {
-    await store.dispatch('createAccount', {
+    await store.dispatch("createAccount", {
       userName: data.userName,
       email: data.email,
       lastName: data.lastName,

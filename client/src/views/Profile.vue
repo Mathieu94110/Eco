@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import UserProfileCard from '@/components/User/UserProfileCard.vue';
 import Toolbar from '@/components/Toolbar/Toolbar.vue';
 import {
@@ -32,7 +32,7 @@ import {
 import { useStore } from 'vuex';
 import userApi from '@/api/user';
 import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import 'vue-loading-overlay/dist/css/index.css';
 
 const sideBarClosed = inject('collapsed');
 

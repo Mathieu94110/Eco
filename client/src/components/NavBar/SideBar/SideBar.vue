@@ -54,7 +54,7 @@
   </SideBarContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted, inject } from 'vue';
 import { useStore } from 'vuex';
 import mitt from 'mitt';

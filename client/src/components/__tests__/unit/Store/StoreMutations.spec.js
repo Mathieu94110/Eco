@@ -6,7 +6,7 @@ import {
 const axios = require('axios');
 
 const userInstance = axios.create({
-  baseURL: `${process.env.VUE_APP_API_URL}/user`,
+  baseURL: `${import.meta.env.VUE_APP_API_URL}/user`,
 });
 
 const store = createStore({

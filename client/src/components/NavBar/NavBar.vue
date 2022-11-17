@@ -2,7 +2,7 @@
   <component :is="isActive" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, reactive, onMounted } from 'vue';
 import TopBar from './TopBar/TopBar.vue';
 import SideBar from './SideBar/SideBar.vue';

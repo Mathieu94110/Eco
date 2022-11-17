@@ -52,7 +52,7 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   reactive, defineEmits, defineProps, computed,
 } from 'vue';

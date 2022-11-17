@@ -73,7 +73,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   reactive, onMounted, computed, watch, defineProps, ref,
 } from 'vue';

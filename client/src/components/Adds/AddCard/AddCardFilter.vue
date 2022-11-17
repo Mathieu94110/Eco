@@ -95,7 +95,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { inject, computed } from 'vue';
 
 export default {

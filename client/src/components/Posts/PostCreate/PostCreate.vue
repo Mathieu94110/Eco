@@ -15,7 +15,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, defineProps } from 'vue';
 import PostCreateImage from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateImage.vue';
 import PostCreateTitle from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateTitle.vue';

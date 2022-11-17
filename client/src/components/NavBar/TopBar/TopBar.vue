@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Calc from '@/components/Calc/Calc.vue';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';

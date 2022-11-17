@@ -7,23 +7,22 @@
   </div>
 </template>
 
-<script>
-import NavBar from '@/components/NavBar/NavBar.vue';
-import { mapGetters } from 'vuex';
-
+<script lang="ts">
+import NavBar from "@/components/NavBar/NavBar.vue";
+import { mapGetters } from "vuex";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     NavBar,
   },
   // Used to detect globally screen width changes due to a variable saved in store
   mounted() {
-    window.addEventListener('resize', () => {
-      this.$store.commit('setWindowWidth');
+    window.addEventListener("resize", () => {
+      this.$store.commit("setWindowWidth");
     });
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(["isLoggedIn"]),
   },
 };
 </script>

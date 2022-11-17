@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   computed, reactive, watch, ref, inject,
 } from 'vue';

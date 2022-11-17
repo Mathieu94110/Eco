@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps } from 'vue';
 import CardLayout from '../Layout/CardLayout.vue';
 

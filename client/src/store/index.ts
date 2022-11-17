@@ -1,53 +1,54 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
+import axios from "axios";
 
-const axios = require('axios');
+const apiUrl = "http://localhost:3000/api";
 
 const userInstance = axios.create({
-  baseURL: `${process.env.VUE_APP_API_URL}/user`,
+  baseURL: `${apiUrl}/user`,
 });
 const postInstance = axios.create({
-  baseURL: `${process.env.VUE_APP_API_URL}/posts`,
+  baseURL: `${apiUrl}/posts`,
 });
 const favoriteInstance = axios.create({
-  baseURL: `${process.env.VUE_APP_API_URL}/favorites`,
+  baseURL: `${apiUrl}/favorites`,
 });
 
 const store = createStore({
   state: {
-    status: '',
+    status: "",
     user: {},
     isUserLogged: false,
     currentPost: {
-      author: '',
-      image: '',
-      title: '',
-      description: '',
+      author: "",
+      image: "",
+      title: "",
+      description: "",
       price: null,
-      category: '',
+      category: "",
     },
     userInfos: {
-      userName: '',
-      firstName: '',
-      lastName: '',
-      email: '',
+      userName: "",
+      firstName: "",
+      lastName: "",
+      email: "",
       image: null,
       phone: null,
-      address: '',
-      zip: '',
+      address: "",
+      zip: "",
     },
     favoriteDetails: {
-      _id: '',
+      _id: "",
       id: null,
-      brand: '',
-      category: '',
-      description: '',
+      brand: "",
+      category: "",
+      description: "",
       discountPercentage: null,
       images: null,
       price: null,
       rating: null,
       stock: null,
-      thumbnail: '',
-      title: '',
+      thumbnail: "",
+      title: "",
     },
     windowWidth: window.innerWidth,
   },
@@ -65,7 +66,7 @@ const store = createStore({
 
     logUser(state, user) {
       userInstance.defaults.headers.common.Authorization = user.token;
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
     userInfos(state, userInfos) {
@@ -77,9 +78,9 @@ const store = createStore({
     logOut(state) {
       state.user = {
         userId: -1,
-        token: '',
+        token: "",
       };
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
     },
     setFavoriteData(state, favoriteInfo) {
       state.favoriteDetails = favoriteInfo.favorite;
@@ -99,32 +100,32 @@ const store = createStore({
   },
   actions: {
     login: ({ commit }, userInfos) => {
-      commit('setStatus', 'loading');
+      commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         userInstance
-          .post('/login', userInfos)
+          .post("/login", userInfos)
           .then((response) => {
-            commit('setStatus', '');
-            commit('logUser', response.data);
-            commit('loginStatus', true);
+            commit("setStatus", "");
+            commit("logUser", response.data);
+            commit("loginStatus", true);
             resolve(response.data);
           })
           .catch((error) => {
-            commit('setStatus', 'error_login');
+            commit("setStatus", "error_login");
             reject(error);
           });
       });
     },
     createAccount: ({ commit }, userInfos) => {
-      commit('setStatus', 'loading');
+      commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         commit;
         userInstance
-          .post('/signup', userInfos)
+          .post("/signup", userInfos)
           .then((response) => {
-            commit('setStatus', 'created');
+            commit("setStatus", "created");
             resolve(response);
-            commit('userInfos', userInfos);
+            commit("userInfos", userInfos);
           })
           .catch((error) => {
             console.error(error);
@@ -134,62 +135,62 @@ const store = createStore({
     },
 
     createPost: ({ commit }, postInfos) => {
-      commit('setPost', postInfos);
+      commit("setPost", postInfos);
     },
 
     sendPost: ({ state, commit }) => {
-      commit('setStatus', 'loading');
+      commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         postInstance
-          .post('/postInfos', state.currentPost)
+          .post("/postInfos", state.currentPost)
           .then((response) => {
             resolve(response.data);
           })
           .catch((error) => {
             console.log(error);
-            commit('setStatus', 'error_post');
+            commit("setStatus", "error_post");
             reject(error);
           });
       });
     },
 
     async getPosts({ commit }) {
-      const res = await axios.get('/api/posts');
-      commit('user_profile', res.data.user);
+      const res = await axios.get("/api/posts");
+      commit("user_profile", res.data.user);
       return res;
     },
 
     async resetForm({ commit }, data) {
-      commit('resetPost', data);
+      commit("resetPost", data);
     },
 
     sendFavorite: ({ commit }, FavoriteData) => {
-      commit('setStatus', 'loading');
+      commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         favoriteInstance
-          .post('/favoritesInfos', FavoriteData)
+          .post("/favoritesInfos", FavoriteData)
           .then((response) => {
             resolve(response.data);
           })
           .catch((error) => {
             console.log(error);
-            commit('setStatus', 'error_post');
+            commit("setStatus", "error_post");
             reject(error);
           });
       });
     },
 
     sendFavoriteDetails: ({ commit }, FavoriteInfo) => {
-      commit('setFavoriteData', FavoriteInfo);
+      commit("setFavoriteData", FavoriteInfo);
     },
   },
 });
 
-const userData = localStorage.getItem('user');
+const userData = localStorage.getItem("user");
 if (!userData) {
   store.state.user = {
     userId: -1,
-    token: '',
+    token: "",
   };
 } else {
   try {
@@ -198,7 +199,7 @@ if (!userData) {
   } catch (err) {
     store.state.user = {
       userId: -1,
-      token: '',
+      token: "",
     };
   }
 }

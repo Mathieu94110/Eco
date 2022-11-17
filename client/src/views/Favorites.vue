@@ -6,7 +6,7 @@
     :is-full-page="state.fullPage"
   />
   <div
-  v-if="state.favorites.length > 0"
+    v-if="state.favorites.length > 0"
     :style="{
       marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
     }"
@@ -22,31 +22,29 @@
     </TransitionGroup>
   </div>
   <div v-else class="favorites__empty-wrapper center">
-      <div class="p-20">
-        <h2>Vous n'avez pas ajouté de favoris</h2>
-      </div>
+    <div class="p-20">
+      <h2>Vous n'avez pas ajouté de favoris</h2>
     </div>
+  </div>
 </template>
 
-<script setup>
-import {
-  reactive, onMounted, computed, inject,
-} from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import Toolbar from '@/components/Toolbar/Toolbar.vue';
-import FavoriteCard from '@/components/Card/FavoriteCard.vue';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-import addsApi from '../api/adds';
+<script setup lang="ts">
+import { reactive, onMounted, computed, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import FavoriteCard from "@/components/Card/FavoriteCard.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+import addsApi from "../api/adds";
 
 const state = reactive({
   favorites: [],
   isLoading: false,
 });
 
-const sideBarClosed = inject('collapsed');
-const toast = inject('toastMsg');
+const sideBarClosed = inject("collapsed");
+const toast = inject("toastMsg");
 
 const store = useStore();
 const router = useRouter();
@@ -60,7 +58,7 @@ const getUserFavorites = async () => {
     if (data.posts) {
       // In waiting to recover filtered data by user on back-end side, comming soon !
       state.favorites = data.posts.filter(
-        (post) => post.author === store.state.user.userId,
+        (post) => post.author === store.state.user.userId
       );
       state.isLoading = false;
     }
@@ -70,11 +68,11 @@ const getUserFavorites = async () => {
 };
 const sendFavoriteDetails = async (add) => {
   try {
-    await store.dispatch('sendFavoriteDetails', {
+    await store.dispatch("sendFavoriteDetails", {
       favorite: add,
     });
     router.push({
-      name: 'FavoritesDetails',
+      name: "FavoritesDetails",
       params: { add: add.title },
     });
   } catch (e) {
@@ -84,9 +82,9 @@ const sendFavoriteDetails = async (add) => {
 const deleteAdd = (add) => {
   try {
     addsApi.deleteFavorite(add._id);
-    toast("L'annonce a bien été supprimée !", 'success');
+    toast("L'annonce a bien été supprimée !", "success");
     state.favorites = state.favorites.filter(
-      (favorite) => favorite._id !== add._id,
+      (favorite) => favorite._id !== add._id
     );
   } catch (e) {
     console.error(e);
@@ -99,7 +97,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@use '../assets/scss/mixins';
+@use "../assets/scss/mixins";
 .favorites {
   height: calc(100% - 60px);
   padding: 20px 0;
