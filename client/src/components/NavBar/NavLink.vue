@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   props: {

@@ -1,71 +1,71 @@
 <template>
-  <div class='edit-card'>
-    <div class='edit-card__validate-button-wrapper my-20'>
+  <div class="edit-card">
+    <div class="edit-card__validate-button-wrapper my-20">
       <buttton
-        v-if='props.currentState'
-        type='button'
-        class='btn btn-primary font-600'
-        :key='component'
+        v-if="props.currentState"
+        type="button"
+        class="btn btn-primary font-600"
+        :key="component"
         @click="$emit('updateCard', state.card)"
         >Valider</buttton
       >
     </div>
-    <CardLayout v-if='props.add'>
+    <CardLayout v-if="props.add">
       <template #image>
-        <div class='edit-card__product-img' v-if='!state.edit'>
+        <div class="edit-card__product-img" v-if="!state.edit">
           <img
-            class='edit-card__img'
-            :src='props.add.image'
-            height='200'
-            alt='product-image'
+            class="edit-card__img"
+            :src="props.add.image"
+            height="200"
+            alt="product-image"
           />
         </div>
         <div
           v-else
-          class='edit-card__imagePreviewed'
-          :style="{ 'background-image': `url(${state.card.image})`}"
+          class="edit-card__imagePreviewed"
+          :style="{ 'background-image': `url(${state.card.image})` }"
         ></div>
-        <label for='image'>
+        <label for="image">
           <input
-            id='image'
-            name='image'
-            accept='image/*'
-            ref='fileInput'
-            type='file'
-            @input='onPickFile'
+            id="image"
+            name="image"
+            accept="image/*"
+            ref="fileInput"
+            type="file"
+            @input="onPickFile"
           />
         </label>
       </template>
       <template #title>
-        <label for='title'>
-          <input v-model='title' class='edit-card__inputs' />
+        <label for="title">
+          <input v-model="title" class="edit-card__inputs" />
         </label>
       </template>
       <template #description>
-        <label for='description'>
-          <textarea v-model='description' class='edit-card__inputs'></textarea>
+        <label for="description">
+          <textarea v-model="description" class="edit-card__inputs"></textarea>
         </label>
       </template>
       <template #price>
-        <label for='price'>
-          <input v-model='price' class='edit-card__inputs' />
+        <label for="price">
+          <input v-model="price" class="edit-card__inputs" />
         </label>
       </template>
       <template #date>
         <span>{{ new Date(props.add.date).toLocaleDateString() }}</span>
       </template>
       <template #category>
-        <label for='category'>
-          <select v-model='category' class='edit-card__inputs'>
-            <option value='Informatique'>Informatique</option>
-            <option value='Téléphones, tablettes'>Téléphones, tablettes</option>
-            <option value='Électro'>Électro</option>
-            <option value='Rangements'>Rangements</option>
-            <option value='Vetements'>Vetements</option>
-            <option value='Cosmétiques'>Cosmétiques</option>
-            <option value='Vidéo, son'>Vidéo, son</option>
-            <option value='Auto, moto'>Auto, moto</option>
-            <option value='Autres'>Autres</option>
+        <label for="category">
+          <select v-model="category" class="edit-card__inputs">
+            <option value="Informatique">Informatique</option>
+            <option value="Téléphones, tablettes">Téléphones, tablettes</option>
+            <option value="Électro">Électro</option>
+            <option value="Rangements">Rangements</option>
+            <option value="Vetements">Vetements</option>
+            <option value="Cosmétiques">Cosmétiques</option>
+            <option value="Vidéo, son">Vidéo, son</option>
+            <option value="Auto, moto">Auto, moto</option>
+            <option value="Autres">Autres</option>
           </select>
         </label>
       </template>
@@ -74,10 +74,8 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive, onMounted, computed, watch, defineProps, ref,
-} from 'vue';
-import CardLayout from '../Layout/CardLayout.vue';
+import { reactive, onMounted, computed, watch, defineProps, ref } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
 
 const state = reactive({
   editCard: false,
@@ -85,7 +83,7 @@ const state = reactive({
   card: {},
 });
 
-const props = defineProps(['add', 'currentState']);
+const props = defineProps(["add", "currentState"]);
 const fileInput = ref(null);
 const onPickFile = () => {
   state.edit = true;
@@ -147,7 +145,7 @@ watch(state.edit, (newValue) => {
 });
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .edit-card {
   width: 100%;
   &__validate-button-wrapper {

@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits } from "vue";
 
-defineProps(['open', 'transparent']);
+defineProps(["open", "transparent"]);
 
-const emit = defineEmits('close');
+const emit = defineEmits("close");
 </script>
 
 <template>
   <Teleport v-if="open" to="body">
-    <div @click="emit('close')" @keydown="emit('close')" class="calc" :class="{ transparent }"></div>
+    <div
+      @click="emit('close')"
+      @keydown="emit('close')"
+      class="calc"
+      :class="{ transparent }"
+    ></div>
   </Teleport>
 </template>
 

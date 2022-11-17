@@ -38,6 +38,7 @@ const store = createStore({
     },
     favoriteDetails: {
       _id: "",
+      author: "",
       id: null,
       brand: "",
       category: "",

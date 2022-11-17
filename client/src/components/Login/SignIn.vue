@@ -4,30 +4,34 @@
       <h1>Connection</h1>
     </div>
     <div class="sign-in__subtitle-main">Tu n'as pas encore de compte ?</div>
-    <div class="sign-in__subtitle-secondary" @click="switchComponent()" @keydown="switchComponent()">
+    <div
+      class="sign-in__subtitle-secondary"
+      @click="switchComponent()"
+      @keydown="switchComponent()"
+    >
       Créer un compte
     </div>
     <main class="sign-in__inputs">
       <div class="sign-in__form-items">
         <label for="email">
-        <input
-          id="email"
-          v-model="state.email"
-          class="sign-in__form-input"
-          type="text"
-          placeholder="Adresse mail"
-        />
-      </label>
+          <input
+            id="email"
+            v-model="state.email"
+            class="sign-in__form-input"
+            type="text"
+            placeholder="Adresse mail"
+          />
+        </label>
       </div>
       <div class="sign-in__form-items">
         <label for="email">
-        <input
-          id="password"
-          v-model="state.password"
-          class="sign-in__form-input"
-          type="password"
-          placeholder="Mot de passe"
-        />
+          <input
+            id="password"
+            v-model="state.password"
+            class="sign-in__form-input"
+            type="password"
+            placeholder="Mot de passe"
+          />
         </label>
       </div>
     </main>
@@ -53,26 +57,26 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive, defineEmits, defineProps, computed,
-} from 'vue';
+import { reactive, defineEmits, defineProps, computed } from "vue";
 
 const state = reactive({
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 });
 
-const props = defineProps(['status']);
-const emit = defineEmits(['login', 'switch']);
+const props = defineProps(["status"]);
+const emit = defineEmits(["login", "switch"]);
 
 const switchComponent = () => {
-  emit('switch', 'create');
+  emit("switch", "create");
 };
 const login = () => {
-  emit('login', { email: state.email, password: state.password });
+  emit("login", { email: state.email, password: state.password });
 };
 
-const validatedFields = computed(() => state.email !== '' && state.password !== '');
+const validatedFields = computed(
+  () => state.email !== "" && state.password !== ""
+);
 </script>
 
 <style lang="scss" scoped>

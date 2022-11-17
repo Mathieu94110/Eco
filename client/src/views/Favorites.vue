@@ -37,19 +37,22 @@ import FavoriteCard from "@/components/Card/FavoriteCard.vue";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import addsApi from "../api/adds";
-
-const state = reactive({
+import type { AddInterface } from "@/shared/interfaces";
+const state = reactive<{
+  favorites: AddInterface[];
+  isLoading: boolean;
+}>({
   favorites: [],
   isLoading: false,
 });
 
 const sideBarClosed = inject("collapsed");
-const toast = inject("toastMsg");
+const toast: any = inject("toastMsg");
 
 const store = useStore();
 const router = useRouter();
 
-const isMobile = computed(() => store?.state.windowWidth < 575);
+const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const getUserFavorites = async () => {
   try {
@@ -58,7 +61,7 @@ const getUserFavorites = async () => {
     if (data.posts) {
       // In waiting to recover filtered data by user on back-end side, comming soon !
       state.favorites = data.posts.filter(
-        (post) => post.author === store.state.user.userId
+        (post: AddInterface) => post.author === store.state.user.userId
       );
       state.isLoading = false;
     }
@@ -66,7 +69,7 @@ const getUserFavorites = async () => {
     console.log(error);
   }
 };
-const sendFavoriteDetails = async (add) => {
+const sendFavoriteDetails = async (add: AddInterface) => {
   try {
     await store.dispatch("sendFavoriteDetails", {
       favorite: add,
@@ -79,14 +82,14 @@ const sendFavoriteDetails = async (add) => {
     console.error(e);
   }
 };
-const deleteAdd = (add) => {
+const deleteAdd = (add: AddInterface) => {
   try {
     addsApi.deleteFavorite(add._id);
     toast("L'annonce a bien été supprimée !", "success");
     state.favorites = state.favorites.filter(
       (favorite) => favorite._id !== add._id
     );
-  } catch (e) {
+  } catch (e: unknown) {
     console.error(e);
   }
 };
@@ -109,7 +112,10 @@ onMounted(async () => {
   }
   &__empty-wrapper {
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100vh - 60px);
+    @include mixins.xs {
+      font-size: 0.7rem;
+    }
   }
 }
 //Transition

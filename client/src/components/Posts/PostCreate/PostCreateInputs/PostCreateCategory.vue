@@ -28,21 +28,21 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
-import addFormValidation from '@/modules/formValidation';
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
+import addFormValidation from "@/modules/formValidation";
 
 export default {
   setup() {
-    const input = ref('');
+    const input = ref("");
     const store = useStore();
     const { validateCategoryField, errors } = addFormValidation();
     const validateInput = () => {
-      validateCategoryField('category', input.value);
+      validateCategoryField("category", input.value);
     };
     const storeCategory = computed(() => store?.state.currentPost.category);
     watch(storeCategory, (newValue) => {
-      if (!newValue) input.value = '';
+      if (!newValue) input.value = "";
       validateInput();
     });
     return {

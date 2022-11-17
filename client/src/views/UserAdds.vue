@@ -32,22 +32,29 @@
 </template>
 
 <script setup lang="ts">
-import Table from '@/components/Table/Table.vue';
-import Pagination from '@/components/Pagination/Pagination.vue';
-import Toolbar from '@/components/Toolbar/Toolbar.vue';
-import addsApi from '@/api/adds';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
-import {
-  reactive, inject, onMounted, computed,
-} from 'vue';
-import { useStore } from 'vuex';
+import Table from "@/components/Table/Table.vue";
+import Pagination from "@/components/Pagination/Pagination.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import addsApi from "@/api/adds";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+import { reactive, inject, onMounted, computed } from "vue";
+import { useStore } from "vuex";
+import type { UserAddInterface } from "@/shared/interfaces";
+import type { TypeOf } from "yup";
 
-const perPageOptions = [5, 10, 50];
+const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();
-const sideBarClosed = inject('collapsed');
-const toast = inject('toastMsg');
-const state = reactive({
+const sideBarClosed = inject<boolean>("collapsed");
+const toast = inject("toastMsg");
+const state = reactive<{
+  perPageOptions: number[];
+  tableData: UserAddInterface[] | undefined;
+  pagination: { page: number; perPage: number };
+  isLoading: boolean;
+  fullPage: boolean;
+  config: { key: string; title: string }[];
+}>({
   perPageOptions,
   tableData: undefined,
   pagination: { page: 1, perPage: perPageOptions[0] },
@@ -55,37 +62,37 @@ const state = reactive({
   fullPage: true,
   config: [
     {
-      key: 'title',
-      title: 'Titre',
+      key: "title",
+      title: "Titre",
     },
     {
-      key: 'image',
-      title: 'Image',
+      key: "image",
+      title: "Image",
     },
     {
-      key: 'created_at',
-      title: 'Date',
+      key: "created_at",
+      title: "Date",
     },
     {
-      key: 'description',
-      title: 'Description',
+      key: "description",
+      title: "Description",
     },
     {
-      key: 'category',
-      title: 'Catégorie',
+      key: "category",
+      title: "Catégorie",
     },
     {
-      key: 'price',
-      title: 'Prix',
+      key: "price",
+      title: "Prix",
     },
     {
-      key: 'actions',
-      title: 'Actions',
+      key: "actions",
+      title: "Actions",
     },
   ],
 });
 
-const setTable = (data) => {
+const setTable = (data: { page: number; perPage: number }) => {
   state.pagination = data;
 };
 const getAdds = async () => {
@@ -95,7 +102,7 @@ const getAdds = async () => {
     if (data.posts) {
       // In waiting to recover filtered data by user on back-end side, comming soon !
       state.tableData = data.posts.filter(
-        (post) => post.author === store.state.user.userId,
+        (post: UserAddInterface) => post.author === store.state.user.userId
       );
       state.isLoading = false;
     }
@@ -104,11 +111,12 @@ const getAdds = async () => {
   }
 };
 
-const deleteAdd = (add) => {
+const deleteAdd = (add: UserAddInterface) => {
   try {
     addsApi.deleteAdds(add._id);
-    toast("L'annonce a bien été supprimée !", 'success');
-    state.tableData = state.tableData.filter((item) => item._id !== add._id);
+    toast("L'annonce a bien été supprimée !", "success");
+    state.tableData =
+      state.tableData && state.tableData.filter((item) => item._id !== add._id);
   } catch (e) {
     console.error(e.message);
   }
@@ -129,16 +137,17 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@use '../assets/scss/mixins';
+@use "../assets/scss/mixins";
 .user-adds {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;
   &__content {
     padding: 30px;
-    height: calc(100% - 60px);
-    @media (max-width: 800px) {
+    height: calc(100vh - 60px);
+    @include mixins.xs {
       padding: 10px;
+      font-size: 0.7rem;
     }
   }
 }

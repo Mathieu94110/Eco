@@ -32,17 +32,17 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-import addFormValidation from '@/modules/formValidation';
-import createAddButtonState from '@/modules/isCreateAddButtonDisabled';
+import { defineProps, defineEmits } from "vue";
+import addFormValidation from "@/modules/formValidation";
+import createAddButtonState from "@/modules/isCreateAddButtonDisabled";
 
-const props = defineProps(['isAddCreated', 'add']);
+const props = defineProps(["isAddCreated", "add"]);
 const { errors } = addFormValidation();
 const { isCreateAddButtonDisabled } = createAddButtonState(props.add, errors);
-const emit = defineEmits('createAdd');
+const emit = defineEmits("createAdd");
 
 const createAdd = () => {
-  emit('createAdd', props.add);
+  emit("createAdd", props.add);
 };
 </script>
 

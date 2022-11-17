@@ -10,15 +10,16 @@
 
 <script setup lang="ts">
 import Login from "@/components/Login/Login.vue";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import type { LoginData, UserInterface } from "@/shared/interfaces";
 
 const store = useStore();
 const router = useRouter();
-const status = computed(() => store?.state.status);
+const status = computed<string>(() => store?.state.status);
 
-const authenticate = async (data) => {
+const authenticate = async (data: LoginData) => {
   try {
     await store.dispatch("login", {
       email: data.email,
@@ -30,7 +31,7 @@ const authenticate = async (data) => {
   }
 };
 
-const createAccount = async (data) => {
+const createAccount = async (data: UserInterface) => {
   try {
     await store.dispatch("createAccount", {
       userName: data.userName,
@@ -44,7 +45,7 @@ const createAccount = async (data) => {
       zip: data.zip,
     });
     authenticate(data);
-  } catch (e) {
+  } catch (e: unknown) {
     console.error(e);
   }
 };

@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
-import addFormValidation from '@/modules/formValidation';
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
+import addFormValidation from "@/modules/formValidation";
 
 export default {
   setup() {
@@ -30,11 +30,11 @@ export default {
     const store = useStore();
     const { validatePriceField, errors } = addFormValidation();
     const validateInput = () => {
-      validatePriceField('price', input.value);
+      validatePriceField("price", input.value);
     };
     const storePrice = computed(() => store?.state.currentPost.price);
     watch(storePrice, (newValue) => {
-      if (!newValue) input.value = '';
+      if (!newValue) input.value = "";
       validateInput();
     });
     return {

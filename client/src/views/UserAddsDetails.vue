@@ -10,9 +10,7 @@
       :can-cancel="true"
       :is-full-page="fullPage"
     />
-    <div
-      class="add-details__header"
-    >
+    <div class="add-details__header">
       <button class="btn btn-primary" type="button" @click="goBack()">
         Retour
       </button>
@@ -37,25 +35,23 @@
 </template>
 
 <script setup lang="ts">
-import {
-  inject, computed, reactive, onMounted,
-} from 'vue';
-import addsApi from '@/api/adds';
-import Card from '@/components/Card/Card.vue';
-import EditCard from '@/components/Card/EditCard.vue';
+import { inject, computed, reactive, onMounted } from "vue";
+import addsApi from "@/api/adds";
+import Card from "@/components/Card/Card.vue";
+import EditCard from "@/components/Card/EditCard.vue";
 
-import { useRouter, useRoute } from 'vue-router';
-import Loading from 'vue-loading-overlay';
-import { useStore } from 'vuex';
+import { useRouter, useRoute } from "vue-router";
+import Loading from "vue-loading-overlay";
+import { useStore } from "vuex";
 
-const sideBarClosed = inject('collapsed');
+const sideBarClosed = inject("collapsed");
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const toast = inject('toastMsg');
+const toast = inject("toastMsg");
 
 const state = reactive({
-  component: 'Card',
+  component: "Card",
   currentState: false,
   userAdd: undefined,
   loading: false,
@@ -84,13 +80,15 @@ const switchActive = () => {
 const updateUserCard = async (card) => {
   try {
     await addsApi.updateAdds(card);
-    toast("L'annonce a été mise à jour !", 'success');
+    toast("L'annonce a été mise à jour !", "success");
   } catch (err) {
-    toast('Aucun changement détecté !', 'warning');
+    toast("Aucun changement détecté !", "warning");
     console.log(err);
   }
 };
-const isActive = computed(() => (state.currentState === true ? EditCard : Card));
+const isActive = computed(() =>
+  state.currentState === true ? EditCard : Card
+);
 const isMobile = computed(() => store?.state.windowWidth < 575);
 </script>
 

@@ -32,18 +32,16 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive, computed, defineProps, defineEmits,
-} from 'vue';
+import { reactive, computed, defineProps, defineEmits } from "vue";
 
-const props = defineProps(['totalRecords', 'perPageOptions', 'isMobile']);
+const props = defineProps(["totalRecords", "perPageOptions", "isMobile"]);
 
 const state = reactive({
   page: 1,
   perPage: props.perPageOptions[0],
 });
 
-const emit = defineEmits(['input']);
+const emit = defineEmits(["input"]);
 
 const pages = computed(() => {
   const remainder = props.totalRecords % state.perPage;
@@ -55,7 +53,7 @@ const pages = computed(() => {
 
 const setPerPage = (amount) => {
   state.perPage = amount;
-  emit('input', { page: state.page, perPage: amount });
+  emit("input", { page: state.page, perPage: amount });
 };
 const changePage = (val) => {
   switch (val) {
@@ -72,7 +70,7 @@ const changePage = (val) => {
       state.page = pages.value;
       break;
   }
-  emit('input', { page: state.page, perPage: state.perPage });
+  emit("input", { page: state.page, perPage: state.perPage });
 };
 </script>
 

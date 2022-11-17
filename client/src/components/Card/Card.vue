@@ -29,14 +29,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, defineProps } from 'vue';
-import CardLayout from '../Layout/CardLayout.vue';
+import { reactive, watch, defineProps } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
 
 const state = reactive({
   editCard: false,
 });
 
-const props = defineProps(['add', 'edit']);
+const props = defineProps(["add", "edit"]);
 
 watch(props.edit, (newValue) => {
   state.editCard = newValue;

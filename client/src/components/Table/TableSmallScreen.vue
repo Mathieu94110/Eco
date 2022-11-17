@@ -60,14 +60,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import Modal from '@/components/Modal/Modal.vue';
+import { defineProps } from "vue";
+import Modal from "@/components/Modal/Modal.vue";
 
-const props = defineProps(['userAdds', 'userConfig']);
+const props = defineProps(["userAdds", "userConfig"]);
 </script>
 
 <style lang="scss">
-@use '../../assets/scss/mixins';
+@use "../../assets/scss/mixins";
 
 .table-small {
   &__responsive {

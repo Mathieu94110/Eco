@@ -28,35 +28,37 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed, reactive, watch, ref, inject,
-} from 'vue';
-import Toolbar from '@/components/Toolbar/Toolbar.vue';
-import PostCreate from '@/components/Posts/PostCreate/PostCreate.vue';
-import PostCreated from '@/components/Posts/PostCreated.vue';
-import { useStore } from 'vuex';
+import { computed, reactive, watch, ref, inject } from "vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import PostCreate from "@/components/Posts/PostCreate/PostCreate.vue";
+import PostCreated from "@/components/Posts/PostCreated.vue";
+import { useStore } from "vuex";
+import type { UserAddInterface } from "@/shared/interfaces";
 
-const state = reactive({
+const state = reactive<{
+  post: UserAddInterface | null;
+  showCreatedPost: boolean;
+}>({
   post: null,
   showCreatedPost: false,
 });
 
-const toastMsg = inject('toastMsg');
-const sideBarClosed = inject('collapsed');
+const toastMsg = inject("toastMsg");
+const sideBarClosed = inject<boolean>("collapsed");
 
 const store = useStore();
-const isAddCreated = ref(false);
+const isAddCreated = ref<boolean>(false);
 
-const currentUser = computed(() => store?.state.user.userId);
-const isMobile = computed(() => store?.state.windowWidth < 575);
+const currentUser = computed<string>(() => store?.state.user.userId);
+const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const postIsCreate = () => {
   state.showCreatedPost = true;
 };
 
-const createAdd = async (add) => {
+const createAdd = async (add: UserAddInterface) => {
   try {
-    await store.dispatch('createPost', {
+    await store.dispatch("createPost", {
       author: currentUser.value,
       title: add.title,
       description: add.description,
@@ -67,25 +69,25 @@ const createAdd = async (add) => {
 
     postIsCreate();
     isAddCreated.value = true;
-  } catch (e) {
-    this.toast(e);
+  } catch (e: unknown) {
+    toastMsg(e, "error");
   }
 };
 const submitAdd = async () => {
   try {
-    await store.dispatch('sendPost');
-    await store.dispatch('resetForm', {
-      author: '',
-      image: '',
-      title: '',
-      description: '',
+    await store.dispatch("sendPost");
+    await store.dispatch("resetForm", {
+      author: "",
+      image: "",
+      title: "",
+      description: "",
       price: null,
-      category: '',
+      category: "",
     });
 
     isAddCreated.value = false;
     state.showCreatedPost = false;
-    toastMsg("L'annonce a bien été postée!", 'success');
+    toastMsg("L'annonce a bien été postée!", "success");
   } catch (e) {
     console.error(e);
   }
@@ -93,24 +95,24 @@ const submitAdd = async () => {
 
 const resetAdd = async () => {
   try {
-    await store.dispatch('resetForm', {
-      author: '',
-      image: '',
-      title: '',
-      description: '',
+    await store.dispatch("resetForm", {
+      author: "",
+      image: "",
+      title: "",
+      description: "",
       price: null,
-      category: '',
+      category: "",
     });
 
     isAddCreated.value = false;
     state.showCreatedPost = false;
-    toastMsg("L'annonce a bien été annulée !", 'info');
+    toastMsg("L'annonce a bien été annulée !", "info");
   } catch (e) {
     console.error(e);
   }
 };
 
-const currentPost = computed(() => store?.state.currentPost);
+const currentPost = computed<UserAddInterface>(() => store?.state.currentPost);
 
 watch(currentPost, (newValue) => {
   state.post = newValue;
@@ -118,7 +120,7 @@ watch(currentPost, (newValue) => {
 </script>
 
 <style lang="scss" scoped>
-@use '../assets/scss/mixins' as m;
+@use "../assets/scss/mixins" as m;
 .post-add-container {
   align-items: center;
   display: block;

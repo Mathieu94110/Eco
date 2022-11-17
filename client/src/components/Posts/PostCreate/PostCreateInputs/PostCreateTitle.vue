@@ -20,21 +20,21 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
-import addFormValidation from '@/modules/formValidation';
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
+import addFormValidation from "@/modules/formValidation";
 
 export default {
   setup() {
-    const input = ref('');
+    const input = ref("");
     const store = useStore();
     const { validateTitleField, errors } = addFormValidation();
     const validateInput = () => {
-      validateTitleField('title', input.value);
+      validateTitleField("title", input.value);
     };
     const storeTitle = computed(() => store?.state.currentPost.title);
     watch(storeTitle, (newValue) => {
-      if (!newValue) input.value = '';
+      if (!newValue) input.value = "";
       validateInput();
     });
     return {

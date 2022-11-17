@@ -1,4 +1,6 @@
 export interface AddInterface {
+  _id?: string;
+  author?: string;
   brand: string;
   category: string;
   description: string;
@@ -10,4 +12,13 @@ export interface AddInterface {
   stock: number;
   thumbnail: string;
   title: string;
+}
+export interface UserAddInterface {
+  _id: string;
+  author: string;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  image: string;
 }

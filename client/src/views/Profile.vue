@@ -21,28 +21,28 @@
 </template>
 
 <script setup lang="ts">
-import UserProfileCard from '@/components/User/UserProfileCard.vue';
-import Toolbar from '@/components/Toolbar/Toolbar.vue';
-import {
-  reactive,
-  onMounted,
-  inject,
-  computed,
-} from 'vue';
-import { useStore } from 'vuex';
-import userApi from '@/api/user';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+import UserProfileCard from "@/components/User/UserProfileCard.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import { reactive, onMounted, inject, computed } from "vue";
+import { useStore } from "vuex";
+import userApi from "@/api/user";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+import type { UserInterface } from "@/shared/interfaces";
 
-const sideBarClosed = inject('collapsed');
+const sideBarClosed = inject("collapsed");
 
-const state = reactive({
+const state = reactive<{
+  user: UserInterface | null;
+  isLoading: boolean;
+  fullPage: boolean;
+}>({
   user: null,
   isLoading: true,
   fullPage: true,
 });
 
-const toast = inject('toastMsg');
+const toast = inject("toastMsg");
 const store = useStore();
 const userId = store?.state.user.userId;
 
@@ -58,13 +58,13 @@ const getProfile = async () => {
   }
 };
 
-const UpdateInfos = async (data) => {
+const UpdateInfos = async (data: UserInterface) => {
   try {
     await userApi.updateUserInfos(data);
-    toast('Vos informations ont bien été mises à jour !', 'success');
-  } catch (e) {
+    toast("Vos informations ont bien été mises à jour !", "success");
+  } catch (e: unknown) {
     console.error(e);
-    toast(`${e.message} !`, 'error');
+    toast(`${e.message} !`, "error");
   }
 };
 

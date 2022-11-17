@@ -19,7 +19,7 @@
           :transparent="true"
         />
         <div class="adds__filter">
-          <!--On elow adding open/close transition on mobile, for large screen it's always true -->
+          <!--On below adding open/close transition on mobile, for large screen it's always true -->
           <Transition>
             <AddCardFilter
               v-if="state.open"
@@ -62,9 +62,17 @@ import { useStore } from "vuex";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import addsApi from "../api/adds";
-import type { AddInterface } from "../../../shared/interfaces/Add.interface";
+import type { AddInterface, FilterUpdate } from "@/shared/interfaces";
 
-const state = reactive({
+const state = reactive<{
+  adds: AddInterface[] | null;
+  noResult: boolean;
+  message: string;
+  isLoading: boolean;
+  fullPage: boolean;
+  filters: FilterUpdate;
+  open: boolean;
+}>({
   adds: null,
   noResult: false,
   message: "",
@@ -80,9 +88,9 @@ const state = reactive({
 
 const store = useStore();
 const toast = inject("toastMsg");
-const sideBarClosed = inject("collapsed");
-const currentUser = computed(() => store?.state.user.userId);
-const isMobile = computed(() => store?.state.windowWidth < 575);
+const sideBarClosed = inject<boolean>("collapsed");
+const currentUser = computed<string>(() => store?.state.user.userId);
+const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 async function loadFakeAdds() {
   try {
@@ -109,7 +117,7 @@ function addToFavorites(add: AddInterface) {
   });
 }
 
-function updateFilter(filterUpdate) {
+function updateFilter(filterUpdate: FilterUpdate) {
   if (filterUpdate.search !== undefined) {
     state.filters.search = filterUpdate.search;
   } else if (filterUpdate.priceRange) {
@@ -121,21 +129,23 @@ function updateFilter(filterUpdate) {
   }
 }
 
-const filteredAdds = computed(() =>
-  state.adds.filter((add) => {
-    if (
-      add.title
-        .toLocaleLowerCase()
-        .startsWith(state.filters.search.toLocaleLowerCase()) &&
-      add.price >= state.filters.priceRange[0] &&
-      add.price <= state.filters.priceRange[1] &&
-      (add.category === state.filters.category ||
-        state.filters.category === "Tout")
-    ) {
-      return true;
-    }
-    return false;
-  })
+const filteredAdds = computed(
+  () =>
+    state.adds &&
+    state.adds.filter((add) => {
+      if (
+        add.title
+          .toLocaleLowerCase()
+          .startsWith(state.filters.search!.toLocaleLowerCase()) &&
+        add.price >= state.filters.priceRange[0] &&
+        add.price <= state.filters.priceRange[1] &&
+        (add.category === state.filters?.category ||
+          state.filters.category === "Tout")
+      ) {
+        return true;
+      }
+      return false;
+    })
 );
 
 onMounted(async () => {

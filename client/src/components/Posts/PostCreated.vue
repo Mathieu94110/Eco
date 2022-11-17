@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import CardLayout from '../Layout/CardLayout.vue';
+import { defineProps } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
 
-const props = defineProps(['currentPost']);
+const props = defineProps(["currentPost"]);
 </script>
 
 <style lang="scss" scoped>

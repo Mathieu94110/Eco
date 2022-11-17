@@ -45,7 +45,7 @@
             placeholder="Prénom"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['firstName'] }}</span>
+        <span class="sign-up__errors">{{ errors["firstName"] }}</span>
       </div>
       <div class="d-flex flex-column">
         <label for="lastName">
@@ -57,7 +57,7 @@
             placeholder="Nom"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['lastName'] }}</span>
+        <span class="sign-up__errors">{{ errors["lastName"] }}</span>
       </div>
 
       <div class="d-flex flex-column">
@@ -70,7 +70,7 @@
             placeholder="Téléphone"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['phone'] }}</span>
+        <span class="sign-up__errors">{{ errors["phone"] }}</span>
       </div>
       <div class="d-flex flex-column">
         <label for="email">
@@ -82,7 +82,7 @@
             placeholder="Adresse mail"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['email'] }}</span>
+        <span class="sign-up__errors">{{ errors["email"] }}</span>
       </div>
 
       <div class="d-flex flex-column">
@@ -95,7 +95,7 @@
             placeholder="Adresse"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['address'] }}</span>
+        <span class="sign-up__errors">{{ errors["address"] }}</span>
       </div>
       <div class="d-flex flex-column">
         <label for="zip">
@@ -107,7 +107,7 @@
             placeholder="Code Postal"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['zip'] }}</span>
+        <span class="sign-up__errors">{{ errors["zip"] }}</span>
       </div>
 
       <div class="d-flex flex-column">
@@ -120,7 +120,7 @@
             placeholder="Pseudo"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['userName'] }}</span>
+        <span class="sign-up__errors">{{ errors["userName"] }}</span>
       </div>
       <div class="d-flex flex-column">
         <label for="password">
@@ -132,7 +132,7 @@
             placeholder="Mot de passe"
           />
         </label>
-        <span class="sign-up__errors">{{ errors['password'] }}</span>
+        <span class="sign-up__errors">{{ errors["password"] }}</span>
       </div>
     </main>
     <div class="sign-up__footer">
@@ -145,15 +145,13 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex';
-import {
-  reactive, defineEmits, computed, ref,
-} from 'vue';
-import { useField, useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { useStore } from "vuex";
+import { reactive, defineEmits, computed, ref } from "vue";
+import { useField, useForm } from "vee-validate";
+import * as yup from "yup";
 
 const state = reactive({
-  mode: 'create',
+  mode: "create",
   currentImage: null,
 });
 const store = useStore();
@@ -163,21 +161,21 @@ const { handleSubmit, errors } = useForm({
     userName: yup
       .string()
       .min(4, "Le nom d'utilisateur doit contenir au moins 4 caractères")
-      .required('Le pseudo est requis'),
+      .required("Le pseudo est requis"),
     firstName: yup
       .string()
-      .min(2, 'Le prénom doit contenir au moins 2 caractères')
-      .required('Le prénom est requis'),
+      .min(2, "Le prénom doit contenir au moins 2 caractères")
+      .required("Le prénom est requis"),
     lastName: yup
       .string()
-      .min(2, 'Le nom doit contenir au moins 2 caractères')
-      .required('Le nom est requis'),
+      .min(2, "Le nom doit contenir au moins 2 caractères")
+      .required("Le nom est requis"),
     phone: yup
       .string()
-      .required('Le téléphone est requis')
+      .required("Le téléphone est requis")
       .matches(
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-        'Le format est incorrect',
+        "Le format est incorrect"
       ),
     email: yup
       .string()
@@ -189,36 +187,36 @@ const { handleSubmit, errors } = useForm({
       .required("L'adresse est requise"),
     zip: yup
       .string()
-      .required('Le code postal est requis')
-      .min(5, 'Le code postal doit contenir au moins 5 caractères'),
+      .required("Le code postal est requis")
+      .min(5, "Le code postal doit contenir au moins 5 caractères"),
     password: yup
       .string()
-      .min(4, 'Le mot de passe doit contenir au moins 4 caractères')
-      .required('Le mot de passe est requis'),
+      .min(4, "Le mot de passe doit contenir au moins 4 caractères")
+      .required("Le mot de passe est requis"),
   }),
 });
 
-const { value: userName } = useField('userName');
-const { value: firstName } = useField('firstName');
-const { value: lastName } = useField('lastName');
-const { value: phone } = useField('phone');
-const { value: email } = useField('email');
-const { value: address } = useField('address');
-const { value: zip } = useField('zip');
-const { value: password } = useField('password');
+const { value: userName } = useField("userName");
+const { value: firstName } = useField("firstName");
+const { value: lastName } = useField("lastName");
+const { value: phone } = useField("phone");
+const { value: email } = useField("email");
+const { value: address } = useField("address");
+const { value: zip } = useField("zip");
+const { value: password } = useField("password");
 
 const status = computed(() => store?.state.status);
-const emit = defineEmits(['switch', 'signup']);
+const emit = defineEmits(["switch", "signup"]);
 const fileInput = ref(null);
 
 const switchComponent = () => {
-  emit('switch', 'login');
+  emit("switch", "login");
 };
 
 const createAccount = handleSubmit((values) => {
   const image = { image: state.currentImage };
   const allValues = Object.assign(image, values);
-  emit('signup', allValues);
+  emit("signup", allValues);
 });
 
 const onPickFile = () => {
@@ -242,13 +240,13 @@ const onPickFile = () => {
   grid-template-columns: 1fr;
   grid-template-rows: repeat(6, minmax(25px, auto));
   grid-template-areas:
-    'title'
-    'subtitle-main'
-    'subtitle-secondary'
-    'file-input'
-    'file-image'
-    'main'
-    'footer';
+    "title"
+    "subtitle-main"
+    "subtitle-secondary"
+    "file-input"
+    "file-image"
+    "main"
+    "footer";
 
   background: var(--primary-color);
   border-radius: 16px;
@@ -356,11 +354,11 @@ const onPickFile = () => {
 @media screen and (min-width: 768px) {
   .sign-up {
     grid-template-areas:
-      'title title title title title title'
-      'subtitle-main subtitle-main subtitle-main subtitle-main subtitle-secondary subtitle-secondary'
-      'file-input file-input file-input file-image  file-image  file-image'
-      'main main main main main main '
-      'footer footer footer footer footer footer';
+      "title title title title title title"
+      "subtitle-main subtitle-main subtitle-main subtitle-main subtitle-secondary subtitle-secondary"
+      "file-input file-input file-input file-image  file-image  file-image"
+      "main main main main main main "
+      "footer footer footer footer footer footer";
     padding: 16px;
     &__subtitle-secondary {
       grid-area: subtitle-secondary;

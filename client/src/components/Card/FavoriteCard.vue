@@ -21,7 +21,9 @@
     </template>
     <template #favorite>
       <div class="favorite-card__actions">
-        <span @click="this.$emit('sendFavorite', add)" @keydown="this.$emit('sendFavorite', add)"
+        <span
+          @click="this.$emit('sendFavorite', add)"
+          @keydown="this.$emit('sendFavorite', add)"
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
         <Modal :add="props.add" v-bind="$attrs">
@@ -40,11 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import CardLayout from '../Layout/CardLayout.vue';
-import Modal from '../Modal/Modal.vue';
+import { defineProps } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
+import Modal from "../Modal/Modal.vue";
 
-const props = defineProps(['add']);
+const props = defineProps(["add"]);
 </script>
 <style lang="scss" scoped>
 @use "../../assets/../assets/scss/mixins";

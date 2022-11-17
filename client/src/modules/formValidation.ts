@@ -1,12 +1,11 @@
-import { reactive } from '@vue/reactivity';
-import useValidators from '@/modules/validators';
+import { reactive } from "vue";
+import useValidators from "@/modules/validators";
 
 const errors = reactive({});
 
 export default function addFormValidation() {
-  const {
-    isEmpty, minLength, maxLength, isMinPrice, isMaxPrice,
-  } = useValidators();
+  const { isEmpty, minLength, maxLength, isMinPrice, isMaxPrice } =
+    useValidators();
 
   const validateImageField = (fieldName, fieldValue) => {
     errors[fieldName] = isEmpty(fieldName, fieldValue);

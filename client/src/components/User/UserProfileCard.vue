@@ -137,22 +137,15 @@
 </template>
 
 <script setup lang="ts">
-import {
-  reactive,
-  defineProps,
-  ref,
-  computed,
-  defineEmits,
-  watch,
-} from 'vue';
-import mysteryImage from '@/assets/images/mystery-image.png';
+import { reactive, defineProps, ref, computed, defineEmits, watch } from "vue";
+import mysteryImage from "@/assets/images/mystery-image.png";
 
 const state = reactive({
   newUserInfos: {},
 });
 
-const props = defineProps(['userInfos']);
-const emit = defineEmits(['updateUser']);
+const props = defineProps(["userInfos"]);
+const emit = defineEmits(["updateUser"]);
 
 const isEditMode = ref(false);
 const fileInput = ref(null);
@@ -230,7 +223,7 @@ function editProfileInfo() {
   isEditMode.value = true;
 }
 function confirmInfo() {
-  emit('updateUser', state.newUserInfos);
+  emit("updateUser", state.newUserInfos);
   isEditMode.value = false;
 }
 
@@ -254,7 +247,7 @@ watch(userInfos, (newValue) => {
 </script>
 
 <style scoped lang="scss">
-@use '../../assets/scss/mixins' as m;
+@use "../../assets/scss/mixins" as m;
 .user-profile-card {
   width: 80%;
   background-color: var(--gray-3);
