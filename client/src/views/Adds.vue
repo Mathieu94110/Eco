@@ -101,7 +101,7 @@ async function loadFakeAdds() {
   }
 }
 
-function addToFavorites(add:AddInterface) {
+function addToFavorites(add: AddInterface) {
   console.log(add);
   const userFavorite = { ...add, author: currentUser.value };
   store.dispatch("sendFavorite", userFavorite).then(() => {

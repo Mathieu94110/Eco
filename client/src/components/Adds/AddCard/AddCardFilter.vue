@@ -7,32 +7,36 @@
       <section class="mb-20">
         <h3 class="mb-10">Rechercher</h3>
         <label for="search">
-        <input
-          @input="$emit('updateFilter', { search: $event.target.value })"
-          type="text"
-          placeholder="Rechercher"
-          class="add-card-filter__search"
-        />
-      </label>
+          <input
+            @input="
+              $emit('updateFilter', {
+                search: ($event.target as HTMLInputElement).value,
+              })
+            "
+            type="text"
+            placeholder="Rechercher"
+            class="add-card-filter__search"
+          />
+        </label>
       </section>
       <section>
         <h3 class="mb-10">Trier par prix</h3>
         <div
           class="mb-5"
-          v-for="(priceRange, index) of [
+          v-for="(priceRange, index) of ([
             [0, 9999],
             [5, 500],
             [500, 1000],
             [1000, 2000],
             [2000, 9999],
-          ]"
+          ] as [number, number][])"
           v-bind:key="index"
         >
           <label for="priceRange">
             <input
               :checked="rangeFilter[0] === priceRange[0]"
               type="radio"
-              @input="$emit('updateFilter', { priceRange })"
+              @input="emit('updateFilter', { priceRange })"
               name="priceRange"
               :id="priceRange[0] + ''"
               class="mr-10"
@@ -55,7 +59,7 @@
           <p
             class="add-card-filter__category-item"
             :class="{ selected: categoryFilter === category }"
-            v-for="(category, index) in [
+            v-for="(category, index) in ([
               'Tout',
               'smartphones',
               'fragrances',
@@ -76,10 +80,10 @@
               'automotive',
               'motorcycle',
               'lighting',
-            ]"
+            ]as Category[])"
             v-bind:key="index"
-            @click="$emit('updateFilter', { category })"
-            @keydown="$emit('updateFilter', { category })"
+            @click="emit('updateFilter', { category })"
+            @keydown="emit('updateFilter', { category })"
           >
             {{ category }}
           </p>
@@ -89,50 +93,34 @@
         Nombre de résultats:
         <strong class="primary">{{ numberOfAdds }} </strong>
       </small>
-      <button class="btn btn-danger" @click="$emit('updateFilter', {})">
+      <button class="btn btn-danger" @click="emit('updateFilter', {})">
         Supprimer les filtres
       </button>
     </div>
   </div>
 </template>
-<script lang="ts">
-import { inject, computed } from 'vue';
 
-export default {
-  props: {
-    add: [],
-    filters: {
-      search: String,
-      priceRange: [Number],
-      category: String,
-    },
-  },
+<script setup lang="ts">
+import { inject, computed } from "vue";
+import type {
+  FiltersInterface,
+  Category,
+  FilterUpdate,
+} from "../../../shared/interfaces";
 
-  setup(props) {
-    const sideBarClosed = inject('collapsed');
-    const rangeFilter = computed({
-      get() {
-        return props.filters.priceRange;
-      },
-    });
-    const categoryFilter = computed({
-      get() {
-        return props.filters.category;
-      },
-    });
-    const numberOfAdds = computed({
-      get() {
-        return props.add.length;
-      },
-    });
-    return {
-      rangeFilter,
-      categoryFilter,
-      numberOfAdds,
-      sideBarClosed,
-    };
-  },
-};
+const props = defineProps<{
+  filters: FiltersInterface;
+  add: any;
+}>();
+
+const emit = defineEmits<{
+  (e: "updateFilter", filterUpdate: FilterUpdate): void;
+}>();
+
+const sideBarClosed = inject("collapsed");
+const rangeFilter = computed(() => props.filters.priceRange);
+const categoryFilter = computed(() => props.filters.category);
+const numberOfAdds = computed(() => props.add.length);
 </script>
 
 <style lang="scss" scoped>
