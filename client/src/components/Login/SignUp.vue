@@ -22,7 +22,7 @@
           accept="image/*"
           ref="fileInput"
           type="file"
-          @input="onPickFile"
+          @change="onPickFile($event)"
         />
       </label>
     </div>
@@ -146,11 +146,14 @@
 
 <script setup lang="ts">
 import { useStore } from "vuex";
-import { reactive, defineEmits, computed, ref } from "vue";
+import { reactive, defineEmits, computed } from "vue";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 
-const state = reactive({
+const state = reactive<{
+  mode: string,
+  currentImage: string | ArrayBuffer | null,
+}>({
   mode: "create",
   currentImage: null,
 });
@@ -207,7 +210,6 @@ const { value: password } = useField("password");
 
 const status = computed(() => store?.state.status);
 const emit = defineEmits(["switch", "signup"]);
-const fileInput = ref(null);
 
 const switchComponent = () => {
   emit("switch", "login");
@@ -219,15 +221,20 @@ const createAccount = handleSubmit((values) => {
   emit("signup", allValues);
 });
 
-const onPickFile = () => {
-  const input = fileInput.value;
-  const file = input.files;
-  if (file && file[0]) {
+const onPickFile = (e: Event) => {
+
+  const target = e.target as HTMLInputElement;
+  if (target.files) {
+    const imageFile = target.files;
+    if (!imageFile.length) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      state.currentImage = e.target.result;
+      if (e.target) {
+        state.currentImage = e.target.result;
+      }
+      return;
     };
-    reader.readAsDataURL(file[0]);
+    reader.readAsDataURL(imageFile[0]);
   }
 };
 </script>

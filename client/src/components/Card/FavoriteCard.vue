@@ -16,14 +16,16 @@
     <template #price>
       <span>{{ props.add.price }} €</span>
     </template>
-    <template class="favorite-card__category" #category>
-      <span>{{ props.add.category }}</span>
+    <template #category>
+      <div class="favorite-card__category">
+        <span>{{ props.add.category }}</span>
+      </div>
     </template>
     <template #favorite>
       <div class="favorite-card__actions">
         <span
-          @click="this.$emit('sendFavorite', add)"
-          @keydown="this.$emit('sendFavorite', add)"
+          @click="$emit('sendFavorite', add)"
+          @keydown="$emit('sendFavorite', add)"
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
         <Modal :add="props.add" v-bind="$attrs">

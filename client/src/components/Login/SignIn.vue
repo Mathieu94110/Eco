@@ -59,7 +59,10 @@
 <script setup lang="ts">
 import { reactive, defineEmits, defineProps, computed } from "vue";
 
-const state = reactive({
+const state = reactive<{
+  email: string;
+  password: string;
+}>({
   email: "",
   password: "",
 });
@@ -74,7 +77,7 @@ const login = () => {
   emit("login", { email: state.email, password: state.password });
 };
 
-const validatedFields = computed(
+const validatedFields = computed<boolean>(
   () => state.email !== "" && state.password !== ""
 );
 </script>

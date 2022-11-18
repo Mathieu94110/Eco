@@ -5,7 +5,6 @@
         v-if="props.currentState"
         type="button"
         class="btn btn-primary font-600"
-        :key="component"
         @click="$emit('updateCard', state.card)"
         >Valider</buttton
       >
@@ -30,9 +29,8 @@
             id="image"
             name="image"
             accept="image/*"
-            ref="fileInput"
             type="file"
-            @input="onPickFile"
+            @change="onPickFile($event)"
           />
         </label>
       </template>
@@ -74,27 +72,36 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, computed, watch, defineProps, ref } from "vue";
+import type { UserAddInterface } from "@/shared/interfaces";
+import { reactive, onMounted, computed, watch, defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 
-const state = reactive({
+const state = reactive<{
+  editCard: boolean;
+  edit: boolean;
+  card: UserAddInterface;
+}>({
   editCard: false,
   edit: false,
   card: {},
 });
 
 const props = defineProps(["add", "currentState"]);
-const fileInput = ref(null);
-const onPickFile = () => {
+
+const onPickFile = (e: Event) => {
   state.edit = true;
-  const input = fileInput.value;
-  const file = input.files;
-  if (file && file[0]) {
+  const target = e.target as HTMLInputElement;
+  if (target.files) {
+    const imageFile = target.files;
+    if (!imageFile.length) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      state.card.image = e.target.result;
+      if (e.target) {
+        state.card.image = e.target.result;
+      }
+      return;
     };
-    reader.readAsDataURL(file[0]);
+    reader.readAsDataURL(imageFile[0]);
   }
 };
 
@@ -140,9 +147,10 @@ const category = computed({
   },
 });
 
-watch(state.edit, (newValue) => {
-  state.editCard = newValue;
-});
+watch(
+  () => state.edit,
+  (newValue) => (state.editCard = newValue)
+);
 </script>
 
 <style scoped lang="scss">

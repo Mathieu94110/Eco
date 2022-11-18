@@ -3,7 +3,9 @@ import { defineProps, defineEmits } from "vue";
 
 defineProps(["open", "transparent"]);
 
-const emit = defineEmits("close");
+const emit = defineEmits<{
+  (e: "close"): void;
+}>();
 </script>
 
 <template>

@@ -1,11 +1,7 @@
 <template>
   <CardLayout v-if="add">
     <template #image>
-      <img
-        :src="props.add.image || props.add.images[0]"
-        height="200"
-        alt="product-image"
-      />
+      <img :src="props.add.image" height="200" alt="product-image" />
     </template>
     <template #title>
       <span>{{ props.add.title }}</span>
@@ -29,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import type { UserAddInterface } from "@/shared/interfaces";
 import { reactive, watch, defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 
@@ -36,9 +33,13 @@ const state = reactive({
   editCard: false,
 });
 
-const props = defineProps(["add", "edit"]);
+const props = defineProps<{
+  add: UserAddInterface;
+  edit: boolean;
+}>();
 
-watch(props.edit, (newValue) => {
-  state.editCard = newValue;
-});
+watch(
+  () => props.edit,
+  (newValue: boolean) => (state.editCard = newValue)
+);
 </script>

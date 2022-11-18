@@ -14,11 +14,12 @@ export interface AddInterface {
   title: string;
 }
 export interface UserAddInterface {
-  _id: string;
-  author: string;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  image: string;
+  _id?: string;
+  author?: string;
+  title?: string;
+  description?: string;
+  category?: string;
+  price?: number;
+  image?: string | ArrayBuffer | null;
+  created_at?: Date;
 }
