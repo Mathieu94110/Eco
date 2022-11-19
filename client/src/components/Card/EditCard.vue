@@ -2,7 +2,7 @@
   <div class="edit-card">
     <div class="edit-card__validate-button-wrapper my-20">
       <buttton
-        v-if="props.currentState"
+        v-if="props.isEditMode"
         type="button"
         class="btn btn-primary font-600"
         @click="$emit('updateCard', state.card)"
@@ -86,7 +86,10 @@ const state = reactive<{
   card: {},
 });
 
-const props = defineProps(["add", "currentState"]);
+const props = defineProps<{
+  add: UserAddInterface;
+  isEditMode: boolean;
+}>();
 
 const onPickFile = (e: Event) => {
   state.edit = true;

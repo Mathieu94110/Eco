@@ -149,10 +149,11 @@ import { useStore } from "vuex";
 import { reactive, defineEmits, computed } from "vue";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
+import type { UserInterface } from "@/shared/interfaces";
 
 const state = reactive<{
-  mode: string,
-  currentImage: string | ArrayBuffer | null,
+  mode: string;
+  currentImage: string | ArrayBuffer | null;
 }>({
   mode: "create",
   currentImage: null,
@@ -208,21 +209,24 @@ const { value: address } = useField("address");
 const { value: zip } = useField("zip");
 const { value: password } = useField("password");
 
-const status = computed(() => store?.state.status);
-const emit = defineEmits(["switch", "signup"]);
+const status = computed<string>(() => store?.state.status);
 
-const switchComponent = () => {
+const emit = defineEmits<{
+  (e: "signup", createCredentials: UserInterface): void;
+  (e: "switch", value: string): void;
+}>();
+const switchComponent = (): void => {
   emit("switch", "login");
 };
 
 const createAccount = handleSubmit((values) => {
   const image = { image: state.currentImage };
-  const allValues = Object.assign(image, values);
-  emit("signup", allValues);
+  //On below we create a deep copy of current inputs values and we assign image to it, in order userInfos type to be accepted
+  const userInfos = JSON.parse(JSON.stringify(Object.assign(image, values)));
+  emit("signup", userInfos);
 });
 
 const onPickFile = (e: Event) => {
-
   const target = e.target as HTMLInputElement;
   if (target.files) {
     const imageFile = target.files;

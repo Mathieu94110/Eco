@@ -106,11 +106,12 @@ import type {
   FiltersInterface,
   Category,
   FilterUpdate,
-} from "../../../shared/interfaces";
+  FakeAddInterface,
+} from "@/shared/interfaces";
 
 const props = defineProps<{
   filters: FiltersInterface;
-  add: any;
+  adds: FakeAddInterface[];
 }>();
 
 const emit = defineEmits<{
@@ -120,7 +121,7 @@ const emit = defineEmits<{
 const sideBarClosed = inject("collapsed");
 const rangeFilter = computed(() => props.filters.priceRange);
 const categoryFilter = computed(() => props.filters.category);
-const numberOfAdds = computed(() => props.add.length);
+const numberOfAdds = computed(() => props.adds.length);
 </script>
 
 <style lang="scss" scoped>

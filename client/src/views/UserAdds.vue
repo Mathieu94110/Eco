@@ -95,7 +95,7 @@ const state = reactive<{
 const setTable = (data: { page: number; perPage: number }) => {
   state.pagination = data;
 };
-const getAdds = async () => {
+const getAdds = async (): Promise<void> => {
   try {
     state.isLoading = true;
     const { data } = await addsApi.getUserAdds();
@@ -111,7 +111,7 @@ const getAdds = async () => {
   }
 };
 
-const deleteAdd = (add: UserAddInterface) => {
+const deleteAdd = async (add: UserAddInterface): Promise<void> => {
   try {
     addsApi.deleteAdds(add._id);
     toast("L'annonce a bien été supprimée !", "success");

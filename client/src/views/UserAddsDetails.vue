@@ -28,7 +28,7 @@
     <component
       :is="isActive"
       :add="state.userAdd"
-      :currentState="state.currentState"
+      :isEditMode="state.isEditMode"
       @updateCard="updateUserCard"
     />
   </div>
@@ -52,14 +52,14 @@ const toast = inject("toastMsg");
 
 const state = reactive({
   component: "Card",
-  currentState: false,
+  isEditMode: false,
   userAdd: undefined,
   loading: false,
   selection: 1,
   isLoading: false,
 });
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   try {
     state.isLoading = true;
     const response = await addsApi.getPostId(route.params.id);
@@ -75,20 +75,18 @@ const goBack = () => {
 };
 
 const switchActive = () => {
-  state.currentState = !state.currentState;
+  state.isEditMode = !state.isEditMode;
 };
-const updateUserCard = async (card) => {
+const updateUserCard = async (card): Promise<void> => {
   try {
-    await addsApi.updateAdds(card);
+    await addsApi.updateAdd(card);
     toast("L'annonce a été mise à jour !", "success");
   } catch (err) {
     toast("Aucun changement détecté !", "warning");
     console.log(err);
   }
 };
-const isActive = computed(() =>
-  state.currentState === true ? EditCard : Card
-);
+const isActive = computed(() => (state.isEditMode === true ? EditCard : Card));
 const isMobile = computed(() => store?.state.windowWidth < 575);
 </script>
 

@@ -13,7 +13,7 @@
       <span>{{ props.add.price }} €</span>
     </template>
     <template #created_at>
-      <span>{{ new Date(props.add.created_at).toLocaleDateString() }}</span>
+      <span>{{ createdDate }}</span>
     </template>
     <template #category>
       <span>{{ props.add.category }}</span>
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import type { UserAddInterface } from "@/shared/interfaces";
+import { computed } from "vue";
 import { reactive, watch, defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 
@@ -37,6 +38,10 @@ const props = defineProps<{
   add: UserAddInterface;
   edit: boolean;
 }>();
+
+const createdDate = computed((): string =>
+  new Date(props.add.created_at).toLocaleDateString()
+);
 
 watch(
   () => props.edit,

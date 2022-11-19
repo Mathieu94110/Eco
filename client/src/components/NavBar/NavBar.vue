@@ -7,11 +7,13 @@ import { computed, reactive, onMounted } from "vue";
 import TopBar from "./TopBar/TopBar.vue";
 import SideBar from "./SideBar/SideBar.vue";
 
-const state = reactive({
+const state = reactive<{
+  width: number;
+}>({
   width: document.documentElement.clientWidth,
 });
 
-const getDimensions = () => {
+const getDimensions = (): void => {
   state.width = document.documentElement.clientWidth;
 };
 const isActive = computed(() => (state.width < 575 ? TopBar : SideBar));

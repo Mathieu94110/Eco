@@ -53,7 +53,9 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import NavLink from "../NavLink.vue";
 
-const state = reactive({
+const state = reactive<{
+  open: boolean;
+}>({
   open: false,
 });
 

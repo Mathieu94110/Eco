@@ -24,7 +24,7 @@
             <AddCardFilter
               v-if="state.open"
               :filters="state.filters"
-              :add="filteredAdds"
+              :adds="filteredAdds"
               @update-filter="updateFilter"
             />
           </Transition>
@@ -62,10 +62,10 @@ import { useStore } from "vuex";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import addsApi from "../api/adds";
-import type { AddInterface, FilterUpdate } from "@/shared/interfaces";
+import type { FakeAddInterface, FilterUpdate } from "@/shared/interfaces";
 
 const state = reactive<{
-  adds: AddInterface[] | null;
+  adds: FakeAddInterface[] | null;
   noResult: boolean;
   message: string;
   isLoading: boolean;
@@ -92,7 +92,7 @@ const sideBarClosed = inject<boolean>("collapsed");
 const currentUser = computed<string>(() => store?.state.user.userId);
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
-async function loadFakeAdds() {
+async function loadFakeAdds(): Promise<void> {
   try {
     state.isLoading = true;
     const { data } = await addsApi.getFakeAdds();
@@ -109,7 +109,7 @@ async function loadFakeAdds() {
   }
 }
 
-function addToFavorites(add: AddInterface) {
+function addToFavorites(add: FakeAddInterface) {
   console.log(add);
   const userFavorite = { ...add, author: currentUser.value };
   store.dispatch("sendFavorite", userFavorite).then(() => {

@@ -57,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+import type { LoginData } from "@/shared/interfaces";
 import { reactive, defineEmits, defineProps, computed } from "vue";
 
 const state = reactive<{
@@ -67,8 +68,14 @@ const state = reactive<{
   password: "",
 });
 
-const props = defineProps(["status"]);
-const emit = defineEmits(["login", "switch"]);
+const props = defineProps<{
+  status: string;
+}>();
+
+const emit = defineEmits<{
+  (e: "login", loginCredentials: LoginData): void;
+  (e: "switch", value: string): void;
+}>();
 
 const switchComponent = () => {
   emit("switch", "create");

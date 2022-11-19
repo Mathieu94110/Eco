@@ -83,14 +83,14 @@
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
 import { useRoute } from "vue-router";
-import type { AddInterface } from "../../../shared/interfaces/Add.interface";
+import type { FakeAddInterface } from "../../../shared/interfaces/Add.interface";
 
 const props = defineProps<{
-  add: AddInterface;
+  add: FakeAddInterface;
 }>();
 
 const emit = defineEmits<{
-  (e: "add-item", add: AddInterface): void;
+  (e: "add-item", add: FakeAddInterface): void;
 }>();
 const route = useRoute();
 

@@ -73,7 +73,7 @@ const createAdd = async (add: UserAddInterface) => {
     toastMsg(e, "error");
   }
 };
-const submitAdd = async () => {
+const submitAdd = async (): Promise<void> => {
   try {
     await store.dispatch("sendPost");
     await store.dispatch("resetForm", {

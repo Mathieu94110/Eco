@@ -42,12 +42,18 @@
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 import { ref, defineProps, defineEmits } from "vue";
+import type { FakeAddInterface, UserAddInterface } from "@/shared/interfaces";
 
-const props = defineProps(["add"]);
-const emit = defineEmits(["delete"]);
+const props = defineProps<{
+  add: FakeAddInterface | UserAddInterface;
+}>();
 
-const isModalOpen = ref(false);
-const modal = ref(null);
+const emit = defineEmits<{
+  (e: "delete", add: FakeAddInterface | UserAddInterface): void;
+}>();
+
+const isModalOpen = ref<boolean>(false);
+const modal = ref<HTMLDivElement | null>(null);
 
 onClickOutside(modal, () => (isModalOpen.value = false));
 

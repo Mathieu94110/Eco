@@ -27,32 +27,23 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import addFormValidation from "@/modules/formValidation";
 
-export default {
-  setup() {
-    const input = ref("");
-    const store = useStore();
-    const { validateCategoryField, errors } = addFormValidation();
-    const validateInput = () => {
-      validateCategoryField("category", input.value);
-    };
-    const storeCategory = computed(() => store?.state.currentPost.category);
-    watch(storeCategory, (newValue) => {
-      if (!newValue) input.value = "";
-      validateInput();
-    });
-    return {
-      input,
-      errors,
-      validateInput,
-      storeCategory,
-    };
-  },
+const input = ref<string>("");
+const store = useStore();
+const { validateCategoryField, errors } = addFormValidation();
+const validateInput = () => {
+  validateCategoryField("category", input.value);
 };
+const storeCategory = computed<string>(() => store?.state.currentPost.category);
+
+watch(storeCategory, (newValue) => {
+  if (!newValue) input.value = "";
+  validateInput();
+});
 </script>
 <style lang="scss" scoped>
 @use "../../../../assets/scss/mixins" as m;

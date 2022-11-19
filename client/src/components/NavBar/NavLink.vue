@@ -9,21 +9,16 @@
   </router-link>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+const props = defineProps<{
+  to: string;
+  icon: string;
+}>();
 
-export default {
-  props: {
-    to: { type: String, required: true },
-    icon: { type: String, required: true },
-  },
-  setup(props) {
-    const route = useRoute();
-    const isActive = computed(() => route.path === props.to);
-    return { isActive };
-  },
-};
+const route = useRoute();
+const isActive = computed(() => route.path === props.to);
 </script>
 
 <style lang="scss" scoped>

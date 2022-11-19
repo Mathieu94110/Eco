@@ -35,11 +35,18 @@
 import { defineProps, defineEmits } from "vue";
 import addFormValidation from "@/modules/formValidation";
 import createAddButtonState from "@/modules/isCreateAddButtonDisabled";
+import type { UserAddInterface } from "@/shared/interfaces";
 
-const props = defineProps(["isAddCreated", "add"]);
+const props = defineProps<{
+  isAddCreated: boolean;
+  add: UserAddInterface;
+}>();
 const { errors } = addFormValidation();
 const { isCreateAddButtonDisabled } = createAddButtonState(props.add, errors);
-const emit = defineEmits("createAdd");
+
+const emit = defineEmits<{
+  (e: "createAdd", add: UserAddInterface): void;
+}>();
 
 const createAdd = () => {
   emit("createAdd", props.add);

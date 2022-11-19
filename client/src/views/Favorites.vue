@@ -37,9 +37,9 @@ import FavoriteCard from "@/components/Card/FavoriteCard.vue";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import addsApi from "../api/adds";
-import type { AddInterface } from "@/shared/interfaces";
+import type { FakeAddInterface } from "@/shared/interfaces";
 const state = reactive<{
-  favorites: AddInterface[];
+  favorites: FakeAddInterface[];
   isLoading: boolean;
 }>({
   favorites: [],
@@ -54,14 +54,14 @@ const router = useRouter();
 
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
-const getUserFavorites = async () => {
+const getUserFavorites = async (): Promise<void> => {
   try {
     state.isLoading = true;
     const { data } = await addsApi.getFavorites();
     if (data.posts) {
       // In waiting to recover filtered data by user on back-end side, comming soon !
       state.favorites = data.posts.filter(
-        (post: AddInterface) => post.author === store.state.user.userId
+        (post: FakeAddInterface) => post.author === store.state.user.userId
       );
       state.isLoading = false;
     }
@@ -69,7 +69,7 @@ const getUserFavorites = async () => {
     console.log(error);
   }
 };
-const sendFavoriteDetails = async (add: AddInterface) => {
+const sendFavoriteDetails = async (add: FakeAddInterface) => {
   try {
     await store.dispatch("sendFavoriteDetails", {
       favorite: add,
@@ -82,7 +82,7 @@ const sendFavoriteDetails = async (add: AddInterface) => {
     console.error(e);
   }
 };
-const deleteAdd = (add: AddInterface) => {
+const deleteAdd = async (add: FakeAddInterface): Promise<void> => {
   try {
     addsApi.deleteFavorite(add._id);
     toast("L'annonce a bien été supprimée !", "success");

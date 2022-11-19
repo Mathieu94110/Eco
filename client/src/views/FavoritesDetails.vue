@@ -19,17 +19,17 @@ import AddCard from "@/components/Adds/AddCard/AddCard.vue";
 import { reactive, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import type { AddInterface } from "@/shared/interfaces";
+import type { FakeAddInterface } from "@/shared/interfaces";
 
 const router = useRouter();
 const store = useStore();
 const state = reactive<{
-  favoriteInfos: AddInterface | null;
+  favoriteInfos: FakeAddInterface | null;
 }>({
   favoriteInfos: null,
 });
 
-const favoriteDetails = computed<AddInterface>(
+const favoriteDetails = computed<FakeAddInterface>(
   () => store.getters.getFavoriteDetails
 );
 

@@ -1,4 +1,4 @@
-export interface AddInterface {
+export interface FakeAddInterface {
   _id?: string;
   author?: string;
   brand: string;
@@ -22,4 +22,8 @@ export interface UserAddInterface {
   price?: number;
   image?: string | ArrayBuffer | null;
   created_at?: Date;
+}
+export interface PageOptionsInterface {
+  page: number;
+  perPage: any;
 }

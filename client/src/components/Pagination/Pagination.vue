@@ -12,9 +12,7 @@
         }}
       </span>
       <button class="btn btn-primary" @click="changePage(1)">></button>
-      <button class="btn btn-primary" @click="changePage(`${pages.value}`)">
-        >>
-      </button>
+      <button class="btn btn-primary" @click="changePage(pages)">>></button>
       <span class="pagination__seperator">|</span>
 
       {{ isMobile ? "Résultats:" : "Nombre de résultats:" }}
@@ -33,17 +31,27 @@
 
 <script setup lang="ts">
 import { reactive, computed, defineProps, defineEmits } from "vue";
+import type { PageOptionsInterface } from "@/shared/interfaces";
 
-const props = defineProps(["totalRecords", "perPageOptions", "isMobile"]);
+const props = defineProps<{
+  totalRecords: number;
+  perPageOptions: number[];
+  isMobile: boolean;
+}>();
 
-const state = reactive({
+const state = reactive<{
+  page: number;
+  perPage: number;
+}>({
   page: 1,
   perPage: props.perPageOptions[0],
 });
 
-const emit = defineEmits(["input"]);
+const emit = defineEmits<{
+  (e: "input", pageOptions: PageOptionsInterface): void;
+}>();
 
-const pages = computed(() => {
+const pages = computed<number>((): number => {
   const remainder = props.totalRecords % state.perPage;
   if (remainder > 0) {
     return Math.floor(props.totalRecords / state.perPage) + 1;
@@ -51,11 +59,11 @@ const pages = computed(() => {
   return props.totalRecords / state.perPage;
 });
 
-const setPerPage = (amount) => {
+const setPerPage = (amount: number): void => {
   state.perPage = amount;
   emit("input", { page: state.page, perPage: amount });
 };
-const changePage = (val) => {
+const changePage = (val: number): void => {
   switch (val) {
     case 0:
       state.page = 1;

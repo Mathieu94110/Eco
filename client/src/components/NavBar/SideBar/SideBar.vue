@@ -62,7 +62,10 @@ import { useRouter } from "vue-router";
 import NavLink from "../NavLink.vue";
 import SideBarContainer from "./SideBarContainer/SideBarContainer.vue";
 
-const state = reactive({
+const state = reactive<{
+  isHover: boolean;
+  windowWidth: number;
+}>({
   isHover: false,
   windowWidth: 0,
 });
@@ -80,7 +83,7 @@ const logOut = () => {
 const setWindowWidth = () => {
   state.windowWidth = window.innerWidth;
 };
-const formatSideBar = (value) => {
+const formatSideBar = (value: boolean): void => {
   state.isHover = value;
   toggleSidebar();
 };
