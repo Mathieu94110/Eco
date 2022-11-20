@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+const props = defineProps<{
+  to: string;
+  icon: string;
+}>();
+
+const route = useRoute();
+const isActive = computed<boolean>(() => route.path === props.to);
+</script>
+
 <template>
   <router-link
     :to="to"
@@ -8,18 +20,6 @@
     <slot />
   </router-link>
 </template>
-
-<script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-const props = defineProps<{
-  to: string;
-  icon: string;
-}>();
-
-const route = useRoute();
-const isActive = computed(() => route.path === props.to);
-</script>
 
 <style lang="scss" scoped>
 .nav-link {

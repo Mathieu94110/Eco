@@ -1,3 +1,36 @@
+<script setup lang="ts">
+import type { LoginData } from "@/shared/interfaces";
+import { reactive, defineProps, computed } from "vue";
+
+const state = reactive<{
+  email: string;
+  password: string;
+}>({
+  email: "",
+  password: "",
+});
+
+const props = defineProps<{
+  status: string;
+}>();
+
+const emit = defineEmits<{
+  (e: "login", loginCredentials: LoginData): void;
+  (e: "switch", value: string): void;
+}>();
+
+const switchComponent = (): void => {
+  emit("switch", "create");
+};
+const login = (): void => {
+  emit("login", { email: state.email, password: state.password });
+};
+
+const validatedFields = computed<boolean>(
+  () => state.email !== "" && state.password !== ""
+);
+</script>
+
 <template>
   <form class="sign-in" @submit.prevent="login">
     <div class="sign-in__title">
@@ -55,39 +88,6 @@
     </div>
   </form>
 </template>
-
-<script setup lang="ts">
-import type { LoginData } from "@/shared/interfaces";
-import { reactive, defineEmits, defineProps, computed } from "vue";
-
-const state = reactive<{
-  email: string;
-  password: string;
-}>({
-  email: "",
-  password: "",
-});
-
-const props = defineProps<{
-  status: string;
-}>();
-
-const emit = defineEmits<{
-  (e: "login", loginCredentials: LoginData): void;
-  (e: "switch", value: string): void;
-}>();
-
-const switchComponent = () => {
-  emit("switch", "create");
-};
-const login = () => {
-  emit("login", { email: state.email, password: state.password });
-};
-
-const validatedFields = computed<boolean>(
-  () => state.email !== "" && state.password !== ""
-);
-</script>
 
 <style lang="scss" scoped>
 .sign-in {

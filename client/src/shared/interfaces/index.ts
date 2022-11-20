@@ -4,4 +4,5 @@ export * from "./Filters.interface";
 export * from "./Auth.interface";
 export * from "./Store.interface";
 export * from "./Html.interface";
+export * from "./FormValidation.interface";
 export * from "./type";

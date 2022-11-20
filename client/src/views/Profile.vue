@@ -1,25 +1,3 @@
-<template>
-  <div class="profile">
-    <Toolbar>Mon profil</Toolbar>
-    <loading
-      v-model:active="state.isLoading"
-      :can-cancel="true"
-      :is-full-page="state.fullPage"
-    />
-    <div
-      :style="{
-        marginLeft: isMobile < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
-      }"
-      class="profile__card"
-    >
-      <UserProfileCard
-        :userInfos="state.user"
-        @update-user="UpdateInfos"
-      ></UserProfileCard>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import UserProfileCard from "@/components/User/UserProfileCard.vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
@@ -46,9 +24,9 @@ const toast = inject("toastMsg");
 const store = useStore();
 const userId = store?.state.user.userId;
 
-const isMobile = computed(() => store?.state.windowWidth < 575);
+const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
-const getProfile = async () => {
+const getProfile = async (): Promise<void> => {
   try {
     const response = await userApi.getProfile(userId);
     state.user = response.data.result;
@@ -58,7 +36,7 @@ const getProfile = async () => {
   }
 };
 
-const UpdateInfos = async (data: UserInterface) => {
+const UpdateInfos = async (data: UserInterface): Promise<void> => {
   try {
     await userApi.updateUserInfos(data);
     toast("Vos informations ont bien été mises à jour !", "success");
@@ -68,10 +46,32 @@ const UpdateInfos = async (data: UserInterface) => {
   }
 };
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   await getProfile();
 });
 </script>
+
+<template>
+  <div class="profile">
+    <Toolbar>Mon profil</Toolbar>
+    <loading
+      v-model:active="state.isLoading"
+      :can-cancel="true"
+      :is-full-page="state.fullPage"
+    />
+    <div
+      :style="{
+        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
+      }"
+      class="profile__card"
+    >
+      <UserProfileCard
+        :userInfos="state.user"
+        @update-user="UpdateInfos"
+      ></UserProfileCard>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .profile {

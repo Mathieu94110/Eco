@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import type { FakeAddInterface } from "@/shared/interfaces";
+import { defineProps } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
+import Modal from "../Modal/Modal.vue";
+
+const props = defineProps<{
+  add: FakeAddInterface;
+}>();
+</script>
+
 <template>
   <CardLayout v-if="add">
     <template #image>
@@ -43,16 +54,6 @@
   </CardLayout>
 </template>
 
-<script setup lang="ts">
-import type { FakeAddInterface } from "@/shared/interfaces";
-import { defineProps } from "vue";
-import CardLayout from "../Layout/CardLayout.vue";
-import Modal from "../Modal/Modal.vue";
-
-const props = defineProps<{
-  add: FakeAddInterface;
-}>();
-</script>
 <style lang="scss" scoped>
 @use "@/assets/scss/mixins";
 .favorite-card {

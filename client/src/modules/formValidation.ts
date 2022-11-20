@@ -1,17 +1,18 @@
 import { reactive } from "vue";
 import useValidators from "@/modules/validators";
+import type { FormValidationErrors } from "@/shared/interfaces";
 
-const errors = reactive({});
+const errors: FormValidationErrors = reactive({});
 
 export default function addFormValidation() {
   const { isEmpty, minLength, maxLength, isMinPrice, isMaxPrice } =
     useValidators();
 
-  const validateImageField = (fieldName, fieldValue) => {
+  const validateImageField = (fieldName: string, fieldValue: string) => {
     errors[fieldName] = isEmpty(fieldName, fieldValue);
   };
 
-  const validateTitleField = (fieldName, fieldValue) => {
+  const validateTitleField = (fieldName: string, fieldValue: string) => {
     if (!fieldValue) {
       errors[fieldName] = isEmpty(fieldName, fieldValue);
     } else if (fieldValue.length > 20) {
@@ -20,7 +21,7 @@ export default function addFormValidation() {
       errors[fieldName] = minLength(fieldName, fieldValue, 4);
     }
   };
-  const validateDescriptionField = (fieldName, fieldValue) => {
+  const validateDescriptionField = (fieldName: string, fieldValue: string) => {
     if (!fieldValue) {
       errors[fieldName] = isEmpty(fieldName, fieldValue);
     } else if (fieldValue.length < 4) {
@@ -30,11 +31,11 @@ export default function addFormValidation() {
     }
   };
 
-  const validateCategoryField = (fieldName, fieldValue) => {
+  const validateCategoryField = (fieldName: string, fieldValue: string) => {
     errors[fieldName] = isEmpty(fieldName, fieldValue);
   };
 
-  const validatePriceField = (fieldName, fieldValue) => {
+  const validatePriceField = (fieldName: string, fieldValue: number) => {
     if (!fieldValue) {
       errors[fieldName] = isEmpty(fieldName, fieldValue);
     } else if (fieldValue < 5) {

@@ -1,24 +1,3 @@
-<template>
-  <div class="post-create-title">
-    <div>
-      <label for="title">
-        <input
-          type="text"
-          placeholder="Titre"
-          autocomplete="off"
-          @input="$emit('update:modelValue', $event.target.value)"
-          v-model="input"
-          @keyup="validateInput"
-          @blur="validateInput"
-        />
-      </label>
-    </div>
-    <div class="post-create-title__errors" v-if="errors.title">
-      {{ errors.title }}
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
@@ -29,7 +8,7 @@ export default {
     const input = ref("");
     const store = useStore();
     const { validateTitleField, errors } = addFormValidation();
-    const validateInput = () => {
+    const validateInput = (): void => {
       validateTitleField("title", input.value);
     };
     const storeTitle = computed(() => store?.state.currentPost.title);
@@ -46,6 +25,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="post-create-title">
+    <div>
+      <label for="title">
+        <input
+          type="text"
+          placeholder="Titre"
+          autocomplete="off"
+          @input="
+            $emit(
+              'update:modelValue',
+              ($event.target as HTMLInputElement).value
+            )
+          "
+          v-model="input"
+          @keyup="validateInput"
+          @blur="validateInput"
+        />
+      </label>
+    </div>
+    <div class="post-create-title__errors" v-if="errors.title">
+      {{ errors.title }}
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @use "../../../../assets/scss/mixins" as m;
 .post-create-title {

@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { computed, defineProps, type Component } from "vue";
+import { useStore } from "vuex";
+import TableLargeScreen from "@/components/Table/TableLargeScreen.vue";
+import TableSmallScreen from "@/components/Table/TableSmallScreen.vue";
+import type { UserAddInterface } from "@/shared/interfaces";
+
+const props = defineProps<{
+  userAdds: UserAddInterface;
+  config: { key: string; title: string }[];
+}>();
+
+const store = useStore();
+
+const isTabletOrMobile = computed<boolean>(
+  () => store?.state.windowWidth < 800
+);
+const isActive = computed<Component>(() =>
+  isTabletOrMobile.value === true ? TableSmallScreen : TableLargeScreen
+);
+</script>
+
 <template>
   <div class="table">
     <div v-if="props.userAdds.length > 0" class="table__content">
@@ -15,21 +37,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed, defineProps } from "vue";
-import { useStore } from "vuex";
-import TableLargeScreen from "@/components/Table/TableLargeScreen.vue";
-import TableSmallScreen from "@/components/Table/TableSmallScreen.vue";
-
-const props = defineProps(["userAdds", "config"]);
-const store = useStore();
-
-const isTabletOrMobile = computed(() => store?.state.windowWidth < 800);
-const isActive = computed(() =>
-  isTabletOrMobile.value === true ? TableSmallScreen : TableLargeScreen
-);
-</script>
 
 <style lang="scss">
 @use "../../assets/scss/mixins";

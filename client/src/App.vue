@@ -1,12 +1,3 @@
-<template>
-  <div id="app">
-    <div :class="{ 'app__container--auth': isLoggedIn }" class="app__container">
-      <NavBar v-if="isLoggedIn" />
-      <router-view></router-view>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import NavBar from "@/components/NavBar/NavBar.vue";
 import { mapGetters } from "vuex";
@@ -26,6 +17,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div id="app">
+    <div :class="{ 'app__container--auth': isLoggedIn }" class="app__container">
+      <NavBar v-if="isLoggedIn" />
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 @import "./assets/scss/base.scss";

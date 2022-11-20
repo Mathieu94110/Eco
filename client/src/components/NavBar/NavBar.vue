@@ -1,7 +1,3 @@
-<template>
-  <component :is="isActive" />
-</template>
-
 <script setup lang="ts">
 import { computed, reactive, onMounted } from "vue";
 import TopBar from "./TopBar/TopBar.vue";
@@ -23,4 +19,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="" scss scoped></style>
+<template>
+  <component :is="isActive" />
+</template>

@@ -1,32 +1,3 @@
-<template>
-  <div class="post-add-container">
-    <Toolbar> Poster une annonce </Toolbar>
-    <div
-      class="post-add-container__items"
-      :style="{
-        marginLeft: isMobile < 575 ? '0px' : sideBarClosed ? '115px' : '300px',
-      }"
-    >
-      <div class="post-add-container__items-wrapper">
-        <PostCreate
-          ref="post-create"
-          :isAddCreated="isAddCreated"
-          @create-add="createAdd"
-          @submit-add="submitAdd"
-          @reset-add="resetAdd"
-        ></PostCreate>
-        <Transition name="nested">
-          <PostCreated
-            v-if="state.showCreatedPost"
-            :currentPost="state.post"
-            ref="post-created"
-          ></PostCreated>
-        </Transition>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed, reactive, watch, ref, inject } from "vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
@@ -52,7 +23,7 @@ const isAddCreated = ref<boolean>(false);
 const currentUser = computed<string>(() => store?.state.user.userId);
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
-const postIsCreate = () => {
+const postIsCreate = (): void => {
   state.showCreatedPost = true;
 };
 
@@ -114,10 +85,39 @@ const resetAdd = async () => {
 
 const currentPost = computed<UserAddInterface>(() => store?.state.currentPost);
 
-watch(currentPost, (newValue) => {
+watch(currentPost, (newValue: UserAddInterface): void => {
   state.post = newValue;
 });
 </script>
+
+<template>
+  <div class="post-add-container">
+    <Toolbar> Poster une annonce </Toolbar>
+    <div
+      class="post-add-container__items"
+      :style="{
+        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
+      }"
+    >
+      <div class="post-add-container__items-wrapper">
+        <PostCreate
+          ref="post-create"
+          :isAddCreated="isAddCreated"
+          @create-add="createAdd"
+          @submit-add="submitAdd"
+          @reset-add="resetAdd"
+        ></PostCreate>
+        <Transition name="nested">
+          <PostCreated
+            v-if="state.showCreatedPost"
+            :currentPost="state.post"
+            ref="post-created"
+          ></PostCreated>
+        </Transition>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @use "../assets/scss/mixins" as m;

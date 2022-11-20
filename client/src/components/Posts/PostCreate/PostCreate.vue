@@ -1,3 +1,31 @@
+<script setup lang="ts">
+import { reactive, defineProps } from "vue";
+import PostCreateImage from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateImage.vue";
+import PostCreateTitle from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateTitle.vue";
+import PostCreateDescription from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateDescription.vue";
+import PostCreatePrice from "@/components/Posts/PostCreate/PostCreateInputs/PostCreatePrice.vue";
+import PostCreateCategory from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateCategory.vue";
+import PostCreateButtons from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons.vue";
+
+const add = reactive<{
+  image: string;
+  title: string;
+  description: string;
+  price: number | null;
+  category: string;
+}>({
+  image: "",
+  title: "",
+  description: "",
+  price: null,
+  category: "",
+});
+
+const props = defineProps<{
+  isAddCreated: boolean;
+}>();
+</script>
+
 <template>
   <section class="post-create">
     <form class="post-create__form">
@@ -14,25 +42,6 @@
     </form>
   </section>
 </template>
-
-<script setup lang="ts">
-import { reactive, defineProps } from "vue";
-import PostCreateImage from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateImage.vue";
-import PostCreateTitle from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateTitle.vue";
-import PostCreateDescription from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateDescription.vue";
-import PostCreatePrice from "@/components/Posts/PostCreate/PostCreateInputs/PostCreatePrice.vue";
-import PostCreateCategory from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateCategory.vue";
-import PostCreateButtons from "@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons.vue";
-
-const add = reactive({
-  image: null,
-  title: "",
-  description: "",
-  price: null,
-  category: "",
-});
-const props = defineProps(["isAddCreated"]);
-</script>
 
 <style lang="scss" scoped>
 @use "../../../assets/scss/mixins" as m;

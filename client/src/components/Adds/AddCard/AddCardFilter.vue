@@ -1,3 +1,26 @@
+<script setup lang="ts">
+import { inject, computed } from "vue";
+import type {
+  FiltersInterface,
+  Category,
+  FakeAddInterface,
+} from "@/shared/interfaces";
+
+const props = defineProps<{
+  filters: FiltersInterface;
+  adds: FakeAddInterface[];
+}>();
+
+const emit = defineEmits<{
+  (e: "updateFilter", filterUpdate: Category | {}): void;
+}>();
+
+const sideBarClosed = inject("collapsed");
+const rangeFilter = computed<[number, number]>(() => props.filters.priceRange);
+const categoryFilter = computed<Category>(() => props.filters.category);
+const numberOfAdds = computed<number>(() => props.adds.length);
+</script>
+
 <template>
   <div class="add-card-filter">
     <div
@@ -99,30 +122,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { inject, computed } from "vue";
-import type {
-  FiltersInterface,
-  Category,
-  FilterUpdate,
-  FakeAddInterface,
-} from "@/shared/interfaces";
-
-const props = defineProps<{
-  filters: FiltersInterface;
-  adds: FakeAddInterface[];
-}>();
-
-const emit = defineEmits<{
-  (e: "updateFilter", filterUpdate: FilterUpdate): void;
-}>();
-
-const sideBarClosed = inject("collapsed");
-const rangeFilter = computed(() => props.filters.priceRange);
-const categoryFilter = computed(() => props.filters.category);
-const numberOfAdds = computed(() => props.adds.length);
-</script>
 
 <style lang="scss" scoped>
 .add-card-filter {

@@ -1,36 +1,5 @@
-<template>
-  <div v-if="props.totalRecords > 0">
-    <div class="pagination">
-      <button class="btn btn-primary" @click="changePage(0)">&lt;&lt;</button>
-
-      <button class="btn btn-primary" @click="changePage(-1)">&lt;</button>
-      <span class="pagination__pages">
-        {{
-          isMobile
-            ? `${state.page}/${pages}`
-            : `Page ${state.page} sur  ${pages}`
-        }}
-      </span>
-      <button class="btn btn-primary" @click="changePage(1)">></button>
-      <button class="btn btn-primary" @click="changePage(pages)">>></button>
-      <span class="pagination__seperator">|</span>
-
-      {{ isMobile ? "Résultats:" : "Nombre de résultats:" }}
-      <span
-        class="pagination__quantity"
-        :class="state.perPage === amount && 'active'"
-        v-for="(amount, index) in props.perPageOptions"
-        :key="index"
-        @click="setPerPage(amount)"
-        @keydown="setPerPage(amount)"
-        >{{ amount }}</span
-      >
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { reactive, computed, defineProps, defineEmits } from "vue";
+import { reactive, computed, defineProps } from "vue";
 import type { PageOptionsInterface } from "@/shared/interfaces";
 
 const props = defineProps<{
@@ -81,6 +50,37 @@ const changePage = (val: number): void => {
   emit("input", { page: state.page, perPage: state.perPage });
 };
 </script>
+
+<template>
+  <div v-if="props.totalRecords > 0">
+    <div class="pagination">
+      <button class="btn btn-primary" @click="changePage(0)">&lt;&lt;</button>
+
+      <button class="btn btn-primary" @click="changePage(-1)">&lt;</button>
+      <span class="pagination__pages">
+        {{
+          isMobile
+            ? `${state.page}/${pages}`
+            : `Page ${state.page} sur  ${pages}`
+        }}
+      </span>
+      <button class="btn btn-primary" @click="changePage(1)">></button>
+      <button class="btn btn-primary" @click="changePage(pages)">>></button>
+      <span class="pagination__seperator">|</span>
+
+      {{ isMobile ? "Résultats:" : "Nombre de résultats:" }}
+      <span
+        class="pagination__quantity"
+        :class="state.perPage === amount && 'active'"
+        v-for="(amount, index) in props.perPageOptions"
+        :key="index"
+        @click="setPerPage(amount)"
+        @keydown="setPerPage(amount)"
+        >{{ amount }}</span
+      >
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 @use "../../assets/scss/mixins";

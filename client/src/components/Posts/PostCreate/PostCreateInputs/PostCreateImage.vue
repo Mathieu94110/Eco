@@ -1,27 +1,3 @@
-<template>
-  <div class="field">
-    <div class="card">
-      <div
-        class="card__image"
-        :style="{ 'background-image': `url(${state.currentImage})` }"
-      ></div>
-      <label for="image">
-        <input
-          id="image"
-          name="image"
-          accept="image/*"
-          ref="fileInput"
-          type="file"
-          @input="onPickFile"
-        />
-      </label>
-    </div>
-    <div v-if="errors.image">
-      {{ errors.image }}
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { reactive, ref, computed, watch } from "vue";
 import { useStore } from "vuex";
@@ -38,7 +14,7 @@ export default {
     const fileInput = ref(null);
     const store = useStore();
     const { validateNameField, errors } = addFormValidation();
-    const validateInput = () => {
+    const validateInput = (): void => {
       validateNameField("image", fileInput.value);
     };
     const storeImage = computed(() => store?.state.currentPost.image);
@@ -46,7 +22,7 @@ export default {
       if (!newValue) state.currentImage = mysteryImage;
       fileInput.value.value = "";
     });
-    const onPickFile = () => {
+    const onPickFile = (): void => {
       const file = fileInput.value.files;
       if (file && file[0]) {
         const reader = new FileReader();
@@ -78,6 +54,31 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="field">
+    <div class="card">
+      <div
+        class="card__image"
+        :style="{ 'background-image': `url(${state.currentImage})` }"
+      ></div>
+      <label for="image">
+        <input
+          id="image"
+          name="image"
+          accept="image/*"
+          ref="fileInput"
+          type="file"
+          @input="onPickFile"
+        />
+      </label>
+    </div>
+    <div v-if="errors.image">
+      {{ errors.image }}
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @use "../../../../assets/scss/mixins" as m;
 .card {

@@ -1,3 +1,114 @@
+<script setup lang="ts">
+import { reactive, defineProps, ref, computed, watch } from "vue";
+import mysteryImage from "@/assets/images/mystery-image.png";
+
+const state = reactive({
+  newUserInfos: {},
+});
+
+const props = defineProps(["userInfos"]);
+
+const emit = defineEmits(["updateUser"]);
+
+const isEditMode = ref(false);
+const fileInput = ref(null);
+
+const image = computed({
+  get() {
+    return state.newUserInfos.image;
+  },
+  set(val) {
+    state.newUserInfos.image = val;
+  },
+});
+
+const userName = computed({
+  get() {
+    return state.newUserInfos.userName;
+  },
+  set(val) {
+    state.newUserInfos.userName = val;
+  },
+});
+
+const firstName = computed({
+  get() {
+    return state.newUserInfos.firstName;
+  },
+  set(val) {
+    state.newUserInfos.firstName = val;
+  },
+});
+const lastName = computed({
+  get() {
+    return state.newUserInfos.lastName;
+  },
+  set(val) {
+    state.newUserInfos.lastName = val;
+  },
+});
+const email = computed({
+  get() {
+    return state.newUserInfos.email;
+  },
+  set(val) {
+    state.newUserInfos.email = val;
+  },
+});
+const phone = computed({
+  get() {
+    return state.newUserInfos.phone;
+  },
+  set(val) {
+    state.newUserInfos.phone = val;
+  },
+});
+
+const address = computed({
+  get() {
+    return state.newUserInfos.address;
+  },
+  set(val) {
+    state.newUserInfos.address = val;
+  },
+});
+
+const zip = computed({
+  get() {
+    return state.newUserInfos.zip;
+  },
+  set(val) {
+    state.newUserInfos.zip = val;
+  },
+});
+
+function editProfileInfo() {
+  isEditMode.value = true;
+}
+function confirmInfo() {
+  emit("updateUser", state.newUserInfos);
+  isEditMode.value = false;
+}
+
+function onPickFile() {
+  const file = fileInput.value.files;
+  if (file && file[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      state.newUserInfos.image = e.target.result;
+    };
+
+    reader.readAsDataURL(file[0]);
+  }
+}
+
+const userInfos = computed(() => props.userInfos);
+
+watch(userInfos, (newValue) => {
+  state.newUserInfos = newValue;
+});
+</script>
+
 <template>
   <div class="user-profile-card" v-if="state.newUserInfos">
     <div class="user-profile-card__header">
@@ -135,116 +246,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { reactive, defineProps, ref, computed, defineEmits, watch } from "vue";
-import mysteryImage from "@/assets/images/mystery-image.png";
-
-const state = reactive({
-  newUserInfos: {},
-});
-
-const props = defineProps(["userInfos"]);
-const emit = defineEmits(["updateUser"]);
-
-const isEditMode = ref(false);
-const fileInput = ref(null);
-
-const image = computed({
-  get() {
-    return state.newUserInfos.image;
-  },
-  set(val) {
-    state.newUserInfos.image = val;
-  },
-});
-
-const userName = computed({
-  get() {
-    return state.newUserInfos.userName;
-  },
-  set(val) {
-    state.newUserInfos.userName = val;
-  },
-});
-
-const firstName = computed({
-  get() {
-    return state.newUserInfos.firstName;
-  },
-  set(val) {
-    state.newUserInfos.firstName = val;
-  },
-});
-const lastName = computed({
-  get() {
-    return state.newUserInfos.lastName;
-  },
-  set(val) {
-    state.newUserInfos.lastName = val;
-  },
-});
-const email = computed({
-  get() {
-    return state.newUserInfos.email;
-  },
-  set(val) {
-    state.newUserInfos.email = val;
-  },
-});
-const phone = computed({
-  get() {
-    return state.newUserInfos.phone;
-  },
-  set(val) {
-    state.newUserInfos.phone = val;
-  },
-});
-
-const address = computed({
-  get() {
-    return state.newUserInfos.address;
-  },
-  set(val) {
-    state.newUserInfos.address = val;
-  },
-});
-
-const zip = computed({
-  get() {
-    return state.newUserInfos.zip;
-  },
-  set(val) {
-    state.newUserInfos.zip = val;
-  },
-});
-
-function editProfileInfo() {
-  isEditMode.value = true;
-}
-function confirmInfo() {
-  emit("updateUser", state.newUserInfos);
-  isEditMode.value = false;
-}
-
-function onPickFile() {
-  const file = fileInput.value.files;
-  if (file && file[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      state.newUserInfos.image = e.target.result;
-    };
-
-    reader.readAsDataURL(file[0]);
-  }
-}
-
-const userInfos = computed(() => props.userInfos);
-
-watch(userInfos, (newValue) => {
-  state.newUserInfos = newValue;
-});
-</script>
 
 <style scoped lang="scss">
 @use "../../assets/scss/mixins" as m;

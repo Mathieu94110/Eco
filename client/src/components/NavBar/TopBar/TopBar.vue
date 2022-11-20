@@ -1,3 +1,26 @@
+<script setup lang="ts">
+import Calc from "@/components/Calc/Calc.vue";
+import { reactive } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import NavLink from "../NavLink.vue";
+
+const state = reactive<{
+  open: boolean;
+}>({
+  open: false,
+});
+
+const store = useStore();
+const router = useRouter();
+
+const logOut = (): void => {
+  store.commit("loginStatus", false);
+  store.commit("logOut");
+  router.push("/");
+};
+</script>
+
 <template>
   <div class="px-20 d-flex flex-row align-center">
     <div class="topbar__action-container">
@@ -45,29 +68,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import Calc from "@/components/Calc/Calc.vue";
-import { reactive } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import NavLink from "../NavLink.vue";
-
-const state = reactive<{
-  open: boolean;
-}>({
-  open: false,
-});
-
-const store = useStore();
-const router = useRouter();
-
-const logOut = () => {
-  store.commit("loginStatus", false);
-  store.commit("logOut");
-  router.push("/");
-};
-</script>
 
 <style lang="scss" scoped>
 @use "@/assets/scss/mixins";

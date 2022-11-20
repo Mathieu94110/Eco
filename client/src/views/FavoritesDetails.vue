@@ -1,19 +1,3 @@
-<template>
-  <div class="favorites-details">
-    <div class="favorites-details__header">
-      <input
-        class="go-back-btn"
-        type="button"
-        @click="goBack()"
-        value="Retour"
-      />
-    </div>
-    <div class="adds" v-if="state.favoriteInfos">
-      <AddCard :add="state.favoriteInfos" />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import AddCard from "@/components/Adds/AddCard/AddCard.vue";
 import { reactive, onMounted, computed } from "vue";
@@ -33,7 +17,7 @@ const favoriteDetails = computed<FakeAddInterface>(
   () => store.getters.getFavoriteDetails
 );
 
-const goBack = () => {
+const goBack = (): void => {
   router.back();
 };
 
@@ -43,6 +27,22 @@ onMounted(() => {
   }
 });
 </script>
+
+<template>
+  <div class="favorites-details">
+    <div class="favorites-details__header">
+      <input
+        class="go-back-btn"
+        type="button"
+        @click="goBack()"
+        value="Retour"
+      />
+    </div>
+    <div class="adds" v-if="state.favoriteInfos">
+      <AddCard :add="state.favoriteInfos" />
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .favorites-details {

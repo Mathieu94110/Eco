@@ -1,24 +1,3 @@
-<template>
-  <div class="post-create-price">
-    <div>
-      <label for="price">
-        <input
-          type="number"
-          placeholder="Prix"
-          autocomplete="off"
-          @input="$emit('update:modelValue', $event.target.value)"
-          v-model="input"
-          @keyup="validateInput"
-          @blur="validateInput"
-        />
-      </label>
-    </div>
-    <div class="post-create-price__errors" v-if="errors.price">
-      {{ errors.price }}
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
@@ -29,7 +8,7 @@ export default {
     const input = ref();
     const store = useStore();
     const { validatePriceField, errors } = addFormValidation();
-    const validateInput = () => {
+    const validateInput = (): void => {
       validatePriceField("price", input.value);
     };
     const storePrice = computed(() => store?.state.currentPost.price);
@@ -46,6 +25,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="post-create-price">
+    <div>
+      <label for="price">
+        <input
+          type="number"
+          placeholder="Prix"
+          autocomplete="off"
+          @input="
+            $emit(
+              'update:modelValue',
+              ($event.target as HTMLInputElement).value
+            )
+          "
+          v-model="input"
+          @keyup="validateInput"
+          @blur="validateInput"
+        />
+      </label>
+    </div>
+    <div class="post-create-price__errors" v-if="errors.price">
+      {{ errors.price }}
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @use "../../../../assets/scss/mixins" as m;
 .post-create-price {

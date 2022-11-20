@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import type { UserAddInterface } from "@/shared/interfaces";
+import { computed } from "vue";
+import { reactive, watch, defineProps } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
+
+const state = reactive({
+  editCard: false,
+});
+
+const props = defineProps<{
+  add: UserAddInterface;
+  edit: boolean;
+}>();
+
+const createdDate = computed((): string =>
+  new Date(props.add.created_at).toLocaleDateString()
+);
+
+watch(
+  () => props.edit,
+  (newValue: boolean) => (state.editCard = newValue)
+);
+</script>
+
 <template>
   <CardLayout v-if="add">
     <template #image>
@@ -23,28 +48,3 @@
     </template>
   </CardLayout>
 </template>
-
-<script setup lang="ts">
-import type { UserAddInterface } from "@/shared/interfaces";
-import { computed } from "vue";
-import { reactive, watch, defineProps } from "vue";
-import CardLayout from "../Layout/CardLayout.vue";
-
-const state = reactive({
-  editCard: false,
-});
-
-const props = defineProps<{
-  add: UserAddInterface;
-  edit: boolean;
-}>();
-
-const createdDate = computed((): string =>
-  new Date(props.add.created_at).toLocaleDateString()
-);
-
-watch(
-  () => props.edit,
-  (newValue: boolean) => (state.editCard = newValue)
-);
-</script>

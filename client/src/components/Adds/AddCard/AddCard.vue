@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { computed, defineProps } from "vue";
+import { useRoute } from "vue-router";
+import type { FakeAddInterface } from "../../../shared/interfaces/Add.interface";
+
+const props = defineProps<{
+  add: FakeAddInterface;
+}>();
+
+const emit = defineEmits<{
+  (e: "add-item", add: FakeAddInterface): void;
+}>();
+const route = useRoute();
+
+const isFavoritePage = computed(() => route.name === "FavoritesDetails");
+</script>
+
 <template>
   <div
     class="card"
@@ -79,23 +96,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed, defineProps } from "vue";
-import { useRoute } from "vue-router";
-import type { FakeAddInterface } from "../../../shared/interfaces/Add.interface";
-
-const props = defineProps<{
-  add: FakeAddInterface;
-}>();
-
-const emit = defineEmits<{
-  (e: "add-item", add: FakeAddInterface): void;
-}>();
-const route = useRoute();
-
-const isFavoritePage = computed(() => route.name === "FavoritesDetails");
-</script>
 
 <style scoped lang="scss">
 .icon {

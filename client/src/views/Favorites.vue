@@ -1,3 +1,78 @@
+<script setup lang="ts">
+import { reactive, onMounted, computed, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import FavoriteCard from "@/components/Card/FavoriteCard.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+import addsApi from "../api/adds";
+import type { FakeAddInterface } from "@/shared/interfaces";
+const state = reactive<{
+  favorites: FakeAddInterface[];
+  isLoading: boolean;
+  fullPage: boolean;
+}>({
+  favorites: [],
+  isLoading: false,
+  fullPage: true,
+});
+
+const sideBarClosed = inject("collapsed");
+const toast: any = inject("toastMsg");
+
+const store = useStore();
+const router = useRouter();
+
+const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
+
+const getUserFavorites = async (): Promise<void> => {
+  try {
+    state.isLoading = true;
+    const { data } = await addsApi.getFavorites();
+    if (data.posts) {
+      // In waiting to recover filtered data by user on back-end side, comming soon !
+      state.favorites = data.posts.filter(
+        (post: FakeAddInterface) => post.author === store.state.user.userId
+      );
+      state.isLoading = false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const sendFavoriteDetails = async (add: FakeAddInterface): Promise<void> => {
+  try {
+    await store.dispatch("sendFavoriteDetails", {
+      favorite: add,
+    });
+    router.push({
+      name: "FavoritesDetails",
+      params: { add: add.title },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+const deleteAdd = async (add: FakeAddInterface): Promise<void> => {
+  try {
+    if (add._id) {
+      addsApi.deleteFavorite(add._id);
+      toast("L'annonce a bien été supprimée !", "success");
+      state.favorites = state.favorites.filter(
+        (favorite) => favorite._id !== add._id
+      );
+    }
+  } catch (e: unknown) {
+    console.error(e);
+  }
+};
+
+onMounted(async () => {
+  await getUserFavorites();
+});
+</script>
+
 <template>
   <Toolbar>Mes favoris</Toolbar>
   <loading
@@ -27,77 +102,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { reactive, onMounted, computed, inject } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import FavoriteCard from "@/components/Card/FavoriteCard.vue";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/css/index.css";
-import addsApi from "../api/adds";
-import type { FakeAddInterface } from "@/shared/interfaces";
-const state = reactive<{
-  favorites: FakeAddInterface[];
-  isLoading: boolean;
-}>({
-  favorites: [],
-  isLoading: false,
-});
-
-const sideBarClosed = inject("collapsed");
-const toast: any = inject("toastMsg");
-
-const store = useStore();
-const router = useRouter();
-
-const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
-
-const getUserFavorites = async (): Promise<void> => {
-  try {
-    state.isLoading = true;
-    const { data } = await addsApi.getFavorites();
-    if (data.posts) {
-      // In waiting to recover filtered data by user on back-end side, comming soon !
-      state.favorites = data.posts.filter(
-        (post: FakeAddInterface) => post.author === store.state.user.userId
-      );
-      state.isLoading = false;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-const sendFavoriteDetails = async (add: FakeAddInterface) => {
-  try {
-    await store.dispatch("sendFavoriteDetails", {
-      favorite: add,
-    });
-    router.push({
-      name: "FavoritesDetails",
-      params: { add: add.title },
-    });
-  } catch (e) {
-    console.error(e);
-  }
-};
-const deleteAdd = async (add: FakeAddInterface): Promise<void> => {
-  try {
-    addsApi.deleteFavorite(add._id);
-    toast("L'annonce a bien été supprimée !", "success");
-    state.favorites = state.favorites.filter(
-      (favorite) => favorite._id !== add._id
-    );
-  } catch (e: unknown) {
-    console.error(e);
-  }
-};
-
-onMounted(async () => {
-  await getUserFavorites();
-});
-</script>
 
 <style lang="scss" scoped>
 @use "../assets/scss/mixins";

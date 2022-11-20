@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import { ref, computed, watch } from "vue";
+import { useStore } from "vuex";
+import addFormValidation from "@/modules/formValidation";
+
+const input = ref<string>("");
+const store = useStore();
+const { validateCategoryField, errors } = addFormValidation();
+const validateInput = (): void => {
+  validateCategoryField("category", input.value);
+};
+const storeCategory = computed<string>(() => store?.state.currentPost.category);
+
+watch(storeCategory, (newValue) => {
+  if (!newValue) input.value = "";
+  validateInput();
+});
+</script>
+
 <template>
   <div class="post-create-category">
     <div>
@@ -5,7 +24,12 @@
         <select
           placeholder="Catégorie"
           autocomplete="off"
-          @input="$emit('update:modelValue', $event.target.value)"
+          @input="
+            $emit(
+              'update:modelValue',
+              ($event.target as HTMLInputElement).value
+            )
+          "
           v-model="input"
           @change="validateInput"
         >
@@ -27,24 +51,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import { useStore } from "vuex";
-import addFormValidation from "@/modules/formValidation";
-
-const input = ref<string>("");
-const store = useStore();
-const { validateCategoryField, errors } = addFormValidation();
-const validateInput = () => {
-  validateCategoryField("category", input.value);
-};
-const storeCategory = computed<string>(() => store?.state.currentPost.category);
-
-watch(storeCategory, (newValue) => {
-  if (!newValue) input.value = "";
-  validateInput();
-});
-</script>
 <style lang="scss" scoped>
 @use "../../../../assets/scss/mixins" as m;
 

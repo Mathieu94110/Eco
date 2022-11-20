@@ -1,7 +1,3 @@
-<template>
-  <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
-</template>
-
 <script setup lang="ts">
 import { reactive, computed, type Component } from "vue";
 import SignIn from "./SignIn.vue";
@@ -21,4 +17,7 @@ const switchComponent = (value: string) => {
   state.mode = value;
 };
 </script>
-<style></style>
+
+<template>
+  <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
+</template>

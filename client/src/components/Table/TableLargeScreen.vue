@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { defineProps } from "vue";
+import Modal from "@/components/Modal/Modal.vue";
+import type { UserAddInterface } from "@/shared/interfaces";
+
+const props = defineProps<{
+  userAdds: UserAddInterface[];
+  userConfig: { key: string; title: string }[];
+}>();
+</script>
+
 <template>
   <div>
     <table>
@@ -59,13 +70,6 @@
     </table>
   </div>
 </template>
-
-<script setup lang="ts">
-import { defineProps } from "vue";
-import Modal from "@/components/Modal/Modal.vue";
-
-const props = defineProps(["userAdds", "userConfig"]);
-</script>
 
 <style lang="scss">
 @use "../../assets/scss/mixins";

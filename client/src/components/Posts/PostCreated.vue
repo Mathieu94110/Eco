@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { defineProps } from "vue";
+import CardLayout from "../Layout/CardLayout.vue";
+import type { UserAddInterface } from "@/shared/interfaces";
+
+const props = defineProps<{
+  currentPost: UserAddInterface;
+}>();
+</script>
+
 <template>
   <div v-if="props.currentPost">
     <CardLayout class="post-created">
@@ -23,13 +33,6 @@
     </CardLayout>
   </div>
 </template>
-
-<script setup lang="ts">
-import { defineProps } from "vue";
-import CardLayout from "../Layout/CardLayout.vue";
-
-const props = defineProps(["currentPost"]);
-</script>
 
 <style lang="scss" scoped>
 @use "../../assets/scss/mixins" as m;

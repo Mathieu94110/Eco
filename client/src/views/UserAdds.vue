@@ -1,36 +1,3 @@
-<template>
-  <div class="user-adds">
-    <Toolbar>Mes annonces</Toolbar>
-    <div
-      :style="{
-        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
-      }"
-      class="user-adds__content"
-    >
-      <loading
-        v-model:active="state.isLoading"
-        :can-cancel="true"
-        :is-full-page="state.fullPage"
-      />
-
-      <Pagination
-        v-if="state.tableData"
-        :totalRecords="state.tableData.length"
-        :perPageOptions="state.perPageOptions"
-        :isMobile="isMobile"
-        @input="setTable($event)"
-      />
-      <Table
-        v-if="state.tableData"
-        :userAdds="computedTableData"
-        :config="state.config"
-        :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
-        @delete="deleteAdd($event)"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import Table from "@/components/Table/Table.vue";
 import Pagination from "@/components/Pagination/Pagination.vue";
@@ -41,7 +8,6 @@ import "vue-loading-overlay/dist/css/index.css";
 import { reactive, inject, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import type { UserAddInterface } from "@/shared/interfaces";
-import type { TypeOf } from "yup";
 
 const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();
@@ -49,14 +15,14 @@ const sideBarClosed = inject<boolean>("collapsed");
 const toast = inject("toastMsg");
 const state = reactive<{
   perPageOptions: number[];
-  tableData: UserAddInterface[] | undefined;
+  tableData: UserAddInterface[];
   pagination: { page: number; perPage: number };
   isLoading: boolean;
   fullPage: boolean;
   config: { key: string; title: string }[];
 }>({
   perPageOptions,
-  tableData: undefined,
+  tableData: [],
   pagination: { page: 1, perPage: perPageOptions[0] },
   isLoading: false,
   fullPage: true,
@@ -118,23 +84,58 @@ const deleteAdd = async (add: UserAddInterface): Promise<void> => {
     state.tableData =
       state.tableData && state.tableData.filter((item) => item._id !== add._id);
   } catch (e) {
-    console.error(e.message);
+    console.error(e);
   }
 };
 
-const computedTableData = computed(() => {
-  if (!state.tableData) return [];
+const computedTableData = computed<UserAddInterface[]>(
+  (): UserAddInterface[] | [] => {
+    if (state.tableData.length === 0) return [];
 
-  const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
-  const lastIndex = state.pagination.page * state.pagination.perPage;
-  return state.tableData.slice(firstIndex, lastIndex);
-});
-const isMobile = computed(() => store?.state.windowWidth < 575);
+    const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
+    const lastIndex = state.pagination.page * state.pagination.perPage;
+    return state.tableData.slice(firstIndex, lastIndex);
+  }
+);
+const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 onMounted(async () => {
   await getAdds();
 });
 </script>
+
+<template>
+  <div class="user-adds">
+    <Toolbar>Mes annonces</Toolbar>
+    <div
+      :style="{
+        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
+      }"
+      class="user-adds__content"
+    >
+      <loading
+        v-model:active="state.isLoading"
+        :can-cancel="true"
+        :is-full-page="state.fullPage"
+      />
+
+      <Pagination
+        v-if="state.tableData"
+        :totalRecords="state.tableData.length"
+        :perPageOptions="state.perPageOptions"
+        :isMobile="isMobile"
+        @input="setTable($event)"
+      />
+      <Table
+        v-if="state.tableData"
+        :userAdds="computedTableData"
+        :config="state.config"
+        :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
+        @delete="deleteAdd($event)"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @use "../assets/scss/mixins";

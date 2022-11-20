@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const currentRoute = computed(() => route.name);
+</script>
+
 <template>
   <div class="card-layout__card">
     <div class="card-layout__image">
@@ -35,14 +43,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
-const currentRoute = computed(() => route.name);
-</script>
 
 <style scoped lang="scss">
 @use "../../assets/scss/mixins";

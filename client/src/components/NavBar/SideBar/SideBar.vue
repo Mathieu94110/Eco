@@ -1,3 +1,33 @@
+<script setup lang="ts">
+import { reactive, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import NavLink from "../NavLink.vue";
+import SideBarContainer from "./SideBarContainer/SideBarContainer.vue";
+
+const state = reactive<{
+  isHover: boolean;
+}>({
+  isHover: false,
+});
+
+const store = useStore();
+const router = useRouter();
+
+const toggleSidebar = inject("toggleSidebar");
+
+const logOut = (): void => {
+  store.commit("loginStatus", false);
+  store.commit("logOut");
+  router.push("/");
+};
+
+const formatSideBar = (value: boolean): void => {
+  state.isHover = value;
+  toggleSidebar();
+};
+</script>
+
 <template>
   <SideBarContainer
     :class="{ 'side-bar--active': state.isHover }"
@@ -53,49 +83,6 @@
     </div>
   </SideBarContainer>
 </template>
-
-<script setup lang="ts">
-import { reactive, onMounted, inject } from "vue";
-import { useStore } from "vuex";
-import mitt from "mitt";
-import { useRouter } from "vue-router";
-import NavLink from "../NavLink.vue";
-import SideBarContainer from "./SideBarContainer/SideBarContainer.vue";
-
-const state = reactive<{
-  isHover: boolean;
-  windowWidth: number;
-}>({
-  isHover: false,
-  windowWidth: 0,
-});
-
-const store = useStore();
-const router = useRouter();
-const emitter = mitt();
-const toggleSidebar = inject("toggleSidebar");
-
-const logOut = () => {
-  store.commit("loginStatus", false);
-  store.commit("logOut");
-  router.push("/");
-};
-const setWindowWidth = () => {
-  state.windowWidth = window.innerWidth;
-};
-const formatSideBar = (value: boolean): void => {
-  state.isHover = value;
-  toggleSidebar();
-};
-// setWindowWidth detect width screen changes in order to be used in components to know when user is on mobile
-onMounted(() => {
-  setWindowWidth();
-  window.addEventListener("resize", setWindowWidth);
-  emitter.on("hook:destroyed", () => {
-    window.removeEventListener("resize", setWindowWidth);
-  });
-});
-</script>
 
 <style lang="scss" scoped>
 .side-bar {

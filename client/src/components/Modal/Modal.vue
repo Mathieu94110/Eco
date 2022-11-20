@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import { onClickOutside } from "@vueuse/core";
+import { ref, defineProps } from "vue";
+import type { FakeAddInterface, UserAddInterface } from "@/shared/interfaces";
+
+const props = defineProps<{
+  add: FakeAddInterface | UserAddInterface;
+}>();
+
+const emit = defineEmits<{
+  (e: "delete", add: FakeAddInterface | UserAddInterface): void;
+}>();
+
+const isModalOpen = ref<boolean>(false);
+const modal = ref<HTMLDivElement | null>(null);
+
+onClickOutside(modal, () => (isModalOpen.value = false));
+
+const deleteAdd = (): void => {
+  emit("delete", props.add);
+  isModalOpen.value = false;
+};
+</script>
+
 <template>
   <span
     @click.prevent="isModalOpen = true"
@@ -39,29 +63,6 @@
   </Teleport>
 </template>
 
-<script setup lang="ts">
-import { onClickOutside } from "@vueuse/core";
-import { ref, defineProps, defineEmits } from "vue";
-import type { FakeAddInterface, UserAddInterface } from "@/shared/interfaces";
-
-const props = defineProps<{
-  add: FakeAddInterface | UserAddInterface;
-}>();
-
-const emit = defineEmits<{
-  (e: "delete", add: FakeAddInterface | UserAddInterface): void;
-}>();
-
-const isModalOpen = ref<boolean>(false);
-const modal = ref<HTMLDivElement | null>(null);
-
-onClickOutside(modal, () => (isModalOpen.value = false));
-
-const deleteAdd = () => {
-  emit("delete", props.add);
-  isModalOpen.value = false;
-};
-</script>
 <style lang="scss" scoped>
 @use "../../assets/scss/mixins";
 

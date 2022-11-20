@@ -1,13 +1,3 @@
-<template>
-  <div class="auth">
-    <Login
-      @login="authenticate"
-      @signup="createAccount"
-      :status="status"
-    ></Login>
-  </div>
-</template>
-
 <script setup lang="ts">
 import Login from "@/components/Login/Login.vue";
 import { computed } from "vue";
@@ -50,6 +40,16 @@ const createAccount = async (data: UserInterface) => {
   }
 };
 </script>
+
+<template>
+  <div class="auth">
+    <Login
+      @login="authenticate"
+      @signup="createAccount"
+      :status="status"
+    ></Login>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .auth {
