@@ -12,7 +12,7 @@ import type { UserAddInterface } from "@/shared/interfaces";
 const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();
 const sideBarClosed = inject<boolean>("collapsed");
-const toast = inject("toastMsg");
+const toast: any = inject("toastMsg");
 const state = reactive<{
   perPageOptions: number[];
   tableData: UserAddInterface[];
@@ -79,7 +79,7 @@ const getAdds = async (): Promise<void> => {
 
 const deleteAdd = async (add: UserAddInterface): Promise<void> => {
   try {
-    addsApi.deleteAdds(add._id);
+    add._id && addsApi.deleteAdds(add._id);
     toast("L'annonce a bien été supprimée !", "success");
     state.tableData =
       state.tableData && state.tableData.filter((item) => item._id !== add._id);

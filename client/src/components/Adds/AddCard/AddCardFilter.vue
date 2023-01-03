@@ -12,7 +12,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "updateFilter", filterUpdate: Category | {}): void;
+  (e: "updateFilter", filterUpdate: any): void;
 }>();
 
 const sideBarClosed = inject("collapsed");

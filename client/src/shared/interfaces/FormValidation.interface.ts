@@ -1,7 +1,7 @@
 export interface FormValidationErrors {
   category?: string;
   description?: string;
-  image?: string | ArrayBuffer | null;
+  image?: any;
   price?: number;
   title?: string;
 }

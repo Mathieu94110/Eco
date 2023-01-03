@@ -11,9 +11,9 @@ export default {
       currentImage: mysteryImage,
     });
 
-    const fileInput = ref(null);
+    const fileInput = ref(null) as any;
     const store = useStore();
-    const { validateNameField, errors } = addFormValidation();
+    const { validateNameField, errors }: any = addFormValidation();
     const validateInput = (): void => {
       validateNameField("image", fileInput.value);
     };
@@ -23,11 +23,12 @@ export default {
       fileInput.value.value = "";
     });
     const onPickFile = (): void => {
-      const file = fileInput.value.files;
+      const file =
+        fileInput.value && fileInput.value?.files ? fileInput.value.files : "";
       if (file && file[0]) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          state.currentImage = e.target.result;
+          state.currentImage = e.target ? e.target.result : "";
         };
 
         reader.readAsDataURL(file[0]);
@@ -37,10 +38,10 @@ export default {
       () => state.currentImage,
       (newValue) => {
         emit("update:modelValue", newValue);
-      },
-      emit("update:modelValue", state.currentImage),
-      {
-        flush: "post",
+        emit("update:modelValue", state.currentImage),
+          {
+            flush: "post",
+          };
       }
     );
     return {

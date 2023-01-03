@@ -1,6 +1,8 @@
 <script lang="ts">
 import NavBar from "@/components/NavBar/NavBar.vue";
 import { mapGetters } from "vuex";
+import store from "./store";
+
 export default {
   name: "App",
   components: {
@@ -9,7 +11,7 @@ export default {
   // Used to detect globally screen width changes due to a variable saved in store
   mounted() {
     window.addEventListener("resize", () => {
-      this.$store.commit("setWindowWidth");
+      store.commit("setWindowWidth");
     });
   },
   computed: {

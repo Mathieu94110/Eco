@@ -143,7 +143,9 @@ watch(
         </label>
       </template>
       <template #date>
-        <span>{{ new Date(props.add.created_at).toLocaleDateString() }}</span>
+        <span>{{
+          new Date(props.add.created_at as any).toLocaleDateString()
+        }}</span>
       </template>
       <template #category>
         <label for="category">

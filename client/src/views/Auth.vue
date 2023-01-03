@@ -9,7 +9,7 @@ const store = useStore();
 const router = useRouter();
 const status = computed<string>(() => store?.state.status);
 
-const authenticate = async (data: LoginData) => {
+const authenticate = async (data: Partial<UserInterface>) => {
   try {
     await store.dispatch("login", {
       email: data.email,

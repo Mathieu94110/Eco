@@ -10,14 +10,14 @@ import store from "./store";
 import "@fortawesome/fontawesome-free/js/all";
 
 // rules for login form
-defineRule("required", (value) => {
+defineRule("required", (value: any) => {
   if (!value || !value.length) {
     return "Ce champs est requis";
   }
   return true;
 });
 
-defineRule("minLength", (value, [limit]) => {
+defineRule("minLength", (value: any, [limit]: [limit: any]) => {
   // The field is empty so it should pass
   if (!value || !value.length) {
     return true;
@@ -28,7 +28,7 @@ defineRule("minLength", (value, [limit]) => {
   return true;
 });
 
-defineRule("title", (value) => {
+defineRule("title", (value: any) => {
   if (!value || !value.length) {
     return "Vous devez indiquer un titre";
   }
@@ -36,7 +36,7 @@ defineRule("title", (value) => {
   return true;
 });
 
-defineRule("description", (value) => {
+defineRule("description", (value: any) => {
   if (!value || !value.length) {
     return "Vous devez indiquer une description";
   }
@@ -44,7 +44,7 @@ defineRule("description", (value) => {
   return true;
 });
 
-defineRule("minMax", (value, [min, max]) => {
+defineRule("minMax", (value: any, [min, max]: [min: any, max: any]) => {
   if (!value || !value.length) {
     return true;
   }
@@ -74,4 +74,8 @@ app.provide("toastMsg", toastMsg);
 app.provide("collapsed", collapsed);
 app.provide("toggleSidebar", toggleSidebar);
 
-app.use(router).use(store).use(VueLoading).mount("#app");
+app
+  .use(router)
+  .use(store)
+  .use(VueLoading as any)
+  .mount("#app");

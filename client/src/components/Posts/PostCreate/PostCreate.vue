@@ -11,13 +11,13 @@ const add = reactive<{
   image: string;
   title: string;
   description: string;
-  price: number | null;
+  price: number;
   category: string;
 }>({
   image: "",
   title: "",
   description: "",
-  price: null,
+  price: 0,
   category: "",
 });
 

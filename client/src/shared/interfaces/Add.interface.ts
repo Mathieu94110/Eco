@@ -15,13 +15,13 @@ export interface FakeAddInterface {
 }
 export interface UserAddInterface {
   _id?: string;
-  author: string;
+  author?: string;
   title: string;
   description: string;
   category: string;
-  price: number;
-  image: string | ArrayBuffer | null;
-  created_at: string;
+  price?: number;
+  image: any;
+  created_at?: string;
 }
 
 export interface PageOptionsInterface {

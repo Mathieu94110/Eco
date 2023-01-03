@@ -12,7 +12,7 @@ const sideBarClosed = inject("collapsed");
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const toast = inject("toastMsg");
+const toast: any = inject("toastMsg");
 
 const state = reactive<{
   component: string;

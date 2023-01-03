@@ -23,12 +23,12 @@ const props = defineProps<{
         <tr
           v-for="(row, index) in props.userAdds"
           :key="index"
-          :id="props.userAdds._id"
+          :id="row['_id']"
         >
           <td v-for="(obj, ind) in props.userConfig" :key="ind">
             <span v-if="obj.key === 'title'">{{ row[obj.key] }}</span>
             <span v-if="obj.key === 'created_at'"
-              >{{ new Date(row[obj.key]).toLocaleDateString() }}
+              >{{ new Date(row[obj.key] as any).toLocaleDateString() }}
             </span>
             <span v-if="obj.key === 'price'">{{ row[obj.key] }}</span>
             <figure v-if="obj.key === 'image'">

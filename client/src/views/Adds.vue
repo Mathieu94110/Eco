@@ -33,7 +33,7 @@ const state = reactive<{
 });
 
 const store = useStore();
-const toast = inject("toastMsg");
+const toast: any = inject("toastMsg");
 const sideBarClosed = inject<boolean>("collapsed");
 const currentUser = computed<string>(() => store?.state.user.userId);
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);

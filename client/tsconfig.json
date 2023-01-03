@@ -13,6 +13,8 @@
   ],
   "compilerOptions": {
     "target": "ESNext",
-    "types": ["vite/client"]
-  }
+    "types": ["vite/client"],
+    "typeRoots": ["node_modules/@types", "src/types"]
+  },
+  "paths": { "@/*": ["./src/*"] }
 }

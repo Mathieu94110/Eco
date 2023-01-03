@@ -20,7 +20,7 @@ const state = reactive<{
   fullPage: true,
 });
 
-const toast = inject("toastMsg");
+const toast:any = inject("toastMsg");
 const store = useStore();
 const userId = store?.state.user.userId;
 
@@ -40,7 +40,7 @@ const UpdateInfos = async (data: UserInterface): Promise<void> => {
   try {
     await userApi.updateUserInfos(data);
     toast("Vos informations ont bien été mises à jour !", "success");
-  } catch (e: unknown) {
+  } catch (e: any) {
     console.error(e);
     toast(`${e.message} !`, "error");
   }

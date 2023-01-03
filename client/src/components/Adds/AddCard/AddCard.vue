@@ -16,14 +16,7 @@ const isFavoritePage = computed(() => route.name === "FavoritesDetails");
 </script>
 
 <template>
-  <div
-    class="card"
-    :style="{
-      padding: isFavoritePage ? '30px' : '16px',
-      width: isFavoritePage ? '' : '250px',
-      textAlign: isFavoritePage ? '' : 'center',
-    }"
-  >
+  <div :class="['card', isFavoritePage ? 'favorite' : 'not-favorite']">
     <div class="card__product-img">
       <img
         v-if="props.add.images"
@@ -88,7 +81,7 @@ const isFavoritePage = computed(() => route.name === "FavoritesDetails");
           <span class="card__category-items">{{ props.add.category }}</span>
         </div>
         <div class="card__category-items--alt-color" v-if="!isFavoritePage">
-          <span @click="emit('add-item', $event)">
+          <span @click="emit('add-item', props.add)">
             <i class="card__category-items--icon fas fa-heart"></i>
           </span>
         </div>
@@ -244,6 +237,14 @@ const isFavoritePage = computed(() => route.name === "FavoritesDetails");
       }
     }
   }
+}
+.favorite {
+  padding: 30px;
+}
+.not-favorite {
+  padding: 16px;
+  width: 250px;
+  text-align: center;
 }
 //Transition
 .fade-enter-active,

@@ -6,7 +6,7 @@ import TableSmallScreen from "@/components/Table/TableSmallScreen.vue";
 import type { UserAddInterface } from "@/shared/interfaces";
 
 const props = defineProps<{
-  userAdds: UserAddInterface;
+  userAdds: UserAddInterface[];
   config: { key: string; title: string }[];
 }>();
 

@@ -1,8 +1,8 @@
 import { reactive } from "vue";
 import useValidators from "@/modules/validators";
-import type { FormValidationErrors } from "@/shared/interfaces";
+// import type { FormValidationErrors } from "@/shared/interfaces";
 
-const errors: FormValidationErrors = reactive({});
+const errors: any = reactive({});
 
 export default function addFormValidation() {
   const { isEmpty, minLength, maxLength, isMinPrice, isMaxPrice } =

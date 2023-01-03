@@ -14,7 +14,7 @@ const props = defineProps<{
 }>();
 
 const createdDate = computed((): string =>
-  new Date(props.add.created_at).toLocaleDateString()
+  new Date(props.add.created_at as any).toLocaleDateString()
 );
 
 watch(

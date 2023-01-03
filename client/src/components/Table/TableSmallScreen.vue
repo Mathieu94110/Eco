@@ -19,7 +19,7 @@ const props = defineProps<{
         class="table-small__responsive-cell"
         v-for="(row, index) in props.userAdds"
         :key="index"
-        :id="props.userAdds._id"
+        :id="row['_id']"
       >
         <span
           class="table-small__responsive-cell-content"
@@ -27,7 +27,7 @@ const props = defineProps<{
           >{{ row[obj.key] }}</span
         >
         <span v-if="obj.key === 'created_at'"
-          >{{ new Date(row[obj.key]).toLocaleDateString() }}
+          >{{ new Date(row[obj.key] as any).toLocaleDateString() }}
         </span>
         <span v-if="obj.key === 'price'">{{ row[obj.key] }}</span>
         <figure v-if="obj.key === 'image'">

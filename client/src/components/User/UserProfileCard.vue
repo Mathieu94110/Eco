@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { reactive, defineProps, ref, computed, watch } from "vue";
 import mysteryImage from "@/assets/images/mystery-image.png";
+import type { newUserInfoInterface } from "@/shared/interfaces";
 
-const state = reactive({
+// import mysteryImage from "../../assets/images/mystery-image.png";
+const state: newUserInfoInterface = reactive({
   newUserInfos: {},
 });
 
@@ -90,15 +92,16 @@ function confirmInfo() {
   isEditMode.value = false;
 }
 
-function onPickFile() {
-  const file = fileInput.value.files;
-  if (file && file[0]) {
+function onPickFile(e: Event) {
+  const target = e.target as HTMLInputElement;
+  const files = target.files;
+  if (files && files[0]) {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      state.newUserInfos.image = e.target.result;
+    reader.onload = () => {
+      state.newUserInfos.image = files[0];
     };
 
-    reader.readAsDataURL(file[0]);
+    reader.readAsDataURL(files[0]);
   }
 }
 
@@ -129,7 +132,6 @@ watch(userInfos, (newValue) => {
               type="file"
               id="file"
               class="user-profile-card__file-input"
-              ref="fileInput"
               @input="onPickFile"
             />
           </label>

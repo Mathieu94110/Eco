@@ -7,14 +7,21 @@ import { useStore } from "vuex";
 import type { UserAddInterface } from "@/shared/interfaces";
 
 const state = reactive<{
-  post: UserAddInterface | null;
+  post: UserAddInterface;
   showCreatedPost: boolean;
 }>({
-  post: null,
+  post: {
+    author: "",
+    image: "",
+    title: "",
+    description: "",
+    price: 0,
+    category: "",
+  },
   showCreatedPost: false,
 });
 
-const toastMsg = inject("toastMsg");
+const toastMsg = inject("toastMsg") as any;
 const sideBarClosed = inject<boolean>("collapsed");
 
 const store = useStore();

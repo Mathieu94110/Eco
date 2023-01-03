@@ -14,7 +14,7 @@ const state = reactive<{
 const store = useStore();
 const router = useRouter();
 
-const toggleSidebar = inject("toggleSidebar");
+const toggleSidebar = inject("toggleSidebar") as Function;
 
 const logOut = (): void => {
   store.commit("loginStatus", false);
