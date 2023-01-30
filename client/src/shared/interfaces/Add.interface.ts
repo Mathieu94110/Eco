@@ -1,6 +1,5 @@
 export interface FakeAddInterface {
   _id?: string;
-  author?: string;
   brand: string;
   category: string;
   description: string;
@@ -14,8 +13,8 @@ export interface FakeAddInterface {
   title: string;
 }
 export interface UserAddInterface {
+  userFrom?: string,
   _id?: string;
-  author?: string;
   title: string;
   description: string;
   category: string;

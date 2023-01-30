@@ -4,18 +4,10 @@ const jwt = require("jsonwebtoken");
 const User = require("../../database/models/user");
 const router = express.Router();
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new User({
-      email: req.body.email,
-      password: hash,
-      userName: req.body.userName,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      image: req.body.image,
-      phone: req.body.phone,
-      address: req.body.address,
-      zip: req.body.zip,
+      ...req.body, password: hash,
     });
     user
       .save()
@@ -33,7 +25,7 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.post("/login", (req, res, next) => {
+router.post("/login", (req, res) => {
   let fetchedUser;
   User.findOne({ email: req.body.email })
     .then((user) => {
@@ -69,7 +61,7 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", (req, res) => {
   return User.findById(req.params.id)
     .then((result) => {
       res.status(201).json({
@@ -84,7 +76,7 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", (req, res) => {
   User.updateOne({ _id: req.params.id }, req.body).then((result) => {
     if (result.modifiedCount > 0) {
       res.status(200).json({ message: "Update successful!" });
@@ -93,4 +85,5 @@ router.put("/:id", (req, res, next) => {
     }
   });
 });
+
 module.exports = router;

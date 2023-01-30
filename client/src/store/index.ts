@@ -19,7 +19,7 @@ const store = createStore({
     user: {},
     isUserLogged: false,
     currentPost: {
-      author: "",
+      userFrom: "",
       image: "",
       title: "",
       description: "",
@@ -38,7 +38,6 @@ const store = createStore({
     },
     favoriteDetails: {
       _id: "",
-      author: "",
       id: null,
       brand: "",
       category: "",
@@ -165,11 +164,11 @@ const store = createStore({
       commit("resetPost", data);
     },
 
-    sendFavorite: ({ commit }, FavoriteData) => {
+    sendFavorite: ({ commit }, variables) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         favoriteInstance
-          .post("/favoritesInfos", FavoriteData)
+          .post("/favoritesInfos", variables)
           .then((response) => {
             resolve(response.data);
           })

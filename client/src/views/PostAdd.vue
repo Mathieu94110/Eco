@@ -11,7 +11,7 @@ const state = reactive<{
   showCreatedPost: boolean;
 }>({
   post: {
-    author: "",
+    userFrom: "",
     image: "",
     title: "",
     description: "",
@@ -37,7 +37,7 @@ const postIsCreate = (): void => {
 const createAdd = async (add: UserAddInterface) => {
   try {
     await store.dispatch("createPost", {
-      author: currentUser.value,
+      userFrom: currentUser.value,
       title: add.title,
       description: add.description,
       category: add.category,
@@ -55,7 +55,7 @@ const submitAdd = async (): Promise<void> => {
   try {
     await store.dispatch("sendPost");
     await store.dispatch("resetForm", {
-      author: "",
+      userFrom: "",
       image: "",
       title: "",
       description: "",
@@ -74,7 +74,7 @@ const submitAdd = async (): Promise<void> => {
 const resetAdd = async () => {
   try {
     await store.dispatch("resetForm", {
-      author: "",
+      userFrom: "",
       image: "",
       title: "",
       description: "",
@@ -100,26 +100,14 @@ watch(currentPost, (newValue: UserAddInterface): void => {
 <template>
   <div class="post-add-container">
     <Toolbar> Poster une annonce </Toolbar>
-    <div
-      class="post-add-container__items"
-      :style="{
-        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
-      }"
-    >
+    <div class="post-add-container__items" :style="{
+      marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
+    }">
       <div class="post-add-container__items-wrapper">
-        <PostCreate
-          ref="post-create"
-          :isAddCreated="isAddCreated"
-          @create-add="createAdd"
-          @submit-add="submitAdd"
-          @reset-add="resetAdd"
-        ></PostCreate>
+        <PostCreate ref="post-create" :isAddCreated="isAddCreated" @create-add="createAdd" @submit-add="submitAdd"
+          @reset-add="resetAdd"></PostCreate>
         <Transition name="nested">
-          <PostCreated
-            v-if="state.showCreatedPost"
-            :currentPost="state.post"
-            ref="post-created"
-          ></PostCreated>
+          <PostCreated v-if="state.showCreatedPost" :currentPost="state.post" ref="post-created"></PostCreated>
         </Transition>
       </div>
     </div>
@@ -128,6 +116,7 @@ watch(currentPost, (newValue: UserAddInterface): void => {
 
 <style lang="scss" scoped>
 @use "../assets/scss/mixins" as m;
+
 .post-add-container {
   align-items: center;
   display: block;
@@ -138,9 +127,11 @@ watch(currentPost, (newValue: UserAddInterface): void => {
     height: 100%;
     color: #181818;
     font-weight: 700;
+
     div:first-child {
       display: block;
     }
+
     &-wrapper {
       display: block;
       height: 100%;
@@ -153,8 +144,10 @@ watch(currentPost, (newValue: UserAddInterface): void => {
     height: 100%;
     width: 100%;
     align-items: center;
+
     &__items {
       height: calc(100% - 60px);
+
       div:first-child {
         display: flex;
         justify-content: space-evenly;
@@ -163,6 +156,7 @@ watch(currentPost, (newValue: UserAddInterface): void => {
     }
   }
 }
+
 //Transition
 .nested-enter-active,
 .nested-leave-active {

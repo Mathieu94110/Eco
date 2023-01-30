@@ -11,7 +11,6 @@ const state = reactive<{
   editCard: false,
   edit: false,
   card: {
-    author: "",
     title: "",
     description: "",
     category: "",
@@ -94,37 +93,17 @@ watch(
 <template>
   <div class="edit-card">
     <div class="edit-card__validate-button-wrapper my-20">
-      <buttton
-        v-if="props.isEditMode"
-        type="button"
-        class="btn btn-primary font-600"
-        @click="$emit('updateCard', state.card)"
-        >Valider</buttton
-      >
+      <buttton v-if="props.isEditMode" type="button" class="btn btn-primary font-600"
+        @click="$emit('updateCard', state.card)">Valider</buttton>
     </div>
     <CardLayout v-if="props.add">
       <template #image>
         <div class="edit-card__product-img" v-if="!state.edit">
-          <img
-            class="edit-card__img"
-            :src="props.add.image"
-            height="200"
-            alt="product-image"
-          />
+          <img class="edit-card__img" :src="props.add.image" height="200" alt="product-image" />
         </div>
-        <div
-          v-else
-          class="edit-card__imagePreviewed"
-          :style="{ 'background-image': `url(${state.card.image})` }"
-        ></div>
+        <div v-else class="edit-card__imagePreviewed" :style="{ 'background-image': `url(${state.card.image})` }"></div>
         <label for="image">
-          <input
-            id="image"
-            name="image"
-            accept="image/*"
-            type="file"
-            @change="onPickFile($event)"
-          />
+          <input id="image" name="image" accept="image/*" type="file" @change="onPickFile($event)" />
         </label>
       </template>
       <template #title>
@@ -169,10 +148,12 @@ watch(
 <style scoped lang="scss">
 .edit-card {
   width: 100%;
+
   &__validate-button-wrapper {
     width: 100%;
     text-align: center;
   }
+
   &__product-img {
     cursor: pointer;
     position: relative;
@@ -180,6 +161,7 @@ watch(
     overflow: hidden;
     text-align: center;
   }
+
   &__imagePreviewed {
     width: 200px;
     height: 200px;
@@ -189,10 +171,11 @@ watch(
     background-size: cover;
     background-position: center center;
   }
+
   &__inputs {
     font-weight: 600;
 
-    > options {
+    >options {
       height: 40px;
       width: 100%;
     }

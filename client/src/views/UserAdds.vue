@@ -63,13 +63,13 @@ const setTable = (data: { page: number; perPage: number }) => {
 };
 const getAdds = async (): Promise<void> => {
   try {
+    const variable: { userFrom: string } = {
+      userFrom: store.state.user.userId
+    };
     state.isLoading = true;
-    const { data } = await addsApi.getUserAdds();
+    const { data } = await addsApi.getUserAdds(variable);
     if (data.posts) {
-      // In waiting to recover filtered data by user on back-end side, comming soon !
-      state.tableData = data.posts.filter(
-        (post: UserAddInterface) => post.author === store.state.user.userId
-      );
+      state.tableData = data.posts;
       state.isLoading = false;
     }
   } catch (error) {
@@ -79,10 +79,19 @@ const getAdds = async (): Promise<void> => {
 
 const deleteAdd = async (add: UserAddInterface): Promise<void> => {
   try {
-    add._id && addsApi.deleteAdds(add._id);
-    toast("L'annonce a bien été supprimée !", "success");
-    state.tableData =
-      state.tableData && state.tableData.filter((item) => item._id !== add._id);
+    const variables = {
+      _id: add._id,
+      userFrom: store.state.user.userId
+    };
+    if (add._id) {
+      const response = await addsApi.deleteUserAdd(variables);
+      if (response.data.success) {
+        toast("L'annonce a bien été supprimée !", "success");
+        state.tableData = state.tableData.filter(data => data._id !== add._id);
+      } else {
+        alert('Failed to Remove From Favorite');
+      }
+    }
   } catch (e) {
     console.error(e);
   }
@@ -107,45 +116,31 @@ onMounted(async () => {
 <template>
   <div class="user-adds">
     <Toolbar>Mes annonces</Toolbar>
-    <div
-      :style="{
-        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
-      }"
-      class="user-adds__content"
-    >
-      <loading
-        v-model:active="state.isLoading"
-        :can-cancel="true"
-        :is-full-page="state.fullPage"
-      />
+    <div :style="{
+      marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
+    }" class="user-adds__content">
+      <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
 
-      <Pagination
-        v-if="state.tableData"
-        :totalRecords="state.tableData.length"
-        :perPageOptions="state.perPageOptions"
-        :isMobile="isMobile"
-        @input="setTable($event)"
-      />
-      <Table
-        v-if="state.tableData"
-        :userAdds="computedTableData"
-        :config="state.config"
-        :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
-        @delete="deleteAdd($event)"
-      />
+      <Pagination v-if="state.tableData" :totalRecords="state.tableData.length" :perPageOptions="state.perPageOptions"
+        :isMobile="isMobile" @input="setTable($event)" />
+      <Table v-if="state.tableData" :userAdds="computedTableData" :config="state.config"
+        :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }" @delete="deleteAdd($event)" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "../assets/scss/mixins";
+
 .user-adds {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;
+
   &__content {
     padding: 30px;
     height: calc(100vh - 60px);
+
     @include mixins.xs {
       padding: 10px;
       font-size: 0.7rem;

@@ -4,22 +4,8 @@ const Favorites = require("../../database/models/favorites");
 
 const router = express.Router();
 
-router.post("/favoritesInfos", (req, res, next) => {
-  const post = new Favorites({
-    author: req.body.author,
-    id: req.body.id,
-    brand: req.body.brand,
-    category: req.body.category,
-    description: req.body.description,
-    discountPercentage: req.body.discountPercentage,
-    images: req.body.images,
-    price: req.body.price,
-    rating: req.body.rating,
-    stock: req.body.stock,
-    thumbnail: req.body.thumbnail,
-    title: req.body.title,
-  });
-
+router.post("/favoritesInfos", (req, res) => {
+  const post = new Favorites(req.body);
   post.save().then((createdPost) => {
     res.status(201).json({
       message: "Post added successfully",
@@ -28,22 +14,23 @@ router.post("/favoritesInfos", (req, res, next) => {
   });
 });
 
-router.get("", (req, res, next) => {
-  Favorites.find().then((documents) => {
+router.post("", (req, res) => {
+  Favorites.find({ userFrom: req.body.userFrom }).exec((err, favorites) => {
+    if (err) return res.status(400).send(err);
     res.status(200).json({
       message: "Posts fetched successfully!",
-      posts: documents,
+      posts: favorites,
     });
   });
 });
 
-router.delete("/:id", (req, res, next) => {
-  Favorites.deleteOne({ _id: req.params.id }).then((result) => {
-    if (result.n > 0) {
-      res.status(200).json({ message: "Deletion successful!" });
-    } else {
-      res.status(401).json({ message: "Not authorized!" });
-    }
+router.post('/removeFromFavorites', (req, res) => {
+  Favorites.findOneAndDelete({
+    id: req.body.id,
+    userFrom: req.body.userFrom,
+  }).exec((err, doc) => {
+    if (err) return res.status(400).json({ success: false, err });
+    res.status(200).json({ success: true, doc });
   });
 });
 

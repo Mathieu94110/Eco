@@ -7,7 +7,6 @@ describe('Emitter', () => {
     const wrapper = mount(PostCreateButtons, {
       props: {
         add: {
-          author: 'julia77',
           title: 'crème nivea',
           description: 'Crème de soin pour les peaux sensibles',
           category: 'Cosmétiques',

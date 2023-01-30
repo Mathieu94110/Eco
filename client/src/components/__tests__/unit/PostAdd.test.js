@@ -9,7 +9,6 @@ const store = createStore({
       user: { userId: "1125533495595" },
       windowWidth: 747,
       currentPost: {
-        author: "",
         image: "image.png",
       },
     };

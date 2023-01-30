@@ -36,7 +36,7 @@ onMounted(async (): Promise<void> => {
   try {
     state.isLoading = true;
     const userAddId = route.params.id as string;
-    const response = await addsApi.getPostId(userAddId);
+    const response = await addsApi.getUserAddById(userAddId);
     state.userAdd = response.data;
     state.isLoading = false;
   } catch (error) {
@@ -53,7 +53,7 @@ const switchActive = (): void => {
 };
 const updateUserCard = async (card: UserAddInterface): Promise<void> => {
   try {
-    await addsApi.updateAdd(card);
+    await addsApi.updateUserAdd(card);
     toast("L'annonce a été mise à jour !", "success");
   } catch (err) {
     toast("Aucun changement détecté !", "warning");
@@ -67,17 +67,10 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 </script>
 
 <template>
-  <div
-    class="add-details"
-    :style="{
-      marginLeft: isMobile ? 'auto' : sideBarClosed ? '75px' : '270px',
-    }"
-  >
-    <loading
-      v-model:active="state.isLoading"
-      :can-cancel="true"
-      :is-full-page="state.fullPage"
-    />
+  <div class="add-details" :style="{
+    marginLeft: isMobile ? 'auto' : sideBarClosed ? '75px' : '270px',
+  }">
+    <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
     <div class="add-details__header">
       <button class="btn btn-primary" type="button" @click="goBack()">
         Retour
@@ -88,12 +81,7 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
       </button>
     </div>
 
-    <component
-      :is="isActive"
-      :add="state.userAdd"
-      :isEditMode="state.isEditMode"
-      @updateCard="updateUserCard"
-    />
+    <component :is="isActive" :add="state.userAdd" :isEditMode="state.isEditMode" @updateCard="updateUserCard" />
   </div>
 </template>
 

@@ -20,7 +20,7 @@ const state = reactive<{
   fullPage: true,
 });
 
-const toast:any = inject("toastMsg");
+const toast: any = inject("toastMsg");
 const store = useStore();
 const userId = store?.state.user.userId;
 
@@ -38,6 +38,7 @@ const getProfile = async (): Promise<void> => {
 
 const UpdateInfos = async (data: UserInterface): Promise<void> => {
   try {
+
     await userApi.updateUserInfos(data);
     toast("Vos informations ont bien été mises à jour !", "success");
   } catch (e: any) {
@@ -54,21 +55,11 @@ onMounted(async (): Promise<void> => {
 <template>
   <div class="profile">
     <Toolbar>Mon profil</Toolbar>
-    <loading
-      v-model:active="state.isLoading"
-      :can-cancel="true"
-      :is-full-page="state.fullPage"
-    />
-    <div
-      :style="{
-        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
-      }"
-      class="profile__card"
-    >
-      <UserProfileCard
-        :userInfos="state.user"
-        @update-user="UpdateInfos"
-      ></UserProfileCard>
+    <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
+    <div :style="{
+      marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
+    }" class="profile__card">
+      <UserProfileCard :userInfos="state.user" @update-user="UpdateInfos"></UserProfileCard>
     </div>
   </div>
 </template>
@@ -77,6 +68,7 @@ onMounted(async (): Promise<void> => {
 .profile {
   width: 100%;
   height: 100%;
+
   &__card {
     height: calc(100% - 60px);
     display: flex;

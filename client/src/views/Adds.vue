@@ -56,7 +56,7 @@ async function loadFakeAdds(): Promise<void> {
 }
 
 function addToFavorites(add: FakeAddInterface) {
-  const userFavorite = { ...add, author: currentUser.value };
+  const userFavorite = { ...add, userFrom: currentUser.value };
   store.dispatch("sendFavorite", userFavorite).then(() => {
     toast("L'annonce a été ajoutée à vos favoris !", "success");
   });
@@ -101,50 +101,27 @@ onMounted(async () => {
 <template>
   <div class="adds">
     <Toolbar>Liste des annonces</Toolbar>
-    <loading
-      v-model:active="state.isLoading"
-      :can-cancel="true"
-      :is-full-page="state.fullPage"
-    />
-    <div
-      v-if="state.adds"
-      :style="{
-        paddingLeft: isMobile ? 'auto' : sideBarClosed ? '150px' : '345px',
-      }"
-    >
+    <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
+    <div v-if="state.adds" :style="{
+      paddingLeft: isMobile ? 'auto' : sideBarClosed ? '150px' : '345px',
+    }">
       <div class="adds__wrapper">
-        <Calc
-          :open="isMobile && state.open"
-          @close="state.open = false"
-          :transparent="true"
-        />
+        <Calc :open="isMobile && state.open" @close="state.open = false" :transparent="true" />
         <div class="adds__filter">
           <!--On below adding open/close transition on mobile, for large screen it's always true -->
           <Transition>
-            <AddCardFilter
-              v-if="state.open"
-              :filters="state.filters"
-              :adds="filteredAdds"
-              @update-filter="updateFilter"
-            />
+            <AddCardFilter v-if="state.open" :filters="state.filters" :adds="filteredAdds"
+              @update-filter="updateFilter" />
           </Transition>
         </div>
         <div class="d-flex flex-column">
-          <button
-            class="adds__search-button btn btn-primary"
-            @click="state.open = !state.open"
-          >
+          <button class="adds__search-button btn btn-primary" @click="state.open = !state.open">
             <i class="fa-solid fa-magnifying-glass mr-10"></i>
             <span>Rechercher</span>
           </button>
 
           <div class="adds__cards">
-            <AddCard
-              v-for="add in filteredAdds"
-              :key="add.id"
-              :add="add"
-              @add-item="addToFavorites(add)"
-            />
+            <AddCard v-for="add in filteredAdds" :key="add.id" :add="add" @add-item="addToFavorites(add)" />
           </div>
         </div>
       </div>
@@ -157,10 +134,12 @@ onMounted(async () => {
 
 .adds {
   height: 100%;
+
   &__wrapper {
     display: flex;
     height: calc(100vh - 60px);
   }
+
   &__filter {
     @include mixins.xs {
       position: absolute;
@@ -170,12 +149,15 @@ onMounted(async () => {
       z-index: 2;
     }
   }
+
   &__search-button {
     margin: 20px 20px 0px 20px;
+
     @include mixins.sm {
       display: none;
     }
   }
+
   &__cards {
     display: flex;
     flex-wrap: wrap;

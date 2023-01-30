@@ -16,7 +16,6 @@ const store = createStore({
       user: {},
       isUserLogged: false,
       currentPost: {
-        author: '',
         image: '',
         title: '',
         description: '',
@@ -118,7 +117,6 @@ describe('store mutations', () => {
 
   it('should posts update', () => {
     const newPost = {
-      author: 'mathieu',
       image: 'mgpgkdkqsn.png',
       title: 'coco chanel',
       description: 'parfum neuf jamais déballé',
@@ -128,7 +126,6 @@ describe('store mutations', () => {
     store.commit('setPost', newPost);
     expect(localStorage.removeItem).toHaveBeenCalled();
     expect(store.state.currentPost).toStrictEqual({
-      author: 'mathieu',
       image: 'mgpgkdkqsn.png',
       title: 'coco chanel',
       description: 'parfum neuf jamais déballé',

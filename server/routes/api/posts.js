@@ -4,14 +4,9 @@ const Post = require("../../database/models/posts");
 
 const router = express.Router();
 
-router.post("/postInfos", (req, res, next) => {
+router.post("/postInfos", (req, res) => {
   const post = new Post({
-    author: req.body.author,
-    title: req.body.title,
-    description: req.body.description,
-    category: req.body.category,
-    price: req.body.price,
-    image: req.body.image,
+    ...req.body,
     created_at: new Date(),
   });
 
@@ -23,16 +18,17 @@ router.post("/postInfos", (req, res, next) => {
   });
 });
 
-router.get("", (req, res, next) => {
-  Post.find().then((documents) => {
+router.post("", (req, res) => {
+  Post.find({ userFrom: req.body.userFrom }).exec((err, posts) => {
+    if (err) return res.status(400).send(err);
     res.status(200).json({
       message: "Posts fetched successfully!",
-      posts: documents,
+      posts: posts,
     });
   });
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", (req, res) => {
   Post.findById(req.params.id).then((post) => {
     if (post) {
       res.status(200).json(post);
@@ -42,17 +38,17 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
-router.delete("/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
-    if (result.n > 0) {
-      res.status(200).json({ message: "Deletion successful!" });
-    } else {
-      res.status(401).json({ message: "Not authorized!" });
-    }
+router.post('/removeAdd', (req, res) => {
+  Post.findOneAndDelete({
+    _id: req.body._id,
+    userFrom: req.body.userFrom,
+  }).exec((err, doc) => {
+    if (err) return res.status(400).json({ success: false, err });
+    res.status(200).json({ success: true, doc });
   });
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", (req, res) => {
   Post.updateOne({ _id: req.params.id }, req.body).then((result) => {
     if (result.modifiedCount > 0) {
       res.status(200).json({ message: "Update successful!" });
