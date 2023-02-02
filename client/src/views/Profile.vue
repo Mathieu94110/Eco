@@ -3,7 +3,7 @@ import UserProfileCard from "@/components/User/UserProfileCard.vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { reactive, onMounted, inject, computed } from "vue";
 import { useStore } from "vuex";
-import userApi from "@/api/user";
+import { getProfile, updateUserInfos } from "@/api";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import type { UserInterface } from "@/shared/interfaces";
@@ -26,10 +26,11 @@ const userId = store?.state.user.userId;
 
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
-const getProfile = async (): Promise<void> => {
+const getUserProfile = async (): Promise<void> => {
   try {
-    const response = await userApi.getProfile(userId);
-    state.user = response.data.result;
+    const response = await getProfile(userId);
+    const jsonResponse = await response.json()
+    state.user = jsonResponse.result;
     state.isLoading = false;
   } catch (e) {
     console.error(e);
@@ -38,8 +39,7 @@ const getProfile = async (): Promise<void> => {
 
 const UpdateInfos = async (data: UserInterface): Promise<void> => {
   try {
-
-    await userApi.updateUserInfos(data);
+    await updateUserInfos(data);
     toast("Vos informations ont bien été mises à jour !", "success");
   } catch (e: any) {
     console.error(e);
@@ -48,7 +48,7 @@ const UpdateInfos = async (data: UserInterface): Promise<void> => {
 };
 
 onMounted(async (): Promise<void> => {
-  await getProfile();
+  await getUserProfile();
 });
 </script>
 

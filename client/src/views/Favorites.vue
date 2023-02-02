@@ -6,7 +6,7 @@ import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard.vue";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import addsApi from "../api/adds";
+import { getFavorites, removeFromFavorites } from "../api/adds";
 import type { FakeAddInterface } from "@/shared/interfaces";
 
 const state = reactive<{
@@ -34,9 +34,10 @@ const variable: { userFrom: string } = {
 const getUserFavorites = async (): Promise<void> => {
   try {
     state.isLoading = true;
-    const { data } = await addsApi.getFavorites(variable);
-    if (data.posts) {
-      state.favorites = data.posts;
+    const data = await getFavorites(variable);
+    const response = await data.json();
+    if (response.posts) {
+      state.favorites = response.posts;
       state.isLoading = false;
     }
   } catch (error) {
@@ -63,16 +64,14 @@ const deleteAdd = async (add: FakeAddInterface): Promise<void> => {
         id: add.id,
         userFrom: userId
       };
-      const response = await addsApi.removeFromFavorites(variables);
-      console.log(response);
-
-      if (response.data.success) {
+      const response = await removeFromFavorites(variables);
+      if (response.ok) {
         toast("L'annonce a bien été supprimée !", "success");
         state.favorites = state.favorites.filter(
           (favorite) => favorite._id !== add._id
         );
       } else {
-        alert('Failed to Remove From Favorite');
+        toast("Érreur lors de la suppression de l'annonce !", "error");
       }
     }
   } catch (e: unknown) {

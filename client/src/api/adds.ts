@@ -1,72 +1,54 @@
-import type { FakeAddInterface, UserAddInterface } from "@/shared/interfaces";
-import axios, { type AxiosPromise } from "axios";
-import http from "./index";
+import type { UserAddInterface } from "@/shared/interfaces";
 
-const getFakeAdds = async (): AxiosPromise<any> =>
-  axios.get("https://dummyjson.com/products?limit=50");
+const api = "http://localhost:3000/api";
 
-const getUserAddById = async (id: string): AxiosPromise<FakeAddInterface> =>
-  axios.get(`http://localhost:3000/api/posts/${id}`);
+export const getFakeAdds = async (): Promise<any> => await fetch("https://dummyjson.com/products?limit=50");
 
-const getUserAdds = async (variable: any): Promise<any> => {
-  try {
-    let response = await axios.post(
-      'http://localhost:3000/api/posts',
-      variable
-    );
-    return response;
-  } catch (err) {
-    return "Erreur lors de vos annonces";
-  }
-};
+export const getUserAddById = async (id: string): Promise<any> => await fetch(`http://localhost:3000/api/posts/${id}`)
 
-const deleteUserAdd = async (variables: any): Promise<any> => {
-  try {
-    let response = await axios.post(
-      'http://localhost:3000/api/posts/removeAdd',
-      variables
-    );
-    return response;
-  } catch (err) {
-    return 'Erreur lors de la suppression du cocktail de vos favoris';
-  }
-};
+export const getUserAdds = async (variable: any): Promise<any> => await fetch(`${api}/posts`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(variable)
+});
 
-const updateUserAdd = async (data: UserAddInterface): Promise<UserAddInterface> => {
-  const id = data._id;
-  return http.put(`/posts/${id}`, data);
-};
+export const deleteUserAdd = async (variables: any): Promise<any> =>
+  await fetch(`${api}/posts/removeAdd`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(variables)
+  });
 
-const getFavorites = async (variable: any): Promise<any> => {
-  try {
-    let response = await axios.post(
-      'http://localhost:3000/api/favorites',
-      variable
-    );
-    return response;
-  } catch (err) {
-    return "Erreur lors de l'ajout du cocktail à vos favoris";
-  }
-};
+export const updateUserAdd = async (data: UserAddInterface): Promise<any> =>
+  await fetch(
+    `${api}/posts/${data._id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 
-const removeFromFavorites = async (variables: any): Promise<any> => {
-  try {
-    let response = await axios.post(
-      'http://localhost:3000/api/favorites/removeFromFavorites',
-      variables
-    );
-    return response;
-  } catch (err) {
-    return 'Erreur lors de la suppression du cocktail de vos favoris';
-  }
-};
+export const getFavorites = async (variable: any): Promise<any> =>
+  await fetch(`${api}/favorites`, {
+    method: "POST",
+    body: JSON.stringify(variable),
+    headers: {
+      "Content-Type": "application/json"
+    },
+  });
 
-export default {
-  getFakeAdds,
-  getUserAddById,
-  getUserAdds,
-  deleteUserAdd,
-  updateUserAdd,
-  getFavorites,
-  removeFromFavorites,
-};
+export const removeFromFavorites = async (variables: any): Promise<any> =>
+  await fetch(`${api}/favorites/removeFromFavorites`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(variables)
+  });

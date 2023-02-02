@@ -1,15 +1,17 @@
-import axios from "axios";
-import http from "./index";
-const apiUrl = "http://localhost:3000/api";
+const userApi = "http://localhost:3000/api/user";
 
-const getProfile = (id: any) => axios.get(`${apiUrl}/user/${id}`);
+export const getProfile = async (id: string) => await fetch(`${userApi}/${id}`);
 
-const updateUserInfos = (data: any) => {
-  const id = data._id;
-  return http.put(`/user/${id}`, data);
-};
+export const updateUserInfos = async (data: any) => {
 
-export default {
-  getProfile,
-  updateUserInfos,
+  await fetch(
+    `${userApi}/${data._id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
 };

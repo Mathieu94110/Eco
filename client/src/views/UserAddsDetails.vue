@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, computed, reactive, onMounted, type Component } from "vue";
-import addsApi from "@/api/adds";
+import { getUserAddById, updateUserAdd } from "@/api";
 import Card from "@/components/Card/Card.vue";
 import EditCard from "@/components/Card/EditCard.vue";
 import { useRouter, useRoute } from "vue-router";
@@ -36,8 +36,9 @@ onMounted(async (): Promise<void> => {
   try {
     state.isLoading = true;
     const userAddId = route.params.id as string;
-    const response = await addsApi.getUserAddById(userAddId);
-    state.userAdd = response.data;
+    const data = await getUserAddById(userAddId);
+    const response = await data.json();
+    state.userAdd = response;
     state.isLoading = false;
   } catch (error) {
     console.log(error);
@@ -53,7 +54,7 @@ const switchActive = (): void => {
 };
 const updateUserCard = async (card: UserAddInterface): Promise<void> => {
   try {
-    await addsApi.updateUserAdd(card);
+    await updateUserAdd(card);
     toast("L'annonce a été mise à jour !", "success");
   } catch (err) {
     toast("Aucun changement détecté !", "warning");

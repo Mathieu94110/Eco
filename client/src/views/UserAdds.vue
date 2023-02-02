@@ -2,7 +2,7 @@
 import Table from "@/components/Table/Table.vue";
 import Pagination from "@/components/Pagination/Pagination.vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import addsApi from "@/api/adds";
+import { getUserAdds, deleteUserAdd } from "@/api";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import { reactive, inject, onMounted, computed } from "vue";
@@ -62,14 +62,15 @@ const setTable = (data: { page: number; perPage: number }) => {
   state.pagination = data;
 };
 const getAdds = async (): Promise<void> => {
+  state.isLoading = true;
   try {
     const variable: { userFrom: string } = {
       userFrom: store.state.user.userId
     };
-    state.isLoading = true;
-    const { data } = await addsApi.getUserAdds(variable);
-    if (data.posts) {
-      state.tableData = data.posts;
+    const data = await getUserAdds(variable);
+    const response = await data.json();
+    if (response.posts) {
+      state.tableData = response.posts;
       state.isLoading = false;
     }
   } catch (error) {
@@ -84,12 +85,12 @@ const deleteAdd = async (add: UserAddInterface): Promise<void> => {
       userFrom: store.state.user.userId
     };
     if (add._id) {
-      const response = await addsApi.deleteUserAdd(variables);
-      if (response.data.success) {
+      const response = await deleteUserAdd(variables);
+      if (response.ok) {
         toast("L'annonce a bien été supprimée !", "success");
         state.tableData = state.tableData.filter(data => data._id !== add._id);
       } else {
-        alert('Failed to Remove From Favorite');
+        toast("Érreur de lors de la suppression de l'annonce !", "error");
       }
     }
   } catch (e) {

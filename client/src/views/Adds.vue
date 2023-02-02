@@ -7,7 +7,7 @@ import Calc from "@/components/Calc/Calc.vue";
 import { useStore } from "vuex";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import addsApi from "../api/adds";
+import { getFakeAdds } from "@/api";
 import type { FakeAddInterface, FilterUpdate } from "@/shared/interfaces";
 
 const state = reactive<{
@@ -41,9 +41,10 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 async function loadFakeAdds(): Promise<void> {
   try {
     state.isLoading = true;
-    const { data } = await addsApi.getFakeAdds();
-    if (data.products) {
-      state.adds = data.products;
+    const data = await getFakeAdds();
+    const response = await data.json();
+    if (response.products) {
+      state.adds = response.products;
       state.isLoading = false;
     } else {
       state.noResult = true;

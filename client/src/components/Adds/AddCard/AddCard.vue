@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
 import { useRoute } from "vue-router";
-import type { FakeAddInterface } from "../../../shared/interfaces/Add.interface";
+import type { FakeAddInterface } from "@/shared/interfaces";
 
 const props = defineProps<{
   add: FakeAddInterface;
