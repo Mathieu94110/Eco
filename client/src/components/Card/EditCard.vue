@@ -11,19 +11,25 @@ const state = reactive<{
   editCard: false,
   edit: false,
   card: {
+    _id: "",
+    userFrom: "",
+    image: "",
     title: "",
     description: "",
     category: "",
     price: 0,
-    image: "",
     created_at: "",
+    __v: 0,
   },
 });
 
 const props = defineProps<{
   add: UserAddInterface;
-  isEditMode: boolean;
 }>();
+
+const emit = defineEmits<{
+  (e: 'checkValues', add: UserAddInterface): void;
+}>()
 
 const onPickFile = (e: Event) => {
   state.edit = true;
@@ -42,33 +48,27 @@ const onPickFile = (e: Event) => {
   }
 };
 
-onMounted(() => {
-  if (props.add) {
-    state.card = props.add;
-  }
-});
-
 const title = computed({
   get() {
-    return state.card.title;
+    return props.add.title;
   },
   set(val) {
-    state.card.title = val;
+    state.card.title = val.trim();
   },
 });
 
 const description = computed({
   get() {
-    return state.card.description;
+    return props.add.description;
   },
   set(val) {
-    state.card.description = val;
+    state.card.description = val.trim();
   },
 });
 
 const price = computed({
   get() {
-    return state.card.price;
+    return props.add.price;
   },
   set(val) {
     state.card.price = val;
@@ -77,13 +77,30 @@ const price = computed({
 
 const category = computed({
   get() {
-    return state.card.category;
+    return props.add.category;
   },
   set(val) {
     state.card.category = val;
   },
 });
+const image = computed({
+  get() {
+    return props.add.image;
+  },
+  set(val) {
+    state.card.image = val;
+  },
+});
 
+const updateCard = () => {
+  const newValues = state.card;
+  for (const [key,] of Object.entries(newValues)) {
+    if (newValues[key] === '' || newValues[key] === 0) {
+      newValues[key] = props.add[key]
+    }
+  }
+  emit('checkValues', newValues)
+}
 watch(
   () => state.edit,
   (newValue: boolean) => (state.editCard = newValue)
@@ -93,22 +110,23 @@ watch(
 <template>
   <div class="edit-card">
     <div class="edit-card__validate-button-wrapper my-20">
-      <buttton v-if="props.isEditMode" type="button" class="btn btn-primary font-600"
-        @click="$emit('updateCard', state.card)">Valider</buttton>
+      <buttton type="button" class="btn btn-primary font-600" @click="updateCard()">Valider
+      </buttton>
     </div>
     <CardLayout v-if="props.add">
       <template #image>
         <div class="edit-card__product-img" v-if="!state.edit">
           <img class="edit-card__img" :src="props.add.image" height="200" alt="product-image" />
         </div>
-        <div v-else class="edit-card__imagePreviewed" :style="{ 'background-image': `url(${state.card.image})` }"></div>
+        <div v-else class="edit-card__imagePreviewed"
+          :style="{ 'background-image': `url(${state.card.image ? state.card.image : props.add.image})` }"></div>
         <label for="image">
           <input id="image" name="image" accept="image/*" type="file" @change="onPickFile($event)" />
         </label>
       </template>
       <template #title>
         <label for="title">
-          <input v-model="title" class="edit-card__inputs" />
+          <input v-model="title" type="text" class="edit-card__inputs" />
         </label>
       </template>
       <template #description>
@@ -118,7 +136,7 @@ watch(
       </template>
       <template #price>
         <label for="price">
-          <input v-model="price" class="edit-card__inputs" />
+          <input v-model="price" type='number' class="edit-card__inputs" />
         </label>
       </template>
       <template #date>

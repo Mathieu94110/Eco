@@ -41,7 +41,7 @@ onMounted(async (): Promise<void> => {
     state.userAdd = response;
     state.isLoading = false;
   } catch (error) {
-    console.log(error);
+    toast(`Échec de la récupération de l'annonce !`, "error");
   }
 });
 
@@ -52,15 +52,22 @@ const goBack = (): void => {
 const switchActive = (): void => {
   state.isEditMode = !state.isEditMode;
 };
+const checkValues = (card: UserAddInterface): void => {
+  let currentCardValue = state.userAdd;
+  JSON.stringify(card) === JSON.stringify(currentCardValue) ? toast("Aucun changement détecté !", "warning") : updateUserCard(card);
+};
+
 const updateUserCard = async (card: UserAddInterface): Promise<void> => {
   try {
     await updateUserAdd(card);
     toast("L'annonce a été mise à jour !", "success");
+    state.userAdd = card;
+    switchActive();
   } catch (err) {
-    toast("Aucun changement détecté !", "warning");
-    console.log(err);
+    toast("Érreur lors de la modification de l'annonce !", "warning");
   }
 };
+
 const isActive = computed<Component>(() =>
   state.isEditMode === true ? EditCard : Card
 );
@@ -82,7 +89,7 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
       </button>
     </div>
 
-    <component :is="isActive" :add="state.userAdd" :isEditMode="state.isEditMode" @updateCard="updateUserCard" />
+    <component :is="isActive" :add="state.userAdd" @checkValues="checkValues" />
   </div>
 </template>
 

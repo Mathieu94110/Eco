@@ -21,6 +21,7 @@ export interface UserAddInterface {
   price?: number;
   image: any;
   created_at?: string;
+  _v?: number;
 }
 
 export interface PageOptionsInterface {
