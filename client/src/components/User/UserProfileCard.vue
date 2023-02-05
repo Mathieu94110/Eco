@@ -3,7 +3,6 @@ import { reactive, defineProps, ref, computed, watch } from "vue";
 import mysteryImage from "@/assets/images/mystery-image.png";
 import type { newUserInfoInterface } from "@/shared/interfaces";
 
-// import mysteryImage from "../../assets/images/mystery-image.png";
 const state: newUserInfoInterface = reactive({
   newUserInfos: {},
 });

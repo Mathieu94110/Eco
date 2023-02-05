@@ -2,6 +2,7 @@
 import { defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 import type { UserAddInterface } from "@/shared/interfaces";
+import mysteryImage from "../../assets/images/mystery-image.png";
 
 const props = defineProps<{
   currentPost: UserAddInterface;
@@ -10,11 +11,11 @@ const props = defineProps<{
 
 <template>
   <div v-if="props.currentPost">
-    <CardLayout class="post-created">
-      <template #image class="post-created__img-wrapper">
+    <CardLayout class="created-add">
+      <template #image class="created-add__img-wrapper">
         <img
-          :src="props.currentPost.image"
-          class="post-created__img-content"
+          :src="props.currentPost.image ? props.currentPost.image : mysteryImage"
+          class="created-add__img-content"
           alt="product-image"
         />
       </template>
@@ -27,7 +28,10 @@ const props = defineProps<{
       <template #price>
         <span>{{ props.currentPost.price }} €</span>
       </template>
-      <template class="favorite-card__category" #category>
+      <template #date>
+        <span>{{ new Date().toLocaleDateString() }}</span>
+      </template>
+      <template #category>
         <span>{{ props.currentPost.category }}</span>
       </template>
     </CardLayout>
@@ -37,8 +41,7 @@ const props = defineProps<{
 <style lang="scss" scoped>
 @use "../../assets/scss/mixins" as m;
 
-.post-created {
-  width: 80%;
+.created-add {
   &__img-wrapper {
     height: 114px;
     margin-bottom: 20px;
@@ -52,16 +55,16 @@ const props = defineProps<{
     margin: 14px auto;
     background-size: cover;
     background-position: center center;
-    overflow: none;
+        overflow: none;
   }
 }
 @media (max-width: 768px) {
-  .post-created {
-    margin: auto;
+  .created-add {
+    margin: 0px auto 20px;
   }
 }
 @include m.sm {
-  .post-created {
+  .created-add {
     height: 630px;
     width: 320px;
     &__img-wrapper {

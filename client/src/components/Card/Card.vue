@@ -37,7 +37,7 @@ watch(
     <template #price>
       <span>{{ props.add.price }} €</span>
     </template>
-    <template #created_at>
+    <template #date>
       <span>{{ createdDate }}</span>
     </template>
     <template #category>

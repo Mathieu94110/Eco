@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import PostAdd from "@/views/PostAdd.vue";
+import CreateAdd from "@/views/CreateAdd.vue";
 import { createStore } from "vuex";
 import { beforeEach, describe, it, expect } from "vitest";
 
@@ -14,10 +14,10 @@ const store = createStore({
     };
   },
 });
-describe("PostAdd Component", () => {
+describe("CreateAdd Component", () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(PostAdd, {
+    wrapper = mount(CreateAdd, {
       data() {
         return {
           post: null,
@@ -30,13 +30,13 @@ describe("PostAdd Component", () => {
     });
   });
 
-  it("should post-create component exist  ", async () => {
-    const postCreateComponent = wrapper.findComponent({ ref: "post-create" });
-    expect(postCreateComponent.exists()).toBe(true);
+  it("should create-add component exist  ", async () => {
+    const createAddComponent = wrapper.findComponent({ ref: "create-add" });
+    expect(createAddComponent.exists()).toBe(true);
   });
 
-  it("should post-created component not exist on the beginning", () => {
-    const postCreated = wrapper.findComponent({ ref: "#post-created" });
-    expect(postCreated.exists()).toBe(false);
+  it("should createdAddCard component not exist on the beginning", () => {
+    const createdAddCard = wrapper.findComponent({ ref: "#created-add" });
+    expect(createdAddCard.exists()).toBe(false);
   });
 });

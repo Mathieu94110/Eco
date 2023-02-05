@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, reactive, watch, ref, inject } from "vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import PostCreate from "@/components/Posts/PostCreate/PostCreate.vue";
-import PostCreated from "@/components/Posts/PostCreated.vue";
+import CreatedAddCard from "@/components/CreatedAddCard/CreatedAddCard.vue";
 import { useStore } from "vuex";
 import type { UserAddInterface } from "@/shared/interfaces";
+import CreateAddCard from "../components/CreateAddCard/CreateAddCard.vue";
 
 const state = reactive<{
   post: UserAddInterface;
   showCreatedPost: boolean;
+  isAddCancel: boolean;
 }>({
   post: {
     userFrom: "",
@@ -19,6 +20,7 @@ const state = reactive<{
     category: "",
   },
   showCreatedPost: false,
+  isAddCancel: false
 });
 
 const toastMsg = inject("toastMsg") as any;
@@ -62,7 +64,6 @@ const submitAdd = async (): Promise<void> => {
       price: null,
       category: "",
     });
-
     isAddCreated.value = false;
     state.showCreatedPost = false;
     toastMsg("L'annonce a bien été postée!", "success");
@@ -71,7 +72,8 @@ const submitAdd = async (): Promise<void> => {
   }
 };
 
-const resetAdd = async () => {
+
+ const cancelAdd = async () => {
   try {
     await store.dispatch("resetForm", {
       userFrom: "",
@@ -84,11 +86,12 @@ const resetAdd = async () => {
 
     isAddCreated.value = false;
     state.showCreatedPost = false;
+    state.isAddCancel = true;
     toastMsg("L'annonce a bien été annulée !", "info");
   } catch (e) {
     console.error(e);
   }
-};
+}; 
 
 const currentPost = computed<UserAddInterface>(() => store?.state.currentPost);
 
@@ -98,16 +101,15 @@ watch(currentPost, (newValue: UserAddInterface): void => {
 </script>
 
 <template>
-  <div class="post-add-container">
+  <div class="create-add">
     <Toolbar> Poster une annonce </Toolbar>
-    <div class="post-add-container__items" :style="{
+    <div class="create-add__items" :style="{
       marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
     }">
-      <div class="post-add-container__items-wrapper">
-        <PostCreate ref="post-create" :isAddCreated="isAddCreated" @create-add="createAdd" @submit-add="submitAdd"
-          @reset-add="resetAdd"></PostCreate>
-        <Transition name="nested">
-          <PostCreated v-if="state.showCreatedPost" :currentPost="state.post" ref="post-created"></PostCreated>
+      <div class="create-add__items-wrapper">
+        <CreateAddCard :isAddCreated="isAddCreated" :isAddCancel="state.isAddCancel"  @create-add="createAdd" @cancel-add="cancelAdd" @submit-add="submitAdd"></CreateAddCard>
+        <Transition name="nested"> 
+          <CreatedAddCard v-if="state.showCreatedPost" :currentPost="state.post" ref="created-add"></CreatedAddCard>
         </Transition>
       </div>
     </div>
@@ -117,10 +119,9 @@ watch(currentPost, (newValue: UserAddInterface): void => {
 <style lang="scss" scoped>
 @use "../assets/scss/mixins" as m;
 
-.post-add-container {
+.create-add {
   align-items: center;
   display: block;
-
   &__items {
     display: block;
     margin: 0;
@@ -139,8 +140,8 @@ watch(currentPost, (newValue: UserAddInterface): void => {
   }
 }
 
-@include m.md {
-  .post-add-container {
+@include m.lg {
+  .create-add {
     height: 100%;
     width: 100%;
     align-items: center;

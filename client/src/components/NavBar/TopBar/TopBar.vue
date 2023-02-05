@@ -53,7 +53,7 @@ const logOut = (): void => {
             <NavLink to="/adds" icon="fa-solid fa-handshake-angle"
               ><span>Annonces</span></NavLink
             >
-            <NavLink to="/post-add" icon="fas fa-pencil-alt"
+            <NavLink to="/create-add" icon="fas fa-pencil-alt"
               ><span>Déposer une annonce</span></NavLink
             >
             <NavLink to="/user-adds" icon="fas fa-pencil-alt"

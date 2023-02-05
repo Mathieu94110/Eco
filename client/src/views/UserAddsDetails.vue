@@ -75,11 +75,11 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 </script>
 
 <template>
-  <div class="add-details" :style="{
+  <div class="user-add-details" :style="{
     marginLeft: isMobile ? 'auto' : sideBarClosed ? '75px' : '270px',
   }">
     <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
-    <div class="add-details__header">
+    <div class="user-add-details__header-buttons">
       <button class="btn btn-primary" type="button" @click="goBack()">
         Retour
       </button>
@@ -94,12 +94,12 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 </template>
 
 <style lang="scss">
-.add-details {
+.user-add-details {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  &__header {
+  &__header-buttons {
     width: 100%;
     height: 80px;
     display: flex;

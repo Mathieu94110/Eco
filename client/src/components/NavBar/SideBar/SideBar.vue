@@ -71,7 +71,7 @@ const formatSideBar = (value: boolean): void => {
         icon="fa-solid fa-handshake-angle"
         ><span>Annonces</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/post-add" icon="fas fa-pencil-alt"
+      <NavLink class="side-bar__link" to="/create-add" icon="fas fa-pencil-alt"
         ><span>Déposer une annonce</span></NavLink
       >
       <NavLink class="side-bar__link" to="/user-adds" icon="fas fa-pencil-alt"

@@ -19,9 +19,9 @@ const routes = [
     component: () => import('../views/Adds.vue'),
   },
   {
-    name: 'PostAdd',
-    path: '/post-add',
-    component: () => import('../views/PostAdd.vue'),
+    name: 'CreateAdd',
+    path: '/create-add',
+    component: () => import('../views/CreateAdd.vue'),
   },
   {
     name: 'UserAdds',

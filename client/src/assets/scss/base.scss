@@ -17,9 +17,11 @@
   --font-family: 'Poppins', 'Roboto', sans-serif;
   --sidebar-item-active: #15263f;
 }
+
 * {
   box-sizing: border-box;
 }
+
 p,
 h1,
 h2,
@@ -36,6 +38,7 @@ ul {
 img {
   max-width: 100%;
 }
+
 body {
   min-height: 100vh;
   padding: 0;
@@ -53,16 +56,20 @@ body {
 .p-20 {
   padding: 20px;
 }
+
 .pl-5 {
   padding-left: 5px;
 }
+
 .pl-10 {
   padding-left: 10px;
 }
+
 .px-10 {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .py-10 {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -72,10 +79,12 @@ body {
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .px-30 {
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .py-20 {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -106,6 +115,7 @@ body {
 .mt-10 {
   margin-top: 10px;
 }
+
 .mt-20 {
   margin-top: 20px;
 }
@@ -130,6 +140,7 @@ body {
   margin-left: 10px;
   margin-right: 10px;
 }
+
 .my-10 {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -139,6 +150,7 @@ body {
   margin-left: 20px;
   margin-right: 20px;
 }
+
 .my-20 {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -151,10 +163,12 @@ body {
 .m-30 {
   margin: 30px;
 }
+
 // flexbox
 .d-flex {
   display: flex;
 }
+
 .flex-row {
   flex-direction: row;
 }
@@ -162,39 +176,54 @@ body {
 .flex-column {
   flex-direction: column;
 }
+
 .flex-fill {
   flex: 1 1 auto;
 }
+
 .justify-center {
   justify-content: center;
 }
+
 .align-center {
   align-items: center;
 }
+
 .justify-end {
   justify-content: flex-end;
 }
+
+.text-center {
+  text-align: center;
+}
+
 .center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .primary {
   color: var(--primary-2);
 }
+
 .danger {
   color: var(--danger-2);
 }
+
 .default-color {
   color: var(--gray-3);
 }
+
 .font-600 {
   font-weight: 600;
 }
+
 .color-white {
   color: var(--primary-color);
 }
+
 //buttons
 
 .btn {
@@ -209,14 +238,22 @@ body {
 .btn-primary {
   background-color: var(--primary-1);
   color: var(--text-primary-color);
+
   &:hover {
     background-color: var(--primary-2);
   }
 }
 
+
+input:disabled {
+  pointer-events: none;
+  opacity: .65;
+}
+
 .btn-danger {
   background-color: var(--danger-1);
   color: var(--text-primary-color);
+
   &:hover {
     background-color: var(--danger-2);
   }
@@ -225,6 +262,7 @@ body {
 .btn-success {
   background-color: var(--success-1);
   color: var(--text-primary-color);
+
   &:hover {
     background-color: var(--success-2);
   }
@@ -234,12 +272,14 @@ body {
   color: #000;
   cursor: not-allowed;
   background: none;
+
   &:hover {
     color: #000;
     background-color: var(--danger-1);
     border: 2px solid #000;
   }
 }
+
 .hide-xs {
   @include mixins.xs {
     display: none;

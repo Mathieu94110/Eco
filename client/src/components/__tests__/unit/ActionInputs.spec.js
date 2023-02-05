@@ -1,10 +1,10 @@
-import PostCreateButtons from '@/components/Posts/PostCreate/PostCreateInputs/PostCreateButtons.vue';
+import ActionInputs from "@/components/CreateAddInputs/ActionInputs.vue";
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 
 describe('Emitter', () => {
   it('should emits an event with two arguments', () => {
-    const wrapper = mount(PostCreateButtons, {
+    const wrapper = mount(ActionInputs, {
       props: {
         add: {
           title: 'crème nivea',
