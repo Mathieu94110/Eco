@@ -7,7 +7,7 @@ import Calc from "@/components/Calc/Calc.vue";
 import { useStore } from "vuex";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import { getFakeAdds } from "@/api";
+import { getFakeAdds  } from "@/api";
 import type { FakeAddInterface, FilterUpdate } from "@/shared/interfaces";
 
 const state = reactive<{
@@ -57,6 +57,7 @@ async function loadFakeAdds(): Promise<void> {
 }
 
 function addToFavorites(add: FakeAddInterface) {
+  
   const userFavorite = { ...add, userFrom: currentUser.value };
   store.dispatch("sendFavorite", userFavorite).then(() => {
     toast("L'annonce a été ajoutée à vos favoris !", "success");

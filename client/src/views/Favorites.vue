@@ -6,7 +6,7 @@ import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard.vue";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import { getFavorites, removeFromFavorites } from "../api/adds";
+import { getFavorites, removeFromFavorites } from "@/api";
 import type { FakeAddInterface } from "@/shared/interfaces";
 
 const state = reactive<{
