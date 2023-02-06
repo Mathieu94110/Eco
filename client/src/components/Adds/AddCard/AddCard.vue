@@ -1,53 +1,29 @@
 <script setup lang="ts">
-import { onMounted, reactive, computed,watch, ref, defineProps } from "vue";
+import { reactive, computed, watch, ref, defineProps } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-import { getFavorites } from "@/api";
 import type { FakeAddInterface } from "@/shared/interfaces";
 
 const state = reactive<{
-  favorites: FakeAddInterface[];
   isOnFavorite: boolean;
 }>({
-  favorites: [], isOnFavorite: false
+  isOnFavorite: false
 });
 
 const props = defineProps<{
   add: FakeAddInterface;
+  favorites: FakeAddInterface[];
 }>();
 
 const emit = defineEmits<{
   (e: "add-item", add: FakeAddInterface): void;
 }>();
 const route = useRoute();
-const store = useStore();
 const isFavoritePage = computed(() => route.name === "FavoritesDetails");
-const userId = store?.state.user.userId;
-const variable: { userFrom: string } = {
-  userFrom: userId
-};
 const isFavorited = ref<boolean>(false);
 
-const getUserFavorites = async (): Promise<void> => {
-  try {
-    const data = await getFavorites(variable);
-    const response = await data.json();
-    if (response.posts) {
-      state.favorites = response.posts;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-onMounted(async () => {
-  await getUserFavorites();
-});
-watch(
-  () => state.favorites,
-  (newValue: FakeAddInterface[]) => (
-  isFavorited.value = newValue.some(el => el.id  === props.add.id )
-    )
-);
+watch([props.add, () => props.favorites], ([newAdds, newFavorites]) => {
+  isFavorited.value = newFavorites.some(favorite => favorite.id === newAdds.id)//
+})
 </script>
 
 <template>
@@ -103,8 +79,9 @@ watch(
           <span class="card__price-items">Catégorie:</span>
           <span class="card__category-items">{{ props.add.category }}</span>
         </div>
-        <div>
-          <span @click="emit('add-item', props.add)" class="card__heart" :style="{color: isFavorited ? 'var(--danger-1)' : 'var(--primary-1)' }">
+        <div v-if="!isFavoritePage">
+          <span @click="emit('add-item', props.add)" class="card__heart"
+            :style="{ color: isFavorited ? 'var(--danger-1)' : 'var(--primary-1)' }">
             <i class="fas fa-heart"></i>
           </span>
         </div>
@@ -280,6 +257,7 @@ watch(
 
   &__heart {
     padding: 10px;
+
     &:hover {
       cursor: pointer;
     }

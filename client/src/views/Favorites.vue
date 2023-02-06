@@ -57,21 +57,21 @@ const sendFavoriteDetails = async (add: FakeAddInterface): Promise<void> => {
     console.error(e);
   }
 };
-const deleteAdd = async (add: FakeAddInterface): Promise<void> => {
+const deleteFavorite = async (add: FakeAddInterface): Promise<void> => {
   try {
-    if (add.id) {
+    if (add._id) {
       const variables = {
         id: add.id,
         userFrom: userId
       };
       const response = await removeFromFavorites(variables);
       if (response.ok) {
-        toast("L'annonce a bien été supprimée !", "success");
+        toast("L'annonce a bien été retirée de vos favoris !", "success");
         state.favorites = state.favorites.filter(
           (favorite) => favorite._id !== add._id
         );
       } else {
-        toast("Érreur lors de la suppression de l'annonce !", "error");
+        toast("Érreur lors du retrait de l'annonce de vos favoris!", "error");
       }
     }
   } catch (e: unknown) {
@@ -91,8 +91,8 @@ onMounted(async () => {
     marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
   }">
     <TransitionGroup name="list" tag="ul" class="favorites">
-      <FavoriteCard v-for="add in state.favorites" :key="add.id" :add="add" @send-favorite="sendFavoriteDetails($event)"
-        @delete="deleteAdd($event)" />
+      <FavoriteCard v-for="add in state.favorites" :key="add._id" :add="add"
+        @send-favorite="sendFavoriteDetails($event)" @delete="deleteFavorite($event)" />
     </TransitionGroup>
   </div>
   <div v-else class="favorites__empty-wrapper center">

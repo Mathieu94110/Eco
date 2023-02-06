@@ -7,11 +7,12 @@ import Calc from "@/components/Calc/Calc.vue";
 import { useStore } from "vuex";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import { getFakeAdds  } from "@/api";
+import { getFakeAdds, getFavorites, removeFromFavorites } from "@/api";
 import type { FakeAddInterface, FilterUpdate } from "@/shared/interfaces";
 
 const state = reactive<{
   adds: FakeAddInterface[] | [];
+  favorites: FakeAddInterface[] | [];
   noResult: boolean;
   message: string;
   isLoading: boolean;
@@ -20,6 +21,7 @@ const state = reactive<{
   open: boolean;
 }>({
   adds: [],
+  favorites: [],
   noResult: false,
   message: "",
   isLoading: false,
@@ -35,8 +37,12 @@ const state = reactive<{
 const store = useStore();
 const toast: any = inject("toastMsg");
 const sideBarClosed = inject<boolean>("collapsed");
+const userId = store?.state.user.userId;
 const currentUser = computed<string>(() => store?.state.user.userId);
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
+const variable: { userFrom: string } = {
+  userFrom: userId
+};
 
 async function loadFakeAdds(): Promise<void> {
   try {
@@ -55,16 +61,47 @@ async function loadFakeAdds(): Promise<void> {
     state.message = "Erreur lors du chargement des annonces";
   }
 }
+const getUserFavorites = async (): Promise<void> => {
+  try {
 
-function addToFavorites(add: FakeAddInterface) {
-  
-  const userFavorite = { ...add, userFrom: currentUser.value };
-  store.dispatch("sendFavorite", userFavorite).then(() => {
-    toast("L'annonce a été ajoutée à vos favoris !", "success");
-  });
+    const data = await getFavorites(variable);
+    const response = await data.json();
+    if (response.posts) {
+      state.favorites = response.posts;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const toggleOnFavorites = async (add: FakeAddInterface): Promise<void> => {
+  const AddIsOnFavorite = state.favorites.some(
+    (favorite: FakeAddInterface) => favorite.id === add.id
+  );
+  if (AddIsOnFavorite) {
+    const variables = {
+      id: add.id,
+      userFrom: userId
+    };
+    const response = await removeFromFavorites(variables);
+    if (response.ok) {
+      toast("L'annonce a été retirée de vos favoris !", "success");
+      state.favorites = state.favorites.filter(
+        (favorite) => favorite.id !== add.id
+      );
+    } else {
+      toast("Érreur lors du retrait de l'annonce de vos favoris !", "error");
+    }
+  } else {
+    const userFavorite = { ...add, userFrom: currentUser.value };
+    store.dispatch("sendFavorite", userFavorite).then(() => {
+      toast("L'annonce a été ajoutée à vos favoris !", "success");
+      state.favorites = [...state.favorites, { ...add }];
+    })
+  }
 }
 
-function updateFilter(filterUpdate: FilterUpdate): void {
+const updateFilter = (filterUpdate: FilterUpdate): void => {
   if (filterUpdate.search !== undefined) {
     state.filters.search = filterUpdate.search;
   } else if (filterUpdate.priceRange) {
@@ -97,6 +134,7 @@ const filteredAdds = computed(
 
 onMounted(async () => {
   await loadFakeAdds();
+  await getUserFavorites();
 });
 </script>
 
@@ -123,7 +161,8 @@ onMounted(async () => {
           </button>
 
           <div class="adds__cards">
-            <AddCard v-for="add in filteredAdds" :key="add.id" :add="add" @add-item="addToFavorites(add)" />
+            <AddCard v-for="add in filteredAdds" :key="add.id" :add="add" :favorites="state.favorites"
+              @add-item="toggleOnFavorites(add)" />
           </div>
         </div>
       </div>
