@@ -76,7 +76,7 @@ describe("UserProfileCard", () => {
     expect(wrapper.vm.isEditMode).toBe(true);
   });
 
-  test("should updateUser emit with data", async () => {
+  test("should update-user emit with data", async () => {
     const wrapper = mount(UserProfileCard);
     await wrapper.find("#edit-profile").trigger("click");
     const newUserName = "JohnDoe";
@@ -98,8 +98,8 @@ describe("UserProfileCard", () => {
     const spy = vi.spyOn(wrapper.vm, "confirmInfo");
     await wrapper.find("#confirm-info").trigger("click");
     expect(spy).toHaveBeenCalled();
-    expect(wrapper.emitted("updateUser")).toHaveLength(1);
-    expect(wrapper.emitted("updateUser")[0][0]).toStrictEqual({
+    expect(wrapper.emitted("update-user")).toHaveLength(1);
+    expect(wrapper.emitted("update-user")[0][0]).toStrictEqual({
       userName: newUserName,
       firstName: newFirstName,
       lastName: newLastName,

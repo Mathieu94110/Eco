@@ -28,7 +28,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'checkValues', add: UserAddInterface): void;
+  (e: 'check-values', add: UserAddInterface): void;
 }>()
 
 const onPickFile = (e: Event) => {
@@ -99,7 +99,7 @@ const updateCard = () => {
       newValues[key] = props.add[key]
     }
   }
-  emit('checkValues', newValues)
+  emit('check-values', newValues)
 }
 watch(
   () => state.edit,

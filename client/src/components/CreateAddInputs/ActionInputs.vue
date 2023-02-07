@@ -8,24 +8,24 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "createAdd"): void;
-  (e: "submitAdd"): void;
-  (e: "cancelAdd"): void;
+  (e: "create-add"): void;
+  (e: "submit-add"): void;
+  (e: "cancel-add"): void;
 }>();
 </script>
 
 <template>
   <div v-if="props.isAddCreated" class="create-add-buttons__after">
-    <button class="btn btn-success" data-test="submit-button" @click.prevent="emit('submitAdd')">
+    <button class="btn btn-success" data-test="submit-button" @click.prevent="emit('submit-add')">
       <span class="font-600">Valider</span>
     </button>
     <br />
-    <button class="btn btn-danger" data-test="cancel-button" @click="emit('cancelAdd')">
+    <button class="btn btn-danger" data-test="cancel-button" @click="emit('cancel-add')">
       <span class="font-600">Annuler</span>
     </button>
   </div>
   <div v-else class="create-add-buttons__before">
-    <input type="button" value="Créer" class="btn btn-primary font-600" v-bind="$attrs" @click="emit('createAdd')"
+    <input type="button" value="Créer" class="btn btn-primary font-600" v-bind="$attrs" @click="emit('create-add')"
       id="create-button" />
   </div>
 </template>

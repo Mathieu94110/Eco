@@ -20,7 +20,7 @@ const state = reactive<{
   fullPage: true,
 });
 
-const toast: any = inject("toastMsg");
+const toast = inject("toastMsg") as Function;
 const store = useStore();
 const userId = store?.state.user.userId;
 
@@ -59,7 +59,7 @@ onMounted(async (): Promise<void> => {
     <div :style="{
       marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
     }" class="profile__card">
-      <UserProfileCard :userInfos="state.user" @update-user="UpdateInfos"></UserProfileCard>
+      <UserProfileCard :user-infos="state.user" @update-user="UpdateInfos"></UserProfileCard>
     </div>
   </div>
 </template>

@@ -35,8 +35,8 @@ const props = defineProps<{
     <template #favorite>
       <div class="favorite-card__actions">
         <span
-          @click="$emit('sendFavorite', add)"
-          @keydown="$emit('sendFavorite', add)"
+          @click="$emit('send-favorite', add)"
+          @keydown="$emit('send-favorite', add)"
           ><i class="fa fa-eye" aria-hidden="true"></i
         ></span>
         <Modal :add="props.add" v-bind="$attrs">

@@ -23,7 +23,7 @@ const state = reactive<{
   isAddCancel: false
 });
 
-const toastMsg = inject("toastMsg") as any;
+const toastMsg = inject("toastMsg") as Function;
 const sideBarClosed = inject<boolean>("collapsed");
 
 const store = useStore();
@@ -107,9 +107,9 @@ watch(currentPost, (newValue: UserAddInterface): void => {
       marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
     }">
       <div class="create-add__items-wrapper">
-        <CreateAddCard :isAddCreated="isAddCreated" :isAddCancel="state.isAddCancel"  @create-add="createAdd" @cancel-add="cancelAdd" @submit-add="submitAdd"></CreateAddCard>
+        <CreateAddCard :is-add-created="isAddCreated" :is-add-cancel="state.isAddCancel"  @create-add="createAdd" @cancel-add="cancelAdd" @submit-add="submitAdd"></CreateAddCard>
         <Transition name="nested"> 
-          <CreatedAddCard v-if="state.showCreatedPost" :currentPost="state.post" ref="created-add"></CreatedAddCard>
+          <CreatedAddCard v-if="state.showCreatedPost" :current-post="state.post" ref="created-add"></CreatedAddCard>
         </Transition>
       </div>
     </div>

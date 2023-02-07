@@ -25,8 +25,8 @@ const isActive = computed<Component>(() =>
     <div v-if="props.userAdds.length > 0" class="table__content">
       <component
         :is="isActive"
-        :userAdds="props.userAdds"
-        :userConfig="props.config"
+        :user-adds="props.userAdds"
+        :user-config="props.config"
         v-bind="$attrs"
       />
     </div>

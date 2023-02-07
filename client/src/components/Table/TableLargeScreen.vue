@@ -14,7 +14,7 @@ const props = defineProps<{
     <table>
       <thead>
         <tr>
-          <th v-for="(obj, ind) in props.userConfig" :key="ind">
+          <th v-for="(obj, index) in props.userConfig" :key="index">
             {{ obj.title }}
           </th>
         </tr>
@@ -25,7 +25,7 @@ const props = defineProps<{
           :key="index"
           :id="row['_id']"
         >
-          <td v-for="(obj, ind) in props.userConfig" :key="ind">
+          <td v-for="(obj, index) in props.userConfig" :key="index">
             <span v-if="obj.key === 'title'">{{ row[obj.key] }}</span>
             <span v-if="obj.key === 'created_at'"
               >{{ new Date(row[obj.key] as any).toLocaleDateString() }}

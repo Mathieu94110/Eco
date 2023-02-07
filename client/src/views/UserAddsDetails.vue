@@ -12,7 +12,7 @@ const sideBarClosed = inject("collapsed");
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const toast: any = inject("toastMsg");
+const toast = inject("toastMsg") as Function;
 
 const state = reactive<{
   component: string;
@@ -89,7 +89,7 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
       </button>
     </div>
 
-    <component :is="isActive" :add="state.userAdd" @checkValues="checkValues" />
+    <component :is="isActive" :add="state.userAdd" @check-values="checkValues" />
   </div>
 </template>
 

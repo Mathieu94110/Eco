@@ -4,7 +4,6 @@ import { useStore } from "vuex";
 import mysteryImage from "../../assets/images/mystery-image.png";
 
 export default {
-  props: ['reset'],
   setup(props, { emit }) {
     const state = reactive({
       currentImage: mysteryImage,

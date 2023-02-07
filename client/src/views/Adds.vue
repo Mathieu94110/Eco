@@ -35,7 +35,7 @@ const state = reactive<{
 });
 
 const store = useStore();
-const toast: any = inject("toastMsg");
+const toast = inject("toastMsg") as Function;
 const sideBarClosed = inject<boolean>("collapsed");
 const userId = store?.state.user.userId;
 const currentUser = computed<string>(() => store?.state.user.userId);
@@ -63,7 +63,6 @@ async function loadFakeAdds(): Promise<void> {
 }
 const getUserFavorites = async (): Promise<void> => {
   try {
-
     const data = await getFavorites(variable);
     const response = await data.json();
     if (response.posts) {
@@ -94,10 +93,13 @@ const toggleOnFavorites = async (add: FakeAddInterface): Promise<void> => {
     }
   } else {
     const userFavorite = { ...add, userFrom: currentUser.value };
-    store.dispatch("sendFavorite", userFavorite).then(() => {
+    try {
+      await store.dispatch("sendFavorite", userFavorite);
       toast("L'annonce a été ajoutée à vos favoris !", "success");
       state.favorites = [...state.favorites, { ...add }];
-    })
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
 

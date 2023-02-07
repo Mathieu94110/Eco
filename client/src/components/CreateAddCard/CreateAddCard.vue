@@ -2,17 +2,17 @@
   <div class="create-add-card">
     <div class="create-add-card__card">
       <div class="create-add-card__card-content">
-        <FileInput v-model="formData.image" :reset="isFormSubmitted" :disabled="$data.isInputsDisabled" />
+        <FileInput v-model="formData.image" :disabled="$data.isInputsDisabled" />
         <TextInputs label="Titre" v-model="v$.formData.title.$model" :errors="v$.formData.title.$errors"
-          :isValidData="!v$.formData.title.$invalid" :disabled="$data.isInputsDisabled" />
+          :is-valid-data="!v$.formData.title.$invalid" :disabled="$data.isInputsDisabled" />
           <TextInputs label="Description" v-model="v$.formData.description.$model" :errors="v$.formData.description.$errors"
-          :isValidData="!v$.formData.description.$invalid" :disabled="$data.isInputsDisabled" />
+          :is-valid-data="!v$.formData.description.$invalid" :disabled="$data.isInputsDisabled" />
         <TextInputs label="Prix" v-model="v$.formData.price.$model" :errors="v$.formData.price.$errors"
-          :isValidData="!v$.formData.price.$invalid" type="number" :disabled="$data.isInputsDisabled" />
+          :is-valid-data="!v$.formData.price.$invalid" type="number" :disabled="$data.isInputsDisabled" />
         <SelectInput label="Catégorie" v-model="v$.formData.category.$model" :errors="v$.formData.category.$errors"
-          :isValidData="!v$.formData.category.$invalid" :options="categories" :disabled="$data.isInputsDisabled" />
+          :is-valid-data="!v$.formData.category.$invalid" :options="categories" :disabled="$data.isInputsDisabled" />
         <div class="text-center">
-          <ActionInputs :add="$data.formData" :isAddCreated="$data.isFormSubmitted" :disabled="v$.$invalid"
+          <ActionInputs :add="$data.formData" :is-add-created="$data.isFormSubmitted" :disabled="v$.$invalid"
             @create-add="createAdd" @submit-add="submitAdd" @cancel-add="cancelAdd" v-bind="$attrs" />
         </div>
       </div>
@@ -67,7 +67,7 @@ export default {
 
   methods: {
     createAdd() {
-      this.$emit('createAdd', this.$data.formData);
+      this.$emit('create-add', this.$data.formData);
       this.$data.isInputsDisabled = true
     },
     submitAdd() {

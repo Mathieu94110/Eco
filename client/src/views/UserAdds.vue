@@ -12,7 +12,7 @@ import type { UserAddInterface } from "@/shared/interfaces";
 const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();
 const sideBarClosed = inject<boolean>("collapsed");
-const toast: any = inject("toastMsg");
+const toast = inject("toastMsg") as Function;
 const state = reactive<{
   perPageOptions: number[];
   tableData: UserAddInterface[];
@@ -122,9 +122,9 @@ onMounted(async () => {
     }" class="user-adds__content">
       <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
 
-      <Pagination v-if="state.tableData" :totalRecords="state.tableData.length" :perPageOptions="state.perPageOptions"
-        :isMobile="isMobile" @input="setTable($event)" />
-      <Table v-if="state.tableData" :userAdds="computedTableData" :config="state.config"
+      <Pagination v-if="state.tableData" :total-records="state.tableData.length" :per-page-options="state.perPageOptions"
+        :is-mobile="isMobile" @input="setTable($event)" />
+      <Table v-if="state.tableData" :user-adds="computedTableData" :config="state.config"
         :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }" @delete="deleteAdd($event)" />
     </div>
   </div>

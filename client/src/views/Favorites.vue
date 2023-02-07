@@ -20,7 +20,7 @@ const state = reactive<{
 });
 
 const sideBarClosed = inject("collapsed");
-const toast: any = inject("toastMsg");
+const toast = inject("toastMsg") as Function;
 
 const store = useStore();
 const router = useRouter();

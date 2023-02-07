@@ -3,7 +3,7 @@ import Login from "@/components/Login/Login.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import type { LoginData, UserInterface } from "@/shared/interfaces";
+import type { UserInterface } from "@/shared/interfaces";
 
 const store = useStore();
 const router = useRouter();

@@ -61,7 +61,7 @@ export default defineComponent({
     margin-bottom: 0.5rem !important;
 }
 
-.form-select { 
+.form-select {
     display: block;
     width: 100%;
     padding: 0.375rem 2.25rem 0.375rem 0.75rem;

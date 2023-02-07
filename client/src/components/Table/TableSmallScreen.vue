@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
   <table class="table-small__responsive">
-    <tr v-for="(obj, ind) in props.userConfig" :key="ind">
+    <tr v-for="(obj, index) in props.userConfig" :key="index">
       <th class="table-small__responsive-title">
         {{ obj.title }}
       </th>

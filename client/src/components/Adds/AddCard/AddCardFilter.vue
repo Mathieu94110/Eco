@@ -12,10 +12,10 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "updateFilter", filterUpdate: any): void;
+  (e: "update-filter", filterUpdate: any): void;
 }>();
 
-const sideBarClosed = inject("collapsed");
+const sideBarClosed = inject("collapsed") as Function;
 const rangeFilter = computed<[number, number]>(() => props.filters.priceRange);
 const categoryFilter = computed<Category>(() => props.filters.category);
 const numberOfAdds = computed<number>(() => props.adds.length);
@@ -32,7 +32,7 @@ const numberOfAdds = computed<number>(() => props.adds.length);
         <label for="search">
           <input
             @input="
-              $emit('updateFilter', {
+              $emit('update-filter', {
                 search: ($event.target as HTMLInputElement).value,
               })
             "
@@ -53,13 +53,13 @@ const numberOfAdds = computed<number>(() => props.adds.length);
             [1000, 2000],
             [2000, 9999],
           ] as [number, number][])"
-          v-bind:key="index"
+          :key="index"
         >
           <label for="priceRange">
             <input
               :checked="rangeFilter[0] === priceRange[0]"
               type="radio"
-              @input="emit('updateFilter', { priceRange })"
+              @input="emit('update-filter', { priceRange })"
               name="priceRange"
               :id="priceRange[0] + ''"
               class="mr-10"
@@ -104,9 +104,9 @@ const numberOfAdds = computed<number>(() => props.adds.length);
               'motorcycle',
               'lighting',
             ]as Category[])"
-            v-bind:key="index"
-            @click="emit('updateFilter', { category })"
-            @keydown="emit('updateFilter', { category })"
+            :key="index"
+            @click="emit('update-filter', { category })"
+            @keydown="emit('update-filter', { category })"
           >
             {{ category }}
           </p>
@@ -116,7 +116,7 @@ const numberOfAdds = computed<number>(() => props.adds.length);
         Nombre de résultats:
         <strong class="primary">{{ numberOfAdds }} </strong>
       </small>
-      <button class="btn btn-danger" @click="emit('updateFilter', {})">
+      <button class="btn btn-danger" @click="emit('update-filter', {})">
         Supprimer les filtres
       </button>
     </div>

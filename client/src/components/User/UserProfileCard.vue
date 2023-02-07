@@ -9,7 +9,7 @@ const state: newUserInfoInterface = reactive({
 
 const props = defineProps(["userInfos"]);
 
-const emit = defineEmits(["updateUser"]);
+const emit = defineEmits(["update-user"]);
 
 const isEditMode = ref(false);
 const fileInput = ref(null);
@@ -87,7 +87,7 @@ function editProfileInfo() {
   isEditMode.value = true;
 }
 function confirmInfo() {
-  emit("updateUser", state.newUserInfos);
+  emit("update-user", state.newUserInfos);
   isEditMode.value = false;
 }
 
