@@ -93,7 +93,6 @@ const deleteAdd = async (add: UserAddInterface): Promise<void> => {
 
 const computedTableData = computed<UserAddInterface[]>((): UserAddInterface[] | [] => {
   if (state.tableData.length === 0) return [];
-
   const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
   const lastIndex = state.pagination.page * state.pagination.perPage;
   return state.tableData.slice(firstIndex, lastIndex);

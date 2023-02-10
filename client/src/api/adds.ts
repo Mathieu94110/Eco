@@ -74,7 +74,7 @@ const UserFavoritesApi = {
     }),
 };
 
-export const getFakeAdds = await dummyApi.get<FakeAddInterface[]>("https://dummyjson.com/products?limit=50");
+export const getFakeAdds = async (): Promise<FakeAddInterface[]> => await dummyApi.get("https://dummyjson.com/products?limit=50");
 export const getUserAddById = async (id: string): Promise<UserInterface> => await userApi.getUserAddById<UserAddInterface>(apiUrl, id);
 export const getUserAdds = async (variable: { userFrom: string }): Promise<UserAddInterface[]> => await UserAddsApi.getAdds(`${apiUrl}/posts`, variable);
 export const updateUserAdd = async (variable: UserAddInterface): Promise<void> => await UserAddsApi.updateAdd(`${apiUrl}/posts`, variable);

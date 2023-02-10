@@ -8,6 +8,7 @@ export interface UserInterface {
   address?: string;
   password?: string;
   zip?: number;
+  _id: string;
 }
 export interface newUserInfoInterface {
   newUserInfos: UserInterface;

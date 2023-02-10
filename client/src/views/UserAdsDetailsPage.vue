@@ -26,7 +26,7 @@ const state = reactive<{
   component: "Card",
   isEditMode: false,
   userAdd: undefined,
-  loading: false,
+  loading: true,
   selection: 1,
   isLoading: false,
   fullPage: true,
@@ -34,7 +34,6 @@ const state = reactive<{
 
 onMounted(async (): Promise<void> => {
   try {
-    state.isLoading = true;
     const userAddId = route.params.id as string;
     const response = await getUserAddById(userAddId);
     state.userAdd = response;
@@ -63,7 +62,7 @@ const updateUserCard = async (card: UserAddInterface): Promise<void> => {
     state.userAdd = card;
     switchActive();
   } catch (err) {
-    toast("Érreur lors de la modification de l'annonce !", "warning");
+    toast("Erreur lors de la modification de l'annonce !", "warning");
   }
 };
 

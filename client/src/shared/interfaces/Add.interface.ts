@@ -13,8 +13,8 @@ export interface FakeAddInterface {
   title: string;
 }
 export interface UserAddInterface {
-  userFrom?: string,
-  _id?: string;
+  userFrom?: string;
+  _id: string;
   title: string;
   description: string;
   category: string;

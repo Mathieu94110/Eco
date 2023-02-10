@@ -24,7 +24,7 @@ const state = reactive<{
   favorites: [],
   noResult: false,
   message: "",
-  isLoading: false,
+  isLoading: true,
   fullPage: true,
   filters: {
     search: "",
@@ -46,8 +46,7 @@ const variable: { userFrom: string } = {
 
 async function loadFakeAdds(): Promise<void> {
   try {
-    state.isLoading = true;
-    const fakeAdds = await getFakeAdds;
+    const fakeAdds = await getFakeAdds();
     if (fakeAdds) {
       state.adds = fakeAdds;
       state.isLoading = false;

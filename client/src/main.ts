@@ -10,14 +10,14 @@ import store from "./store";
 import "@fortawesome/fontawesome-free/js/all";
 
 // rules for login form
-defineRule("required", (value: any) => {
+defineRule("required", (value: string) => {
   if (!value || !value.length) {
     return "Ce champs est requis";
   }
   return true;
 });
 
-defineRule("minLength", (value: any, [limit]: [limit: any]) => {
+defineRule("minLength", (value: string, [limit]: [limit: number]): string | boolean => {
   // The field is empty so it should pass
   if (!value || !value.length) {
     return true;
@@ -28,36 +28,6 @@ defineRule("minLength", (value: any, [limit]: [limit: any]) => {
   return true;
 });
 
-defineRule("title", (value: any) => {
-  if (!value || !value.length) {
-    return "Vous devez indiquer un titre";
-  }
-
-  return true;
-});
-
-defineRule("description", (value: any) => {
-  if (!value || !value.length) {
-    return "Vous devez indiquer une description";
-  }
-
-  return true;
-});
-
-defineRule("minMax", (value: any, [min, max]: [min: any, max: any]) => {
-  if (!value || !value.length) {
-    return true;
-  }
-  const numericValue = Number(value);
-  if (numericValue < min) {
-    return `Le prix doit etre au moins de ${min}`;
-  }
-  if (numericValue > max) {
-    return `Le prix maximum autorisé est de ${max}`;
-  }
-  return true;
-});
-//
 const app = createApp({
   extends: App,
 });

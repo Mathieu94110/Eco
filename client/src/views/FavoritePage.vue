@@ -15,7 +15,7 @@ const state = reactive<{
   fullPage: boolean;
 }>({
   favorites: [],
-  isLoading: false,
+  isLoading: true,
   fullPage: true,
 });
 
@@ -33,7 +33,6 @@ const variable: { userFrom: string } = {
 
 const getUserFavorites = async (): Promise<void> => {
   try {
-    state.isLoading = true;
     const response = (await getFavorites(variable)) as FakeAddInterface[];
     state.favorites = response;
     state.isLoading = false;
@@ -64,7 +63,7 @@ const deleteFavorite = async (add: FakeAddInterface): Promise<void> => {
     toast("L'annonce a bien été retirée de vos favoris !", "success");
     state.favorites = state.favorites.filter((favorite) => favorite._id !== add._id);
   } catch {
-    toast("Érreur lors du retrait de l'annonce de vos favoris!", "error");
+    toast("Erreur lors du retrait de l'annonce de vos favoris!", "error");
   }
 };
 

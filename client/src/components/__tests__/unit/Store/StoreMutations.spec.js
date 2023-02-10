@@ -1,9 +1,7 @@
-import { createStore } from 'vuex';
-import {
-  describe, expect, it, vi,
-} from 'vitest';
+import { createStore } from "vuex";
+import { describe, expect, it, vi } from "vitest";
 
-const axios = require('axios');
+const axios = require("axios");
 
 const userInstance = axios.create({
   baseURL: `${import.meta.env.VUE_APP_API_URL}/user`,
@@ -12,39 +10,39 @@ const userInstance = axios.create({
 const store = createStore({
   state() {
     return {
-      status: '',
+      status: "",
       user: {},
       isUserLogged: false,
       currentPost: {
-        image: '',
-        title: '',
-        description: '',
+        image: "",
+        title: "",
+        description: "",
         price: null,
-        category: '',
+        category: "",
       },
       userInfos: {
-        userName: '',
-        firstName: '',
-        lastName: '',
-        email: '',
+        userName: "",
+        firstName: "",
+        lastName: "",
+        email: "",
         image: null,
         phone: null,
-        address: '',
-        zip: '',
+        address: "",
+        zip: "",
       },
       favoriteDetails: {
-        _id: '',
+        _id: "",
         id: null,
-        brand: '',
-        category: '',
-        description: '',
+        brand: "",
+        category: "",
+        description: "",
         discountPercentage: null,
         images: null,
         price: null,
         rating: null,
         stock: null,
-        thumbnail: '',
-        title: '',
+        thumbnail: "",
+        title: "",
       },
       windowWidth: window.innerWidth,
     };
@@ -63,7 +61,7 @@ const store = createStore({
 
     logUser(state, user) {
       userInstance.defaults.headers.common.Authorization = user.token;
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
     userInfos(state, userInfos) {
@@ -75,9 +73,9 @@ const store = createStore({
     logOut(state) {
       state.user = {
         userId: -1,
-        token: '',
+        token: "",
       };
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
     },
     setFavoriteData(state, favoriteInfo) {
       state.favoriteDetails = favoriteInfo.favorite;
@@ -88,49 +86,49 @@ const store = createStore({
   },
 });
 
-describe('store mutations', () => {
-  it('should logUser update store state and localStorage user object', () => {
+describe("store mutations", () => {
+  it("should logUser update store state and localStorage user object", () => {
     const userInfos = {
       expiresIn: 3600,
-      token: 'eyJhbGciOiJIUzI...',
-      userId: '631f8g98b899f92dfa0f28a4',
+      token: "eyJhbGciOiJIUzI...",
+      userId: "631f8g98b899f92dfa0f28a4",
     };
-    vi.spyOn(Storage.prototype, 'setItem');
+    vi.spyOn(Storage.prototype, "setItem");
     Storage.prototype.setItem = vi.fn();
-    store.commit('logUser', userInfos);
+    store.commit("logUser", userInfos);
     expect(localStorage.setItem).toHaveBeenCalled();
     expect(store.state.user).toStrictEqual({
       expiresIn: 3600,
-      token: 'eyJhbGciOiJIUzI...',
-      userId: '631f8g98b899f92dfa0f28a4',
+      token: "eyJhbGciOiJIUzI...",
+      userId: "631f8g98b899f92dfa0f28a4",
     });
   });
 
-  it('should logOut remove userId and token from store and remove user data on localStorage', () => {
-    vi.spyOn(Storage.prototype, 'removeItem');
+  it("should logOut remove userId and token from store and remove user data on localStorage", () => {
+    vi.spyOn(Storage.prototype, "removeItem");
     Storage.prototype.removeItem = vi.fn();
-    store.commit('logOut');
+    store.commit("logOut");
     expect(store.state.user.userId).toBe(-1);
-    expect(store.state.user.token).toBe('');
+    expect(store.state.user.token).toBe("");
     expect(localStorage.removeItem).toHaveBeenCalled();
   });
 
-  it('should posts update', () => {
+  it("should posts update", () => {
     const newPost = {
-      image: 'mgpgkdkqsn.png',
-      title: 'coco chanel',
-      description: 'parfum neuf jamais déballé',
+      image: "mgpgkdkqsn.png",
+      title: "coco chanel",
+      description: "parfum neuf jamais déballé",
       price: 50,
-      category: 'cosmétiques',
+      category: "cosmétiques",
     };
-    store.commit('setPost', newPost);
+    store.commit("setPost", newPost);
     expect(localStorage.removeItem).toHaveBeenCalled();
     expect(store.state.currentPost).toStrictEqual({
-      image: 'mgpgkdkqsn.png',
-      title: 'coco chanel',
-      description: 'parfum neuf jamais déballé',
+      image: "mgpgkdkqsn.png",
+      title: "coco chanel",
+      description: "parfum neuf jamais déballé",
       price: 50,
-      category: 'cosmétiques',
+      category: "cosmétiques",
     });
   });
 });

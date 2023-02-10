@@ -1,5 +1,5 @@
 <script lang="ts">
-import NavBar from "@/components/NavBar/NavBar.vue";
+import NavBar from "@/components/NavBar/NavBarComponent.vue";
 import { mapGetters } from "vuex";
 import store from "./store";
 

@@ -1,57 +1,40 @@
 <script setup lang="ts">
 import { computed, reactive, watch, ref, inject } from "vue";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import CreatedAddCard from "@/components/CreatedAddCard/CreatedAddCard.vue";
+import Toolbar from "@/components/Toolbar/ToolbarComponent.vue";
+import CreatedAddCard from "@/components/CreatedAddCard/CreatedAddCardComponent.vue";
 import { useStore } from "vuex";
 import type { UserAddInterface } from "@/shared/interfaces";
-import CreateAddCard from "../components/CreateAddCard/CreateAddCard.vue";
+import CreateAddCard from "../components/CreateAddCard/CreateAddCardComponent.vue";
 
 const state = reactive<{
   post: UserAddInterface;
   showCreatedPost: boolean;
   isAddCancel: boolean;
 }>({
-  post: {
-    userFrom: "",
-    image: "",
-    title: "",
-    description: "",
-    price: 0,
-    category: "",
-  },
+  post: {} as UserAddInterface,
   showCreatedPost: false,
-  isAddCancel: false
+  isAddCancel: false,
 });
 
-const toastMsg = inject("toastMsg") as Function;
+const toastMsg = inject("toastMsg") as (x: string, y: string) => void;
 const sideBarClosed = inject<boolean>("collapsed");
 
 const store = useStore();
 const isAddCreated = ref<boolean>(false);
-
 const currentUser = computed<string>(() => store?.state.user.userId);
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
-const postIsCreate = (): void => {
-  state.showCreatedPost = true;
-};
-
 const createAdd = async (add: UserAddInterface) => {
-  try {
-    await store.dispatch("createPost", {
-      userFrom: currentUser.value,
-      title: add.title,
-      description: add.description,
-      category: add.category,
-      price: add.price,
-      image: add.image,
-    });
-
-    postIsCreate();
-    isAddCreated.value = true;
-  } catch (e: unknown) {
-    toastMsg(e, "error");
-  }
+  await store.dispatch("createPost", {
+    userFrom: currentUser.value,
+    title: add.title,
+    description: add.description,
+    category: add.category,
+    price: add.price,
+    image: add.image,
+  });
+  state.showCreatedPost = true;
+  isAddCreated.value = true;
 };
 const submitAdd = async (): Promise<void> => {
   try {
@@ -72,8 +55,7 @@ const submitAdd = async (): Promise<void> => {
   }
 };
 
-
- const cancelAdd = async () => {
+const cancelAdd = async () => {
   try {
     await store.dispatch("resetForm", {
       userFrom: "",
@@ -91,24 +73,28 @@ const submitAdd = async (): Promise<void> => {
   } catch (e) {
     console.error(e);
   }
-}; 
+};
 
-const currentPost = computed<UserAddInterface>(() => store?.state.currentPost);
-
-watch(currentPost, (newValue: UserAddInterface): void => {
-  state.post = newValue;
-});
+watch(
+  () => store?.state.currentPost,
+  (newValue: UserAddInterface) => {
+    state.post = newValue;
+  }
+);
 </script>
 
 <template>
   <div class="create-add">
     <Toolbar> Poster une annonce </Toolbar>
-    <div class="create-add__items" :style="{
-      marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
-    }">
+    <div
+      class="create-add__items"
+      :style="{
+        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
+      }"
+    >
       <div class="create-add__items-wrapper">
-        <CreateAddCard :is-add-created="isAddCreated" :is-add-cancel="state.isAddCancel"  @create-add="createAdd" @cancel-add="cancelAdd" @submit-add="submitAdd"></CreateAddCard>
-        <Transition name="nested"> 
+        <CreateAddCard :is-add-created="isAddCreated" :is-add-cancel="state.isAddCancel" @create-add="createAdd" @cancel-add="cancelAdd" @submit-add="submitAdd"></CreateAddCard>
+        <Transition name="nested">
           <CreatedAddCard v-if="state.showCreatedPost" :current-post="state.post" ref="created-add"></CreatedAddCard>
         </Transition>
       </div>
