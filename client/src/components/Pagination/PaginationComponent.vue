@@ -49,6 +49,16 @@ const changePage = (val: number): void => {
   }
   emit("input", { page: state.page, perPage: state.perPage });
 };
+
+// due to deleteAdd action
+const isCurentPageInvalid = computed(() => state.page > pages.value);
+
+watch(isCurentPageInvalid, (isInvalid) => {
+  if (isInvalid) {
+    state.page -= 1;
+    emit("input", { page: state.page, perPage: state.perPage });
+  }
+});
 </script>
 
 <template>

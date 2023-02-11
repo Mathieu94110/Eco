@@ -12,10 +12,6 @@ export default {
     const fileInput: Ref<HTMLInputElement | null> = ref(null);
     const store = useStore();
     const storeImage = computed(() => store?.state.currentPost.image);
-    watch(storeImage, (newValue) => {
-      if (!newValue) state.currentImage = mysteryImage;
-      fileInput.value && fileInput.value.value === "";
-    });
     const onPickFile = (): void => {
       const file = fileInput.value && fileInput.value?.files ? fileInput.value.files : "";
       if (file && file[0]) {
@@ -26,6 +22,10 @@ export default {
         reader.readAsDataURL(file[0]);
       }
     };
+    watch(storeImage, (newValue) => {
+      if (!newValue) state.currentImage = mysteryImage;
+      fileInput.value && fileInput.value.value === "";
+    });
     watch(
       () => state.currentImage,
       (newValue) => {

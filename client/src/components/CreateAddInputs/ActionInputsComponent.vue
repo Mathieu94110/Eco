@@ -16,7 +16,7 @@ const emit = defineEmits<{
 
 <template>
   <div v-if="props.isAddCreated" class="create-add-buttons__after">
-    <button class="btn btn-success" data-test="submit-button" @click.prevent="emit('submit-add')">
+    <button class="btn btn-success" data-test="submit-button" @click="emit('submit-add')">
       <span class="font-600">Valider</span>
     </button>
     <br />

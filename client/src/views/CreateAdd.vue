@@ -5,6 +5,7 @@ import CreatedAddCard from "@/components/CreatedAddCard/CreatedAddCardComponent.
 import { useStore } from "vuex";
 import type { UserAddInterface } from "@/shared/interfaces";
 import CreateAddCard from "../components/CreateAddCard/CreateAddCardComponent.vue";
+import mysteryImage from "../assets/images/mystery-image.png";
 
 const state = reactive<{
   post: UserAddInterface;
@@ -31,7 +32,7 @@ const createAdd = async (add: UserAddInterface) => {
     description: add.description,
     category: add.category,
     price: add.price,
-    image: add.image,
+    image: add.image ? add.image : mysteryImage,
   });
   state.showCreatedPost = true;
   isAddCreated.value = true;
