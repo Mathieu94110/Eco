@@ -38,7 +38,7 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.post('/removeAdd', (req, res) => {
+router.post("/removeAd", (req, res) => {
   Post.findOneAndDelete({
     _id: req.body._id,
     userFrom: req.body.userFrom,

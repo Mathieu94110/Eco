@@ -2,15 +2,15 @@
 import { reactive, onMounted, computed, inject } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import Toolbar from "@/components/Toolbar/ToolbarComponent.vue";
-import FavoriteCard from "@/components/Card/FavoriteCardComponent.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import FavoriteCard from "@/components/Card/FavoriteCard.vue";
+import { getFavorites, removeFromFavorites } from "@/api";
+import type { FakeAdInterface, ToastInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import { getFavorites, removeFromFavorites } from "@/api";
-import type { FakeAddInterface } from "@/shared/interfaces";
 
 const state = reactive<{
-  favorites: FakeAddInterface[];
+  favorites: FakeAdInterface[];
   isLoading: boolean;
   fullPage: boolean;
 }>({
@@ -19,8 +19,8 @@ const state = reactive<{
   fullPage: true,
 });
 
-const sideBarClosed = inject("collapsed");
-const toast = inject("toastMsg") as (x: string, y: string) => void;
+const sideBarClosed = inject<boolean>("collapsed");
+const toast = inject<ToastInterface>("toastMsg")!;
 
 const store = useStore();
 const router = useRouter();
@@ -33,35 +33,35 @@ const variable: { userFrom: string } = {
 
 const getUserFavorites = async (): Promise<void> => {
   try {
-    const response = (await getFavorites(variable)) as FakeAddInterface[];
+    const response = (await getFavorites(variable)) as FakeAdInterface[];
     state.favorites = response;
     state.isLoading = false;
   } catch (error) {
     console.log(error);
   }
 };
-const sendFavoriteDetails = async (add: FakeAddInterface): Promise<void> => {
+const sendFavoriteDetails = async (ad: FakeAdInterface): Promise<void> => {
   try {
     await store.dispatch("sendFavoriteDetails", {
-      favorite: add,
+      favorite: ad,
     });
     router.push({
       name: "FavoritesDetails",
-      params: { add: add.title },
+      params: { ad: ad.title },
     });
   } catch (e) {
     console.error(e);
   }
 };
-const deleteFavorite = async (add: FakeAddInterface): Promise<void> => {
+const deleteFavorite = async (ad: FakeAdInterface): Promise<void> => {
   try {
     const variables = {
-      id: add.id,
+      id: ad.id,
       userFrom: userId,
     };
     await removeFromFavorites(variables);
     toast("L'annonce a bien été retirée de vos favoris !", "success");
-    state.favorites = state.favorites.filter((favorite) => favorite._id !== add._id);
+    state.favorites = state.favorites.filter((favorite) => favorite._id !== ad._id);
   } catch {
     toast("Erreur lors du retrait de l'annonce de vos favoris!", "error");
   }
@@ -83,7 +83,13 @@ onMounted(async () => {
       }"
     >
       <TransitionGroup name="list" tag="ul" class="favorites">
-        <FavoriteCard v-for="add in state.favorites" :key="add._id" :add="add" @send-favorite="sendFavoriteDetails($event)" @delete="deleteFavorite($event)" />
+        <FavoriteCard
+          v-for="ad in state.favorites"
+          :key="ad._id"
+          :ad="ad"
+          @send-favorite="sendFavoriteDetails($event)"
+          @delete="deleteFavorite($event)"
+        />
       </TransitionGroup>
     </div>
     <div v-else class="favorites__empty-wrapper center">

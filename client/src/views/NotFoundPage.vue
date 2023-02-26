@@ -1,8 +1,8 @@
+<script setup lang="ts"></script>
+
 <template>
   <div class="not-found">
-    <div class="not-found__content">
-      <h1>Page non trouvée !</h1>
-    </div>
+    <h1>La page que vous cherchez n'existe pas :(</h1>
   </div>
 </template>
 
@@ -13,13 +13,5 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  &__content {
-    width: 320px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 }
 </style>

@@ -8,6 +8,6 @@ export interface FiltersInterface {
 
 export interface FilterUpdate {
   search?: string;
-  priceRange: [number, number];
-  category: Category;
+  priceRange?: [number, number];
+  category?: Category;
 }

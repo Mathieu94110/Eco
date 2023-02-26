@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { inject, computed, reactive, onMounted, type Component } from "vue";
-import { getUserAddById, updateUserAdd } from "@/api";
-import Card from "@/components/Card/CardComponent.vue";
-import EditCard from "@/components/Card/EditCardComponent.vue";
 import { useRouter, useRoute } from "vue-router";
-import Loading from "vue-loading-overlay";
 import { useStore } from "vuex";
-import type { UserAddInterface } from "@/shared/interfaces";
+import Card from "@/components/Card/Card.vue";
+import EditCard from "@/components/Card/EditCard.vue";
+import { getUserAdById, updateUserAd } from "@/api";
+import type { UserAdInterface, ToastInterface } from "@/shared/interfaces";
+import Loading from "vue-loading-overlay";
 
 const sideBarClosed = inject<boolean>("collapsed");
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const toast = inject("toastMsg") as (x: string, y: string) => void;
+const toast = inject<ToastInterface>("toastMsg")!;
 
 const state = reactive<{
   component: string;
   isEditMode: boolean;
-  userAdd?: UserAddInterface;
+  userAd?: Partial<UserAdInterface>;
   loading: boolean;
   selection: number;
   isLoading: boolean;
@@ -25,7 +25,7 @@ const state = reactive<{
 }>({
   component: "Card",
   isEditMode: false,
-  userAdd: undefined,
+  userAd: undefined,
   loading: true,
   selection: 1,
   isLoading: false,
@@ -34,9 +34,9 @@ const state = reactive<{
 
 onMounted(async (): Promise<void> => {
   try {
-    const userAddId = route.params.id as string;
-    const response = await getUserAddById(userAddId);
-    state.userAdd = response;
+    const userAdId = route.params.id as string;
+    const response = await getUserAdById(userAdId);
+    state.userAd = response;
     state.isLoading = false;
   } catch (error) {
     toast(`Échec de la récupération de l'annonce !`, "error");
@@ -50,16 +50,18 @@ const goBack = (): void => {
 const switchActive = (): void => {
   state.isEditMode = !state.isEditMode;
 };
-const checkValues = (card: UserAddInterface): void => {
-  const currentCardValue = state.userAdd;
-  JSON.stringify(card) === JSON.stringify(currentCardValue) ? toast("Aucun changement détecté !", "warning") : updateUserCard(card);
+const checkValues = (card: UserAdInterface): void => {
+  const currentCardValue = state.userAd;
+  JSON.stringify(card) === JSON.stringify(currentCardValue)
+    ? toast("Aucun changement détecté !", "warning")
+    : updateUserCard(card);
 };
 
-const updateUserCard = async (card: UserAddInterface): Promise<void> => {
+const updateUserCard = async (card: UserAdInterface): Promise<void> => {
   try {
-    await updateUserAdd(card);
+    await updateUserAd(card);
     toast("L'annonce a été mise à jour !", "success");
-    state.userAdd = card;
+    state.userAd = card;
     switchActive();
   } catch (err) {
     toast("Erreur lors de la modification de l'annonce !", "warning");
@@ -72,24 +74,24 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 <template>
   <div
-    class="user-add-details"
+    class="user-ad-details"
     :style="{
       marginLeft: isMobile ? 'auto' : sideBarClosed ? '75px' : '270px',
     }"
   >
     <loading :active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
-    <div class="user-add-details__header-buttons">
+    <div class="user-ad-details__header-buttons">
       <button class="btn btn-primary" type="button" @click="goBack()">Retour</button>
 
       <button type="button" class="btn btn-primary" @click="switchActive()">Modifier</button>
     </div>
 
-    <component :is="isActive" :add="state.userAdd" @check-values="checkValues" />
+    <component :is="isActive" :ad="state.userAd" @check-values="checkValues" />
   </div>
 </template>
 
 <style lang="scss">
-.user-add-details {
+.user-ad-details {
   display: flex;
   flex-direction: column;
   align-items: center;

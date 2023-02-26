@@ -1,4 +1,4 @@
-import ActionInputs from "@/components/CreateAddInputs/ActionInputs.vue";
+import ActionInputs from "@/components/CreateAdInputs/ActionInputs.vue";
 import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 
@@ -6,7 +6,7 @@ describe("Emitter", () => {
   it("should emits an event with two arguments", () => {
     const wrapper = mount(ActionInputs, {
       props: {
-        add: {
+        ad: {
           title: "crème nivea",
           description: "Crème de soin pour les peaux sensibles",
           category: "Cosmétiques",
@@ -16,8 +16,8 @@ describe("Emitter", () => {
       },
     });
 
-    wrapper.vm.createAdd();
+    wrapper.vm.createAd();
 
-    expect(wrapper.emitted("createAdd")).toHaveLength(1);
+    expect(wrapper.emitted("createAd")).toHaveLength(1);
   });
 });

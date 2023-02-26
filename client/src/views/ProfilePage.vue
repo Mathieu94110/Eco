@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import UserProfileCard from "@/components/User/UserProfileCardComponent.vue";
-import Toolbar from "@/components/Toolbar/ToolbarComponent.vue";
 import { reactive, onMounted, inject, computed } from "vue";
 import { useStore } from "vuex";
+import UserProfileCard from "@/components/User/UserProfileCard.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { getProfile, updateUserInfos } from "@/api";
+import type { ToastInterface, UserInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import type { UserInterface } from "@/shared/interfaces";
 
 const sideBarClosed = inject<boolean>("collapsed");
-
+const store = useStore();
 const state = reactive<{
-  user: UserInterface | null;
+  user: UserInterface;
   isLoading: boolean;
   fullPage: boolean;
 }>({
-  user: null,
+  user: store?.state.user,
   isLoading: true,
   fullPage: true,
 });
 
-const toast = inject("toastMsg") as (x: string, y: string) => void;
-const store = useStore();
+const toast = inject<ToastInterface>("toastMsg")!;
 const userId = store?.state.user.userId;
-
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const getUserProfile = async (): Promise<void> => {

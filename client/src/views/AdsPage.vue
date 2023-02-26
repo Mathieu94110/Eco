@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { onMounted, reactive, computed, inject } from "vue";
-import AddCard from "@/components/Adds/AddCard/AddCardComponent.vue";
-import Toolbar from "@/components/Toolbar/ToolbarComponent.vue";
-import AddCardFilter from "@/components/Adds/AddCard/AddCardFilterComponent.vue";
-import Calc from "@/components/Calc/CalcComponent.vue";
 import { useStore } from "vuex";
+import AdCard from "@/components/AdCard/AdCard.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import AdCardFilter from "@/components/AdCard/AdCardFilter.vue";
+import Calc from "@/components/Calc/Calc.vue";
+import { getFakeAds, getFavorites, removeFromFavorites } from "@/api";
+import type { FakeAdInterface, FilterUpdate, ToastInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import { getFakeAdds, getFavorites, removeFromFavorites } from "@/api";
-import type { FakeAddInterface, FilterUpdate } from "@/shared/interfaces";
 
 const state = reactive<{
-  adds: FakeAddInterface[];
-  favorites: FakeAddInterface[];
+  ads: FakeAdInterface[];
+  favorites: FakeAdInterface[];
   noResult: boolean;
   message: string;
   isLoading: boolean;
@@ -20,7 +20,7 @@ const state = reactive<{
   filters: FilterUpdate;
   open: boolean;
 }>({
-  adds: [],
+  ads: [],
   favorites: [],
   noResult: false,
   message: "",
@@ -29,13 +29,13 @@ const state = reactive<{
   filters: {
     search: "",
     priceRange: [0, 9999],
-    category: "Tout",
+    category: "all",
   },
   open: !matchMedia("(max-width: 575px)").matches,
 });
 
 const store = useStore();
-const toast = inject("toastMsg") as (x: string, y: string) => void;
+const toast = inject<ToastInterface>("toastMsg")!;
 const sideBarClosed = inject<boolean>("collapsed");
 const userId = store?.state.user.userId;
 const currentUser = computed<string>(() => store?.state.user.userId);
@@ -44,11 +44,11 @@ const variable: { userFrom: string } = {
   userFrom: userId,
 };
 
-async function loadFakeAdds(): Promise<void> {
+async function loadFakeAds(): Promise<void> {
   try {
-    const fakeAdds = await getFakeAdds();
-    if (fakeAdds) {
-      state.adds = fakeAdds;
+    const fakeAds = await getFakeAds();
+    if (fakeAds) {
+      state.ads = fakeAds;
       state.isLoading = false;
     } else {
       state.noResult = true;
@@ -70,22 +70,22 @@ const getUserFavorites = async (): Promise<void> => {
   }
 };
 
-const toggleOnFavorites = async (add: FakeAddInterface): Promise<void> => {
-  const AddIsOnFavorite = state.favorites.some((favorite: FakeAddInterface) => favorite.id === add.id);
-  if (AddIsOnFavorite) {
+const toggleOnFavorites = async (ad: FakeAdInterface): Promise<void> => {
+  const AdIsOnFavorite = state.favorites.some((favorite: FakeAdInterface) => favorite.id === ad.id);
+  if (AdIsOnFavorite) {
     const variables = {
-      id: add.id,
+      id: ad.id,
       userFrom: userId,
     };
     await removeFromFavorites(variables);
     toast("L'annonce a été retirée de vos favoris !", "success");
-    state.favorites = state.favorites.filter((favorite) => favorite.id !== add.id);
+    state.favorites = state.favorites.filter((favorite) => favorite.id !== ad.id);
   } else {
-    const userFavorite = { ...add, userFrom: currentUser.value };
+    const userFavorite = { ...ad, userFrom: currentUser.value };
     try {
       await store.dispatch("sendFavorite", userFavorite);
       toast("L'annonce a été ajoutée à vos favoris !", "success");
-      state.favorites = [...state.favorites, { ...add }];
+      state.favorites = [...state.favorites, { ...ad }];
     } catch (e) {
       console.error(e);
     }
@@ -100,58 +100,69 @@ const updateFilter = (filterUpdate: FilterUpdate): void => {
   } else if (filterUpdate.category) {
     state.filters.category = filterUpdate.category;
   } else {
-    state.filters = { search: "", priceRange: [0, 9999], category: "Tout" };
+    state.filters = { search: "", priceRange: [0, 9999], category: "all" };
   }
 };
 
-const filteredAdds = computed(
+const filteredAds = computed(
   () =>
-    state.adds &&
-    state.adds.filter((add) => {
+    state.ads &&
+    state.ads.filter((ad) => {
       if (
-        add.title.toLocaleLowerCase().startsWith(state.filters.search!.toLocaleLowerCase()) &&
-        add.price >= state.filters.priceRange[0] &&
-        add.price <= state.filters.priceRange[1] &&
-        (add.category === state.filters.category || state.filters.category === "Tout")
+        ad.title.toLocaleLowerCase().startsWith(state.filters.search!.toLocaleLowerCase()) &&
+        ad.price >= state.filters.priceRange[0] &&
+        ad.price <= state.filters.priceRange[1] &&
+        (ad.category === state.filters.category || state.filters.category === "all")
       ) {
         return true;
       }
       return false;
-    })
+    }),
 );
 
 onMounted(async () => {
-  await loadFakeAdds();
+  await loadFakeAds();
   await getUserFavorites();
 });
 </script>
 
 <template>
-  <div class="adds">
+  <div class="ads">
     <Toolbar>Liste des annonces</Toolbar>
     <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
     <div
-      v-if="state.adds"
+      v-if="state.ads"
       :style="{
         paddingLeft: isMobile ? 'auto' : sideBarClosed ? '150px' : '345px',
       }"
     >
-      <div class="adds__wrapper">
+      <div class="ads__wrapper">
         <Calc :open="isMobile && state.open" @close="state.open = false" :transparent="true" />
-        <div class="adds__filter">
+        <div class="ads__filter">
           <!--On below adding open/close transition on mobile, for large screen it's always true -->
           <Transition>
-            <AddCardFilter v-if="state.open" :filters="state.filters" :adds="filteredAdds" @update-filter="updateFilter" />
+            <AdCardFilter
+              v-if="state.open"
+              :filters="state.filters"
+              :ads="filteredAds"
+              @update-filter="updateFilter"
+            />
           </Transition>
         </div>
         <div class="d-flex flex-column">
-          <button class="adds__search-button btn btn-primary" @click="state.open = !state.open">
+          <button class="ads__search-button btn btn-primary" @click="state.open = !state.open">
             <i class="fa-solid fa-magnifying-glass mr-10"></i>
             <span>Rechercher</span>
           </button>
 
-          <div class="adds__cards">
-            <AddCard v-for="add in filteredAdds" :key="add.id" :add="add" :favorites="state.favorites" @add-item="toggleOnFavorites(add)" />
+          <div class="ads__cards">
+            <AdCard
+              v-for="ad in filteredAds"
+              :key="ad.id"
+              :ad="ad"
+              :favorites="state.favorites"
+              @add-item="toggleOnFavorites(ad)"
+            />
           </div>
         </div>
       </div>
@@ -162,7 +173,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 @use "../assets/scss/mixins";
 
-.adds {
+.ads {
   height: 100%;
 
   &__wrapper {

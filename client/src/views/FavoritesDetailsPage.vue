@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import AddCard from "@/components/Adds/AddCard/AddCardComponent.vue";
 import { reactive, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import type { FakeAddInterface } from "@/shared/interfaces";
+import AdCard from "@/components/AdCard/AdCard.vue";
+import type { FakeAdInterface } from "@/shared/interfaces";
 
 const router = useRouter();
 const store = useStore();
 const state = reactive<{
-  favoriteInfos: FakeAddInterface | null;
+  favoriteInfos: FakeAdInterface | null;
 }>({
   favoriteInfos: null,
 });
 
-const favoriteDetails = computed<FakeAddInterface>(() => store.getters.getFavoriteDetails);
+const favoriteDetails = computed<FakeAdInterface>(() => store.getters.getFavoriteDetails);
 
 const goBack = (): void => {
   router.back();
@@ -31,8 +31,8 @@ onMounted(() => {
     <div class="favorites-details__header">
       <input class="go-back-btn" type="button" @click="goBack()" value="Retour" />
     </div>
-    <div class="adds" v-if="state.favoriteInfos">
-      <AddCard :add="state.favoriteInfos" />
+    <div class="ads" v-if="state.favoriteInfos">
+      <AdCard :ad="state.favoriteInfos" />
     </div>
   </div>
 </template>

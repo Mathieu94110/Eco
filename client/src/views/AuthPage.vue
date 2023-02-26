@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Login from "@/components/Login/LoginComponent.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import Login from "@/components/Login/Login.vue";
 import type { UserInterface } from "@/shared/interfaces";
 
 const store = useStore();

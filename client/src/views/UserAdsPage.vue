@@ -1,75 +1,53 @@
 <script setup lang="ts">
-import Table from "@/components/Table/TableComponent.vue";
-import Pagination from "@/components/Pagination/PaginationComponent.vue";
-import Toolbar from "@/components/Toolbar/ToolbarComponent.vue";
-import { getUserAdds, deleteUserAdd } from "@/api";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/css/index.css";
 import { reactive, inject, onMounted, computed } from "vue";
 import { useStore } from "vuex";
-import type { UserAddInterface } from "@/shared/interfaces";
+import Table from "@/components/Table/Table.vue";
+import Pagination from "@/components/Pagination/Pagination.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
+import { getUserAds, deleteUserAd } from "@/api";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+
+import type {
+  UserAdInterface,
+  userAdsConfigInterface,
+  ToastInterface,
+  userAdsPaginationInterface,
+} from "@/shared/interfaces";
+import { userAdsConfig } from "@/constants/userAds";
 
 const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();
 const sideBarClosed = inject<boolean>("collapsed");
-const toast = inject("toastMsg") as (x: string, y: string) => void;
+const toast = inject<ToastInterface>("toastMsg")!;
 const state = reactive<{
   perPageOptions: number[];
-  tableData: UserAddInterface[];
-  pagination: { page: number; perPage: number };
+  tableData: UserAdInterface[];
+  pagination: userAdsPaginationInterface;
   isLoading: boolean;
   fullPage: boolean;
-  config: { key: string; title: string }[];
+  config: userAdsConfigInterface[];
 }>({
   perPageOptions,
   tableData: [],
   pagination: { page: 1, perPage: perPageOptions[0] },
   isLoading: false,
   fullPage: true,
-  config: [
-    {
-      key: "title",
-      title: "Titre",
-    },
-    {
-      key: "image",
-      title: "Image",
-    },
-    {
-      key: "created_at",
-      title: "Date",
-    },
-    {
-      key: "description",
-      title: "Description",
-    },
-    {
-      key: "category",
-      title: "Catégorie",
-    },
-    {
-      key: "price",
-      title: "Prix",
-    },
-    {
-      key: "actions",
-      title: "Actions",
-    },
-  ],
+  config: userAdsConfig,
 });
 
-const setTable = (data: { page: number; perPage: number }) => {
+const setTable = (data: userAdsPaginationInterface) => {
   state.pagination = data;
 };
-const getAdds = async (): Promise<void> => {
+const getAds = async (): Promise<void> => {
   state.isLoading = true;
   try {
     const variable: { userFrom: string } = {
       userFrom: store.state.user.userId,
     };
-    const userAdds = await getUserAdds(variable);
-    if (userAdds) {
-      state.tableData = userAdds;
+    const userAds = await getUserAds(variable);
+    if (userAds) {
+      state.tableData = userAds;
       state.isLoading = false;
     }
   } catch (error) {
@@ -77,21 +55,21 @@ const getAdds = async (): Promise<void> => {
   }
 };
 
-const deleteAdd = async (add: UserAddInterface): Promise<void> => {
+const deleteAd = async (ad: UserAdInterface): Promise<void> => {
   try {
     const variables = {
-      _id: add._id,
+      _id: ad._id,
       userFrom: store.state.user.userId,
     };
-    await deleteUserAdd(variables);
+    await deleteUserAd(variables);
     toast("L'annonce a bien été supprimée !", "success");
-    state.tableData = state.tableData.filter((data: UserAddInterface) => data._id !== add._id);
+    state.tableData = state.tableData.filter((data: UserAdInterface) => data._id !== ad._id);
   } catch (e) {
     console.error(e);
   }
 };
 
-const computedTableData = computed<UserAddInterface[]>((): UserAddInterface[] | [] => {
+const computedTableData = computed<UserAdInterface[]>((): UserAdInterface[] | [] => {
   if (state.tableData.length === 0) return [];
   const firstIndex = (state.pagination.page - 1) * state.pagination.perPage;
   const lastIndex = state.pagination.page * state.pagination.perPage;
@@ -100,18 +78,18 @@ const computedTableData = computed<UserAddInterface[]>((): UserAddInterface[] | 
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 onMounted(async () => {
-  await getAdds();
+  await getAds();
 });
 </script>
 
 <template>
-  <div class="user-adds">
+  <div class="user-ads">
     <Toolbar>Mes annonces</Toolbar>
     <div
       :style="{
         marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
       }"
-      class="user-adds__content"
+      class="user-ads__content"
     >
       <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
 
@@ -124,10 +102,10 @@ onMounted(async () => {
       />
       <Table
         v-if="state.tableData"
-        :user-adds="computedTableData"
+        :user-ads="computedTableData"
         :config="state.config"
         :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
-        @delete="deleteAdd($event)"
+        @delete="deleteAd($event)"
       />
     </div>
   </div>
@@ -136,7 +114,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 @use "../assets/scss/mixins";
 
-.user-adds {
+.user-ads {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;

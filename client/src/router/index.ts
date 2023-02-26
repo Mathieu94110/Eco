@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import store from "../store";
+import NotFoundPage from "../views/NotFoundPage.vue";
 
 const routes = [
   {
@@ -14,23 +15,23 @@ const routes = [
     props: true,
   },
   {
-    name: "Adds",
-    path: "/adds",
+    name: "Ads",
+    path: "/ads",
     component: () => import("../views/AdsPage.vue"),
   },
   {
-    name: "CreateAdd",
-    path: "/create-add",
-    component: () => import("../views/CreateAdd.vue"),
+    name: "CreateAd",
+    path: "/create-ad",
+    component: () => import("../views/CreateAd.vue"),
   },
   {
-    name: "UserAdds",
-    path: "/user-adds",
+    name: "UserAds",
+    path: "/user-ads",
     component: () => import("../views/UserAdsPage.vue"),
   },
   {
-    name: "UserAddsDetails",
-    path: "/user-adds/:id",
+    name: "UserAdsDetails",
+    path: "/user-ads/:id",
     component: () => import("../views/UserAdsDetailsPage.vue"),
   },
   {
@@ -40,13 +41,12 @@ const routes = [
   },
   {
     name: "FavoritesDetails",
-    path: "/favorites/:add",
+    path: "/favorites/:ad",
     component: () => import("../views/FavoritesDetailsPage.vue"),
   },
   {
-    name: "NotFound",
     path: "/:pathMatch(.*)*",
-    component: () => import("../views/NotFoundPage.vue"),
+    component: NotFoundPage,
   },
 ];
 

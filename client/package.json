@@ -4,7 +4,6 @@
   "scripts": {
     "dev": "vite --host",
     "build": "run-p type-check build-only",
-    "lint:js": "eslint src --ext .ts,.vue",
     "preview": "vite preview",
     "test:unit": "vitest --environment jsdom --root src/",
     "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",

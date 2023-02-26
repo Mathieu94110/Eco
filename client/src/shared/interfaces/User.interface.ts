@@ -13,3 +13,13 @@ export interface UserInterface {
 export interface newUserInfoInterface {
   newUserInfos: UserInterface;
 }
+
+export interface userAdsConfigInterface {
+  key: string;
+  title: string;
+}
+[];
+export interface userAdsPaginationInterface {
+  page: number;
+  perPage: number;
+}
