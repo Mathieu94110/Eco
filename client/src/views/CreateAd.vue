@@ -100,6 +100,7 @@ watch(
           @create-ad="createAd"
           @cancel-ad="cancelAd"
           @submit-ad="submitAd"
+          ref="create-ad"
         ></CreateAdCard>
         <Transition name="nested">
           <createdAdCard v-if="state.showCreatedPost" :current-post="state.post" ref="created-ad"></createdAdCard>

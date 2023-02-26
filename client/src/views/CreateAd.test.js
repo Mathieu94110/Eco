@@ -30,12 +30,12 @@ describe("CreateAd Component", () => {
     });
   });
 
-  it("should create-ad component exist  ", async () => {
+  it("should CreateAdCard component exist  ", async () => {
     const createAdComponent = wrapper.findComponent({ ref: "create-ad" });
     expect(createAdComponent.exists()).toBe(true);
   });
 
-  it("should createdAdCard component not exist on the beginning", () => {
+  it("should CreateDAdCard component not exist on the beginning", () => {
     const createdAdCard = wrapper.findComponent({ ref: "#created-ad" });
     expect(createdAdCard.exists()).toBe(false);
   });
