@@ -115,8 +115,20 @@ onMounted(async () => {
     >
       <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
 
-      <Pagination v-if="state.tableData" :total-records="state.tableData.length" :per-page-options="state.perPageOptions" :is-mobile="isMobile" @input="setTable($event)" />
-      <Table v-if="state.tableData" :user-adds="computedTableData" :config="state.config" :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }" @delete="deleteAdd($event)" />
+      <Pagination
+        v-if="state.tableData"
+        :total-records="state.tableData.length"
+        :per-page-options="state.perPageOptions"
+        :is-mobile="isMobile"
+        @input="setTable($event)"
+      />
+      <Table
+        v-if="state.tableData"
+        :user-adds="computedTableData"
+        :config="state.config"
+        :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
+        @delete="deleteAdd($event)"
+      />
     </div>
   </div>
 </template>
