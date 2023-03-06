@@ -41,7 +41,14 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     <main class="sign-in__inputs">
       <div class="sign-in__form-items">
         <label for="email">
-          <input id="email" v-model="state.email" class="sign-in__form-input" type="text" placeholder="Adresse mail" />
+          <input
+            id="email"
+            v-model="state.email"
+            class="sign-in__form-input"
+            type="text"
+            placeholder="Adresse mail"
+            data-cy="email"
+          />
         </label>
       </div>
       <div class="sign-in__form-items">
@@ -52,6 +59,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
             class="sign-in__form-input"
             type="password"
             placeholder="Mot de passe"
+            data-cy="password"
           />
         </label>
       </div>

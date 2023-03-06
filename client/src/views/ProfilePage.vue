@@ -51,7 +51,7 @@ onMounted(async (): Promise<void> => {
 
 <template>
   <div class="profile">
-    <Toolbar>Mon profil</Toolbar>
+    <Toolbar data-cy="profile-header">Mon profil</Toolbar>
     <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
     <div
       :style="{
@@ -59,7 +59,11 @@ onMounted(async (): Promise<void> => {
       }"
       class="profile__card"
     >
-      <UserProfileCard :user-infos="state.user" @update-user="UpdateInfos"></UserProfileCard>
+      <UserProfileCard
+        :user-infos="state.user"
+        @update-user="UpdateInfos"
+        data-cy="user-profile-card"
+      ></UserProfileCard>
     </div>
   </div>
 </template>

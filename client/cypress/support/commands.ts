@@ -8,10 +8,20 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
+import "@testing-library/cypress/add-commands";
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add("login", () => {
+  cy.visit("/");
+  cy.get('[data-cy="email"]').focus().type("user-test@gmail.com", {
+    delay: 50,
+  });
+  cy.get('[data-cy="password"]').focus().type("1234test", {
+    delay: 50,
+  });
+  cy.get("form").submit();
+});
 //
 //
 // -- This is a child command --
@@ -36,4 +46,10 @@
 //   }
 // }
 
-export {};
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(): Chainable<void>;
+    }
+  }
+}
