@@ -7,3 +7,4 @@ export * from "./Html.interface";
 export * from "./FormValidation.interface";
 export * from "./Toast.interface";
 export * from "./FakeAd.interface";
+export * from "./Axios.interface";

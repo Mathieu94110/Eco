@@ -131,9 +131,9 @@ const onPickFile = (e: Event) => {
       </div>
       <div class="d-flex flex-column">
         <label for="email">
-          <input id="email" v-model="email" class="sign-up__form-input" type="text" placeholder="Adresse mail" />
+          <input id="email" v-model="email" class="sign-up__form-input" type="text" placeholder="Mail" />
         </label>
-        <span class="sign-up__errors">{{ errors["email"] }}</span>
+        <span class="sign-up__errors" data-cy="signup-error-email">{{ errors["email"] }}</span>
       </div>
 
       <div class="d-flex flex-column">
@@ -144,7 +144,7 @@ const onPickFile = (e: Event) => {
       </div>
       <div class="d-flex flex-column">
         <label for="zip">
-          <input id="zip" v-model="zip" class="sign-up__form-input" type="number" placeholder="Code Postal" />
+          <input id="zip" v-model="zip" class="sign-up__form-input" type="number" placeholder="Code postal" />
         </label>
         <span class="sign-up__errors">{{ errors["zip"] }}</span>
       </div>
@@ -165,7 +165,7 @@ const onPickFile = (e: Event) => {
             placeholder="Mot de passe"
           />
         </label>
-        <span class="sign-up__errors">{{ errors["password"] }}</span>
+        <span class="sign-up__errors" data-cy="signup-error-password">{{ errors["password"] }}</span>
       </div>
     </main>
     <div class="sign-up__footer">
@@ -173,6 +173,16 @@ const onPickFile = (e: Event) => {
         <span v-if="status === 'loading'">Création en cours...</span>
         <span v-else class="color-white">Créer mon compte</span>
       </button>
+      <span
+        v-if="status === 'error-signup'"
+        class="sign-up__errors sign-up__creation-errors"
+        data-cy="user-exist-error"
+      >
+        Ce compte est déjà utilisé</span
+      >
+      <span v-if="status === 'unknown-error'" class="sign-up__errors sign-up__creation-errors"
+        >Problème survenu lors de la requete</span
+      >
     </div>
   </form>
 </template>
@@ -293,6 +303,9 @@ const onPickFile = (e: Event) => {
     max-width: 200px;
     color: red;
     font-weight: bold;
+  }
+  &__creation-errors {
+    margin-left: 20px;
   }
 }
 

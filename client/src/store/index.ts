@@ -116,23 +116,34 @@ const store = createStore({
           });
       });
     },
-    createAccount: ({ commit }, userInfos) => {
+    createAccount: async ({ commit }, userInfos) => {
       commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
-        commit;
-        userInstance
-          .post("/signup", userInfos)
-          .then((response) => {
-            commit("setStatus", "created");
-            resolve(response);
-            commit("userInfos", userInfos);
-          })
-          .catch((error) => {
-            console.error(error);
-            reject(error);
-          });
-      });
+
+      try {
+        const createUser = await userInstance.post("/signup", userInfos);
+        commit("userInfos", userInfos);
+        return createUser;
+      } catch (err) {
+        return err;
+      }
     },
+
+    // return new Promise((resolve, reject) => {
+    //   commit;
+    //   userInstance
+    //     .post("/signup", userInfos)
+    //     .then((response) => {
+    //       commit("setStatus", "created");
+    //       resolve(response);
+    //       commit("userInfos", userInfos);
+    //     })
+    //     .catch((error) => {
+    //       commit("setStatus", "error-signup");
+    //       console.error("HERE =", error);
+    //       reject(error);
+    //     });
+    // });
+    // },
 
     createPost: ({ commit }, postInfos) => {
       commit("setPost", postInfos);
@@ -173,7 +184,6 @@ const store = createStore({
             resolve(response.data);
           })
           .catch((error) => {
-            console.log(error);
             commit("setStatus", "error_post");
             reject(error);
           });

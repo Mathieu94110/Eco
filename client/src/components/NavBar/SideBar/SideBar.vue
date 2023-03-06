@@ -60,7 +60,9 @@ const formatSideBar = (value: boolean): void => {
         ><span>Déposer une annonce</span></NavLink
       >
       <NavLink class="side-bar__link" to="/user-ads" icon="fas fa-pencil-alt"><span>Mes annonces</span></NavLink>
-      <NavLink class="side-bar__link" to="/favorites" icon="fas fa-star"><span>Mes favoris</span></NavLink>
+      <NavLink class="side-bar__link" to="/favorites" icon="fas fa-star" data-cy="favorite-link"
+        ><span>Mes favoris</span></NavLink
+      >
     </div>
   </SideBarContainer>
 </template>

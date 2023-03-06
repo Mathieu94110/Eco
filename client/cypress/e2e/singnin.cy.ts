@@ -1,5 +1,3 @@
-// https://docs.cypress.io/api/introduction/api.html
-
 describe("should user been connected sucessfully", () => {
   beforeEach(() => {
     cy.login();

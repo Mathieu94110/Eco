@@ -22,8 +22,8 @@ const authenticate = async (data: Partial<UserInterface>) => {
 };
 
 const createAccount = async (data: UserInterface) => {
-  try {
-    await store.dispatch("createAccount", {
+  await store
+    .dispatch("createAccount", {
       userName: data.userName,
       email: data.email,
       lastName: data.lastName,
@@ -33,11 +33,21 @@ const createAccount = async (data: UserInterface) => {
       phone: data.phone,
       address: data.address,
       zip: data.zip,
+    })
+    .then((res: XMLHttpRequest) => {
+      if (res.status === 200 || res.status === 201) {
+        authenticate(data);
+      } else {
+        if (res.response.status === 500) {
+          store.commit("setStatus", "error-signup");
+        } else {
+          store.commit("setStatus", "unknown-error");
+        }
+        setTimeout(() => {
+          store.commit("setStatus", "");
+        }, 3000);
+      }
     });
-    authenticate(data);
-  } catch (e: unknown) {
-    console.error(e);
-  }
 };
 </script>
 
