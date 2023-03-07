@@ -4,27 +4,23 @@ const Favorites = require("../../database/models/favorites");
 
 const router = express.Router();
 
-router.post("/favoritesInfos", (req, res) => {
-  const post = new Favorites(req.body);
-  post.save().then((createdPost) => {
-    res.status(201).json({
-      message: "Post added successfully",
-      postId: createdPost._id,
-    });
-  });
-});
-
-router.post("", (req, res) => {
-  Favorites.find({ userFrom: req.body.userFrom }).exec((err, favorites) => {
+router.get("/getFavoredAdds/:userInfos", (req, res) => {
+  let { userInfos } = req.params;
+  Favorites.find({ userFrom: userInfos }).exec((err, favorites) => {
     if (err) return res.status(400).send(err);
-    res.status(200).json({
-      message: "Posts fetched successfully!",
-      posts: favorites,
-    });
+    return res.status(200).json({ success: true, favorites });
   });
 });
 
-router.post('/removeFromFavorites', (req, res) => {
+router.post("/addToFavorites", (req, res) => {
+  const favorite = new Favorites(req.body);
+  favorite.save((err, doc) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
+});
+
+router.post("/removeFromFavorites", (req, res) => {
   Favorites.findOneAndDelete({
     id: req.body.id,
     userFrom: req.body.userFrom,

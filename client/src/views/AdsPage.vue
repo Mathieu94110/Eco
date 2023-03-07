@@ -40,9 +40,6 @@ const sideBarClosed = inject<boolean>("collapsed");
 const userId = store?.state.user.userId;
 const currentUser = computed<string>(() => store?.state.user.userId);
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
-const variable: { userFrom: string } = {
-  userFrom: userId,
-};
 
 async function loadFakeAds(): Promise<void> {
   try {
@@ -61,7 +58,7 @@ async function loadFakeAds(): Promise<void> {
 }
 const getUserFavorites = async (): Promise<void> => {
   try {
-    const response = await getFavorites(variable);
+    const response = await getFavorites(userId);
     if (response) {
       state.favorites = response;
     }
@@ -141,12 +138,7 @@ onMounted(async () => {
         <div class="ads__filter">
           <!--On below adding open/close transition on mobile, for large screen it's always true -->
           <Transition>
-            <AdCardFilter
-              v-if="state.open"
-              :filters="state.filters"
-              :ads="filteredAds"
-              @update-filter="updateFilter"
-            />
+            <AdCardFilter v-if="state.open" :filters="state.filters" :ads="filteredAds" @update-filter="updateFilter" />
           </Transition>
         </div>
         <div class="d-flex flex-column">

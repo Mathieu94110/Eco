@@ -27,19 +27,20 @@ const router = useRouter();
 
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 const userId = store?.state.user.userId;
-const variable: { userFrom: string } = {
+
+const userInfos: { userFrom: string } = {
   userFrom: userId,
 };
-
 const getUserFavorites = async (): Promise<void> => {
   try {
-    const response = (await getFavorites(variable)) as FakeAdInterface[];
+    const response = (await getFavorites(userId)) as FakeAdInterface[];
     state.favorites = response;
     state.isLoading = false;
   } catch (error) {
     console.log(error);
   }
 };
+
 const sendFavoriteDetails = async (ad: FakeAdInterface): Promise<void> => {
   try {
     await store.dispatch("sendFavoriteDetails", {

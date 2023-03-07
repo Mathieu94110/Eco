@@ -179,7 +179,7 @@ const store = createStore({
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         favoriteInstance
-          .post("/favoritesInfos", variables)
+          .post("/addToFavorites", variables)
           .then((response) => {
             resolve(response.data);
           })

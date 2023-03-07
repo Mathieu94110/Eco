@@ -25,9 +25,21 @@ const UserFavoritesApi = {
       },
       body: JSON.stringify(body),
     }),
+
+  getUserFavorites: async (userFrom: string): Promise<FakeAdInterface[]> => {
+    console.log();
+    const data = await fetch(`${apiUrl}/favorites/getFavoredAdds/` + userFrom);
+    let response;
+    if (data) {
+      response = await data.json();
+      console.log(data);
+    }
+    console.log(data);
+    return response.favorites;
+  },
 };
 
-export const getFavorites = async (variable: { userFrom: string }): Promise<FakeAdInterface[]> =>
-  await UserFavoritesApi.getFavorites(`${apiUrl}/favorites`, variable);
+export const getFavorites = async (userFrom: string): Promise<FakeAdInterface[]> =>
+  await UserFavoritesApi.getUserFavorites(userFrom);
 export const removeFromFavorites = async (variables: Partial<UserAdInterface>): Promise<void> =>
   await UserFavoritesApi.deleteFromFavorites(`${apiUrl}/favorites`, variables);

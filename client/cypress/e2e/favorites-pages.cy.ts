@@ -1,29 +1,32 @@
-const BASE_URL = "http://localhost:3000/api/favorites";
-
-const testUserId = { userFrom: "6405d61927b8a37356ce3a88" };
+const testUserId = "6405d61927b8a37356ce3a88";
 
 describe("home", () => {
   beforeEach(() => {
     cy.login();
   });
 
-  it("should get favorites request succeed and getting the 4 favorites", () => {
+  it("should on favorite click go to the favorite detail page", () => {
+    cy.wait(1000);
     cy.get('[data-cy="favorite-link"]').click();
+    cy.wait(1000);
+    cy.get(
+      ':nth-child(1) > .card-layout__content > .card-layout__footer > [data-v-d3d15c67=""] > .favorite-card__actions > [data-cy="favorite-eye"]',
+    ).click();
+    cy.wait(2000);
+    cy.url().should("match", /favorites\/.+$/);
+  });
 
-    cy.intercept("POST", `^${BASE_URL}/`, {
-      body: JSON.stringify(testUserId),
-      headers: {
-        "Content-Type": "application/json",
-      },
+  it("should get favorites request succeed and getting the 4 mocked favorites", () => {
+    cy.wait(1000);
+    cy.get('[data-cy="favorite-link"]').click();
+    cy.intercept("GET", `http://localhost:3000/api/favorites/getFavoredAdds/${testUserId}`, {
       fixture: "favorites.json",
     }).as("user-favorites");
     cy.wait("@user-favorites").its("response.statusCode").should("eq", 200);
 
     cy.get("@user-favorites")
       .its("response.body")
-      .should("have.property", "favorites")
-      .and("have.length", 4)
-
+      .should("have.length", 4)
       .and((fav) => {
         expect(fav[0]).to.deep.eq({
           category: "smartphones",
