@@ -18,7 +18,7 @@ export interface UserAdInterface {
   title: string;
   description: string;
   category: string;
-  price?: number;
+  price: number | null;
   image: any;
   created_at?: string;
   _v?: number;

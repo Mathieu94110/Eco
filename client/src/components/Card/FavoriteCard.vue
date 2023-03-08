@@ -10,7 +10,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <CardLayout v-if="ad">
+  <CardLayout v-if="ad" data-cy="favorite-card">
     <template #image>
       <img :src="props.ad.images[0]" class="favorite-card__image" alt="product-image" />
     </template>

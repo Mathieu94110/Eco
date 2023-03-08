@@ -14,7 +14,7 @@ const userAdsRequestById = async <TResponse>(url: string, id: string): Promise<T
 };
 
 const UserAdsApi = {
-  getAds: <TBody extends BodyInit, TResponse>(url: string, body: TBody) =>
+  getUserAds: <TBody extends BodyInit, TResponse>(url: string, body: TBody) =>
     userAdsRequest<TResponse>(url, {
       method: "POST",
       headers: {
@@ -22,7 +22,17 @@ const UserAdsApi = {
       },
       body: JSON.stringify(body),
     }),
-  updateAd: <TResponse>(url: string, body: UserAdInterface) =>
+
+  AddToUserAds: <TResponse>(url: string, body: UserAdInterface) =>
+    userAdsRequest<TResponse>(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }),
+
+  updateUserAd: <TResponse>(url: string, body: UserAdInterface) =>
     userAdsRequest<TResponse>(`${url}/${body._id}`, {
       method: "PUT",
       headers: {
@@ -30,7 +40,7 @@ const UserAdsApi = {
       },
       body: JSON.stringify(body),
     }),
-  deleteFromAds: <TResponse>(url: string, body: UserAdInterface) =>
+  deleteUserAd: <TResponse>(url: string, body: UserAdInterface) =>
     userAdsRequest<TResponse>(url, {
       method: "POST",
       headers: {
@@ -38,14 +48,16 @@ const UserAdsApi = {
       },
       body: JSON.stringify(body),
     }),
-  getAdById: <TResponse>(url: string, id: string) => userAdsRequestById<TResponse>(url, id),
+  getUserAdById: <TResponse>(url: string, id: string) => userAdsRequestById<TResponse>(url, id),
 };
 
-export const getUserAds = async (variable: { userFrom: string }): Promise<UserAdInterface[]> =>
-  await UserAdsApi.getAds(`${apiUrl}/posts`, variable);
-export const getUserAdById = async (id: string): Promise<UserInterface> =>
-  await UserAdsApi.getAdById<UserAdInterface>(apiUrl, id);
-export const updateUserAd = async (variable: UserAdInterface): Promise<void> =>
-  await UserAdsApi.updateAd(`${apiUrl}/posts`, variable);
-export const deleteUserAd = async (variables: Partial<UserAdInterface>): Promise<void> =>
-  await UserAdsApi.deleteFromAds(`${apiUrl}/posts/removeAd`, variables);
+export const getAds = async (variable: { userFrom: string }): Promise<UserAdInterface[]> =>
+  await UserAdsApi.getUserAds(`${apiUrl}/posts`, variable);
+export const getAdById = async (id: string): Promise<UserInterface> =>
+  await UserAdsApi.getUserAdById<UserAdInterface>(apiUrl, id);
+export const updateAd = async (variable: UserAdInterface): Promise<void> =>
+  await UserAdsApi.updateUserAd(`${apiUrl}/posts`, variable);
+export const deleteAd = async (variables: Partial<UserAdInterface>): Promise<void> =>
+  await UserAdsApi.deleteUserAd(`${apiUrl}/posts/removeAd`, variables);
+export const addToAds = async (variables: Partial<UserAdInterface>): Promise<void> =>
+  await UserAdsApi.AddToUserAds(`${apiUrl}/posts/postInfos`, variables);

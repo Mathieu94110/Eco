@@ -1,45 +1,45 @@
-import type { FakeAdInterface, UserAdInterface } from "@/shared/interfaces";
+import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/shared/interfaces";
 const apiUrl = "http://localhost:3000/api";
 
-const userFavoritesRequest = async <TResponse>(url: string, body: object): Promise<TResponse> => {
+const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {
   const data = await fetch(url, body);
   const response = await data.json();
-  return response.posts;
+  if (response.posts) {
+    return response.posts;
+  } else if (response.favorites) {
+    return response.favorites;
+  } else {
+    return response;
+  }
 };
 
 const UserFavoritesApi = {
-  getFavorites: <TBody extends BodyInit, TResponse>(url: string, body: TBody) =>
-    userFavoritesRequest<TResponse>(`${url}`, {
+  getUserFavorites: <TResponse>(url: string) => userFavoritesRequest<TResponse>(`${url}`),
+
+  addToUserFavorites: <TResponse>(url: string, body: UserAdInterface) =>
+    userFavoritesRequest<TResponse>(`${url}/addToFavorites`, {
       method: "POST",
-      body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(body),
     }),
 
-  deleteFromFavorites: <TResponse>(url: string, body: UserAdInterface) =>
+  removeFromUserFavorites: <TResponse>(url: string, body: UserAdInterface) =>
     userFavoritesRequest<TResponse>(`${url}/removeFromFavorites`, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     }),
-
-  getUserFavorites: async (userFrom: string): Promise<FakeAdInterface[]> => {
-    console.log();
-    const data = await fetch(`${apiUrl}/favorites/getFavoredAdds/` + userFrom);
-    let response;
-    if (data) {
-      response = await data.json();
-      console.log(data);
-    }
-    console.log(data);
-    return response.favorites;
-  },
 };
 
 export const getFavorites = async (userFrom: string): Promise<FakeAdInterface[]> =>
-  await UserFavoritesApi.getUserFavorites(userFrom);
-export const removeFromFavorites = async (variables: Partial<UserAdInterface>): Promise<void> =>
-  await UserFavoritesApi.deleteFromFavorites(`${apiUrl}/favorites`, variables);
+  await UserFavoritesApi.getUserFavorites(`${apiUrl}/favorites/getFavoredAdds/` + userFrom);
+export const removeFromFavorites = async (
+  variables: Partial<UserAdInterface>,
+): Promise<FavoritesFetchResponseInterface> =>
+  await UserFavoritesApi.removeFromUserFavorites(`${apiUrl}/favorites`, variables);
+export const addToFavorites = async (variables: Partial<UserAdInterface>): Promise<void> =>
+  await UserFavoritesApi.addToUserFavorites(`${apiUrl}/favorites`, variables);

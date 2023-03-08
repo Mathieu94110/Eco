@@ -60,7 +60,7 @@ const currentRoute = computed(() => route.name);
       font-size: 1rem;
       padding: 16px 10px 0px 10px;
       width: 80%;
-      margin: auto;
+      margin: 20px auto;
     }
   }
   &__image {
@@ -73,7 +73,6 @@ const currentRoute = computed(() => route.name);
   &__content {
     display: flex;
     flex-direction: column;
-    // gap: 12px;
     padding: 12px 0 16px 0;
   }
   &__items {

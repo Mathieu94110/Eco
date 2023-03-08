@@ -16,6 +16,36 @@ describe("home", () => {
     cy.url().should("match", /favorites\/.+$/);
   });
 
+  let favLengthBefore: number;
+  it('should delete favorite succeed"', () => {
+    cy.wait(1000);
+    cy.get('[data-cy="ads-link"]').click();
+    cy.wait(2000);
+    cy.get(".ads__cards").children().find(".card__heart").not(".active").first().click();
+    cy.wait(2000);
+    cy.get('[data-cy="favorite-link"]').click();
+    cy.wait(2000);
+    cy.get('[data-cy="favorite-card"]')
+      .its("length")
+      .then((len) => {
+        favLengthBefore = len;
+        cy.log("Initial favoritesList length is: " + favLengthBefore);
+      });
+    cy.get(
+      ':nth-last-child(-n + 1) > .card-layout__content > .card-layout__footer > [data-v-d3d15c67=""] > .favorite-card__actions > div > span',
+    ).click();
+    cy.wait(2000);
+    cy.contains("Cette action est irréversible");
+    cy.get('[data-cy="delete-fav-btn"]').contains("Supprimer").click();
+    cy.wait(2000);
+    cy.get('[data-cy="favorite-card"]')
+      .its("length")
+      .then((lenAfter) => {
+        cy.log("After favoritesList length is: " + lenAfter);
+        expect(favLengthBefore).to.equal(lenAfter + 1);
+      });
+  });
+
   it("should get favorites request succeed and getting the 4 mocked favorites", () => {
     cy.wait(1000);
     cy.get('[data-cy="favorite-link"]').click();

@@ -24,13 +24,9 @@ const toast = inject<ToastInterface>("toastMsg")!;
 
 const store = useStore();
 const router = useRouter();
-
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 const userId = store?.state.user.userId;
 
-const userInfos: { userFrom: string } = {
-  userFrom: userId,
-};
 const getUserFavorites = async (): Promise<void> => {
   try {
     const response = (await getFavorites(userId)) as FakeAdInterface[];

@@ -4,7 +4,7 @@ import { useStore } from "vuex";
 import Table from "@/components/Table/Table.vue";
 import Pagination from "@/components/Pagination/Pagination.vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
-import { getUserAds, deleteUserAd } from "@/api";
+import { getAds, deleteAd } from "@/api";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
@@ -39,29 +39,29 @@ const state = reactive<{
 const setTable = (data: userAdsPaginationInterface) => {
   state.pagination = data;
 };
-const getAds = async (): Promise<void> => {
+const getUserAds = async (): Promise<void> => {
   state.isLoading = true;
   try {
     const variable: { userFrom: string } = {
       userFrom: store.state.user.userId,
     };
-    const userAds = await getUserAds(variable);
+    const userAds = await getAds(variable);
     if (userAds) {
       state.tableData = userAds;
       state.isLoading = false;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
-const deleteAd = async (ad: UserAdInterface): Promise<void> => {
+const deleteUserAd = async (ad: UserAdInterface): Promise<void> => {
   try {
     const variables = {
       _id: ad._id,
       userFrom: store.state.user.userId,
     };
-    await deleteUserAd(variables);
+    await deleteAd(variables);
     toast("L'annonce a bien été supprimée !", "success");
     state.tableData = state.tableData.filter((data: UserAdInterface) => data._id !== ad._id);
   } catch (e) {
@@ -78,7 +78,7 @@ const computedTableData = computed<UserAdInterface[]>((): UserAdInterface[] | []
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 onMounted(async () => {
-  await getAds();
+  await getUserAds();
 });
 </script>
 
@@ -105,7 +105,7 @@ onMounted(async () => {
         :user-ads="computedTableData"
         :config="state.config"
         :style="{ height: computedTableData.length > 0 ? 'auto' : '100%' }"
-        @delete="deleteAd($event)"
+        @delete="deleteUserAd($event)"
       />
     </div>
   </div>

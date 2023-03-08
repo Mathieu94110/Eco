@@ -20,7 +20,7 @@ router.post("/addToFavorites", (req, res) => {
   });
 });
 
-router.post("/removeFromFavorites", (req, res) => {
+router.delete("/removeFromFavorites", (req, res) => {
   Favorites.findOneAndDelete({
     id: req.body.id,
     userFrom: req.body.userFrom,

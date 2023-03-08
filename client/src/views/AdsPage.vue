@@ -5,7 +5,7 @@ import AdCard from "@/components/AdCard/AdCard.vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import AdCardFilter from "@/components/AdCard/AdCardFilter.vue";
 import Calc from "@/components/Calc/Calc.vue";
-import { getFakeAds, getFavorites, removeFromFavorites } from "@/api";
+import { getFakeAds, getFavorites, addToFavorites, removeFromFavorites } from "@/api";
 import type { FakeAdInterface, FilterUpdate, ToastInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
@@ -80,7 +80,7 @@ const toggleOnFavorites = async (ad: FakeAdInterface): Promise<void> => {
   } else {
     const userFavorite = { ...ad, userFrom: currentUser.value };
     try {
-      await store.dispatch("sendFavorite", userFavorite);
+      await addToFavorites(userFavorite);
       toast("L'annonce a été ajoutée à vos favoris !", "success");
       state.favorites = [...state.favorites, { ...ad }];
     } catch (e) {

@@ -1,16 +1,9 @@
 import { createStore } from "vuex";
+import { addToAds } from "@/api";
 import axios from "axios";
 
-const apiUrl = "http://localhost:3000/api";
-
 const userInstance = axios.create({
-  baseURL: `${apiUrl}/user`,
-});
-const postInstance = axios.create({
-  baseURL: `${apiUrl}/posts`,
-});
-const favoriteInstance = axios.create({
-  baseURL: `${apiUrl}/favorites`,
+  baseURL: "http://localhost:3000/api/user",
 });
 
 const store = createStore({
@@ -93,7 +86,6 @@ const store = createStore({
     isLoggedIn(state) {
       return state.isUserLogged;
     },
-
     getCurrentPost: (state) => state.currentPost,
     getFavoriteDetails: (state) => state.favoriteDetails,
     getUserInfos: (state) => state.userInfos,
@@ -128,41 +120,21 @@ const store = createStore({
       }
     },
 
-    // return new Promise((resolve, reject) => {
-    //   commit;
-    //   userInstance
-    //     .post("/signup", userInfos)
-    //     .then((response) => {
-    //       commit("setStatus", "created");
-    //       resolve(response);
-    //       commit("userInfos", userInfos);
-    //     })
-    //     .catch((error) => {
-    //       commit("setStatus", "error-signup");
-    //       console.error("HERE =", error);
-    //       reject(error);
-    //     });
-    // });
-    // },
-
     createPost: ({ commit }, postInfos) => {
       commit("setPost", postInfos);
     },
 
-    sendPost: ({ state, commit }) => {
+    sendPost: async ({ state, commit }) => {
       commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
-        postInstance
-          .post("/postInfos", state.currentPost)
-          .then((response) => {
-            resolve(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-            commit("setStatus", "error_post");
-            reject(error);
-          });
-      });
+      try {
+        await addToAds(state.currentPost);
+      } catch {
+        commit("setStatus", "error_post");
+      }
+    },
+
+    sendFavoriteDetails: ({ commit }, FavoriteInfo) => {
+      commit("setFavoriteData", FavoriteInfo);
     },
 
     async getPosts({ commit }) {
@@ -173,25 +145,6 @@ const store = createStore({
 
     async resetForm({ commit }, data) {
       commit("resetPost", data);
-    },
-
-    sendFavorite: ({ commit }, variables) => {
-      commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
-        favoriteInstance
-          .post("/addToFavorites", variables)
-          .then((response) => {
-            resolve(response.data);
-          })
-          .catch((error) => {
-            commit("setStatus", "error_post");
-            reject(error);
-          });
-      });
-    },
-
-    sendFavoriteDetails: ({ commit }, FavoriteInfo) => {
-      commit("setFavoriteData", FavoriteInfo);
     },
   },
 });

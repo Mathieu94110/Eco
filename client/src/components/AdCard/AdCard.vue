@@ -79,11 +79,7 @@ watch([props.ad, () => props.favorites], ([newAds, newFavorites]) => {
           <span class="card__category-items">{{ props.ad.category }}</span>
         </div>
         <div v-if="!isFavoritePage">
-          <span
-            @click="emit('add-item', props.ad)"
-            class="card__heart"
-            :style="{ color: isFavorited ? 'var(--danger-1)' : 'var(--primary-1)' }"
-          >
+          <span @click="emit('add-item', props.ad)" class="card__heart" :class="{ active: isFavorited }">
             <i class="fas fa-heart"></i>
           </span>
         </div>
@@ -262,6 +258,9 @@ watch([props.ad, () => props.favorites], ([newAds, newFavorites]) => {
 
     &:hover {
       cursor: pointer;
+    }
+    &.active {
+      color: var(--danger-1);
     }
   }
 }

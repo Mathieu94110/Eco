@@ -15,6 +15,7 @@ export default {
     SelectInput,
     ActionInputs,
   },
+  emits: ["create-ad", "submit-ad", "cancel-ad"],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -22,7 +23,7 @@ export default {
     return {
       categories: userAdsCategories,
       formData: {} as UserAdInterface,
-      isFormSubmitted: false,
+      isAdCreated: false,
       isInputsDisabled: false,
     };
   },
@@ -41,12 +42,17 @@ export default {
   methods: {
     createAd() {
       this.$emit("create-ad", this.$data.formData);
+      this.$data.isAdCreated = true;
       this.$data.isInputsDisabled = true;
     },
     submitAd() {
+      this.$emit("submit-ad");
+      this.$data.isAdCreated = false;
       this.reset();
     },
     cancelAd() {
+      this.$emit("cancel-ad");
+      this.$data.isAdCreated = false;
       this.reset();
     },
     reset() {
@@ -102,12 +108,11 @@ export default {
         <div class="text-center">
           <ActionInputs
             :ad="$data.formData"
-            :is-ad-created="$data.isFormSubmitted"
+            :is-ad-created="$data.isAdCreated"
             :disabled="v$.$invalid"
             @create-ad="createAd"
             @submit-ad="submitAd"
             @cancel-ad="cancelAd"
-            v-bind="$attrs"
           />
         </div>
       </div>

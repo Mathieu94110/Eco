@@ -35,7 +35,7 @@ const logOut = (): void => {
               ><span @click="logOut()" @keydown="logOut()">Déconnection</span></NavLink
             >
             <NavLink to="/profile" icon="fas fa-user-circle"><span>Mes informations</span></NavLink>
-            <NavLink to="/ads" icon="fa-solid fa-handshake-angle"><span>Annonces</span></NavLink>
+            <NavLink to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"><span>Annonces</span></NavLink>
             <NavLink to="/create-ad" icon="fas fa-pencil-alt"><span>Déposer une annonce</span></NavLink>
             <NavLink to="/user-ads" icon="fas fa-pencil-alt"><span>Mes annonces</span></NavLink>
             <NavLink to="/favorites" icon="fas fa-star" data-cy="favorite-link"><span>Mes favoris</span></NavLink>

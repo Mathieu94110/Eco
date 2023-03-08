@@ -46,7 +46,7 @@ const deleteAd = (): void => {
             <footer class="modal__footer">
               <slot name="footer">
                 <button class="btn btn-danger" type="button" @click="deleteAd">
-                  <span class="color-white font-600">Supprimer</span>
+                  <span class="color-white font-600" data-cy="delete-fav-btn">Supprimer</span>
                 </button>
               </slot>
             </footer>

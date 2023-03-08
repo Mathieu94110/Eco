@@ -55,7 +55,9 @@ const formatSideBar = (value: boolean): void => {
       </div>
 
       <NavLink class="side-bar__link" to="/profile" icon="fas fa-user-circle"><span>Mes informations</span></NavLink>
-      <NavLink class="side-bar__link" to="/ads" icon="fa-solid fa-handshake-angle"><span>Annonces</span></NavLink>
+      <NavLink class="side-bar__link" to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"
+        ><span>Annonces</span></NavLink
+      >
       <NavLink class="side-bar__link" to="/create-ad" icon="fas fa-pencil-alt"
         ><span>Déposer une annonce</span></NavLink
       >

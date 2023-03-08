@@ -10,9 +10,18 @@ export default {
   },
   // Used to detect globally screen width changes due to a variable saved in store
   mounted() {
-    window.addEventListener("resize", () => {
+    this.updateScreenWidth();
+    this.onScreenResize();
+  },
+  methods: {
+    onScreenResize() {
+      window.addEventListener("resize", () => {
+        this.updateScreenWidth();
+      });
+    },
+    updateScreenWidth() {
       store.commit("setWindowWidth");
-    });
+    },
   },
   computed: {
     ...mapGetters(["isLoggedIn"]),

@@ -4,7 +4,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import Card from "@/components/Card/Card.vue";
 import EditCard from "@/components/Card/EditCard.vue";
-import { getUserAdById, updateUserAd } from "@/api";
+import { getAdById, updateAd } from "@/api";
 import type { UserAdInterface, ToastInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 
@@ -35,7 +35,7 @@ const state = reactive<{
 onMounted(async (): Promise<void> => {
   try {
     const userAdId = route.params.id as string;
-    const response = await getUserAdById(userAdId);
+    const response = await getAdById(userAdId);
     state.userAd = response;
     state.isLoading = false;
   } catch (error) {
@@ -59,7 +59,7 @@ const checkValues = (card: UserAdInterface): void => {
 
 const updateUserCard = async (card: UserAdInterface): Promise<void> => {
   try {
-    await updateUserAd(card);
+    await updateAd(card);
     toast("L'annonce a été mise à jour !", "success");
     state.userAd = card;
     switchActive();
