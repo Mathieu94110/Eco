@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { addToAds } from "@/api";
+import { addToAds, fetchCurrentUser, login, logout } from "@/api";
 import axios from "axios";
 
 const userInstance = axios.create({
@@ -9,7 +9,8 @@ const userInstance = axios.create({
 const store = createStore({
   state: {
     status: "",
-    user: {},
+    loaded: false,
+    user: null,
     isUserLogged: false,
     currentPost: {
       userFrom: "",
@@ -18,16 +19,6 @@ const store = createStore({
       description: "",
       price: null,
       category: "",
-    },
-    userInfos: {
-      userName: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      image: null,
-      phone: null,
-      address: "",
-      zip: "",
     },
     favoriteDetails: {
       _id: "",
@@ -59,22 +50,9 @@ const store = createStore({
 
     logUser(state, user) {
       userInstance.defaults.headers.common.Authorization = user.token;
-      localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
-    userInfos(state, userInfos) {
-      state.userInfos = userInfos;
-    },
-    loginStatus(state, loginStatus) {
-      state.isUserLogged = loginStatus;
-    },
-    logOut(state) {
-      state.user = {
-        userId: -1,
-        token: "",
-      };
-      localStorage.removeItem("user");
-    },
+
     setFavoriteData(state, favoriteInfo) {
       state.favoriteDetails = favoriteInfo.favorite;
     },
@@ -83,34 +61,33 @@ const store = createStore({
     },
   },
   getters: {
-    isLoggedIn(state) {
-      return state.isUserLogged;
+    isAuthenticated(state): boolean | null {
+      if (state.user) {
+        return true;
+      } else if (!state.user && state.loaded) {
+        return false;
+      } else {
+        return null;
+      }
     },
     getCurrentPost: (state) => state.currentPost,
     getFavoriteDetails: (state) => state.favoriteDetails,
-    getUserInfos: (state) => state.userInfos,
   },
   actions: {
-    login: ({ commit }, userInfos) => {
+    async login({ commit }, userInfos) {
       commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
-        userInstance
-          .post("/login", userInfos)
-          .then((response) => {
-            commit("setStatus", "");
-            commit("logUser", response.data);
-            commit("loginStatus", true);
-            resolve(response.data);
-          })
-          .catch((error) => {
-            commit("setStatus", "error_login");
-            reject(error);
-          });
-      });
+      try {
+        commit("setStatus", "");
+        const response = (await login(userInfos)) as any;
+        commit("logUser", response);
+      } catch (e) {
+        commit("setStatus", "error_login");
+        throw e;
+      }
     },
+
     createAccount: async ({ commit }, userInfos) => {
       commit("setStatus", "loading");
-
       try {
         const createUser = await userInstance.post("/signup", userInfos);
         commit("userInfos", userInfos);
@@ -146,25 +123,15 @@ const store = createStore({
     async resetForm({ commit }, data) {
       commit("resetPost", data);
     },
+    async logout() {
+      await logout();
+      store.state.user = null;
+    },
+    async fetchCurrentUser() {
+      store.state.user = (await fetchCurrentUser()) as any;
+      store.state.loaded = true;
+    },
   },
 });
-
-const userData = localStorage.getItem("user");
-if (!userData) {
-  store.state.user = {
-    userId: -1,
-    token: "",
-  };
-} else {
-  try {
-    const user = JSON.parse(userData);
-    userInstance.defaults.headers.common.Authorization = user.token;
-  } catch (err) {
-    store.state.user = {
-      userId: -1,
-      token: "",
-    };
-  }
-}
 
 export default store;

@@ -71,7 +71,7 @@ export default {
 </script>
 
 <template>
-  <div class="create-ad-card">
+  <div class="create-ad-card" data-cy="create-ad-card">
     <div class="create-ad-card__card">
       <div class="create-ad-card__card-content">
         <FileInput v-model="formData.image" :disabled="$data.isInputsDisabled" />
@@ -81,6 +81,7 @@ export default {
           :errors="v$.formData.title.$errors"
           :is-valid-data="!v$.formData.title.$invalid"
           :disabled="$data.isInputsDisabled"
+          data-cy="create-ad-title"
         />
         <TextInputs
           label="Description"
@@ -88,6 +89,7 @@ export default {
           :errors="v$.formData.description.$errors"
           :is-valid-data="!v$.formData.description.$invalid"
           :disabled="$data.isInputsDisabled"
+          data-cy="create-ad-description"
         />
         <TextInputs
           label="Prix"
@@ -96,6 +98,7 @@ export default {
           :is-valid-data="!v$.formData.price.$invalid"
           type="number"
           :disabled="$data.isInputsDisabled"
+          data-cy="create-ad-price"
         />
         <SelectInput
           label="Catégorie"
@@ -104,9 +107,11 @@ export default {
           :is-valid-data="!v$.formData.category.$invalid"
           :options="categories"
           :disabled="$data.isInputsDisabled"
+          data-cy="create-ad-category"
         />
         <div class="text-center">
           <ActionInputs
+            data-cy="create-ad-button"
             :ad="$data.formData"
             :is-ad-created="$data.isAdCreated"
             :disabled="v$.$invalid"

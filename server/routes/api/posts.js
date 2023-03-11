@@ -17,7 +17,7 @@ router.post("/postInfos", (req, res) => {
 });
 
 router.post("", (req, res) => {
-  Post.find({ userFrom: req.body.userFrom }).exec((err, posts) => {
+  Post.find({ userFrom: req.body._id }).exec((err, posts) => {
     if (err) return res.status(400).send(err);
     res.status(200).json({
       message: "Posts fetched successfully!",

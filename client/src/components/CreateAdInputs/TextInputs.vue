@@ -27,7 +27,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="form-group">
+  <div>
     <label class="mb-1">{{ label }}</label>
     <input
       v-if="label !== 'Description'"

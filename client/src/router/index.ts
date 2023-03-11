@@ -1,52 +1,60 @@
 import { createWebHistory, createRouter } from "vue-router";
+import { isAuthenticatedGuard, isNotAuthenticatedGuard } from "../shared/guards/auth.guards";
 import store from "../store";
-import NotFoundPage from "../views/NotFoundPage.vue";
 
 const routes = [
   {
     name: "auth",
     path: "/",
+    beforeEnter: [isNotAuthenticatedGuard],
     component: () => import("../views/AuthPage.vue"),
   },
   {
     name: "profile",
     path: "/profile",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/ProfilePage.vue"),
     props: true,
   },
   {
     name: "Ads",
     path: "/ads",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/AdsPage.vue"),
   },
   {
     name: "CreateAd",
     path: "/create-ad",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/CreateAd.vue"),
   },
   {
     name: "UserAds",
     path: "/user-ads",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/UserAdsPage.vue"),
   },
   {
     name: "UserAdsDetails",
     path: "/user-ads/:id",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/UserAdsDetailsPage.vue"),
   },
   {
     name: "Favorites",
     path: "/favorites",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/FavoritePage.vue"),
   },
   {
     name: "FavoritesDetails",
     path: "/favorites/:ad",
+    beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/FavoritesDetailsPage.vue"),
   },
   {
-    path: "/:pathMatch(.*)*",
-    component: NotFoundPage,
+    path: "/:notfound(.*)*",
+    component: () => import("../views/NotFound.vue"),
   },
 ];
 
@@ -55,19 +63,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeResolve(async (to) => {
-  if (to.name === "auth") {
-    localStorage.removeItem("user");
-  }
-});
-
-router.beforeEach((to) => {
-  const publicPages = ["/"];
-  const authRequired = !publicPages.includes(to.path);
-  const isUserLoggedIn = store.getters.isLoggedIn;
-
-  if (authRequired && !isUserLoggedIn) {
-    return "/";
+router.beforeEach(async () => {
+  if (!store.state.loaded) {
+    await store.dispatch("fetchCurrentUser");
   }
 });
 

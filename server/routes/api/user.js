@@ -3,64 +3,61 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../database/models/user.js");
 const router = express.Router();
+const { key, keyPub } = require("../../env/keys");
 
-router.post("/signup", (req, res) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = new User({
-      ...req.body,
-      password: hash,
-    });
-    user
-      .save()
-      .then((result) => {
-        res.status(201).json({
-          message: "User created!",
-          result: result,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: err,
-        });
-      });
+router.post("/signup", async (req, res) => {
+  const body = req.body;
+  const user = new User({
+    ...req.body,
+    password: await bcrypt.hash(body.password, 8),
+  });
+  user.save((err, user) => {
+    if (err) {
+      res.status(400).json("Erreur lors de l'inscription");
+    }
+    res.json(null);
   });
 });
 
-router.post("/login", (req, res) => {
-  let fetchedUser;
-  User.findOne({ email: req.body.email })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then((result) => {
-      if (!result) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        "secret_this_should_be_longer",
-        { expiresIn: "1h" }
-      );
-      res.status(200).json({
-        token: token,
-        expiresIn: 3600,
-        userId: fetchedUser._id,
+router.post("/login", async (req, res) => {
+  const body = req.body;
+  const user = await User.findOne({ email: body.email }).exec();
+  if (user) {
+    if (bcrypt.compareSync(body.password, user.password)) {
+      const token = jwt.sign({}, key, {
+        subject: user._id.toString(),
+        expiresIn: 60 * 60 * 24 * 30 * 6,
+        algorithm: "RS256",
       });
-      res.end();
-    })
-    .catch((err) => {
-      return res.status(401).json({
-        message: "Auth failed",
-      });
-    });
+      res.cookie("token", token);
+      res.json(user);
+    } else {
+      res.status(400).json("Mauvais email ou mot de passe");
+    }
+  } else {
+    res.status(400).json("Mauvais email ou mot de passe");
+  }
+});
+
+router.get("/current", async (req, res) => {
+  const token = req.cookies.token;
+  if (token) {
+    try {
+      const decodedToken = jsonwebtoken.verify(token, keyPub);
+      const user = await UserModel.findById(decodedToken.sub)
+        .select("-password -__v")
+        .exec();
+      if (user) {
+        res.json(user);
+      } else {
+        res.json(null);
+      }
+    } catch (e) {
+      res.json(null);
+    }
+  } else {
+    res.json(null);
+  }
 });
 
 router.get("/:id", (req, res) => {
@@ -86,6 +83,11 @@ router.put("/:id", (req, res) => {
       res.status(401).json({ message: "Not authorized!" });
     }
   });
+});
+
+router.delete("/", async (req, res) => {
+  res.clearCookie("token");
+  res.end();
 });
 
 module.exports = router;

@@ -21,7 +21,7 @@ const state = reactive<{
 });
 
 const toast = inject<ToastInterface>("toastMsg")!;
-const userId = store?.state.user.userId;
+const userId = store?.state.user._id;
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const getUserProfile = async (): Promise<void> => {

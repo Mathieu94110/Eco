@@ -35,7 +35,7 @@ const state = reactive<{
   fullPage: true,
   config: userAdsConfig,
 });
-
+const userId = store?.state.user._id;
 const setTable = (data: userAdsPaginationInterface) => {
   state.pagination = data;
 };
@@ -43,7 +43,7 @@ const getUserAds = async (): Promise<void> => {
   state.isLoading = true;
   try {
     const variable: { userFrom: string } = {
-      userFrom: store.state.user.userId,
+      userFrom: userId,
     };
     const userAds = await getAds(variable);
     if (userAds) {
@@ -58,8 +58,8 @@ const getUserAds = async (): Promise<void> => {
 const deleteUserAd = async (ad: UserAdInterface): Promise<void> => {
   try {
     const variables = {
-      _id: ad._id,
-      userFrom: store.state.user.userId,
+      id: ad._id,
+      userFrom: userId,
     };
     await deleteAd(variables);
     toast("L'annonce a bien été supprimée !", "success");

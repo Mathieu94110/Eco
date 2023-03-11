@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { LoginData } from "@/shared/interfaces";
 import { reactive, defineProps, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 const state = reactive<{
   email: string;
@@ -14,6 +16,9 @@ const props = defineProps<{
   status: string;
 }>();
 
+const store = useStore();
+const router = useRouter();
+
 const emit = defineEmits<{
   (e: "login", loginCredentials: LoginData): void;
   (e: "switch", value: string): void;
@@ -22,15 +27,24 @@ const emit = defineEmits<{
 const switchComponent = (): void => {
   emit("switch", "create");
 };
-const login = (): void => {
-  emit("login", { email: state.email, password: state.password });
+
+const submit = async () => {
+  try {
+    await store.dispatch("login", {
+      email: state.email,
+      password: state.password,
+    });
+    router.push("/profile");
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const validatedFields = computed<boolean>(() => state.email !== "" && state.password !== "");
 </script>
 
 <template>
-  <form class="sign-in" @submit.prevent="login">
+  <form class="sign-in" @submit.prevent="submit">
     <div class="sign-in__title">
       <h1>Connection</h1>
     </div>
@@ -81,7 +95,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
         :class="{ 'sign-in__button-disabled': !validatedFields }"
       >
         <span v-if="props.status === 'loading'">Connection en cours...</span>
-        <span v-else class="color-white">Connection</span>
+        <span v-else data-cy="login-button" class="color-white">Connection</span>
       </button>
     </div>
   </form>

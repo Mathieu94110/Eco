@@ -22,12 +22,12 @@ const sideBarClosed = inject<boolean>("collapsed");
 
 const store = useStore();
 const isAdCreated = ref<boolean>(false);
-const currentUser = computed<string>(() => store?.state.user.userId);
+const userId = store?.state.user._id;
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const createAd = async (ad: UserAdInterface) => {
   await store.dispatch("createPost", {
-    userFrom: currentUser.value,
+    userFrom: userId,
     title: ad.title,
     description: ad.description,
     category: ad.category,

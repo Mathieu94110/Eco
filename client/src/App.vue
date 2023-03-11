@@ -24,15 +24,15 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["isLoggedIn"]),
+    ...mapGetters(["isAuthenticated"]),
   },
 };
 </script>
 
 <template>
   <div id="app">
-    <div :class="{ 'app__container--auth': isLoggedIn }" class="app__container">
-      <NavBar v-if="isLoggedIn" />
+    <div :class="{ 'app__container--auth': isAuthenticated }" class="app__container">
+      <NavBar v-if="isAuthenticated" />
       <router-view></router-view>
     </div>
   </div>

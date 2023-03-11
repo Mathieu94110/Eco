@@ -14,9 +14,8 @@ const state = reactive<{
 const store = useStore();
 const router = useRouter();
 
-const logOut = (): void => {
-  store.commit("loginStatus", false);
-  store.commit("logOut");
+const logout = async (): Promise<void> => {
+  await store.dispatch("logout");
   router.push("/");
 };
 </script>
@@ -32,11 +31,13 @@ const logOut = (): void => {
         <Transition>
           <div class="topbar__menu" @click="state.open = false" @keydown="state.open = false" v-if="state.open">
             <NavLink to="" icon="fas fa-user-circle"
-              ><span @click="logOut()" @keydown="logOut()">Déconnection</span></NavLink
+              ><span @click="logout()" @keydown="logout()">Déconnection</span></NavLink
             >
             <NavLink to="/profile" icon="fas fa-user-circle"><span>Mes informations</span></NavLink>
             <NavLink to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"><span>Annonces</span></NavLink>
-            <NavLink to="/create-ad" icon="fas fa-pencil-alt"><span>Déposer une annonce</span></NavLink>
+            <NavLink to="/create-ad" icon="fas fa-pencil-alt" data-cy="create-ad-link"
+              ><span>Déposer une annonce</span></NavLink
+            >
             <NavLink to="/user-ads" icon="fas fa-pencil-alt"><span>Mes annonces</span></NavLink>
             <NavLink to="/favorites" icon="fas fa-star" data-cy="favorite-link"><span>Mes favoris</span></NavLink>
           </div>

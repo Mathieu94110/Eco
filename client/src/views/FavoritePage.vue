@@ -25,7 +25,7 @@ const toast = inject<ToastInterface>("toastMsg")!;
 const store = useStore();
 const router = useRouter();
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
-const userId = store?.state.user.userId;
+const userId = store?.state.user._id;
 
 const getUserFavorites = async (): Promise<void> => {
   try {

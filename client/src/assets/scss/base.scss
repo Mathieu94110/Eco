@@ -1,4 +1,4 @@
-@use './mixins';
+@use "./mixins";
 
 :root {
   --primary-1: #42a1ec;
@@ -14,7 +14,7 @@
   --primary-color: #ffffff;
   --border: 1px solid var(--gray-2);
   --border-radius: 4px;
-  --font-family: 'Poppins', 'Roboto', sans-serif;
+  --font-family: "Poppins", "Roboto", sans-serif;
   --sidebar-item-active: #15263f;
 }
 
@@ -164,6 +164,9 @@ body {
   margin: 30px;
 }
 
+.full-height {
+  height: 100vh;
+}
 // flexbox
 .d-flex {
   display: flex;
@@ -238,16 +241,14 @@ body {
 .btn-primary {
   background-color: var(--primary-1);
   color: var(--text-primary-color);
-
   &:hover {
     background-color: var(--primary-2);
   }
 }
 
-
 input:disabled {
   pointer-events: none;
-  opacity: .65;
+  opacity: 0.65;
 }
 
 .btn-danger {

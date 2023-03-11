@@ -16,11 +16,16 @@ const emit = defineEmits<{
 
 <template>
   <div v-if="props.isAdCreated" class="create-ad-buttons__after">
-    <button class="btn btn-success" data-test="submit-button" @click="emit('submit-ad')">
+    <button
+      class="btn btn-success"
+      data-cy="validate-create-button"
+      data-test="submit-button"
+      @click="emit('submit-ad')"
+    >
       <span class="font-600">Valider</span>
     </button>
     <br />
-    <button class="btn btn-danger" data-test="cancel-button" @click="emit('cancel-ad')">
+    <button class="btn btn-danger" data-cy="cancel-create-button" data-test="cancel-button" @click="emit('cancel-ad')">
       <span class="font-600">Annuler</span>
     </button>
   </div>

@@ -37,8 +37,7 @@ const state = reactive<{
 const store = useStore();
 const toast = inject<ToastInterface>("toastMsg")!;
 const sideBarClosed = inject<boolean>("collapsed");
-const userId = store?.state.user.userId;
-const currentUser = computed<string>(() => store?.state.user.userId);
+const userId = store?.state.user._id;
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 async function loadFakeAds(): Promise<void> {
@@ -78,7 +77,7 @@ const toggleOnFavorites = async (ad: FakeAdInterface): Promise<void> => {
     toast("L'annonce a été retirée de vos favoris !", "success");
     state.favorites = state.favorites.filter((favorite) => favorite.id !== ad.id);
   } else {
-    const userFavorite = { ...ad, userFrom: currentUser.value };
+    const userFavorite = { ...ad, userFrom: userId };
     try {
       await addToFavorites(userFavorite);
       toast("L'annonce a été ajoutée à vos favoris !", "success");

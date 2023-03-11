@@ -14,7 +14,7 @@ const userAdsRequestById = async <TResponse>(url: string, id: string): Promise<T
 };
 
 const UserAdsApi = {
-  getUserAds: <TBody extends BodyInit, TResponse>(url: string, body: TBody) =>
+  getUserAds: <TResponse>(url: string, body: { userFrom: string }) =>
     userAdsRequest<TResponse>(url, {
       method: "POST",
       headers: {
@@ -23,7 +23,7 @@ const UserAdsApi = {
       body: JSON.stringify(body),
     }),
 
-  AddToUserAds: <TResponse>(url: string, body: UserAdInterface) =>
+  AddToUserAds: <TResponse>(url: string, body: Partial<UserAdInterface>) =>
     userAdsRequest<TResponse>(url, {
       method: "POST",
       headers: {
@@ -32,7 +32,7 @@ const UserAdsApi = {
       body: JSON.stringify(body),
     }),
 
-  updateUserAd: <TResponse>(url: string, body: UserAdInterface) =>
+  updateUserAd: <TResponse>(url: string, body: Partial<UserAdInterface>) =>
     userAdsRequest<TResponse>(`${url}/${body._id}`, {
       method: "PUT",
       headers: {
@@ -40,7 +40,7 @@ const UserAdsApi = {
       },
       body: JSON.stringify(body),
     }),
-  deleteUserAd: <TResponse>(url: string, body: UserAdInterface) =>
+  deleteUserAd: <TResponse>(url: string, body: Partial<UserAdInterface>) =>
     userAdsRequest<TResponse>(url, {
       method: "POST",
       headers: {

@@ -10,9 +10,8 @@ export interface UserInterface {
   zip?: number;
   _id: string;
 }
-export interface newUserInfoInterface {
-  newUserInfos: UserInterface;
-}
+
+export interface UserForm extends Partial<UserInterface> {}
 
 export interface userAdsConfigInterface {
   key: string;

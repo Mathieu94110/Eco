@@ -16,9 +16,8 @@ const router = useRouter();
 
 const toggleSidebar = inject("toggleSidebar") as () => void;
 
-const logOut = (): void => {
-  store.commit("loginStatus", false);
-  store.commit("logOut");
+const logout = async (): Promise<void> => {
+  await store.dispatch("logout");
   router.push("/");
 };
 
@@ -44,13 +43,13 @@ const formatSideBar = (value: boolean): void => {
       <button
         v-if="state.isHover"
         class="side-bar__link--error"
-        @click="logOut()"
-        @keydown="logOut()"
+        @click="logout()"
+        @keydown="logout()"
         icon="fa-solid fa-right-from-bracket"
       >
         Se déconnecter
       </button>
-      <div v-else @click="logOut()" @keydown="logOut()">
+      <div v-else @click="logout()" @keydown="logout()">
         <NavLink class="side-bar__link" to="/profile" icon="fa-solid fa-right-from-bracket"></NavLink>
       </div>
 
@@ -58,7 +57,7 @@ const formatSideBar = (value: boolean): void => {
       <NavLink class="side-bar__link" to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"
         ><span>Annonces</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/create-ad" icon="fas fa-pencil-alt"
+      <NavLink class="side-bar__link" to="/create-ad" icon="fas fa-pencil-alt" data-cy="create-ad-link"
         ><span>Déposer une annonce</span></NavLink
       >
       <NavLink class="side-bar__link" to="/user-ads" icon="fas fa-pencil-alt"><span>Mes annonces</span></NavLink>
