@@ -4,7 +4,11 @@ const apiUrl = "http://localhost:3000/api";
 const userAdsRequest = async <TResponse>(url: string, body: object): Promise<TResponse> => {
   const data = await fetch(url, body);
   const response = await data.json();
-  return response.posts;
+  if (response.posts) {
+    return response.posts;
+  } else {
+    return response;
+  }
 };
 
 const userAdsRequestById = async <TResponse>(url: string, id: string): Promise<TResponse> => {
@@ -40,9 +44,10 @@ const UserAdsApi = {
       },
       body: JSON.stringify(body),
     }),
+
   deleteUserAd: <TResponse>(url: string, body: Partial<UserAdInterface>) =>
     userAdsRequest<TResponse>(url, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -59,5 +64,6 @@ export const updateAd = async (variable: UserAdInterface): Promise<void> =>
   await UserAdsApi.updateUserAd(`${apiUrl}/posts`, variable);
 export const deleteAd = async (variables: Partial<UserAdInterface>): Promise<void> =>
   await UserAdsApi.deleteUserAd(`${apiUrl}/posts/removeAd`, variables);
+
 export const addToAds = async (variables: Partial<UserAdInterface>): Promise<void> =>
   await UserAdsApi.AddToUserAds(`${apiUrl}/posts/postInfos`, variables);

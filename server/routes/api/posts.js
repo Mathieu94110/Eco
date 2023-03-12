@@ -17,7 +17,7 @@ router.post("/postInfos", (req, res) => {
 });
 
 router.post("", (req, res) => {
-  Post.find({ userFrom: req.body._id }).exec((err, posts) => {
+  Post.find({ userFrom: req.body.userFrom }).exec((err, posts) => {
     if (err) return res.status(400).send(err);
     res.status(200).json({
       message: "Posts fetched successfully!",
@@ -38,7 +38,7 @@ router.get("/:id", (req, res) => {
 
 router.delete("/removeAd", (req, res) => {
   Post.findOneAndDelete({
-    _id: req.body._id,
+    _id: req.body.id,
     userFrom: req.body.userFrom,
   }).exec((err, doc) => {
     if (err) return res.status(400).json({ success: false, err });
