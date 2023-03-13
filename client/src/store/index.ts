@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
-import { addToAds, fetchCurrentUser, login, logout } from "@/api";
+import { addToAds, fetchCurrentUser, getFavorites, login, logout } from "@/api";
 import axios from "axios";
+import type { FakeAdInterface } from "@/shared/interfaces";
 
 const userInstance = axios.create({
   baseURL: "http://localhost:3000/api/user",
@@ -20,8 +21,22 @@ const store = createStore({
       price: null,
       category: "",
     },
+    currentFavorites: null,
     favoriteDetails: {
       _id: "",
+      id: null,
+      brand: "",
+      category: "",
+      description: "",
+      discountPercentage: null,
+      images: null,
+      price: null,
+      rating: null,
+      stock: null,
+      thumbnail: "",
+      title: "",
+    },
+    adDetails: {
       id: null,
       brand: "",
       category: "",
@@ -48,11 +63,16 @@ const store = createStore({
       state.currentPost = post;
     },
 
+    userFavorites(state, favorites) {
+      state.currentFavorites = favorites;
+    },
     logUser(state, user) {
       userInstance.defaults.headers.common.Authorization = user.token;
       state.user = user;
     },
-
+    setAdData(state, adInfo) {
+      state.adDetails = adInfo.ad;
+    },
     setFavoriteData(state, favoriteInfo) {
       state.favoriteDetails = favoriteInfo.favorite;
     },
@@ -71,7 +91,9 @@ const store = createStore({
       }
     },
     getCurrentPost: (state) => state.currentPost,
+    getFavorites: (state) => state.currentFavorites,
     getFavoriteDetails: (state) => state.favoriteDetails,
+    getAdDetails: (state) => state.adDetails,
   },
   actions: {
     async login({ commit }, userInfos) {
@@ -110,6 +132,10 @@ const store = createStore({
       }
     },
 
+    sendAdDetails: ({ commit }, AdInfo) => {
+      commit("setAdData", AdInfo);
+    },
+
     sendFavoriteDetails: ({ commit }, FavoriteInfo) => {
       commit("setFavoriteData", FavoriteInfo);
     },
@@ -123,6 +149,11 @@ const store = createStore({
     async resetForm({ commit }, data) {
       commit("resetPost", data);
     },
+
+    async userFavorites({ commit }, data) {
+      commit("userFavorites", data);
+    },
+
     async logout() {
       await logout();
       store.state.user = null;
@@ -130,6 +161,13 @@ const store = createStore({
     async fetchCurrentUser() {
       store.state.user = (await fetchCurrentUser()) as any;
       store.state.loaded = true;
+    },
+    async fetchUserFavorites({ commit }) {
+      if (store.state.user) {
+        const userId = store.state.user._id;
+        const response = (await getFavorites(userId)) as FakeAdInterface[];
+        commit("userFavorites", response);
+      }
     },
   },
 });

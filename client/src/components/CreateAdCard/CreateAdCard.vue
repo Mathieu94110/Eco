@@ -162,9 +162,8 @@ export default {
     }
     &__card {
       width: auto;
-      min-width: 300px;
-      margin: auto;
-      padding: 1rem;
+      margin: 1rem;
+      padding: 0;
     }
   }
 }

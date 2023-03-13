@@ -13,13 +13,14 @@
   font-size: 26px;
   font-weight: 600;
   height: 60px;
-  background: var(--primary-1);
+  background: var(--sidebar-item-active);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   @include mixins.xs {
-    font-size: 20px;
+    font-size: 16px;
   }
+  color: #fff;
 }
 </style>

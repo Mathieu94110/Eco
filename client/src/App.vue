@@ -26,6 +26,15 @@ export default {
   computed: {
     ...mapGetters(["isAuthenticated"]),
   },
+  watch: {
+    isAuthenticated: {
+      handler(isAuthenticated) {
+        if (isAuthenticated) {
+          store.dispatch("fetchUserFavorites");
+        }
+      },
+    },
+  },
 };
 </script>
 

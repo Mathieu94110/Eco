@@ -251,7 +251,7 @@ watch(
       color: var(--primary-1);
     }
 
-    color: var(--gray-1);
+    color: #fff;
   }
 
   &__sub-categories {

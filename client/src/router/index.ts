@@ -23,6 +23,12 @@ const routes = [
     component: () => import("../views/AdsPage.vue"),
   },
   {
+    name: "AdDetails",
+    path: "/ads/:ad",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/AdDetailsPage.vue"),
+  },
+  {
     name: "CreateAd",
     path: "/create-ad",
     beforeEnter: [isAuthenticatedGuard],

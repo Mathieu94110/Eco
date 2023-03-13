@@ -22,7 +22,7 @@ const isActive = computed<Component>(() => (isTabletOrMobile.value === true ? Ta
       <component :is="isActive" :user-ads="props.userAds" :user-config="props.config" v-bind="$attrs" />
     </div>
     <div v-else class="table__empty-wrapper center">
-      <div class="p-20">
+      <div class="p-20 text-center">
         <h2>Vous n'avez aucune annonce en ligne</h2>
       </div>
     </div>

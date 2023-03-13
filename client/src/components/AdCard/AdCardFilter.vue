@@ -102,7 +102,7 @@ const numberOfAds = computed<number>(() => props.ads.length);
   flex-direction: column;
   justify-content: center;
   &__wrapper {
-    padding: 20px 10px;
+    padding: 0px 10px 20px;
     display: flex;
     flex-direction: column;
     max-height: 800px;

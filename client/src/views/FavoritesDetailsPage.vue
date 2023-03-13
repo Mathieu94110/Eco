@@ -2,8 +2,8 @@
 import { reactive, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import AdCard from "@/components/AdCard/AdCard.vue";
 import type { FakeAdInterface } from "@/shared/interfaces";
+import UserAdCard from "@/components/UserAdCard/UserAdCard.vue";
 
 const router = useRouter();
 const store = useStore();
@@ -29,10 +29,10 @@ onMounted(() => {
 <template>
   <div class="favorites-details">
     <div class="favorites-details__header">
-      <input class="go-back-btn" type="button" @click="goBack()" value="Retour" />
+      <input type="button" @click="goBack()" value="Retour" />
     </div>
     <div class="ads" v-if="state.favoriteInfos">
-      <AdCard :ad="state.favoriteInfos" />
+      <UserAdCard :ad="state.favoriteInfos" />
     </div>
   </div>
 </template>

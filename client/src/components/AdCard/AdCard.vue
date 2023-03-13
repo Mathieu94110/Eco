@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, defineProps } from "vue";
+import { watch, ref, defineProps } from "vue";
 import { useRoute } from "vue-router";
 import type { FakeAdInterface } from "@/shared/interfaces";
 
@@ -9,253 +9,95 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
+  (e: "send-ad", ad: FakeAdInterface): void;
   (e: "add-item", ad: FakeAdInterface): void;
 }>();
 const route = useRoute();
-const isFavoritePage = computed(() => route.name === "FavoritesDetails");
 const isFavorited = ref<boolean>(false);
 
-watch([props.ad, () => props.favorites], ([newAds, newFavorites]) => {
-  isFavorited.value = newFavorites.some((favorite) => favorite.id === newAds.id);
-});
+watch(
+  () => props.favorites,
+  () => {
+    isFavorited.value = props.favorites.some((favorite) => favorite.id === props.ad.id);
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
-  <div :class="['card', isFavoritePage ? 'favorite' : 'not-favorite']">
-    <div class="card__product-img">
-      <img v-if="props.ad.images" class="card__img" :src="props.ad.images[0]" height="100" alt="product-image" />
+  <div class="ad-card">
+    <div class="ad-card__thumbnail" @click="$emit('send-ad', props.ad)">
+      <img v-if="props.ad.images" :src="props.ad.images[0]" alt="{{props.ad.title}}" />
     </div>
-    <div class="card__content">
-      <p class="card__title">
-        {{ props.ad.title }} <span>#{{ props.ad.id }}</span>
-      </p>
-      <p class="card__description" v-if="props.ad.description">
-        {{ props.ad.description }}
-      </p>
-      <div class="card__content-bottom">
-        <div :class="isFavoritePage ? 'card__price-favorite' : 'card__price'">
-          <div class="card__price-items">
-            <span>Prix:</span> <span>{{ props.ad.price }} $</span>
-          </div>
-          <div class="card__price-items">
-            <span>% de réduction:</span>
-            <span>{{ props.ad.discountPercentage }}</span>
-          </div>
-          <div v-if="props.ad.rating" class="card__price-items">
-            <span>Avis vendeur: </span><span>{{ props.ad.rating }} / 5</span>
-          </div>
-        </div>
-        <div v-if="isFavoritePage" class="card__price-favorite">
-          <div class="card__price-items">
-            <span>Marque: </span><span>{{ props.ad.brand }}</span>
-          </div>
-
-          <div class="card__price-items">
-            <span>% de réduction: </span><span>{{ props.ad.discountPercentage }}</span>
-          </div>
-          <div class="card__price-items">
-            <span>Stock: </span><span>{{ props.ad.stock }}</span>
-          </div>
-          <div class="card__price-items">
-            <span>Miniature: </span>
-            <img
-              v-if="props.ad.images.length > 0"
-              class="card__img"
-              :src="props.ad.images[0]"
-              height="50"
-              alt="product-image"
-            />
-          </div>
-        </div>
+    <div class="d-flex space-between align-center mr-20">
+      <div>
+        <span class="ad-card__title">{{ props.ad.title }}</span>
+        <span class="ad-card__price">{{ props.ad.price }} €</span>
       </div>
-    </div>
-    <div class="card__footer">
-      <div class="card__avatar">
-        <img alt="avatar-image" :src="props.ad.thumbnail" />
-      </div>
-      <div class="card__category">
-        <div class="card__category-items">
-          <span class="card__price-items">Catégorie:</span>
-          <span class="card__category-items">{{ props.ad.category }}</span>
-        </div>
-        <div v-if="!isFavoritePage">
-          <span @click="emit('add-item', props.ad)" class="card__heart" :class="{ active: isFavorited }">
-            <i class="fas fa-heart"></i>
-          </span>
-        </div>
-      </div>
+      <span @click="emit('add-item', props.ad)" class="ad-card__heart" :class="{ active: isFavorited }">
+        <i class="fas fa-heart"></i>
+      </span>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.icon {
-  display: flex;
-}
+@use "../../assets/scss/mixins" as mixin;
 
-.card {
-  min-width: 300px;
-  max-height: 600p;
-  margin: 20px;
-  background-color: #15263f;
-  color: var(--primary-color);
-  border-radius: 16px;
-  font-size: 1.2rem;
-  box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-
-  @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    padding-bottom: 32px;
+.ad-card {
+  padding: 5px;
+  width: 366px;
+  height: 420px;
+  @include mixin.xs-xl {
+    padding: 5px;
+    width: 260px;
   }
-
-  &__product-img {
-    cursor: pointer;
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-
-    @mixin hoverOpacity {
-      content: "";
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      transition: opacity 0.25s ease-out;
-    }
-
-    &::before {
-      @include hoverOpacity;
-      background-color: var(--primary-1);
-    }
-
-    &::after {
-      @include hoverOpacity;
-    }
-
-    &:hover {
-      &::before {
-        opacity: 0.5;
-      }
-
-      &::after {
-        opacity: 1;
-      }
-    }
-  }
-
-  &__content {
+  cursor: pointer;
+  &__thumbnail {
+    width: auto;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px;
+    padding: 25px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px 0 16px 0;
-
-    @media screen and (min-width: 768px) {
-      gap: 16px;
-      padding: 24px 0;
-      height: 320px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    @include mixin.md {
+      height: 350px;
+    }
+    img {
+      transition: all ease 0.3s;
+      display: block;
+      width: auto;
+      height: 200px;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 
   &__title {
-    height: 50px;
-    color: var(--primary-color);
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-      color: var(--primary-1);
-    }
-  }
-
-  &__description {
-    height: auto;
+    font-size: 14px;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
-    font-size: 1rem;
-    line-height: 1.2rem;
-    font-weight: lighter;
-
-    @media screen and (min-width: 768px) {
-      height: 76px;
-      overflow-y: auto;
-    }
-  }
-
-  &__content-bottom {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 4px;
-    font-size: 1rem;
-
-    @media screen and (min-width: 768px) {
-      padding-top: 6px;
-    }
-
-    > * {
-      display: flex;
-      gap: 8px;
-      font-weight: 600;
+    @include mixin.md {
+      font-size: 16px;
+      margin-bottom: 10px;
     }
   }
 
   &__price {
-    display: block;
-  }
-
-  &__price-favorite {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 10px 0;
-  }
-
-  &__price-items {
-    display: flex;
-    flex-direction: column;
-    padding: 0 5px;
-
-    :nth-child(odd) {
-      color: var(--primary-1);
-    }
-  }
-
-  &__footer {
-    display: flex;
-    align-items: center;
-    border-top: 1px solid var(--gray-3);
-    gap: 16px;
-    padding-top: 16px;
-  }
-
-  &__avatar {
-    display: flex;
-    border-radius: 90px;
-    border: 1px solid var(--primary-color);
-
-    img {
-      width: 33px;
-      max-height: 33px;
-    }
-  }
-
-  &__category {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__category-items {
-    :first-child {
-      color: var(--primary-1);
+    font-size: 18px;
+    @include mixin.md {
+      font-size: 24px;
     }
   }
 
   &__heart {
     padding: 10px;
-
     &:hover {
       cursor: pointer;
     }
@@ -263,26 +105,5 @@ watch([props.ad, () => props.favorites], ([newAds, newFavorites]) => {
       color: var(--danger-1);
     }
   }
-}
-
-.favorite {
-  padding: 30px;
-}
-
-.not-favorite {
-  padding: 16px;
-  width: 250px;
-  text-align: center;
-}
-
-//Transition
-.fade-enter-active,
-.fade-leave-active {
-  transition: 0.25s ease-out;
-}
-
-.fade-leave-to,
-.fade-enter-from {
-  opacity: 0;
 }
 </style>

@@ -26,5 +26,5 @@ export interface UserAdInterface {
 
 export interface PageOptionsInterface {
   page: number;
-  perPage: any;
+  perPage: number;
 }

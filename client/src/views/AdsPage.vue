@@ -5,14 +5,14 @@ import AdCard from "@/components/AdCard/AdCard.vue";
 import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import AdCardFilter from "@/components/AdCard/AdCardFilter.vue";
 import Calc from "@/components/Calc/Calc.vue";
-import { getFakeAds, getFavorites, addToFavorites, removeFromFavorites } from "@/api";
+import { getFakeAds, addToFavorites, removeFromFavorites } from "@/api";
 import type { FakeAdInterface, FilterUpdate, ToastInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
+import { useRouter } from "vue-router";
 
 const state = reactive<{
   ads: FakeAdInterface[];
-  favorites: FakeAdInterface[];
   noResult: boolean;
   message: string;
   isLoading: boolean;
@@ -21,7 +21,6 @@ const state = reactive<{
   open: boolean;
 }>({
   ads: [],
-  favorites: [],
   noResult: false,
   message: "",
   isLoading: true,
@@ -35,17 +34,18 @@ const state = reactive<{
 });
 
 const store = useStore();
+const router = useRouter();
 const toast = inject<ToastInterface>("toastMsg")!;
 const sideBarClosed = inject<boolean>("collapsed");
 const userId = store?.state.user._id;
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
+const favorites = computed<FakeAdInterface[]>(() => store?.getters.getFavorites);
 
 async function loadFakeAds(): Promise<void> {
   try {
     const fakeAds = await getFakeAds();
     if (fakeAds) {
       state.ads = fakeAds;
-      state.isLoading = false;
     } else {
       state.noResult = true;
       state.message = "Aucunes annonces trouvées !";
@@ -54,34 +54,28 @@ async function loadFakeAds(): Promise<void> {
     state.noResult = true;
     state.message = "Erreur lors du chargement des annonces";
   }
+  state.isLoading = false;
 }
-const getUserFavorites = async (): Promise<void> => {
-  try {
-    const response = await getFavorites(userId);
-    if (response) {
-      state.favorites = response;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const toggleOnFavorites = async (ad: FakeAdInterface): Promise<void> => {
-  const AdIsOnFavorite = state.favorites.some((favorite: FakeAdInterface) => favorite.id === ad.id);
+  const AdIsOnFavorite = favorites.value.some((favorite: FakeAdInterface) => favorite.id === ad.id);
   if (AdIsOnFavorite) {
     const variables = {
       id: ad.id,
       userFrom: userId,
     };
+    const oldFavorites = store?.state.currentFavorites;
     await removeFromFavorites(variables);
+
+    const newFavorites = oldFavorites.filter((favorite: FakeAdInterface) => favorite.id !== ad.id);
+    await store.dispatch("userFavorites", newFavorites);
     toast("L'annonce a été retirée de vos favoris !", "success");
-    state.favorites = state.favorites.filter((favorite) => favorite.id !== ad.id);
   } else {
     const userFavorite = { ...ad, userFrom: userId };
     try {
       await addToFavorites(userFavorite);
+      await store.dispatch("userFavorites", [...favorites.value, { ...ad }]);
       toast("L'annonce a été ajoutée à vos favoris !", "success");
-      state.favorites = [...state.favorites, { ...ad }];
     } catch (e) {
       console.error(e);
     }
@@ -116,9 +110,22 @@ const filteredAds = computed(
     }),
 );
 
+const sendAdDetails = async (ad: FakeAdInterface): Promise<void> => {
+  try {
+    await store.dispatch("sendAdDetails", {
+      ad: ad,
+    });
+    router.push({
+      name: "AdDetails",
+      params: { ad: ad.title },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 onMounted(async () => {
   await loadFakeAds();
-  await getUserFavorites();
 });
 </script>
 
@@ -145,15 +152,17 @@ onMounted(async () => {
             <i class="fa-solid fa-magnifying-glass mr-10"></i>
             <span>Rechercher</span>
           </button>
-
-          <div class="ads__cards">
-            <AdCard
-              v-for="ad in filteredAds"
-              :key="ad.id"
-              :ad="ad"
-              :favorites="state.favorites"
-              @add-item="toggleOnFavorites(ad)"
-            />
+          <div class="ads__list-container">
+            <div class="ads__list">
+              <AdCard
+                v-for="ad in filteredAds"
+                :key="ad.id"
+                :ad="ad"
+                :favorites="favorites"
+                @send-ad="sendAdDetails($event)"
+                @add-item="toggleOnFavorites(ad)"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -174,11 +183,9 @@ onMounted(async () => {
 
   &__filter {
     @include mixins.xs {
-      position: absolute;
-      top: 0px;
-      left: 0px;
       background-color: var(--primary-color);
-      z-index: 2;
+      position: fixed;
+      z-index: 3;
     }
   }
 
@@ -190,11 +197,21 @@ onMounted(async () => {
     }
   }
 
-  &__cards {
+  &__list-container {
+    margin: 50px 0;
+    @include mixins.md {
+      margin: 75px 0;
+    }
+  }
+  &__list {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-y: auto;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    @include mixins.md {
+      gap: 20px;
+    }
   }
 }
 
