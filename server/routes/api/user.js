@@ -7,16 +7,21 @@ const { key, keyPub } = require("../../env/keys");
 
 router.post("/signup", async (req, res) => {
   const body = req.body;
-  const user = new User({
-    ...req.body,
-    password: await bcrypt.hash(body.password, 8),
-  });
-  user.save((err, user) => {
-    if (err) {
-      res.status(400).json("Erreur lors de l'inscription");
-    }
-    res.json(null);
-  });
+  const user = await User.findOne({ email: body.email }).exec();
+  if (!user) {
+    const user = new User({
+      ...req.body,
+      password: await bcrypt.hash(body.password, 8),
+    });
+    user.save((err, user) => {
+      if (err) {
+        res.status(400).json("Erreur lors de l'inscription");
+      }
+      res.json(null);
+    });
+  } else {
+    res.status(500).json({ status: 500 });
+  }
 });
 
 router.post("/login", async (req, res) => {
@@ -31,8 +36,6 @@ router.post("/login", async (req, res) => {
       });
       res.cookie("token", token);
       res.json(user);
-    } else {
-      res.status(400).json("Mauvais email ou mot de passe");
     }
   } else {
     res.status(400).json("Mauvais email ou mot de passe");

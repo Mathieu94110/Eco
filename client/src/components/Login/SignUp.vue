@@ -4,7 +4,6 @@ import { reactive, computed } from "vue";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 import type { UserInterface, UserForm } from "@/shared/interfaces";
-import { createUser } from "@/api";
 
 const state = reactive<{
   mode: string;
@@ -13,6 +12,11 @@ const state = reactive<{
   mode: "create",
   currentImage: null,
 });
+
+const props = defineProps<{
+  status: string;
+}>();
+
 const store = useStore();
 
 const { handleSubmit, errors } = useForm({
@@ -52,8 +56,6 @@ const { value: address } = useField("address");
 const { value: zip } = useField("zip");
 const { value: password } = useField("password");
 
-const status = computed<string>(() => store?.state.status);
-
 const emit = defineEmits<{
   (e: "switch", value: string): void;
 }>();
@@ -63,10 +65,21 @@ const switchComponent = (): void => {
 
 const submit = handleSubmit(async (formValue: UserForm) => {
   try {
-    await createUser(formValue);
-    emit("switch", "login");
+    const response = await store.dispatch("createAccount", formValue);
+    if (response.status === 500) {
+      store.commit("setStatus", "error-signup");
+      setTimeout(() => {
+        store.commit("setStatus", "");
+      }, 2000);
+    } else {
+      emit("switch", "login");
+    }
   } catch (e) {
     console.log(e);
+    store.commit("setStatus", "unknown-error");
+    setTimeout(() => {
+      store.commit("setStatus", "");
+    }, 2000);
   }
 });
 
@@ -112,52 +125,52 @@ const onPickFile = (e: Event) => {
     </div>
 
     <main class="sign-up__main">
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="firstName">
           <input id="firstName" v-model="firstName" class="sign-up__form-input" type="text" placeholder="Prénom" />
         </label>
         <span class="sign-up__errors">{{ errors["firstName"] }}</span>
       </div>
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="lastName">
           <input id="lastName" v-model="lastName" class="sign-up__form-input" type="text" placeholder="Nom" />
         </label>
         <span class="sign-up__errors">{{ errors["lastName"] }}</span>
       </div>
 
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="phone">
           <input id="phone" v-model="phone" class="sign-up__form-input" type="number" placeholder="Téléphone" />
         </label>
         <span class="sign-up__errors">{{ errors["phone"] }}</span>
       </div>
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="email">
           <input id="email" v-model="email" class="sign-up__form-input" type="text" placeholder="Mail" />
         </label>
         <span class="sign-up__errors" data-cy="signup-error-email">{{ errors["email"] }}</span>
       </div>
 
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="address">
           <input id="address" v-model="address" class="sign-up__form-input" type="text" placeholder="Adresse" />
         </label>
         <span class="sign-up__errors">{{ errors["address"] }}</span>
       </div>
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="zip">
           <input id="zip" v-model="zip" class="sign-up__form-input" type="number" placeholder="Code postal" />
         </label>
         <span class="sign-up__errors">{{ errors["zip"] }}</span>
       </div>
 
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="userName">
           <input id="userName" v-model="userName" class="sign-up__form-input" type="text" placeholder="Pseudo" />
         </label>
         <span class="sign-up__errors">{{ errors["userName"] }}</span>
       </div>
-      <div class="d-flex flex-column">
+      <div class="sign-up__form-items">
         <label for="password">
           <input
             id="password"
@@ -176,13 +189,13 @@ const onPickFile = (e: Event) => {
         <span v-else class="color-white">Créer mon compte</span>
       </button>
       <span
-        v-if="status === 'error-signup'"
+        v-if="props.status === 'error-signup'"
         class="sign-up__errors sign-up__creation-errors"
         data-cy="user-exist-error"
       >
         Ce compte est déjà utilisé</span
       >
-      <span v-if="status === 'unknown-error'" class="sign-up__errors sign-up__creation-errors"
+      <span v-if="props.status === 'unknown-error'" class="sign-up__errors sign-up__creation-errors"
         >Problème survenu lors de la requete</span
       >
     </div>
@@ -207,28 +220,29 @@ const onPickFile = (e: Event) => {
 
   background: var(--primary-color);
   border-radius: 16px;
-  padding: 8px;
+  padding: px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  h1 {
+    font-size: 18px;
+  }
   &__title {
     grid-area: title;
     text-align: center;
-    color: #666;
+    color: var(--text-color);
     font-weight: 600;
     padding: 10px;
   }
 
   &__subtitle {
     grid-area: subtitle-main;
-    color: #666;
     align-self: center;
     font-weight: 600;
     padding: 10px;
 
     &-main {
       text-align: center;
-      color: #666;
+      color: var(--text-color);
       font-weight: 600;
-      font-size: 20px;
     }
     &-secondary {
       grid-area: subtitle-secondary;
@@ -248,6 +262,11 @@ const onPickFile = (e: Event) => {
       cursor: not-allowed;
       background: #cecece;
     }
+  }
+  &__form-items {
+    display: flex;
+    flex-direction: column;
+    height: auto;
   }
   &__form-input {
     padding: 8px;
@@ -303,8 +322,10 @@ const onPickFile = (e: Event) => {
   }
   &__errors {
     max-width: 200px;
-    color: red;
+    margin: 10px 0;
+    color: var(--danger-2);
     font-weight: bold;
+    font-size: 14px;
   }
   &__creation-errors {
     margin-left: 20px;
@@ -319,7 +340,13 @@ const onPickFile = (e: Event) => {
       "file-input file-input file-input file-image  file-image  file-image"
       "main main main main main main "
       "footer footer footer footer footer footer";
-    padding: 16px;
+    padding: 20px;
+    h1 {
+      font-size: 26px;
+    }
+    &__subtitle-main {
+      font-size: 20px;
+    }
     &__subtitle-secondary {
       grid-area: subtitle-secondary;
       align-self: center;
@@ -328,6 +355,16 @@ const onPickFile = (e: Event) => {
       font-weight: 600;
       font-size: 20px;
       padding: 10px;
+    }
+    &__form-items {
+      &:nth-child(7),
+      &:nth-child(8) {
+        height: 117px;
+      }
+
+      &:nth-child(-n + 6) {
+        height: 96px;
+      }
     }
     &__file-input {
       margin: 0px;
@@ -338,13 +375,17 @@ const onPickFile = (e: Event) => {
       height: 100px;
       margin: 0;
     }
-
     &__main {
       grid-area: main;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-auto-rows: minmax(50px, auto);
-      grid-gap: 20px;
+      grid-gap: 10px 20px;
+      font-size: 20px;
+    }
+    &__errors {
+      max-width: 200px;
+      margin-bottom: 10px;
     }
   }
 }

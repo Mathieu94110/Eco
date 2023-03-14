@@ -6,35 +6,24 @@ describe("home", () => {
   });
 
   it("should on favorite click go to the favorite detail page", () => {
-    cy.wait(1000);
     cy.get('[data-cy="favorite-link"]').click();
-    cy.wait(1000);
-    cy.get(
-      ':nth-child(1) > .card-layout__content > .card-layout__footer > [data-v-d3d15c67=""] > .favorite-card__actions > [data-cy="favorite-eye"]',
-    ).click();
-    cy.wait(2000);
+    cy.get(".favorites").eq(0).find('.favorite-card__actions > [data-cy="favorite-eye"]').last().click();
     cy.url().should("match", /favorites\/.+$/);
   });
 
   let favLengthBefore: number;
-  it('should delete favorite succeed"', () => {
-    cy.wait(1000);
+  it("should delete favorite succeed", () => {
     cy.get('[data-cy="ads-link"]').click();
-    cy.wait(2000);
-    cy.get(".ads__cards").children().find(".card__heart").not(".active").first().click();
-    cy.wait(2000);
+    cy.get(".ads__list").children().find(".ad-card__heart").not(".active").first().click();
     cy.get('[data-cy="favorite-link"]').click();
-    cy.wait(2000);
-    cy.get('[data-cy="favorite-card"]')
+    cy.get('[data-cy="favorite-card"]', { timeout: 5000 })
+      .should("be.visible")
       .its("length")
       .then((len) => {
         favLengthBefore = len;
         cy.log("Initial favoritesList length is: " + favLengthBefore);
       });
-    cy.get(
-      ':nth-last-child(-n + 1) > .card-layout__content > .card-layout__footer > [data-v-d3d15c67=""] > .favorite-card__actions > div > span',
-    ).click();
-    cy.wait(2000);
+    cy.get(".favorites").eq(0).find(".favorite-card__actions > div > span").last().click();
     cy.contains("Cette action est irréversible");
     cy.get('[data-cy="delete-fav-btn"]').contains("Supprimer").click();
     cy.wait(2000);
@@ -46,9 +35,7 @@ describe("home", () => {
       });
   });
 
-  it("should get favorites request succeed and getting the 4 mocked favorites", () => {
-    cy.wait(1000);
-    cy.get('[data-cy="favorite-link"]').click();
+  it("should get favorites request succeed and getting the 4 mocked favorites when user is logged", () => {
     cy.intercept("GET", `http://localhost:3000/api/favorites/getFavoredAdds/${testUserId}`, {
       fixture: "favorites.json",
     }).as("user-favorites");

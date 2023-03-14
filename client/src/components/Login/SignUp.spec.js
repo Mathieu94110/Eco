@@ -8,8 +8,8 @@ describe("SignUp Component", () => {
     wrapper = mount(SignUp);
   });
 
-  it("should emit create account with good values", async () => {
-    const spy = vi.spyOn(wrapper.vm, "createAccount");
+  it("should submit has been called", async () => {
+    const spy = vi.spyOn(wrapper.vm, "submit");
     // const newImage = 'test-image.png';
     const newUserName = "JohnDoe";
     const newFirstName = "John";

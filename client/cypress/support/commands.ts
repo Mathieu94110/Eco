@@ -24,7 +24,6 @@ Cypress.Commands.add("login", () => {
 });
 
 Cypress.Commands.add("completeCreateform", () => {
-  cy.wait(2000);
   cy.get("input[type=button]").should("be.disabled");
   cy.get('[data-cy="create-ad-title"]').eq(0).should("be.visible").type("Apple MacBook Pro 13'' 256 Go", {
     delay: 50,

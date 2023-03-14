@@ -83,8 +83,10 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
         </label>
       </div>
     </main>
-    <div class="sign-in__form-items--error" v-if="props.status === 'error_login'">
-      Adresse mail et/ou mot de passe invalide
+    <div class="sign-in__form-items-error">
+      <div class="sign-in__form-items--error" v-show="props.status === 'error_login'" id="generic-error">
+        Adresse mail et/ou mot de passe invalide
+      </div>
     </div>
     <div class="sign-in__footer">
       <button
@@ -117,16 +119,17 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 
   background: var(--primary-color);
   border-radius: 16px;
-  padding: 8px;
+  padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   &__title {
     grid-area: title;
-
     text-align: center;
-
     color: var(--text-color);
     font-weight: 600;
     padding: 10px;
+  }
+  h1 {
+    font-size: 18px;
   }
   &__subtitle {
     text-align: center;
@@ -170,10 +173,17 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
   &__form-items {
     display: flex;
     margin: 16px 0px;
+    margin: auto;
+    &-error {
+      height: 50px;
+    }
     &--error {
       grid-area: error-message;
       color: var(--danger-2);
       font-weight: bold;
+      font-size: 14px;
+      width: 211px;
+      margin: auto;
     }
   }
   &__subtitle-main {
@@ -217,8 +227,10 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       "error-message error-message"
       "footer footer";
     grid-gap: 20px;
-    padding: 16px;
     margin: 0;
+    h1 {
+      font-size: 26px;
+    }
     &__inputs {
       grid-area: main;
       display: grid;
@@ -226,14 +238,26 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       grid-auto-rows: minmax(30px, auto);
       grid-gap: 20px;
     }
+    &__subtitle-main {
+      font-size: 20px;
+    }
     &__subtitle-secondary {
       grid-area: subtitle-secondary;
       align-self: center;
       text-align: left;
       color: #2196f3;
       font-weight: 600;
-      font-size: 18px;
+      font-size: 20px;
       padding: 10px;
+    }
+    &__form-items {
+      &-error {
+        height: 20px;
+      }
+      &--error {
+        width: auto;
+        margin: 0;
+      }
     }
   }
 }

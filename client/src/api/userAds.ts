@@ -64,6 +64,5 @@ export const updateAd = async (variable: UserAdInterface): Promise<void> =>
   await UserAdsApi.updateUserAd(`${apiUrl}/posts`, variable);
 export const deleteAd = async (variables: Partial<UserAdInterface>): Promise<void> =>
   await UserAdsApi.deleteUserAd(`${apiUrl}/posts/removeAd`, variables);
-
 export const addToAds = async (variables: Partial<UserAdInterface>): Promise<void> =>
   await UserAdsApi.AddToUserAds(`${apiUrl}/posts/postInfos`, variables);

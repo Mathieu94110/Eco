@@ -1,8 +1,7 @@
 import { createStore } from "vuex";
-import { addToAds, fetchCurrentUser, getFavorites, login, logout } from "@/api";
+import { addToAds, fetchCurrentUser, getFavorites, login, logout, createUser } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
-
 const userInstance = axios.create({
   baseURL: "http://localhost:3000/api/user",
 });
@@ -99,23 +98,26 @@ const store = createStore({
     async login({ commit }, userInfos) {
       commit("setStatus", "loading");
       try {
-        commit("setStatus", "");
         const response = (await login(userInfos)) as any;
         commit("logUser", response);
+        commit("setStatus", "");
       } catch (e) {
         commit("setStatus", "error_login");
-        throw e;
+        setTimeout(() => {
+          store.commit("setStatus", "");
+        }, 2000);
+        console.error(e);
       }
     },
 
     createAccount: async ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       try {
-        const createUser = await userInstance.post("/signup", userInfos);
-        commit("userInfos", userInfos);
-        return createUser;
-      } catch (err) {
-        return err;
+        commit("setStatus", "");
+        const response = (await createUser(userInfos)) as any;
+        return response;
+      } catch (e) {
+        return e;
       }
     },
 
@@ -127,6 +129,7 @@ const store = createStore({
       commit("setStatus", "loading");
       try {
         await addToAds(state.currentPost);
+        commit("setStatus", "");
       } catch {
         commit("setStatus", "error_post");
       }

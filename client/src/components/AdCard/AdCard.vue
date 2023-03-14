@@ -34,7 +34,12 @@ watch(
         <span class="ad-card__title">{{ props.ad.title }}</span>
         <span class="ad-card__price">{{ props.ad.price }} €</span>
       </div>
-      <span @click="emit('add-item', props.ad)" class="ad-card__heart" :class="{ active: isFavorited }">
+      <span
+        @click="emit('add-item', props.ad)"
+        class="ad-card__heart"
+        data-cy="heart-icon"
+        :class="{ active: isFavorited }"
+      >
         <i class="fas fa-heart"></i>
       </span>
     </div>

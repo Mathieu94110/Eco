@@ -23,7 +23,7 @@ const status = computed<string>(() => store?.state.status);
 }
 @media screen and (max-width: 768px) {
   .auth {
-    height: auto;
+    height: 100vh;
   }
 }
 </style>
