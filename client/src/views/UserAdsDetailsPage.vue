@@ -50,12 +50,6 @@ const goBack = (): void => {
 const switchActive = (): void => {
   state.isEditMode = !state.isEditMode;
 };
-const checkValues = (card: UserAdInterface): void => {
-  const currentCardValue = state.userAd;
-  JSON.stringify(card) === JSON.stringify(currentCardValue)
-    ? toast("Aucun changement détecté !", "warning")
-    : updateUserCard(card);
-};
 
 const updateUserCard = async (card: UserAdInterface): Promise<void> => {
   try {
@@ -86,7 +80,7 @@ const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
       <button type="button" class="btn btn-primary" @click="switchActive()">Modifier</button>
     </div>
 
-    <component :is="isActive" :ad="state.userAd" @check-values="checkValues" />
+    <component :is="isActive" :ad="state.userAd" @update-card="updateUserCard" />
   </div>
 </template>
 

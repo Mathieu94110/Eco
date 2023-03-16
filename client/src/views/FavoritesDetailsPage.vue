@@ -29,7 +29,7 @@ onMounted(() => {
 <template>
   <div class="favorites-details">
     <div class="favorites-details__header">
-      <input type="button" @click="goBack()" value="Retour" />
+      <button class="btn btn-primary" @click="goBack()">Retour</button>
     </div>
     <div class="ads" v-if="state.favoriteInfos">
       <UserAdCard :ad="state.favoriteInfos" />
@@ -38,6 +38,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
+@use "../assets/scss/mixins" as m;
 .favorites-details {
   width: 100%;
   padding: 0 80px;
@@ -45,6 +46,10 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
 
+  @include m.xs {
+    padding: 0 10px;
+    align-items: start;
+  }
   &__header {
     width: 100%;
     height: 80px;
@@ -55,7 +60,11 @@ onMounted(() => {
     left: 0;
     top: 0;
     padding: 0 20px;
-
+    @include m.xs {
+      width: 60%;
+      padding: 0 10px;
+      height: 64px;
+    }
     input {
       background-image: linear-gradient(#42a1ec, #0070c9);
       border: 1px solid var(----primary-2);

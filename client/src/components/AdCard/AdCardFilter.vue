@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "update-filter", filterUpdate: FilterUpdate): void;
+  (e: "update-filter", filterUpdate: Partial<FilterUpdate>): void;
 }>();
 
 const sideBarClosed = inject<(x: boolean) => string>("collapsed");

@@ -6,17 +6,17 @@ describe("home", () => {
   });
 
   it("should on favorite click go to the favorite detail page", () => {
-    cy.get('[data-cy="favorite-link"]').click();
+    cy.getByTestId("favorite-link").click();
     cy.get(".favorites").eq(0).find('.favorite-card__actions > [data-cy="favorite-eye"]').last().click();
     cy.url().should("match", /favorites\/.+$/);
   });
 
   let favLengthBefore: number;
   it("should delete favorite succeed", () => {
-    cy.get('[data-cy="ads-link"]').click();
+    cy.getByTestId("ads-link").click();
     cy.get(".ads__list").children().find(".ad-card__heart").not(".active").first().click();
-    cy.get('[data-cy="favorite-link"]').click();
-    cy.get('[data-cy="favorite-card"]', { timeout: 5000 })
+    cy.getByTestId("favorite-link").click();
+    cy.getByTestId("favorite-card")
       .should("be.visible")
       .its("length")
       .then((len) => {
@@ -25,18 +25,18 @@ describe("home", () => {
       });
     cy.get(".favorites").eq(0).find(".favorite-card__actions > div > span").last().click();
     cy.contains("Cette action est irréversible");
-    cy.get('[data-cy="delete-fav-btn"]').contains("Supprimer").click();
+    cy.getByTestId("delete-fav-btn").contains("Supprimer").click();
     cy.wait(2000);
-    cy.get('[data-cy="favorite-card"]')
+    cy.getByTestId("favorite-card")
       .its("length")
-      .then((lenAfter) => {
+      .then((lenAfter: number) => {
         cy.log("After favoritesList length is: " + lenAfter);
         expect(favLengthBefore).to.equal(lenAfter + 1);
       });
   });
 
   it("should get favorites request succeed and getting the 4 mocked favorites when user is logged", () => {
-    cy.intercept("GET", `http://localhost:3000/api/favorites/getFavoredAdds/${testUserId}`, {
+    cy.intercept("GET", `http://localhost:3000/api/favorites/getFavoredAds/${testUserId}`, {
       fixture: "favorites.json",
     }).as("user-favorites");
     cy.wait("@user-favorites").its("response.statusCode").should("eq", 200);

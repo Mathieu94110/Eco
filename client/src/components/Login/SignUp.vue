@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
-import { reactive, computed } from "vue";
+import { reactive } from "vue";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
-import type { UserInterface, UserForm } from "@/shared/interfaces";
+import type { UserForm } from "@/shared/interfaces";
 
 const state = reactive<{
   mode: string;
-  currentImage: string | ArrayBuffer | null;
 }>({
   mode: "create",
-  currentImage: null,
 });
 
 const props = defineProps<{
@@ -66,7 +64,12 @@ const switchComponent = (): void => {
 const submit = handleSubmit(async (formValue: UserForm) => {
   try {
     const response = await store.dispatch("createAccount", formValue);
-    if (response.status === 500) {
+    if (response.status === 400) {
+      store.commit("setStatus", "client-error");
+      setTimeout(() => {
+        store.commit("setStatus", "");
+      }, 2000);
+    } else if (response.status === 500) {
       store.commit("setStatus", "error-signup");
       setTimeout(() => {
         store.commit("setStatus", "");
@@ -75,33 +78,13 @@ const submit = handleSubmit(async (formValue: UserForm) => {
       emit("switch", "login");
     }
   } catch (e) {
-    console.log(e);
-    store.commit("setStatus", "unknown-error");
-    setTimeout(() => {
-      store.commit("setStatus", "");
-    }, 2000);
+    console.error(e);
   }
 });
-
-const onPickFile = (e: Event) => {
-  const target = e.target as HTMLInputElement;
-  if (target.files) {
-    const imageFile = target.files;
-    if (!imageFile.length) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target) {
-        state.currentImage = e.target.result;
-      }
-      return;
-    };
-    reader.readAsDataURL(imageFile[0]);
-  }
-};
 </script>
 
 <template>
-  <form class="sign-up" @submit="submit">
+  <form class="sign-up" @submit.prevent="submit">
     <div class="sign-up__title">
       <h1>Inscription</h1>
     </div>
@@ -111,19 +94,6 @@ const onPickFile = (e: Event) => {
     <nav class="sign-up__subtitle-secondary">
       <span class="sign-up__action" @click="switchComponent()" @keydown="switchComponent()">Se connecter</span>
     </nav>
-    <div class="sign-up__file-input">
-      <label for="image">
-        <input id="image" name="image" accept="image/*" ref="fileInput" type="file" @change="onPickFile($event)" />
-      </label>
-    </div>
-
-    <div class="sign-up__file-image">
-      <div
-        class="sign-up__file-image-imagePreviewed"
-        :style="{ 'background-image': `url(${state.currentImage})` }"
-      ></div>
-    </div>
-
     <main class="sign-up__main">
       <div class="sign-up__form-items">
         <label for="firstName">
@@ -146,7 +116,7 @@ const onPickFile = (e: Event) => {
       </div>
       <div class="sign-up__form-items">
         <label for="email">
-          <input id="email" v-model="email" class="sign-up__form-input" type="text" placeholder="Mail" />
+          <input id="email" v-model="email" class="sign-up__form-input" type="text" placeholder="Email" />
         </label>
         <span class="sign-up__errors" data-cy="signup-error-email">{{ errors["email"] }}</span>
       </div>
@@ -195,7 +165,7 @@ const onPickFile = (e: Event) => {
       >
         Ce compte est déjà utilisé</span
       >
-      <span v-if="props.status === 'unknown-error'" class="sign-up__errors sign-up__creation-errors"
+      <span v-if="props.status === 'client-error'" class="sign-up__errors sign-up__creation-errors"
         >Problème survenu lors de la requete</span
       >
     </div>
@@ -203,24 +173,22 @@ const onPickFile = (e: Event) => {
 </template>
 
 <style lang="scss" scoped>
+@use "../../assets/scss/mixins" as m;
 .sign-up {
   height: auto;
+  min-width: 277px;
   margin: 20px 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(6, minmax(25px, auto));
   grid-template-areas:
     "title"
     "subtitle-main"
     "subtitle-secondary"
-    "file-input"
-    "file-image"
     "main"
     "footer";
-
   background: var(--primary-color);
   border-radius: 16px;
-  padding: px;
+  padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   h1 {
     font-size: 18px;
@@ -246,7 +214,7 @@ const onPickFile = (e: Event) => {
     }
     &-secondary {
       grid-area: subtitle-secondary;
-
+      margin-bottom: 20px;
       align-self: center;
       text-align: center;
       color: #2196f3;
@@ -267,6 +235,7 @@ const onPickFile = (e: Event) => {
     display: flex;
     flex-direction: column;
     height: auto;
+    align-items: center;
   }
   &__form-input {
     padding: 8px;
@@ -289,26 +258,6 @@ const onPickFile = (e: Event) => {
       cursor: pointer;
     }
   }
-  &__file-input {
-    grid-area: file-input;
-    margin-top: 20px;
-  }
-  &__file-image {
-    grid-area: file-image;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    &-imagePreviewed {
-      width: 70px;
-      height: 70px;
-      margin: 10px 0;
-      border-radius: 50%;
-      display: block;
-      cursor: pointer;
-      background-size: cover;
-      background-position: center center;
-    }
-  }
 
   &__main {
     grid-area: main;
@@ -319,6 +268,8 @@ const onPickFile = (e: Event) => {
 
   &__footer {
     grid-area: footer;
+    display: flex;
+    flex-direction: column;
   }
   &__errors {
     max-width: 200px;
@@ -328,18 +279,24 @@ const onPickFile = (e: Event) => {
     font-size: 14px;
   }
   &__creation-errors {
-    margin-left: 20px;
+    grid-area: error-message;
+    color: var(--danger-2);
+    font-weight: bold;
+    font-size: 14px;
+    width: 211px;
+    text-align: center;
+    margin: 10px auto 0;
   }
 }
 
-@media screen and (min-width: 768px) {
+@include m.md {
   .sign-up {
     grid-template-areas:
       "title title title title title title"
       "subtitle-main subtitle-main subtitle-main subtitle-main subtitle-secondary subtitle-secondary"
-      "file-input file-input file-input file-image  file-image  file-image"
       "main main main main main main "
       "footer footer footer footer footer footer";
+    grid-template-rows: repeat(6, minmax(25px, auto));
     padding: 20px;
     h1 {
       font-size: 26px;
@@ -355,6 +312,7 @@ const onPickFile = (e: Event) => {
       font-weight: 600;
       font-size: 20px;
       padding: 10px;
+      margin: 0;
     }
     &__form-items {
       &:nth-child(7),
@@ -366,16 +324,8 @@ const onPickFile = (e: Event) => {
         height: 96px;
       }
     }
-    &__file-input {
-      margin: 0px;
-      align-self: center;
-    }
-    &__file-image-imagePreviewed {
-      width: 100px;
-      height: 100px;
-      margin: 0;
-    }
     &__main {
+      margin-top: 50px;
       grid-area: main;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -383,9 +333,17 @@ const onPickFile = (e: Event) => {
       grid-gap: 10px 20px;
       font-size: 20px;
     }
+
+    &__footer {
+      flex-direction: row;
+    }
     &__errors {
       max-width: 200px;
       margin-bottom: 10px;
+    }
+    &__creation-errors {
+      margin-left: 20px;
+      text-align: left;
     }
   }
 }

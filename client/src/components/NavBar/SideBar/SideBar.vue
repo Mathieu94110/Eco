@@ -37,12 +37,12 @@ const formatSideBar = (value: boolean): void => {
     @blur="formatSideBar(false)"
   >
     <router-link to="/">
-      <img alt="user_logo" class="side-bar__img" src="@/assets/images/logo.png" />
+      <img alt="user_logo" class="side-bar__logo" src="@/assets/images/logo.png" />
     </router-link>
     <div class="side-bar__items">
       <button
         v-if="state.isHover"
-        class="side-bar__link--error"
+        class="side-bar__link-logout"
         @click="logout()"
         @keydown="logout()"
         icon="fa-solid fa-right-from-bracket"
@@ -53,16 +53,20 @@ const formatSideBar = (value: boolean): void => {
         <NavLink class="side-bar__link" to="/profile" icon="fa-solid fa-right-from-bracket"></NavLink>
       </div>
 
-      <NavLink class="side-bar__link" to="/profile" icon="fas fa-user-circle"><span>Mes informations</span></NavLink>
+      <NavLink class="side-bar__link" to="/profile" icon="fas fa-user-circle"
+        ><span v-show="state.isHover">Mes informations</span></NavLink
+      >
       <NavLink class="side-bar__link" to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"
-        ><span>Annonces</span></NavLink
+        ><span v-show="state.isHover">Annonces</span></NavLink
       >
       <NavLink class="side-bar__link" to="/create-ad" icon="fas fa-pencil-alt" data-cy="create-ad-link"
-        ><span>Déposer une annonce</span></NavLink
+        ><span v-show="state.isHover">Déposer une annonce</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/user-ads" icon="fas fa-pencil-alt"><span>Mes annonces</span></NavLink>
+      <NavLink class="side-bar__link" to="/user-ads" icon="fas fa-pencil-alt"
+        ><span v-show="state.isHover">Mes annonces</span></NavLink
+      >
       <NavLink class="side-bar__link" to="/favorites" icon="fas fa-star" data-cy="favorite-link"
-        ><span>Mes favoris</span></NavLink
+        ><span v-show="state.isHover">Mes favoris</span></NavLink
       >
     </div>
   </SideBarContainer>
@@ -79,13 +83,12 @@ const formatSideBar = (value: boolean): void => {
   transition: 0.3s;
   z-index: 2;
   width: 100%;
-  overflow: auto;
   flex-shrink: 0;
   &__items {
     height: 260px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
   &__link {
     color: var(--primary-color);
@@ -93,8 +96,13 @@ const formatSideBar = (value: boolean): void => {
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
-    &--error {
-      color: var(--danger-1);
+    &-logout {
+      color: #fff;
+      background-color: var(--danger-1);
+      padding: 4px 0;
+      &:hover {
+        cursor: pointer;
+      }
     }
     span {
       margin-left: 20px;
@@ -112,9 +120,9 @@ const formatSideBar = (value: boolean): void => {
   &__logo {
     overflow: hidden;
   }
-
-  &__img {
-    height: 35px;
+  &__logo {
+    height: 40px;
+    margin: 20px 0;
   }
 }
 </style>

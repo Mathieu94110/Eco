@@ -9,8 +9,7 @@
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #15263f, #dfe4f2);
-  padding: 20px 0px;
+  background: var(--sidebar-item-active);
   text-align: center;
 }
 </style>

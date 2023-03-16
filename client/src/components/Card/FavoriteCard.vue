@@ -12,7 +12,7 @@ const props = defineProps<{
 <template>
   <CardLayout v-if="ad" data-cy="favorite-card">
     <template #image>
-      <img :src="props.ad.images[0]" class="favorite-card__image" alt="product-image" />
+      <img :src="props.ad.images[0]" class="favorite-card__image" :alt="props.ad.title" />
     </template>
     <template #title>
       <span>{{ props.ad.title }}</span>

@@ -36,7 +36,6 @@ const toggleOnFavorites = async (ad: any): Promise<void> => {
     const userFavorite = { ...ad, userFrom: userId };
     try {
       await addToFavorites(userFavorite);
-      console.log(ad);
       await store.dispatch("userFavorites", [...favorites.value, { ...ad }]);
       toast("L'annonce a été ajoutée à vos favoris !", "success");
     } catch (e) {
@@ -67,7 +66,7 @@ watch(
 <template>
   <div class="ad-details">
     <div class="ad-details__header">
-      <input type="button" @click="goBack()" value="Retour" />
+      <button class="btn btn-primary" @click="goBack()">Retour</button>
     </div>
     <div class="ad-details__content">
       <div class="ad-details__layout">
@@ -97,14 +96,17 @@ watch(
 </template>
 
 <style lang="scss">
-@use "../assets/scss/mixins" as mixin;
+@use "../assets/scss/mixins" as m;
 .ad-details {
   width: 100%;
   padding: 0 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  @include mixin.xs-xl {
+  @include m.xs {
+    align-items: start;
+  }
+  @include m.xs-xl {
     padding: 0 20px;
   }
   &__header {
@@ -117,7 +119,11 @@ watch(
     left: 0;
     top: 0;
     padding: 0 20px;
-
+    @include m.xs {
+      width: 60%;
+      padding: 0 10px;
+      height: 64px;
+    }
     input {
       background-image: linear-gradient(#42a1ec, #0070c9);
       border: 1px solid var(----primary-2);
@@ -140,7 +146,7 @@ watch(
   }
   &__content {
     margin: 20px 0;
-    @include mixin.md {
+    @include m.md {
       margin: 75px 0;
     }
   }
@@ -154,14 +160,14 @@ watch(
       box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
 
-    @include mixin.md {
+    @include m.md {
       max-width: 1200px;
     }
   }
   &__single {
     display: flex;
     flex-direction: column;
-    @include mixin.md {
+    @include m.md {
       flex-direction: row;
     }
   }
@@ -172,15 +178,18 @@ watch(
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    @include mixin.md {
+    @include m.md {
       width: 600px;
       height: 600px;
+    }
+    @include m.xs {
+      height: 200px;
     }
     img {
       width: 70%;
       height: 70%;
       display: block;
-      @include mixin.xs-xl {
+      @include m.xs-xl {
         width: auto;
         height: 250px;
       }
@@ -191,7 +200,7 @@ watch(
     flex-direction: column;
     padding-top: 20px;
     position: relative;
-    @include mixin.md {
+    @include m.md {
       padding: 0 35px;
     }
   }
@@ -201,7 +210,7 @@ watch(
     margin-bottom: 20px;
     color: #000;
     font-weight: 600;
-    @include mixin.md {
+    @include m.md {
       font-size: 24px;
       line-height: 32px;
     }
@@ -215,17 +224,17 @@ watch(
       color: var(--primary-2);
       font-weight: 500;
     }
-    @include mixin.xs-xl {
+    @include m.xs-xl {
       font-size: 14px;
     }
   }
   &__buttons {
     display: flex;
-    @include mixin.md {
+    @include m.md {
       margin-top: 30px;
       justify-content: center;
     }
-    @include mixin.xs-xl {
+    @include m.xs-xl {
       justify-content: center;
     }
   }
@@ -244,7 +253,7 @@ watch(
     text-align: center;
     position: absolute;
     bottom: 20px;
-    @include mixin.xs-xl {
+    @include m.xs-xl {
       font-size: 14px;
       padding: 2px 4px;
       position: static;

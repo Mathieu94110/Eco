@@ -17,10 +17,14 @@ router.post("/signup", async (req, res) => {
       if (err) {
         res.status(400).json("Erreur lors de l'inscription");
       }
-      res.json(null);
+      res.json({
+        status: 201,
+      });
     });
   } else {
-    res.status(500).json({ status: 500 });
+    res.json({
+      status: 500,
+    });
   }
 });
 
@@ -36,9 +40,11 @@ router.post("/login", async (req, res) => {
       });
       res.cookie("token", token);
       res.json(user);
+    } else {
+      res.status(400).json({ message: "Email or password is invalid" });
     }
   } else {
-    res.status(400).json("Mauvais email ou mot de passe");
+    res.status(400).json({ message: "Email or password is invalid" });
   }
 });
 

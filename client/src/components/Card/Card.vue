@@ -1,23 +1,13 @@
 <script setup lang="ts">
-import { reactive, computed, watch, defineProps } from "vue";
+import { computed, defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 import type { UserAdInterface } from "@/shared/interfaces";
 
-const state = reactive({
-  editCard: false,
-});
-
 const props = defineProps<{
   ad: UserAdInterface;
-  edit: boolean;
 }>();
 
 const createdDate = computed((): string => new Date(props.ad.created_at as string).toLocaleDateString());
-
-watch(
-  () => props.edit,
-  (newValue: boolean) => (state.editCard = newValue),
-);
 </script>
 
 <template>

@@ -36,7 +36,7 @@ const UserFavoritesApi = {
 };
 
 export const getFavorites = async (userFrom: string): Promise<FakeAdInterface[]> =>
-  await UserFavoritesApi.getUserFavorites(`${apiUrl}/favorites/getFavoredAdds/` + userFrom);
+  await UserFavoritesApi.getUserFavorites(`${apiUrl}/favorites/getFavoredAds/` + userFrom);
 export const removeFromFavorites = async (
   variables: Partial<UserAdInterface>,
 ): Promise<FavoritesFetchResponseInterface> =>

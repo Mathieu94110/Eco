@@ -70,7 +70,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async () => {
-  if (!store.state.loaded) {
+  if (!store.state.loaded && router.currentRoute.path === "/ads") {
     await store.dispatch("fetchCurrentUser");
   }
 });

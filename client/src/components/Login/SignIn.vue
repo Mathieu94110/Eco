@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { LoginData } from "@/shared/interfaces";
 import { reactive, defineProps, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import type { LoginData } from "@/shared/interfaces";
 
 const state = reactive<{
   email: string;
@@ -34,7 +34,7 @@ const submit = async () => {
       email: state.email,
       password: state.password,
     });
-    router.push("/profile");
+    router.push("/ads");
   } catch (e) {
     console.error(e);
   }
@@ -65,7 +65,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
             v-model="state.email"
             class="sign-in__form-input"
             type="text"
-            placeholder="Mail"
+            placeholder="Email"
             data-cy="email"
           />
         </label>
@@ -105,6 +105,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 
 <style lang="scss" scoped>
 .sign-in {
+  min-width: 277px;
   margin: 20px 10px;
   display: grid;
   grid-template-columns: 1fr;
@@ -119,14 +120,14 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 
   background: var(--primary-color);
   border-radius: 16px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   &__title {
     grid-area: title;
     text-align: center;
     color: var(--text-color);
     font-weight: 600;
-    padding: 10px;
+    padding: 10px 0;
   }
   h1 {
     font-size: 18px;
@@ -136,21 +137,6 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     color: var(--text-color);
     font-weight: 600;
     font-size: 20px;
-  }
-  &__form-avatar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &-imagePreviewed {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      display: block;
-      cursor: pointer;
-      background-size: cover;
-      background-position: center center;
-    }
   }
   &__button-disabled {
     color: #ececec;
@@ -163,7 +149,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     padding: 8px;
     border: none;
     border-radius: 8px;
-    background: var(--gray-2);
+    background: #f2f2f2;
     font-weight: 500;
     font-size: 16px;
     flex: 1;
@@ -192,7 +178,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     font-weight: 600;
     align-self: center;
     text-align: center;
-    padding: 10px;
+    padding: 10px 0;
   }
   &__subtitle-secondary {
     grid-area: subtitle-secondary;
@@ -201,6 +187,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     color: #2196f3;
     text-decoration: underline;
     font-weight: 600;
+    margin-bottom: 40px;
     &:hover {
       cursor: pointer;
     }
@@ -228,6 +215,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       "footer footer";
     grid-gap: 20px;
     margin: 0;
+    padding: 20px;
     h1 {
       font-size: 26px;
     }
@@ -238,8 +226,12 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       grid-auto-rows: minmax(30px, auto);
       grid-gap: 20px;
     }
+    &__title {
+      padding: 10px;
+    }
     &__subtitle-main {
       font-size: 20px;
+      padding: 10px;
     }
     &__subtitle-secondary {
       grid-area: subtitle-secondary;
@@ -249,6 +241,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       font-weight: 600;
       font-size: 20px;
       padding: 10px;
+      margin: 0;
     }
     &__form-items {
       &-error {

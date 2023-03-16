@@ -28,7 +28,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "check-values", ad: UserAdInterface): void;
+  (e: "update-card", ad: UserAdInterface): void;
 }>();
 
 const onPickFile = (e: Event) => {
@@ -91,7 +91,7 @@ const updateCard = () => {
       newValues[key] = props.ad[key];
     }
   }
-  emit("check-values", newValues);
+  emit("update-card", newValues);
 };
 watch(
   () => state.edit,
@@ -183,8 +183,9 @@ watch(
   }
 
   &__inputs {
+    padding: 4px;
     font-weight: 600;
-
+    min-width: 90%;
     > options {
       height: 40px;
       width: 100%;

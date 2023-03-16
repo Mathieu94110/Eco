@@ -4,7 +4,7 @@ const Favorites = require("../../database/models/favorites");
 
 const router = express.Router();
 
-router.get("/getFavoredAdds/:userInfos", (req, res) => {
+router.get("/getFavoredAds/:userInfos", (req, res) => {
   let { userInfos } = req.params;
   Favorites.find({ userFrom: userInfos }).exec((err, favorites) => {
     if (err) return res.status(400).send(err);

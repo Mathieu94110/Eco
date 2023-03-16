@@ -62,7 +62,7 @@ const deleteFavorite = async (ad: FakeAdInterface): Promise<void> => {
         marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
       }"
     >
-      <TransitionGroup name="list" tag="ul" class="favorites">
+      <TransitionGroup name="list" tag="FavoriteCard" class="favorites">
         <FavoriteCard
           v-for="ad in favorites"
           :key="ad._id"
@@ -85,11 +85,9 @@ const deleteFavorite = async (ad: FakeAdInterface): Promise<void> => {
 
 .favorites {
   height: calc(100% - 60px);
-  padding: 20px 0;
+  padding: 20px 10px;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-
   @include mixins.xs {
     justify-content: center;
   }

@@ -26,21 +26,22 @@ Cypress.Commands.add("login", () => {
 Cypress.Commands.add("completeCreateform", () => {
   cy.get("input[type=button]").should("be.disabled");
   cy.get('[data-cy="create-ad-title"]').eq(0).should("be.visible").type("Apple MacBook Pro 13'' 256 Go", {
-    delay: 50,
+    delay: 30,
   });
   cy.get('[data-cy="create-ad-description"]')
     .eq(0)
     .should("be.visible")
     .type(
       "Très bon état, modèle du processeur: Apple M2 8-core, capacité de stockage 256Go, taille de l'écran (pouces)13 RAM installée 8Go",
-      {
-        delay: 30,
-      },
     );
   cy.get('[data-cy="create-ad-price"]').eq(0).should("be.visible").type("1250", {
-    delay: 50,
+    delay: 30,
   });
   cy.get('.select-input > [data-cy="create-ad-category"]').eq(0).should("be.visible").select("Informatique");
+});
+
+Cypress.Commands.add("getByTestId", (name) => {
+  return cy.get(`[data-cy="${name}"]`) as Chainable<Element>;
 });
 
 //
@@ -62,6 +63,7 @@ declare global {
     interface Chainable {
       login(): Chainable<void>;
       completeCreateform(): Chainable<void>;
+      getByTestId(name: string): Chainable<Element>;
     }
   }
 }

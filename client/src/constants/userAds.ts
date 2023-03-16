@@ -31,7 +31,7 @@ export const userAdsConfig: userAdsConfigInterface[] = [
   },
 ];
 
-export const userAdsCategories: ReadonlyArray<string> = [
+export const userAdsCategories: UserAdsCategory[] = [
   "Informatique",
   "Téléphones, tablettes",
   "Électro",
@@ -42,3 +42,14 @@ export const userAdsCategories: ReadonlyArray<string> = [
   "Auto, moto",
   "Autres",
 ];
+
+export type UserAdsCategory =
+  | "Informatique"
+  | "Téléphones, tablettes"
+  | "Électro"
+  | "Rangements"
+  | "Vetements"
+  | "Cosmétiques"
+  | "Vidéo, son"
+  | "Auto, moto"
+  | "Autres";

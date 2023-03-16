@@ -133,7 +133,6 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-
   &__card {
     position: relative;
     display: flex;
@@ -148,18 +147,15 @@ export default {
     width: 500px;
     padding: 2rem;
   }
-
   &__card-content {
     flex: 1 1 auto;
     padding: 1rem 1rem;
   }
 }
 
-@media screen and (max-width: 992px) {
+@include m.xs-lg {
   .create-ad-card {
-    @media screen and (max-width: 992px) {
-      margin: 20px 0px;
-    }
+    margin: 20px 0px;
     &__card {
       width: auto;
       margin: 1rem;

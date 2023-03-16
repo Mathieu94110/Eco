@@ -12,7 +12,7 @@ const isFavorited = ref<boolean>(false);
 <template>
   <div class="card">
     <div class="card__product-img">
-      <img v-if="props.ad.images" class="card__img" :src="props.ad.images[0]" height="100" alt="product-image" />
+      <img v-if="props.ad.images" class="card__img" :src="props.ad.images[0]" height="100" :alt="props.ad.title" />
     </div>
     <div class="card__content">
       <p class="card__title">
@@ -52,7 +52,7 @@ const isFavorited = ref<boolean>(false);
               class="card__img"
               :src="props.ad.images[0]"
               height="50"
-              alt="product-image"
+              :alt="props.ad.title"
             />
           </div>
         </div>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { watch, ref, defineProps } from "vue";
-import { useRoute } from "vue-router";
 import type { FakeAdInterface } from "@/shared/interfaces";
 
 const props = defineProps<{
@@ -12,7 +11,6 @@ const emit = defineEmits<{
   (e: "send-ad", ad: FakeAdInterface): void;
   (e: "add-item", ad: FakeAdInterface): void;
 }>();
-const route = useRoute();
 const isFavorited = ref<boolean>(false);
 
 watch(
@@ -27,7 +25,7 @@ watch(
 <template>
   <div class="ad-card">
     <div class="ad-card__thumbnail" @click="$emit('send-ad', props.ad)">
-      <img v-if="props.ad.images" :src="props.ad.images[0]" alt="{{props.ad.title}}" />
+      <img v-if="props.ad.images" :src="props.ad.images[0]" :alt="props.ad.title" />
     </div>
     <div class="d-flex space-between align-center mr-20">
       <div>
@@ -47,13 +45,13 @@ watch(
 </template>
 
 <style scoped lang="scss">
-@use "../../assets/scss/mixins" as mixin;
+@use "../../assets/scss/mixins" as m;
 
 .ad-card {
   padding: 5px;
   width: 366px;
   height: 420px;
-  @include mixin.xs-xl {
+  @include m.xs-xl {
     padding: 5px;
     width: 260px;
   }
@@ -68,7 +66,7 @@ watch(
     align-items: center;
     justify-content: center;
     margin: auto;
-    @include mixin.md {
+    @include m.md {
       height: 350px;
     }
     img {
@@ -88,7 +86,7 @@ watch(
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    @include mixin.md {
+    @include m.md {
       font-size: 16px;
       margin-bottom: 10px;
     }
@@ -96,7 +94,7 @@ watch(
 
   &__price {
     font-size: 18px;
-    @include mixin.md {
+    @include m.md {
       font-size: 24px;
     }
   }

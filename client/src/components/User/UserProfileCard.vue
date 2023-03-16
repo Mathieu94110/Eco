@@ -181,7 +181,7 @@ watch(
 @use "../../assets/scss/mixins" as m;
 
 .user-profile-card {
-  width: 80%;
+  width: 90%;
   background-color: var(--gray-3);
   box-shadow: 0 10px 90px #00000024;
   text-align: center;
@@ -259,7 +259,7 @@ watch(
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
+    font-size: 12px;
 
     :nth-child(odd) {
       color: var(--primary-1);
@@ -272,7 +272,7 @@ watch(
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: bold;
     color: var(--gray-1);
 
@@ -326,11 +326,9 @@ watch(
         border: 8px solid var(--gray-3);
       }
     }
-
     &__body {
       width: 400px;
     }
-
     &__sub-categories {
       height: 30px;
       display: flex;
@@ -343,6 +341,10 @@ watch(
       }
 
       color: var(--gray-1);
+    }
+    &__main-category,
+    &__sub-categories {
+      font-size: 16px;
     }
   }
 }

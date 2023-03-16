@@ -113,11 +113,11 @@ const store = createStore({
     createAccount: async ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       try {
-        commit("setStatus", "");
         const response = (await createUser(userInfos)) as any;
+        commit("setStatus", "");
         return response;
       } catch (e) {
-        return e;
+        console.error(e);
       }
     },
 

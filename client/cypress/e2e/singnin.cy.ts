@@ -1,15 +1,21 @@
 describe("should user been connected sucessfully", () => {
-  it("should display profile page info when user logged", () => {
+  it("should display ads page info when user logged", () => {
     cy.login();
-    cy.get('[data-cy="profile-header"]').should("have.text", "Mon profil");
-    cy.get('[data-cy="user-profile-card"]').should("be.visible");
+    cy.getByTestId("ads-list-header").should("be.visible").and("have.text", "Liste des annonces");
+  });
+  it("should login button disabled when missing values", () => {
+    cy.visit("/");
+    cy.getByTestId("email").focus().type("fake-user-test@gmail.com", {
+      delay: 50,
+    });
+    cy.get("#login-button").should("be.disabled");
   });
   it("should login failed", () => {
     cy.visit("/");
-    cy.get('[data-cy="email"]').focus().type("fake-user-test@gmail.com", {
+    cy.getByTestId("email").focus().type("fake-user-test@gmail.com", {
       delay: 50,
     });
-    cy.get('[data-cy="password"]').focus().type("1234test", {
+    cy.getByTestId("password").focus().type("1234test", {
       delay: 50,
     });
     cy.get("form").submit();

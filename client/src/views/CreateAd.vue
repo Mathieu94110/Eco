@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, watch, ref, inject } from "vue";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { useStore } from "vuex";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import createdAdCard from "@/components/CreatedAdCard/CreatedAdCard.vue";
 import CreateAdCard from "../components/CreateAdCard/CreateAdCard.vue";
 import type { UserAdInterface, ToastInterface } from "@/shared/interfaces";
@@ -122,14 +122,15 @@ watch(
     height: 100%;
     color: #181818;
     font-weight: 700;
-
     div:first-child {
       display: block;
     }
-
     &-wrapper {
       display: block;
       height: 100%;
+      @include m.xs-lg {
+        margin-bottom: 20px;
+      }
     }
   }
 }

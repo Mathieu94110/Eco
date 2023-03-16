@@ -10,14 +10,14 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div v-if="props.currentPost" data-cy="created-ad-card">
+  <div v-if="props.currentPost" class="created-ad-card" data-cy="created-ad-card">
     <CardLayout class="created-ad">
       <template #image>
         <div class="created-ad__img-wrapper">
           <img
             :src="props.currentPost.image ? props.currentPost.image : mysteryImage"
             class="created-ad__img-content"
-            alt="product-image"
+            :alt="props.currentPost.title"
           />
         </div>
       </template>

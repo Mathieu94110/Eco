@@ -82,7 +82,7 @@ const toggleOnFavorites = async (ad: FakeAdInterface): Promise<void> => {
   }
 };
 
-const updateFilter = (filterUpdate: FilterUpdate): void => {
+const updateFilter = (filterUpdate: Partial<FilterUpdate>): void => {
   if (filterUpdate.search !== undefined) {
     state.filters.search = filterUpdate.search;
   } else if (filterUpdate.priceRange) {
@@ -131,10 +131,10 @@ onMounted(async () => {
 
 <template>
   <div class="ads">
-    <Toolbar>Liste des annonces</Toolbar>
+    <Toolbar data-cy="ads-list-header">Liste des annonces</Toolbar>
     <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
     <div
-      v-if="state.ads"
+      v-if="state.ads.length"
       :style="{
         paddingLeft: isMobile ? 'auto' : sideBarClosed ? '150px' : '345px',
       }"
@@ -147,12 +147,12 @@ onMounted(async () => {
             <AdCardFilter v-if="state.open" :filters="state.filters" :ads="filteredAds" @update-filter="updateFilter" />
           </Transition>
         </div>
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column full-width">
           <button class="ads__search-button btn btn-primary" @click="state.open = !state.open">
             <i class="fa-solid fa-magnifying-glass mr-10"></i>
             <span>Rechercher</span>
           </button>
-          <div class="ads__list-container">
+          <div class="ads__list-container" v-if="filteredAds.length">
             <div class="ads__list">
               <AdCard
                 v-for="ad in filteredAds"
@@ -163,6 +163,9 @@ onMounted(async () => {
                 @add-item="toggleOnFavorites(ad)"
               />
             </div>
+          </div>
+          <div v-else class="ads__no-results">
+            <h2>Aucune annonce ne correspond aux critères</h2>
           </div>
         </div>
       </div>
@@ -206,11 +209,27 @@ onMounted(async () => {
   &__list {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 0;
     margin: 0;
     @include mixins.md {
       gap: 20px;
+    }
+    @include mixins.xs-md {
+      justify-content: space-around;
+    }
+  }
+  &__no-results {
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+    @include mixins.xs {
+      h2 {
+        font-size: 16px;
+      }
     }
   }
 }

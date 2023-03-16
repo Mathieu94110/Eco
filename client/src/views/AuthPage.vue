@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import Login from "@/components/Login/Login.vue";
+
 const store = useStore();
 const status = computed<string>(() => store?.state.status);
 </script>

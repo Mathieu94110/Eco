@@ -1,4 +1,4 @@
-import type { Category } from "@/shared/interfaces/FakeAd.interface";
+import type { Category } from "@/shared/interfaces/Filters.interface";
 
 export const fakeAdsCategories: Category[] = [
   "all",
