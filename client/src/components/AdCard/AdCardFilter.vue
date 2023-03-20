@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { computed } from "vue";
 import type { FiltersInterface, FakeAdInterface, FilterUpdate, Category } from "@/shared/interfaces";
 import { fakeAdsCategories } from "@/constants/fakeAds";
 
@@ -12,7 +12,6 @@ const emit = defineEmits<{
   (e: "update-filter", filterUpdate: Partial<FilterUpdate>): void;
 }>();
 
-const sideBarClosed = inject<(x: boolean) => string>("collapsed");
 const rangeFilter = computed<[number, number]>(() => props.filters.priceRange);
 const categoryFilter = computed<Category>(() => props.filters.category);
 const numberOfAds = computed<number>(() => props.ads.length);
@@ -20,7 +19,7 @@ const numberOfAds = computed<number>(() => props.ads.length);
 
 <template>
   <div class="ad-card-filter">
-    <div class="ad-card-filter__wrapper" :style="{ left: sideBarClosed ? '75px' : '270px' }">
+    <div class="ad-card-filter__wrapper">
       <section class="mb-20">
         <h3 class="mb-10">Rechercher</h3>
         <label for="search">

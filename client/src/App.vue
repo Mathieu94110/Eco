@@ -1,17 +1,27 @@
 <script lang="ts">
 import NavBar from "@/components/NavBar/NavBar.vue";
+import Toolbar from "./components/Toolbar/Toolbar.vue";
+import { computed, inject } from "vue";
 import { mapGetters } from "vuex";
+import { useRoute } from "vue-router";
 import store from "./store";
 
 export default {
   name: "App",
   components: {
     NavBar,
+    Toolbar,
+  },
+  data() {
+    return {
+      sideBarClosed: false,
+    };
   },
   // Used to detect globally screen width changes due to a variable saved in store
   mounted() {
     this.updateScreenWidth();
     this.onScreenResize();
+    this.sideBarClosed = inject<boolean>("collapsed")!;
   },
   methods: {
     onScreenResize() {
@@ -25,6 +35,12 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
+    isMobile() {
+      return store?.state.windowWidth < 575;
+    },
+    routeName() {
+      return useRoute().name;
+    },
   },
   watch: {
     isAuthenticated: {
@@ -42,7 +58,25 @@ export default {
   <div id="app">
     <div :class="{ 'app__container--auth': isAuthenticated }" class="app__container">
       <NavBar v-if="isAuthenticated" />
-      <router-view></router-view>
+      <Toolbar v-if="isAuthenticated">{{ routeName }}</Toolbar>
+      <div
+        v-if="!isMobile"
+        :style="{
+          paddingLeft:
+            sideBarClosed && isAuthenticated ? '150px' : !sideBarClosed && isAuthenticated ? '345px' : 'auto',
+        }"
+      >
+        <router-view></router-view>
+      </div>
+
+      <div
+        v-else
+        :style="{
+          paddingLeft: 'auto',
+        }"
+      >
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>

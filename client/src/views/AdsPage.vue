@@ -2,7 +2,6 @@
 import { onMounted, reactive, computed, inject } from "vue";
 import { useStore } from "vuex";
 import AdCard from "@/components/AdCard/AdCard.vue";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import AdCardFilter from "@/components/AdCard/AdCardFilter.vue";
 import Calc from "@/components/Calc/Calc.vue";
 import { getFakeAds, addToFavorites, removeFromFavorites } from "@/api";
@@ -36,7 +35,6 @@ const state = reactive<{
 const store = useStore();
 const router = useRouter();
 const toast = inject<ToastInterface>("toastMsg")!;
-const sideBarClosed = inject<boolean>("collapsed");
 const userId = store?.state.user._id;
 const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 const favorites = computed<FakeAdInterface[]>(() => store?.getters.getFavorites);
@@ -116,7 +114,7 @@ const sendAdDetails = async (ad: FakeAdInterface): Promise<void> => {
       ad: ad,
     });
     router.push({
-      name: "AdDetails",
+      name: "Détails de l'annonce",
       params: { ad: ad.title },
     });
   } catch (e) {
@@ -131,14 +129,8 @@ onMounted(async () => {
 
 <template>
   <div class="ads">
-    <Toolbar data-cy="ads-list-header">Liste des annonces</Toolbar>
     <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
-    <div
-      v-if="state.ads.length"
-      :style="{
-        paddingLeft: isMobile ? 'auto' : sideBarClosed ? '150px' : '345px',
-      }"
-    >
+    <div v-if="state.ads.length">
       <div class="ads__wrapper">
         <Calc :open="isMobile && state.open" @close="state.open = false" :transparent="true" />
         <div class="ads__filter">

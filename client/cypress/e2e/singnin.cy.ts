@@ -1,7 +1,7 @@
 describe("should user been connected sucessfully", () => {
   it("should display ads page info when user logged", () => {
     cy.login();
-    cy.getByTestId("ads-list-header").should("be.visible").and("have.text", "Liste des annonces");
+    cy.getByTestId("toolbar").should("be.visible").and("have.text", "Annonces");
   });
   it("should login button disabled when missing values", () => {
     cy.visit("/");

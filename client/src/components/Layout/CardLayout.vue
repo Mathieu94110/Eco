@@ -35,7 +35,7 @@ const currentRoute = computed(() => route.name);
       <div class="card-layout__items">
         <span>Catégorie :</span> <span><slot name="category"></slot></span>
       </div>
-      <div class="card-layout__footer" v-if="currentRoute === 'Favorites'">
+      <div class="card-layout__footer" v-if="currentRoute === 'Mes favoris'">
         <div>
           <slot name="favorite"></slot>
         </div>

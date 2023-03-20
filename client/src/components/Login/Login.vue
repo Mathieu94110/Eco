@@ -17,5 +17,17 @@ const switchComponent = (value: string) => {
 </script>
 
 <template>
-  <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
+  <div class="login">
+    <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>

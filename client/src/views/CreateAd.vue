@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, watch, ref, inject } from "vue";
+import { reactive, watch, ref, inject } from "vue";
 import { useStore } from "vuex";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import createdAdCard from "@/components/CreatedAdCard/CreatedAdCard.vue";
 import CreateAdCard from "../components/CreateAdCard/CreateAdCard.vue";
 import type { UserAdInterface, ToastInterface } from "@/shared/interfaces";
@@ -18,12 +17,10 @@ const state = reactive<{
 });
 
 const toastMsg = inject<ToastInterface>("toastMsg")!;
-const sideBarClosed = inject<boolean>("collapsed");
 
 const store = useStore();
 const isAdCreated = ref<boolean>(false);
 const userId = store?.state.user._id;
-const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const createAd = async (ad: UserAdInterface) => {
   await store.dispatch("createPost", {
@@ -86,13 +83,7 @@ watch(
 
 <template>
   <div class="create-ad">
-    <Toolbar> Poster une annonce </Toolbar>
-    <div
-      class="create-ad__items"
-      :style="{
-        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
-      }"
-    >
+    <div class="create-ad__items">
       <div class="create-ad__items-wrapper">
         <CreateAdCard
           :is-ad-created="isAdCreated"

@@ -26,7 +26,7 @@ describe("home", () => {
     cy.getByTestId("cancel-create-button").eq(0).click();
   });
   it("should on create res.status has to be 201", () => {
-    cy.intercept("POST", "http://localhost:3000/api/posts/postInfos").as("created-ad-post");
+    cy.intercept("POST", "/api/posts/postInfos").as("created-ad-post");
     cy.getByTestId("create-ad-button").eq(0).click();
     cy.getByTestId("validate-create-button").contains("Valider").click();
     cy.wait("@created-ad-post").its("response.statusCode").should("eq", 201);

@@ -1,5 +1,5 @@
 import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/shared/interfaces";
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:80/api";
 
 const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {
   const data = await fetch(url, body);

@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { reactive, onMounted, inject, computed } from "vue";
+import { reactive, onMounted, inject } from "vue";
 import { useStore } from "vuex";
 import UserProfileCard from "@/components/User/UserProfileCard.vue";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { getProfile, updateUserInfos } from "@/api";
 import type { ToastInterface, UserInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
-const sideBarClosed = inject<boolean>("collapsed");
 const store = useStore();
 const state = reactive<{
   user: UserInterface;
@@ -22,7 +20,6 @@ const state = reactive<{
 
 const toast = inject<ToastInterface>("toastMsg")!;
 const userId = store?.state.user._id;
-const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 
 const getUserProfile = async (): Promise<void> => {
   try {
@@ -51,14 +48,8 @@ onMounted(async (): Promise<void> => {
 
 <template>
   <div class="profile">
-    <Toolbar>Mon profil</Toolbar>
     <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
-    <div
-      :style="{
-        marginLeft: isMobile ? '0px' : sideBarClosed ? '115px' : '300px',
-      }"
-      class="profile__card"
-    >
+    <div>
       <UserProfileCard :user-infos="state.user" @update-user="UpdateInfos"></UserProfileCard>
     </div>
   </div>
@@ -67,14 +58,10 @@ onMounted(async (): Promise<void> => {
 <style lang="scss" scoped>
 .profile {
   width: 100%;
-  height: 100%;
-
-  &__card {
-    height: calc(100% - 60px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

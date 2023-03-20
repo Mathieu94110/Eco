@@ -33,7 +33,7 @@ const props = defineProps<{
             <div class="d-flex justify-center" v-if="obj.title === 'Actions'">
               <router-link
                 :to="{
-                  name: 'UserAdsDetails',
+                  name: 'Détails de votre annonce',
                   params: { id: row['_id'] },
                 }"
                 ><i class="fa fa-eye" aria-hidden="true"></i>

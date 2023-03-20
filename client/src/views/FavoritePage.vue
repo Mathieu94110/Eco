@@ -2,7 +2,6 @@
 import { reactive, computed, inject } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import FavoriteCard from "@/components/Card/FavoriteCard.vue";
 import { removeFromFavorites } from "@/api";
 import type { FakeAdInterface, ToastInterface } from "@/shared/interfaces";
@@ -14,12 +13,10 @@ const state = reactive<{
   fullPage: true,
 });
 
-const sideBarClosed = inject<boolean>("collapsed");
 const toast = inject<ToastInterface>("toastMsg")!;
 
 const store = useStore();
 const router = useRouter();
-const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 const favorites = computed<FakeAdInterface[]>(() => store.getters.getFavorites);
 const userId = store?.state.user._id;
 
@@ -29,7 +26,7 @@ const sendFavoriteDetails = async (ad: FakeAdInterface): Promise<void> => {
       favorite: ad,
     });
     router.push({
-      name: "FavoritesDetails",
+      name: "Détails du favoris",
       params: { ad: ad.title },
     });
   } catch (e) {
@@ -55,13 +52,7 @@ const deleteFavorite = async (ad: FakeAdInterface): Promise<void> => {
 
 <template>
   <div>
-    <Toolbar>Mes favoris</Toolbar>
-    <div
-      v-if="favorites && favorites.length > 0"
-      :style="{
-        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
-      }"
-    >
+    <div v-if="favorites && favorites.length > 0">
       <TransitionGroup name="list" tag="FavoriteCard" class="favorites">
         <FavoriteCard
           v-for="ad in favorites"

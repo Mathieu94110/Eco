@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="toolbar">
+  <div class="toolbar" data-cy="toolbar">
     <slot></slot>
   </div>
 </template>

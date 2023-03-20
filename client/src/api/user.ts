@@ -1,9 +1,9 @@
 import type { UserForm } from "@/shared/interfaces";
 
-const userApi = "http://localhost:3000/api/user";
+const userApi = "http://localhost:80/api/user";
 
 export const login = async (loginForm: UserForm): Promise<UserForm> => {
-  const response = await fetch("http://localhost:3000/api/user/login", {
+  const response = await fetch(`${userApi}/login`, {
     method: "POST",
     body: JSON.stringify(loginForm),
     headers: {

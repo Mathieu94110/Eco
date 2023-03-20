@@ -3,7 +3,7 @@ import { addToAds, fetchCurrentUser, getFavorites, login, logout, createUser } f
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
 const userInstance = axios.create({
-  baseURL: "http://localhost:3000/api/user",
+  baseURL: "http://localhost:80/api/user",
 });
 
 const store = createStore({

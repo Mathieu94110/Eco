@@ -3,7 +3,6 @@ import { reactive, inject, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import Table from "@/components/Table/Table.vue";
 import Pagination from "@/components/Pagination/Pagination.vue";
-import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { getAds, deleteAd } from "@/api";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
@@ -18,7 +17,6 @@ import { userAdsConfig } from "@/constants/userAds";
 
 const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();
-const sideBarClosed = inject<boolean>("collapsed");
 const toast = inject<ToastInterface>("toastMsg")!;
 const state = reactive<{
   perPageOptions: number[];
@@ -84,13 +82,7 @@ onMounted(async () => {
 
 <template>
   <div class="user-ads">
-    <Toolbar>Mes annonces</Toolbar>
-    <div
-      :style="{
-        marginLeft: isMobile ? 'auto' : sideBarClosed ? '115px' : '300px',
-      }"
-      class="user-ads__content"
-    >
+    <div class="user-ads__content">
       <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
 
       <Pagination
@@ -118,11 +110,9 @@ onMounted(async () => {
   font-family: Helvetica, sans-serif;
   font-weight: 400;
   margin: 0;
-
   &__content {
     padding: 30px;
     height: calc(100vh - 60px);
-
     @include mixins.xs {
       padding: 10px;
       font-size: 0.7rem;

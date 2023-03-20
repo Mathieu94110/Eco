@@ -36,7 +36,7 @@ describe("home", () => {
   });
 
   it("should get favorites request succeed and getting the 4 mocked favorites when user is logged", () => {
-    cy.intercept("GET", `http://localhost:3000/api/favorites/getFavoredAds/${testUserId}`, {
+    cy.intercept("GET", `/api/favorites/getFavoredAds/${testUserId}`, {
       fixture: "favorites.json",
     }).as("user-favorites");
     cy.wait("@user-favorites").its("response.statusCode").should("eq", 200);

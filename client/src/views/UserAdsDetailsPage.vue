@@ -8,7 +8,6 @@ import { getAdById, updateAd } from "@/api";
 import type { UserAdInterface, ToastInterface } from "@/shared/interfaces";
 import Loading from "vue-loading-overlay";
 
-const sideBarClosed = inject<boolean>("collapsed");
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -63,16 +62,10 @@ const updateUserCard = async (card: UserAdInterface): Promise<void> => {
 };
 
 const isActive = computed<Component>(() => (state.isEditMode === true ? EditCard : Card));
-const isMobile = computed<boolean>(() => store?.state.windowWidth < 575);
 </script>
 
 <template>
-  <div
-    class="user-ad-details"
-    :style="{
-      marginLeft: isMobile ? 'auto' : sideBarClosed ? '75px' : '270px',
-    }"
-  >
+  <div class="user-ad-details">
     <loading :active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
     <div class="user-ad-details__header-buttons">
       <button class="btn btn-primary" type="button" @click="goBack()">Retour</button>
