@@ -37,8 +37,4 @@ app.use("*", (req, res) => {
   res.status(404).json("mauvaise routes");
 });
 
-const port = process.env.PORT || "84";
-app.set("port", port);
-
-const server = http.createServer(app);
-server.listen(port);
+app.listen(84);
