@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start": "node index.js",
-    "prod": "PORT=80 node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -20,7 +19,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.9.1",
     "mongoose": "^6.4.2",
-    "mongoose-unique-validator": "^3.1.0"
+    "mongoose-unique-validator": "^3.1.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

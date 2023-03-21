@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite --host --open",
-    "build": "run-p type-check build-only",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest --environment jsdom --root src/",
     "test:e2e": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'",

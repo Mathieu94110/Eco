@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const cookie = require("cookie-parser");
 const routes = require("./routes");
 const bodyParser = require("body-parser");
@@ -7,7 +8,7 @@ const http = require("http");
 const app = express();
 
 require("./database");
-
+app.use(morgan("tiny"));
 app.use(cookie());
 app.use(express.static(`${__dirname}/../client/dist`));
 app.use(express.json({ limit: "10mb", extended: true }));
@@ -36,7 +37,7 @@ app.use("*", (req, res) => {
   res.status(404).json("mauvaise routes");
 });
 
-const port = process.env.PORT || "80";
+const port = process.env.PORT || "84";
 app.set("port", port);
 
 const server = http.createServer(app);
