@@ -24,10 +24,15 @@ const switchComponent = (value: string) => {
 
 <style lang="scss" scoped>
 .login {
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url("@/assets/images/login-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>

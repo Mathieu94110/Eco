@@ -1,7 +1,7 @@
 @use "./mixins";
 
 :root {
-  --primary-1: #42a1ec;
+  --primary-1: #11998e;
   --primary-2: #0070c9;
   --danger-1: #e74c3c;
   --danger-2: #c0392b;
@@ -244,9 +244,9 @@ body {
 
 .btn-primary {
   background-color: var(--primary-1);
-  color: var(--text-primary-color);
+  color: #fff;
   &:hover {
-    background-color: var(--primary-2);
+    transform: scale(1.05) rotate(-1deg);
   }
 }
 

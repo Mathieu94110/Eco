@@ -45,6 +45,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 
 <template>
   <form class="sign-in" @submit.prevent="submit">
+    <span class="sign-in__logo"></span>
     <div class="sign-in__title">
       <h1>Connection</h1>
     </div>
@@ -59,28 +60,32 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     </div>
     <main class="sign-in__inputs">
       <div class="sign-in__form-items">
-        <label for="email">
+        <div class="sign-in__form-group">
           <input
+            type="input"
+            class="sign-in__form-field"
+            placeholder="Email"
+            name="email"
             id="email"
             v-model="state.email"
-            class="sign-in__form-input"
-            type="text"
-            placeholder="Email"
             data-cy="email"
+            required
           />
-        </label>
-      </div>
-      <div class="sign-in__form-items">
-        <label for="email">
+          <label for="email" class="sign-in__form-label">Email</label>
+        </div>
+        <div class="sign-in__form-group">
           <input
-            id="password"
-            v-model="state.password"
-            class="sign-in__form-input"
             type="password"
+            name="password"
+            id="password"
+            class="sign-in__form-field"
             placeholder="Mot de passe"
+            v-model="state.password"
             data-cy="password"
+            required
           />
-        </label>
+          <label for="password" class="sign-in__form-label">Mot de passe</label>
+        </div>
       </div>
     </main>
     <div class="sign-in__form-items-error">
@@ -97,7 +102,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
         :class="{ 'sign-in__button-disabled': !validatedFields }"
       >
         <span v-if="props.status === 'loading'">Connection en cours...</span>
-        <span v-else data-cy="login-button" class="color-white">Connection</span>
+        <span v-else data-cy="login-button">Connection</span>
       </button>
     </div>
   </form>
@@ -107,25 +112,31 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 .sign-in {
   min-width: 277px;
   margin: 20px 10px;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(6, minmax(25px, auto));
-  grid-template-areas:
-    "title"
-    "subtitle-main"
-    "subtitle-secondary"
-    "main"
-    "error-message"
-    "footer";
-
-  background: var(--primary-color);
-  border-radius: 16px;
-  padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 10px 0;
+  width: auto;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 6px;
+  border-radius: 5px;
+  box-shadow: 0px 9px 30px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  &__logo {
+    font-size: 60px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 0 auto;
+    background-image: url("@/assets/images/malenia.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   &__title {
-    grid-area: title;
-    text-align: center;
-    color: var(--text-color);
+    color: var(--primary-1);
     font-weight: 600;
     padding: 10px 0;
   }
@@ -133,58 +144,72 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
     font-size: 18px;
   }
   &__subtitle {
-    text-align: center;
-    color: var(--text-color);
+    color: #fff;
     font-weight: 600;
     font-size: 20px;
   }
   &__button-disabled {
-    color: #ececec;
     &:hover {
       cursor: not-allowed;
     }
   }
-  &__form-input {
-    height: 100%;
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #f2f2f2;
-    font-weight: 500;
-    font-size: 16px;
-    flex: 1;
-    min-width: 100px;
-    color: #000;
+  &__form-group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+  }
+  &__form-field {
+    &:required,
+    &:invalid {
+      box-shadow: none;
+    }
+    &::placeholder {
+      color: transparent;
+    }
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 12px;
+    color: #fff;
+    padding: 7px 0;
+
+    background: transparent;
+    transition: border-color 0.2s;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+  &__form-label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 12px;
+    color: #fff;
   }
   &__form-items {
-    display: flex;
-    margin: 16px 0px;
-    margin: auto;
     &-error {
-      height: 50px;
+      margin: 10px 0;
+      height: 40px;
     }
     &--error {
-      grid-area: error-message;
       color: var(--danger-2);
       font-weight: bold;
-      font-size: 14px;
-      width: 211px;
+      font-size: 12px;
+      width: auto;
       margin: auto;
     }
   }
   &__subtitle-main {
-    grid-area: subtitle-main;
-    color: var(--text-color);
+    color: #fff;
     font-weight: 600;
-    align-self: center;
-    text-align: center;
     padding: 10px 0;
   }
   &__subtitle-secondary {
-    grid-area: subtitle-secondary;
-    align-self: center;
-    text-align: center;
-    color: #2196f3;
+    color: var(--primary-1);
     text-decoration: underline;
     font-weight: 600;
     margin-bottom: 40px;
@@ -192,39 +217,37 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       cursor: pointer;
     }
   }
-  &__inputs {
-    grid-area: main;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-auto-rows: minmax(50px, auto);
-  }
-  &__footer {
-    grid-area: footer;
+  .sign-in__form-field:focus {
+    ~ .sign-in__form-label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 14px;
+      color: var(--primary-1);
+      font-weight: 700;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, var(--primary-1), var(--primary-1));
+    border-image-slice: 1;
   }
 }
-
+.sign-in__form-field {
+  &:placeholder-shown ~ .sign-in__form-label {
+    font-size: 16px;
+    cursor: text;
+    top: 20px;
+  }
+}
 @media screen and (min-width: 768px) {
   .sign-in {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, minmax(30px, auto));
-    grid-template-areas:
-      "title title"
-      "subtitle-main subtitle-secondary"
-      "main main"
-      "error-message error-message"
-      "footer footer";
-    grid-gap: 20px;
     margin: 0;
-    padding: 20px;
+    padding: 30px 20px;
+    width: 500px;
     h1 {
       font-size: 26px;
-    }
-    &__inputs {
-      grid-area: main;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-auto-rows: minmax(30px, auto);
-      grid-gap: 20px;
     }
     &__title {
       padding: 10px;
@@ -234,14 +257,17 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       padding: 10px;
     }
     &__subtitle-secondary {
-      grid-area: subtitle-secondary;
-      align-self: center;
-      text-align: left;
-      color: #2196f3;
+      color: var(--primary-1);
       font-weight: 600;
       font-size: 20px;
       padding: 10px;
       margin: 0;
+    }
+    &__form-field {
+      font-size: 22px;
+    }
+    &__form-label {
+      font-size: 20px;
     }
     &__form-items {
       &-error {
@@ -249,8 +275,19 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       }
       &--error {
         width: auto;
-        margin: 0;
+        font-size: 16px;
       }
+    }
+  }
+  .sign-in__form-field:focus {
+    ~ .sign-in__form-label {
+      font-size: 18px !important;
+    }
+  }
+
+  .sign-in__form-field {
+    &:placeholder-shown ~ .sign-in__form-label {
+      font-size: 1.3rem;
     }
   }
 }
