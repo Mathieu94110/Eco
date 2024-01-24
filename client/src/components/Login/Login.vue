@@ -17,13 +17,13 @@ const switchComponent = (value: string) => {
 </script>
 
 <template>
-  <div class="login">
+  <div class="login-container">
     <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.login {
+.login-container {
   width: 100%;
   height: 100vh;
   display: flex;

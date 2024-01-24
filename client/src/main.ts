@@ -1,32 +1,13 @@
 import { createApp } from "vue";
 import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-import { defineRule } from "vee-validate";
+4;
 import toastMsg from "@/mixins/toast";
 import { collapsed, toggleSidebar } from "@/mixins/sidebar-collapsed";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "@fortawesome/fontawesome-free/js/all";
-
-// rules for login form
-defineRule("required", (value: string) => {
-  if (!value || !value.length) {
-    return "Ce champs est requis";
-  }
-  return true;
-});
-
-defineRule("minLength", (value: string, [limit]: [limit: number]): string | boolean => {
-  // The field is empty so it should pass
-  if (!value || !value.length) {
-    return true;
-  }
-  if (value.length < limit) {
-    return `Il faut renseigner au moins ${limit} caractères`;
-  }
-  return true;
-});
 
 const app = createApp({
   extends: App,
