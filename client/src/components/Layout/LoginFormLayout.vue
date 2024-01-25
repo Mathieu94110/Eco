@@ -7,7 +7,6 @@ const currentRoute = computed(() => route.name);
 
 <template>
   <div>
-    <span class="login__logo"></span>
     <div class="login__title">
       <slot name="title" />
     </div>
@@ -44,7 +43,6 @@ const currentRoute = computed(() => route.name);
     border-radius: 50%;
     background-color: #fff;
     margin: 0 auto;
-    background-image: url("@/assets/images/malenia-two.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -169,7 +167,7 @@ const currentRoute = computed(() => route.name);
       font-weight: 600;
       font-size: 20px;
       padding: 10px;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
     &__form-field {
       font-size: 22px;

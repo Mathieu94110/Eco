@@ -58,10 +58,10 @@ describe("SignIn Component", () => {
     expect(loginBtn.element.disabled).toBe(true);
   });
 
-  it("renders generic error if status prop is error_login", () => {
+  it("renders generic error if status prop is error-login", () => {
     const wrapper = mount(SignIn, {
       props: {
-        status: "error_login",
+        status: "error-login",
       },
       data() {
         return {

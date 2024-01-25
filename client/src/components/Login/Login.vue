@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, computed, type Component } from "vue";
+import { reactive, computed, watch, type Component } from "vue";
 import { useStore } from "vuex";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
@@ -10,12 +10,21 @@ const state = reactive<{
   mode: "login",
 });
 const store = useStore();
-const authStatus = computed<string>(() => store.getters.authStatus);
-const isActive = computed<Component>(() => (state.mode === "login" ? SignIn : SignUp));
-
 const switchComponent = (value: string) => {
   state.mode = value;
 };
+
+const authStatus = computed<string>(() => store.getters.authStatus);
+const isActive = computed<Component>(() => (state.mode === "login" ? SignIn : SignUp));
+
+watch(authStatus, (newVal) => {
+  if (newVal.startsWith("error")) {
+    const clearAuthStatus = function () {
+      store.commit("setStatus", "");
+    };
+    setTimeout(clearAuthStatus, 2000);
+  }
+});
 </script>
 
 <template>

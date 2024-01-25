@@ -36,15 +36,9 @@ const onSubmit = handleSubmit(async (values: UserForm) => {
   try {
     const response = await store.dispatch("createAccount", values);
     if (response.status === 400) {
-      store.commit("setStatus", "client-error");
-      setTimeout(() => {
-        store.commit("setStatus", "");
-      }, 2000);
+      store.commit("setStatus", "error-client-signup");
     } else if (response.status === 500) {
-      store.commit("setStatus", "error-signup");
-      setTimeout(() => {
-        store.commit("setStatus", "");
-      }, 2000);
+      store.commit("setStatus", "error-server-signup");
     } else if (response.error && !response.status) {
       store.commit("setStatus", response.error);
     } else {
@@ -62,6 +56,7 @@ const [password, passwordAttrs] = defineField("password");
 
 <template>
   <form class="login" @submit="onSubmit">
+    <span class="login__logo"></span>
     <LoginFormLayout :items="state.items">
       <template #title>
         <h1>Inscription</h1>
@@ -146,7 +141,7 @@ const [password, passwordAttrs] = defineField("password");
 <style lang="scss" scoped>
 .login {
   &__logo {
-    background-image: url("@/assets/images/malenia-two.jpg");
+    background-image: url("@/assets/images/malenia-before.jpg");
   }
 }
 </style>

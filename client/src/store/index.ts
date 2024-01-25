@@ -105,10 +105,7 @@ const store = createStore({
         commit("logUser", response);
         commit("setStatus", "");
       } catch (e) {
-        commit("setStatus", "error_login");
-        setTimeout(() => {
-          store.commit("setStatus", "");
-        }, 2000);
+        commit("setStatus", "error-login");
         console.error(e);
       }
     },
@@ -117,12 +114,13 @@ const store = createStore({
       commit("setStatus", "loading");
       try {
         const response = (await createUser(userInfos)) as any;
-        setTimeout(() => {
-          commit("setStatus", "");
-        }, 2000);
         return response;
       } catch (e) {
         commit("setStatus", e);
+      } finally {
+        setTimeout(() => {
+          commit("setStatus", "");
+        }, 2000);
       }
     },
 
@@ -136,7 +134,7 @@ const store = createStore({
         await addToAds(state.currentPost);
         commit("setStatus", "");
       } catch {
-        commit("setStatus", "error_post");
+        commit("setStatus", "error-post");
       }
     },
 

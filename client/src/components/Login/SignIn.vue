@@ -46,6 +46,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 
 <template>
   <form class="login" @submit.prevent="submit">
+    <span class="login__logo"></span>
     <LoginFormLayout :items="state.items">
       <template #title>
         <h1>Connection</h1>
@@ -86,7 +87,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       </template>
       <template #signin-error>
         <div class="login__form-items-error">
-          <div class="login__form-items--error" v-show="props.status === 'error_login'" id="generic-error">
+          <div class="login__form-items--error" v-show="props.status === 'error-login'" id="generic-error">
             Mail et/ou mot de passe invalide
           </div>
         </div>
@@ -103,7 +104,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 <style lang="scss" scoped>
 .login {
   &__logo {
-    background-image: url("@/assets/images/malenia.jpg");
+    background-image: url("@/assets/images/malenia-after.jpg");
   }
 }
 </style>
