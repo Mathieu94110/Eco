@@ -7,7 +7,13 @@ const routes = [
     name: "Authentification",
     path: "/",
     beforeEnter: [isNotAuthenticatedGuard],
-    component: () => import("../views/AuthPage.vue"),
+    component: () => import("../views/HomePage.vue"),
+  },
+  {
+    name: "Accueil",
+    path: "/home",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/AdsPage.vue"),
   },
   {
     name: "Vos informations",

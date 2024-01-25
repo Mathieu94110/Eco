@@ -12,6 +12,6 @@ export function isAuthenticatedGuard() {
 
 export function isNotAuthenticatedGuard() {
   if (isAuthenticate.value === true) {
-    return "/ads";
+    return "/home";
   }
 }

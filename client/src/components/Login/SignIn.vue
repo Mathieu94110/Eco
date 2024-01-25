@@ -35,7 +35,7 @@ const submit = async () => {
       email: state.email,
       password: state.password,
     });
-    router.push("/ads");
+    router.push("/home");
   } catch (e) {
     console.error(e);
   }
