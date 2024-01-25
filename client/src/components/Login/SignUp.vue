@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { reactive } from "vue";
+import LoginFormLayout from "../Layout/LoginFormLayout.vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import type { UserForm } from "@/shared/interfaces";
 import { useForm } from "vee-validate";
@@ -11,7 +12,7 @@ const state = reactive<{
 }>({
   mode: "create",
 });
-
+const store = useStore();
 const props = defineProps<{
   status: string;
 }>();
@@ -31,26 +32,28 @@ const { errors, handleSubmit, defineField } = useForm({
   }),
 });
 
-const onSubmit = handleSubmit(async (values) => {
-  alert(JSON.stringify(values, null, 3));
-  //   try {
-  //     const response = await store.dispatch("createAccount", formValue);
-  //     if (response.status === 400) {
-  //       store.commit("setStatus", "client-error");
-  //       setTimeout(() => {
-  //         store.commit("setStatus", "");
-  //       }, 2000);
-  //     } else if (response.status === 500) {
-  //       store.commit("setStatus", "error-signup");
-  //       setTimeout(() => {
-  //         store.commit("setStatus", "");
-  //       }, 2000);
-  //     } else {
-  //       emit("switch", "login");
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
+const onSubmit = handleSubmit(async (values: UserForm) => {
+  try {
+    const response = await store.dispatch("createAccount", values);
+    if (response.status === 400) {
+      store.commit("setStatus", "client-error");
+      setTimeout(() => {
+        store.commit("setStatus", "");
+      }, 2000);
+    } else if (response.status === 500) {
+      store.commit("setStatus", "error-signup");
+      setTimeout(() => {
+        store.commit("setStatus", "");
+      }, 2000);
+    } else if (response.error && !response.status) {
+      store.commit("setStatus", response.error);
+    } else {
+      store.commit("setStatus", "");
+      emit("switch", "login");
+    }
+  } catch (e) {
+    console.error(e);
+  }
 });
 const [pseudo, pseudoAttrs] = defineField("pseudo");
 const [email, emailAttrs] = defineField("email");
@@ -59,77 +62,84 @@ const [password, passwordAttrs] = defineField("password");
 
 <template>
   <form class="login" @submit="onSubmit">
-    <span class="login__logo"></span>
-    <div class="login__title">
-      <h1>Inscription</h1>
-    </div>
-    <h2 class="login__subtitle-main">Vous avez déjà un compte ?</h2>
-    <div
-      class="login__subtitle-secondary"
-      @click="switchComponent()"
-      @keydown="switchComponent()"
-      data-cy="create-account-link"
-    >
-      Se connecter
-    </div>
-    <main class="login__form-items">
-      <div class="login__form-group">
-        <input
-          type="text"
-          class="login__form-field"
-          placeholder="Pseudo"
-          v-model="pseudo"
-          v-bind="pseudoAttrs"
-          required
-        />
-        <label for="userName" class="login__form-label">Pseudo</label>
-        <div class="login__form-items-error">
-          <div class="login__form-items--error" v-show="errors.pseudo" id="generic-error">
-            {{ errors.pseudo }}
+    <LoginFormLayout :items="state.items">
+      <template #title>
+        <h1>Inscription</h1>
+      </template>
+      <template #subtitle-main>
+        <span>Vous avez déjà un compte ?</span>
+      </template>
+      <template #subtitle-secondary>
+        <div @click="switchComponent()" @keydown="switchComponent()" data-cy="create-account-link">
+          <span>Se connecter</span>
+        </div>
+      </template>
+      <template #group>
+        <div class="login__form-group">
+          <input
+            type="text"
+            class="login__form-field"
+            placeholder="Pseudo"
+            v-model="pseudo"
+            v-bind="pseudoAttrs"
+            required
+          />
+          <label for="userName" class="login__form-label">Pseudo</label>
+          <div class="login__form-items-error">
+            <div class="login__form-items--error" v-show="errors.pseudo" id="generic-error">
+              {{ errors.pseudo }}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="login__form-group">
-        <input
-          type="email"
-          class="login__form-field"
-          placeholder="Email"
-          v-model="email"
-          v-bind="emailAttrs"
-          data-cy="email"
-          required
-        />
-        <label for="email" class="login__form-label">Email</label>
-        <div class="login__form-items-error">
-          <div class="login__form-items--error" v-show="errors.email" id="generic-error">
-            {{ errors.email }}
+        <div class="login__form-group">
+          <input
+            type="email"
+            class="login__form-field"
+            placeholder="Email"
+            v-model="email"
+            v-bind="emailAttrs"
+            data-cy="email"
+            required
+          />
+          <label for="email" class="login__form-label">Email</label>
+          <div class="login__form-items-error">
+            <div class="login__form-items--error" v-show="errors.email" id="generic-error">
+              {{ errors.email }}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="login__form-group">
-        <input
-          type="password"
-          class="login__form-field"
-          placeholder="Mot de passe"
-          v-model="password"
-          v-bind="passwordAttrs"
-          data-cy="password"
-          required
-        />
-        <label for="password" class="login__form-label">Mot de passe</label>
-        <div class="login__form-items-error">
-          <div class="login__form-items--error" v-show="errors.password" id="generic-error">
-            {{ errors.password }}
+        <div class="login__form-group">
+          <input
+            type="password"
+            class="login__form-field"
+            placeholder="Mot de passe"
+            v-model="password"
+            v-bind="passwordAttrs"
+            data-cy="password"
+            required
+          />
+          <label for="password" class="login__form-label">Mot de passe</label>
+          <div class="login__form-items-error">
+            <div class="login__form-items--error" v-show="errors.password" id="generic-error">
+              {{ errors.password }}
+            </div>
+            <div
+              class="login__form-items--error"
+              v-show="props.status === 'Adresse mail déjà utilisée'"
+              id="generic-error"
+            >
+              {{ props.status }}
+            </div>
           </div>
         </div>
-      </div>
-    </main>
-    <div class="login__footer">
-      <button id="login-button" type="submit" class="btn btn-primary font-600">
-        <span v-if="props.status === 'loading'">Inscription...</span>
-        <span v-else data-cy="login-button">Inscription</span>
-      </button>
-    </div>
+      </template>
+      <template #login-footer>
+        <button id="login-button" type="submit" class="btn btn-primary font-600">
+          <span v-if="props.status === 'loading'">Inscription...</span>
+          <span v-else data-cy="login-button">Inscription</span>
+        </button>
+      </template>
+    </LoginFormLayout>
   </form>
 </template>
 

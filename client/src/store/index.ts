@@ -80,6 +80,9 @@ const store = createStore({
     },
   },
   getters: {
+    authStatus(state) {
+      return state.status;
+    },
     isAuthenticated(state): boolean | null {
       if (state.user) {
         return true;
@@ -114,10 +117,12 @@ const store = createStore({
       commit("setStatus", "loading");
       try {
         const response = (await createUser(userInfos)) as any;
-        commit("setStatus", "");
+        setTimeout(() => {
+          commit("setStatus", "");
+        }, 2000);
         return response;
       } catch (e) {
-        console.error(e);
+        commit("setStatus", e);
       }
     },
 

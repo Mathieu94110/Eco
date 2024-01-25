@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, computed, type Component } from "vue";
+import { useStore } from "vuex";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
 
@@ -8,7 +9,8 @@ const state = reactive<{
 }>({
   mode: "login",
 });
-
+const store = useStore();
+const authStatus = computed<string>(() => store.getters.authStatus);
 const isActive = computed<Component>(() => (state.mode === "login" ? SignIn : SignUp));
 
 const switchComponent = (value: string) => {
@@ -18,7 +20,7 @@ const switchComponent = (value: string) => {
 
 <template>
   <div class="login-container">
-    <component :is="isActive" @switch="switchComponent" v-bind="$attrs" />
+    <component :is="isActive" @switch="switchComponent" :status="authStatus" />
   </div>
 </template>
 

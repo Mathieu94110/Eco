@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useStore } from "vuex";
 import Login from "@/components/Login/Login.vue";
-
-const store = useStore();
-const status = computed<string>(() => store?.state.status);
 </script>
 
 <template>
   <div class="auth">
-    <Login :status="status"></Login>
+    <Login></Login>
   </div>
 </template>
 

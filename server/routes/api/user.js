@@ -13,18 +13,16 @@ router.post("/signup", async (req, res) => {
       ...req.body,
       password: await bcrypt.hash(body.password, 8),
     });
-    user.save((err, user) => {
-      if (err) {
-        res.status(400).json("Erreur lors de l'inscription");
-      }
+    try {
+      await user.save();
       res.json({
         status: 201,
       });
-    });
+    } catch (err) {
+      res.status(400).json("Erreur lors de l'inscription");
+    }
   } else {
-    res.json({
-      status: 500,
-    });
+    res.json({ error: "Adresse mail déjà utilisée" });
   }
 });
 
