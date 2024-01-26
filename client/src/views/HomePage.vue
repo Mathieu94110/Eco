@@ -44,7 +44,7 @@ const state = reactive<{
     {
       background_image: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
       name: "Grand Theft Auto V",
-      rating: 4.47,
+      rating: 4.5,
       ratings_count: 6706,
       released: "2013-09-17",
       updated: "2024-01-26T00:43:03",
@@ -53,7 +53,7 @@ const state = reactive<{
     {
       background_image: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
       name: "Grand Theft Auto V",
-      rating: 4.47,
+      rating: 5,
       ratings_count: 6706,
       released: "2013-09-17",
       updated: "2024-01-26T00:43:03",
@@ -62,7 +62,7 @@ const state = reactive<{
     {
       background_image: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
       name: "Grand Theft Auto V",
-      rating: 4.47,
+      rating: 4.3,
       ratings_count: 6706,
       released: "2013-09-17",
       updated: "2024-01-26T00:43:03",
@@ -71,7 +71,7 @@ const state = reactive<{
     {
       background_image: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
       name: "Grand Theft Auto V",
-      rating: 4.47,
+      rating: 1.2,
       ratings_count: 6706,
       released: "2013-09-17",
       updated: "2024-01-26T00:43:03",
@@ -80,7 +80,7 @@ const state = reactive<{
     {
       background_image: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
       name: "Grand Theft Auto V",
-      rating: 4.47,
+      rating: 0,
       ratings_count: 6706,
       released: "2013-09-17",
       updated: "2024-01-26T00:43:03",
@@ -89,7 +89,7 @@ const state = reactive<{
     {
       background_image: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
       name: "Grand Theft Auto V",
-      rating: 4.47,
+      rating: 0.5,
       ratings_count: 6706,
       released: "2013-09-17",
       updated: "2024-01-26T00:43:03",
