@@ -62,8 +62,7 @@ export default {
       <div
         v-if="!isMobile"
         :style="{
-          paddingLeft:
-            sideBarClosed && isAuthenticated ? '150px' : !sideBarClosed && isAuthenticated ? '345px' : 'auto',
+          paddingLeft: sideBarClosed && isAuthenticated ? '85px' : !sideBarClosed && isAuthenticated ? '270px' : 'auto',
         }"
       >
         <router-view></router-view>

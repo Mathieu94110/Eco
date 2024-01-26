@@ -7,13 +7,13 @@ const routes = [
     name: "Authentification",
     path: "/",
     beforeEnter: [isNotAuthenticatedGuard],
-    component: () => import("../views/HomePage.vue"),
+    component: () => import("../views/AuthPage.vue"),
   },
   {
     name: "Accueil",
     path: "/home",
     beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/AdsPage.vue"),
+    component: () => import("../views/HomePage.vue"),
   },
   {
     name: "Vos informations",
@@ -65,6 +65,18 @@ const routes = [
     component: () => import("../views/FavoritesDetailsPage.vue"),
   },
   {
+    name: "Jeux",
+    path: "/games",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/Games.vue"),
+  },
+  {
+    name: "Details du jeu",
+    path: "/games/:id",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/GameDetails.vue"),
+  },
+  {
     path: "/:notfound(.*)*",
     component: () => import("../views/NotFound.vue"),
   },
@@ -76,8 +88,17 @@ const router = createRouter({
 });
 
 router.beforeEach(async () => {
-  if (!store.state.loaded && router.currentRoute.path === "/ads") {
+  if (!store.state.loaded && router.currentRoute.path === "/home") {
     await store.dispatch("fetchCurrentUser");
+  }
+});
+
+router.onError((error, to) => {
+  if (
+    error.message.includes("Failed to fetch dynamically imported module") ||
+    error.message.includes("Importing a module script failed")
+  ) {
+    window.location = to.path;
   }
 });
 

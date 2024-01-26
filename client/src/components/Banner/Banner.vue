@@ -1,28 +1,30 @@
 <template>
   <div class="banner">
-    <div className="banner__content">
-      <div className="banner__content-badge">Rejoint le stream</div>
-      <h1 className="banner__content-title">Les meilleurs jeux en ligne</h1>
-      <p className="banner__content-lead-text">
+    <div class="banner__content">
+      <div class="banner__content-badge">Rejoint le stream</div>
+      <h1 class="banner__content-title">Les meilleurs jeux en ligne</h1>
+      <p class="banner__content-lead-text">
         Jeu en direct avec de nombreux autres jeux. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercice.
       </p>
-      <div className="banner__content__banner-btn">
-        <span className="banner__content__banner-btn-btn-icon">
+      <div class="banner__content__banner-btn">
+        <span class="banner__content__banner-btn-btn-icon">
           <i class="fa-solid fa-gamepad banner__content__banner-btn-btn-icon-gaming"></i
         ></span>
-        <span className="banner__content__banner-btn-play-now btn-primary">Jouer maintenant</span>
+        <span class="banner__content__banner-btn-play-now btn-primary">Jouer maintenant</span>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {};
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .banner {
+  background-image: url("@/assets/images/banner-background.jpeg");
+  background: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -35,7 +37,6 @@ export default {};
     padding: 0 1.6rem;
 
     &-badge {
-      background-color: var(--primary-1);
       padding: 4px 16px;
       font-weight: 600;
       font-size: 20px;

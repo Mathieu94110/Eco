@@ -7,3 +7,4 @@ export * from "./FormValidation.interface";
 export * from "./Toast.interface";
 export * from "./Fetch.Interface";
 export * from "./Axios.interface";
+export * from "./Games.interface";

@@ -1,0 +1,147 @@
+<template>
+  <div class="game-item">
+    <div class="game-item__top">
+      <img :src="gameItem?.background_image" :alt="gameItem?.name" />
+      <StarRating :rating="gameItem?.rating" />
+      <div class="game-item__top__ratings-count">
+        {{ gameItem?.ratings_count }} <i class="fa-solid fa-star game-item__top__ratings-count-star" :size="12"></i>
+      </div>
+    </div>
+    <div class="game-item__bottom">
+      <h4 class="game-item__bottom-title">
+        {{ gameItem?.name }}
+      </h4>
+      <div class="game-item__bottom__details">
+        <div class="game-item__bottom__details__group">
+          <div class="game-item__bottom__details__group__item">
+            <p class="game-item__bottom__details__group__item-key">Date de création: &nbsp;</p>
+            <p>{{ gameItem?.released }}</p>
+          </div>
+          <div class="game-item__bottom__details__group__item">
+            <p class="game-item__bottom__details__group__item-key">Mise à jour: &nbsp;</p>
+            <p>{{ gameItem?.updated }}</p>
+          </div>
+        </div>
+        <router-link
+          :to="{ name: 'Details du jeu', params: { id: `${gameItem?.id}` } }"
+          class="game-item__bottom__details-link"
+        >
+          Voir plus
+        </router-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import StarRating from "@/shared/components/StarRating/StarRating.vue";
+defineProps<{
+  gameItem: { type: { Object } };
+}>();
+</script>
+
+<style scoped lang="scss">
+.game-item {
+  display: flex;
+  flex-direction: column;
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__top {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.27) 92.08%);
+    position: relative;
+    &__ratings-count {
+      position: absolute;
+      left: 18px;
+      bottom: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 0px 12px;
+      border-radius: 16px;
+      background-color: #fff;
+      z-index: 1;
+      &-star {
+        margin-left: 4px;
+      }
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+    }
+  }
+  &__bottom {
+    flex: 1;
+    background-color: purple;
+    padding: 20px 18px;
+    &-title {
+      font-size: 18px;
+      font-weight: 800px;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .card-button {
+      height: 34px;
+      text-align: center;
+      border: 1px solid green;
+      padding: 0px 16px;
+      min-width: 108px;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      transition: all 300ms ease-in-out;
+
+      &:hover {
+        background-color: green;
+      }
+    }
+    &__details {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      &__group {
+        padding-top: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 14px;
+        &__item {
+          display: flex;
+          align-items: center;
+          &-key {
+            font-weight: 600;
+          }
+        }
+      }
+      &-link {
+        height: 34px;
+        text-align: center;
+        border: 1px solid green;
+        padding: 0px 16px;
+        min-width: 108px;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        display: flex;
+        align-items: center;
+        transition: all 300ms ease-in-out;
+        margin-top: 10px;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+    }
+  }
+}
+</style>
