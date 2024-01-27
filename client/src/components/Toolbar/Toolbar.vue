@@ -13,7 +13,7 @@
   font-size: 26px;
   font-weight: 600;
   height: 60px;
-  background: var(--sidebar-item-active);
+  background: var(--primary-1);
   display: flex;
   flex-direction: column;
   justify-content: center;

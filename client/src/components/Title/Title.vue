@@ -21,7 +21,7 @@ const props = defineProps<{
   padding: 12px 0;
   text-align: center;
   font-weight: 800;
-  font-size: 32px;
+  font-size: 20px;
   letter-spacing: 0.1em;
   color: #fff;
   margin-bottom: 40px;
@@ -57,6 +57,11 @@ const props = defineProps<{
       border-bottom: 3.5px solid transparent;
       border-top: 3.5px solid transparent;
     }
+  }
+}
+@media (min-width: 800px) {
+  .title {
+    font-size: 32px;
   }
 }
 </style>

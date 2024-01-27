@@ -36,7 +36,7 @@ const isActive = computed<boolean>(() => route.path === props.to);
     color: var(--primary-1);
   }
   &--active {
-    background-color: var(--sidebar-item-active);
+    background-color:var(--primary-1); 
     width: 100%;
   }
 

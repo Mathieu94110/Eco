@@ -17,7 +17,7 @@ const props = defineProps<{
   };
 }>();
 
-function val(index) {
+function val(index:number) {
   return index + 0.5;
 }
 </script>

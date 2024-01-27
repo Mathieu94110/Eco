@@ -81,7 +81,7 @@ const isFavorited = ref<boolean>(false);
   min-width: 260px;
   max-height: 600p;
   margin: 20px;
-  background-color: #15263f;
+  background-color: var(--primary-1);
   color: var(--primary-color);
   border-radius: 16px;
   font-size: 1.2rem;

@@ -49,7 +49,7 @@ const currentRoute = computed(() => route.name);
 .card-layout {
   &__card {
     width: 320px;
-    background-color: #15263f;
+    background-color: var(--primary-1);
     color: #8bacd9;
     border-radius: 16px;
     padding: 16px 10px;

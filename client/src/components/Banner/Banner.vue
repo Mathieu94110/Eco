@@ -47,7 +47,7 @@
     }
 
     &-title {
-      font-size: 28px;
+      font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.09em;
       line-height: 1.2;
@@ -93,7 +93,7 @@
   }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 800px) {
   .banner {
     &__content {
       &-badge {

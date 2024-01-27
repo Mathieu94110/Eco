@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { addToAds, fetchCurrentUser, getFavorites, login, logout, createUser } from "@/api";
+import { addToAds, fetchCurrentUser, getFavorites, login, logout, createUser, fetchAsyncGames } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
 const userInstance = axios.create({
@@ -11,6 +11,7 @@ const store = createStore({
     status: "",
     loaded: false,
     user: null,
+    gameDetails: null,
     isUserLogged: false,
     currentPost: {
       userFrom: "",
@@ -48,6 +49,7 @@ const store = createStore({
       thumbnail: "",
       title: "",
     },
+    games: [],
     windowWidth: window.innerWidth,
   },
   mutations: {
@@ -78,6 +80,9 @@ const store = createStore({
     setWindowWidth(state) {
       state.windowWidth = window.innerWidth;
     },
+    setCurrentGames(state, games) {
+      state.games = games;
+    },
   },
   getters: {
     authStatus(state) {
@@ -96,8 +101,11 @@ const store = createStore({
     getFavorites: (state) => state.currentFavorites,
     getFavoriteDetails: (state) => state.favoriteDetails,
     getAdDetails: (state) => state.adDetails,
+    getStatus: (state) => state.status,
+    getGameDetails: (state) => (id) => state.games.find((game) => game.id === id),
   },
   actions: {
+    //user
     async login({ commit }, userInfos) {
       commit("setStatus", "loading");
       try {
@@ -124,6 +132,23 @@ const store = createStore({
       }
     },
 
+    async logout() {
+      await logout();
+      store.state.user = null;
+    },
+    async fetchCurrentUser() {
+      store.state.user = (await fetchCurrentUser()) as any;
+      store.state.loaded = true;
+    },
+
+    async fetchUserFavorites({ commit }) {
+      if (store.state.user) {
+        const userId = store.state.user._id;
+        const response = (await getFavorites(userId)) as FakeAdInterface[];
+        commit("userFavorites", response);
+      }
+    },
+    //
     createPost: ({ commit }, postInfos) => {
       commit("setPost", postInfos);
     },
@@ -159,20 +184,17 @@ const store = createStore({
     async userFavorites({ commit }, data) {
       commit("userFavorites", data);
     },
-
-    async logout() {
-      await logout();
-      store.state.user = null;
-    },
-    async fetchCurrentUser() {
-      store.state.user = (await fetchCurrentUser()) as any;
-      store.state.loaded = true;
-    },
-    async fetchUserFavorites({ commit }) {
-      if (store.state.user) {
-        const userId = store.state.user._id;
-        const response = (await getFavorites(userId)) as FakeAdInterface[];
-        commit("userFavorites", response);
+    // games
+    async fetchGames({ commit }) {
+      commit("setStatus", "loading");
+      try {
+        const res = await fetchAsyncGames();
+        commit("setCurrentGames", res);
+      } catch (e) {
+        commit("setStatus", "error-games");
+        console.error(e);
+      } finally {
+        commit("setStatus", "");
       }
     },
   },

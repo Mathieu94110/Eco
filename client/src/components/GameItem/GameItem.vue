@@ -50,7 +50,7 @@ defineProps<{
     object-fit: cover;
   }
   &__top {
-    height: 280px;
+    height: 220px;
     overflow: hidden;
     position: relative;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.27) 92.08%);
@@ -82,9 +82,9 @@ defineProps<{
   &__bottom {
     flex: 1;
     background-color: purple;
-    padding: 20px 18px;
+    padding: 10px;
     &-title {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 800px;
       letter-spacing: 0.06em;
       margin-bottom: 10px;
@@ -116,10 +116,11 @@ defineProps<{
       &__group {
         padding-top: 12px;
         color: rgba(255, 255, 255, 0.6);
-        font-size: 14px;
+        font-size: 12px;
         &__item {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           &-key {
             font-weight: 600;
           }
@@ -132,6 +133,7 @@ defineProps<{
         padding: 0px 16px;
         min-width: 108px;
         color: #fff;
+        font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.03em;
         display: flex;
@@ -140,6 +142,22 @@ defineProps<{
         margin-top: 10px;
         text-transform: uppercase;
         text-decoration: none;
+      }
+    }
+  }
+}
+@media screen and (min-width: 800px) {
+  .game-item {
+    &__top {
+      height: 280px;
+      &__ratings-count {
+        font-size: 14px;
+      }
+    }
+    &__bottom {
+      padding: 20px 18px;
+      &-title {
+        font-size: 18px;
       }
     }
   }

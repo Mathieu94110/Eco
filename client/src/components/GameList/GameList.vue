@@ -1,6 +1,6 @@
 <template>
   <div class="game-list">
-    <template v-for="item in props.games" :key="item.id">
+    <template v-for="item in props.games.slice(0, sliceValue)" :key="item.id">
       <GameItem :gameItem="item" />
     </template>
   </div>

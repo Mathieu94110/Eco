@@ -9,7 +9,7 @@
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  background: var(--sidebar-item-active);
+  background: var(--primary-1);
   text-align: center;
 }
 </style>

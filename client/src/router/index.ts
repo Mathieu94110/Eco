@@ -74,7 +74,7 @@ const routes = [
     name: "Details du jeu",
     path: "/games/:id",
     beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/GameDetails.vue"),
+    component: () => import("../views/GameDetailsPage.vue"),
   },
   {
     path: "/:notfound(.*)*",
