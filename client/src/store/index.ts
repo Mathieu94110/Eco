@@ -1,5 +1,14 @@
 import { createStore } from "vuex";
-import { addToAds, fetchCurrentUser, getFavorites, login, logout, createUser, fetchAsyncGames } from "@/api";
+import {
+  addToAds,
+  fetchCurrentUser,
+  getFavorites,
+  login,
+  logout,
+  createUser,
+  fetchAsyncGames,
+  fetchAsyncGameDetails,
+} from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
 const userInstance = axios.create({
@@ -51,58 +60,6 @@ const store = createStore({
     },
     games: [],
     windowWidth: window.innerWidth,
-  },
-  mutations: {
-    setStatus(state, status) {
-      state.status = status;
-    },
-    setPost(state, post) {
-      state.currentPost = post;
-    },
-
-    resetPost(state, post) {
-      state.currentPost = post;
-    },
-
-    userFavorites(state, favorites) {
-      state.currentFavorites = favorites;
-    },
-    logUser(state, user) {
-      userInstance.defaults.headers.common.Authorization = user.token;
-      state.user = user;
-    },
-    setAdData(state, adInfo) {
-      state.adDetails = adInfo.ad;
-    },
-    setFavoriteData(state, favoriteInfo) {
-      state.favoriteDetails = favoriteInfo.favorite;
-    },
-    setWindowWidth(state) {
-      state.windowWidth = window.innerWidth;
-    },
-    setCurrentGames(state, games) {
-      state.games = games;
-    },
-  },
-  getters: {
-    authStatus(state) {
-      return state.status;
-    },
-    isAuthenticated(state): boolean | null {
-      if (state.user) {
-        return true;
-      } else if (!state.user && state.loaded) {
-        return false;
-      } else {
-        return null;
-      }
-    },
-    getCurrentPost: (state) => state.currentPost,
-    getFavorites: (state) => state.currentFavorites,
-    getFavoriteDetails: (state) => state.favoriteDetails,
-    getAdDetails: (state) => state.adDetails,
-    getStatus: (state) => state.status,
-    getGameDetails: (state) => (id) => state.games.find((game) => game.id === id),
   },
   actions: {
     //user
@@ -197,6 +154,73 @@ const store = createStore({
         commit("setStatus", "");
       }
     },
+    async fetchGameDetails({ commit }, gameId) {
+      commit("setStatus", "loading");
+      try {
+        const details = await fetchAsyncGameDetails(gameId);
+        commit("setGameDetails", details);
+      } catch (e) {
+        commit("setStatus", "error-game-details");
+        console.error(e);
+      } finally {
+        commit("setStatus", "");
+      }
+    },
+  },
+  mutations: {
+    setStatus(state, status) {
+      state.status = status;
+    },
+    setPost(state, post) {
+      state.currentPost = post;
+    },
+
+    resetPost(state, post) {
+      state.currentPost = post;
+    },
+
+    userFavorites(state, favorites) {
+      state.currentFavorites = favorites;
+    },
+    logUser(state, user) {
+      userInstance.defaults.headers.common.Authorization = user.token;
+      state.user = user;
+    },
+    setAdData(state, adInfo) {
+      state.adDetails = adInfo.ad;
+    },
+    setFavoriteData(state, favoriteInfo) {
+      state.favoriteDetails = favoriteInfo.favorite;
+    },
+    setWindowWidth(state) {
+      state.windowWidth = window.innerWidth;
+    },
+    setCurrentGames(state, games) {
+      state.games = games;
+    },
+    setGameDetails(state, gameDetails) {
+      state.gameDetails = gameDetails;
+    },
+  },
+  getters: {
+    authStatus(state) {
+      return state.status;
+    },
+    isAuthenticated(state): boolean | null {
+      if (state.user) {
+        return true;
+      } else if (!state.user && state.loaded) {
+        return false;
+      } else {
+        return null;
+      }
+    },
+    getCurrentPost: (state) => state.currentPost,
+    getFavorites: (state) => state.currentFavorites,
+    getFavoriteDetails: (state) => state.favoriteDetails,
+    getAdDetails: (state) => state.adDetails,
+    getStatus: (state) => state.status,
+    getGameDetails: (state) => state.gameDetails,
   },
 });
 

@@ -15,15 +15,15 @@
         <div class="game-item__bottom__details__group">
           <div class="game-item__bottom__details__group__item">
             <p class="game-item__bottom__details__group__item-key">Date de création: &nbsp;</p>
-            <p>{{ gameItem?.released }}</p>
+            <p>{{ formatDate(gameItem?.released) }}</p>
           </div>
           <div class="game-item__bottom__details__group__item">
             <p class="game-item__bottom__details__group__item-key">Mise à jour: &nbsp;</p>
-            <p>{{ gameItem?.updated }}</p>
+            <p>{{ formatDate(gameItem?.updated) }}</p>
           </div>
         </div>
         <router-link
-          :to="{ name: 'Details du jeu', params: { id: `${gameItem?.id}` } }"
+          :to="{ name: 'Details du jeu', params: { gameId: `${gameItem?.id}` } }"
           class="game-item__bottom__details-link"
         >
           Voir plus
@@ -35,6 +35,8 @@
 
 <script setup lang="ts">
 import StarRating from "@/shared/components/StarRating/StarRating.vue";
+import { formatDate } from "@/shared/utils";
+
 defineProps<{
   gameItem: { type: { Object } };
 }>();

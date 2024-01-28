@@ -2,7 +2,6 @@
   <div class="game-details-page">
     <div className="game-details-page__content">
       <div className="game-details-page__content-card">
-        <Breadcrumb :dataNameById="gameNameById" />
         <template v-if="status === 'loading'">
           <Loader />
         </template>
@@ -18,8 +17,7 @@
 import { onMounted, computed, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import BreadCrumb from "@/components/BreadCrumb/BreadCrumb.vue";
-import GameDetails from "./GameDetails.vue";
+import GameDetails from "@/components/GameDetails/GameDetails.vue";
 import Loader from "@/components/Loader/Loader.vue";
 
 const store = useStore();
@@ -29,7 +27,7 @@ const singleGameData = computed(() => store.getters.getGameDetails);
 
 watchEffect(async () => {
   if (route.params.gameId) {
-    store.dispatch("fetchGameDetails", route.params.gameId);
+    store.dispatch("fetchGameDetails", Number(route.params.gameId));
   }
 });
 </script>
