@@ -30,7 +30,7 @@ const props = defineProps<{
     text-transform: uppercase;
     position: relative;
     span {
-      color: purple;
+      color: var(--secondary-2);
     }
   }
   &__line {
@@ -39,13 +39,13 @@ const props = defineProps<{
     width: 160px;
     margin-right: auto;
     margin-left: auto;
-    background-color: green;
+    background-color: var(--primary-1);
     position: relative;
     &::after {
       content: "";
       position: absolute;
       left: -5px;
-      border-right: 6px solid green;
+      border-right: 6px solid var(--primary-1);
       border-bottom: 3.5px solid transparent;
       border-top: 3.5px solid transparent;
     }
@@ -53,7 +53,7 @@ const props = defineProps<{
       content: "";
       position: absolute;
       right: -6px;
-      border-left: 6px solid green;
+      border-left: 6px solid var(--primary-1);
       border-bottom: 3.5px solid transparent;
       border-top: 3.5px solid transparent;
     }

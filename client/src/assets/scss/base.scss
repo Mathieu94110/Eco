@@ -1,16 +1,18 @@
 @use "./mixins";
 
 :root {
-  --primary-1: #11998e;
-  --primary-2: #0070c9;
-  --danger-1: #e74c3c;
+  --primary-1: #42b883;
+  --primary-2: #347474;
+  --secondary-1: #35495e;
+  --secondary-2: #430f58;
+  --danger-1: #060404;
   --danger-2: #c0392b;
   --success-1: #2ecc71;
   --success-2: #27ae60;
   --gray-1: #f6f6f6;
   --gray-2: #ddd;
   --gray-3: #34495e;
-  --text-color: #444;
+  --dark-1: #2a3019;
   --primary-color: #ffffff;
   --border: 1px solid var(--gray-2);
   --border-radius: 4px;

@@ -83,7 +83,7 @@ defineProps<{
   }
   &__bottom {
     flex: 1;
-    background-color: purple;
+    background-color: var(--secondary-2);
     padding: 10px;
     &-title {
       font-size: 14px;
@@ -96,7 +96,7 @@ defineProps<{
     .card-button {
       height: 34px;
       text-align: center;
-      border: 1px solid green;
+      border: 1px solid var(--primary-1);
       padding: 0px 16px;
       min-width: 108px;
       color: #fff;
@@ -107,7 +107,7 @@ defineProps<{
       transition: all 300ms ease-in-out;
 
       &:hover {
-        background-color: green;
+        background-color: var(--primary-1);
       }
     }
     &__details {
@@ -131,7 +131,7 @@ defineProps<{
       &-link {
         height: 34px;
         text-align: center;
-        border: 1px solid green;
+        border: 1px solid var(--primary-1);
         padding: 0px 16px;
         min-width: 108px;
         color: #fff;

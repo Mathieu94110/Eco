@@ -68,12 +68,46 @@
         </ul>
       </div>
     </div>
+    <div class="game-details__tabs">
+      <Tabs>
+        <Tab title="Description">
+          <h3 class="game-details__tabs-title">Description du jeu</h3>
+          <div class="game-details__tabs-description">{{ topTextDescription }}</div></Tab
+        >
+        <Tab title="Platformes">
+          <h3 class="game-details__tabs-title">Plateformes</h3>
+          <div class="game-details__tabs-platforms">
+            <div
+              v-for="item in gameData?.platforms"
+              :key="item?.platform?.id"
+              class="game-details__tabs-platforms__item"
+            >
+              <p class="game-details__tabs-platforms__item-title">{{ item?.platform?.name }}</p>
+              <div class="game-details__tabs-platforms__item__img">
+                <img :src="item?.platform?.image_background" class="game-details__tabs-platforms__item__img-img" />
+              </div>
+            </div>
+          </div>
+        </Tab>
+        <Tab title="Stores">
+          <h3 class="game-details__tabs-title">Liste des Stores</h3>
+          <div class="game-details__tabs-stores">
+            <!-- <div v-for="item in gameData?.stores" :key="item?.store?.id">
+              <StoreItem :storeItem="item?.store" :key="item?.store?.id" />
+            </div> -->
+          </div>
+        </Tab>
+      </Tabs>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { formatDate } from "@/shared/utils";
 import { computed } from "vue";
+// import StoreItem from "@/components/StoreItem/StoreItem";
+import Tabs from "../Tabs/Tabs.vue";
+import Tab from "../Tabs/Tab.vue";
+import { formatDate } from "@/shared/utils";
 
 const props = defineProps<{
   gameData: Object;
@@ -117,7 +151,7 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
       margin-top: 24px;
       &-title {
         font-weight: 700;
-        color: green;
+        color: var(--primary-1);
         margin-bottom: 12px;
         font-size: 20px;
         letter-spacing: 2px;
@@ -162,6 +196,119 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
       }
     }
   }
+  &__tabs {
+    width: 100%;
+    min-height: 600px;
+    background-color: var(--secondary-2);
+    margin: 0;
+    padding: 20px;
+    &-title {
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    &-description {
+      font-weight: 200;
+      opacity: 0.9;
+      color: #fff;
+    }
+    &-platforms {
+      gap: 16px;
+      &__item {
+        color: #fff;
+        &-title {
+          margin-bottom: 8px;
+        }
+        &__img {
+          height: 180px;
+          &-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    &-stores {
+      display: grid;
+      gap: 40px;
+
+      @media screen and (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch;
+      }
+
+      @media screen and (min-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .game-details {
+    &__tabs {
+      &-stores {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .game-details {
+    &__title {
+      &-text {
+      }
+    }
+    &__grid {
+      &__img {
+        & > img {
+        }
+      }
+      &__content {
+        &-title {
+          & > span {
+          }
+        }
+        &-top-text {
+        }
+        &__list {
+          &-item {
+            &__left {
+              &-icon {
+              }
+              &-details {
+              }
+            }
+            &-right {
+            }
+          }
+        }
+      }
+    }
+    &__tabs {
+      &-title {
+      }
+      &-description {
+      }
+      &-platforms {
+        display: grid;
+        gap: 40px;
+        grid-template-columns: repeat(3, 1fr);
+        &__item {
+          &-title {
+          }
+          &__img {
+            &-img {
+            }
+          }
+        }
+      }
+      &-stores {
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 1080px) {
@@ -191,6 +338,16 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
             }
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .game-details {
+    &__tabs {
+      &-stores {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
   }

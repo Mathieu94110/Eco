@@ -17,7 +17,7 @@ const props = defineProps<{
   };
 }>();
 
-function val(index:number) {
+function val(index: number) {
   return index + 0.5;
 }
 </script>
@@ -26,7 +26,7 @@ function val(index:number) {
 .star-rating {
   display: flex;
   align-items: flex-start;
-  color: green;
+  color: var(--primary-1);
   position: absolute;
   right: 18px;
   bottom: 10px;
