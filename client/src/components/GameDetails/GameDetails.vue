@@ -92,9 +92,9 @@
         <Tab title="Stores">
           <h3 class="game-details__tabs-title">Liste des Stores</h3>
           <div class="game-details__tabs-stores">
-            <!-- <div v-for="item in gameData?.stores" :key="item?.store?.id">
-              <StoreItem :storeItem="item?.store" :key="item?.store?.id" />
-            </div> -->
+            <div v-for="item in gameData?.stores" :key="item?.store?.id">
+              <StoreItem :storeItem="item?.store" />
+            </div>
           </div>
         </Tab>
       </Tabs>
@@ -104,7 +104,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-// import StoreItem from "@/components/StoreItem/StoreItem";
+import StoreItem from "@/components/StoreItem/StoreItem.vue";
 import Tabs from "../Tabs/Tabs.vue";
 import Tab from "../Tabs/Tab.vue";
 import { formatDate } from "@/shared/utils";
@@ -112,7 +112,6 @@ import { formatDate } from "@/shared/utils";
 const props = defineProps<{
   gameData: Object;
 }>();
-
 const topTextDescription = computed(() => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + ".");
 const platforms = computed(() => props.gameData?.platforms?.map((platform) => platform.platform.name));
 const developers = computed(() => props.gameData?.developers?.map((developer) => developer.name));
@@ -123,8 +122,8 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
 
 <style scoped lang="scss">
 .game-details {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 32px 14px;
+  background: #00000099;
+  padding: 10px;
   margin-top: 32px;
   color: #fff;
   &__title {
@@ -201,7 +200,7 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
     min-height: 600px;
     background-color: var(--secondary-2);
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     &-title {
       color: #fff;
       margin-bottom: 12px;
@@ -231,81 +230,30 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
     &-stores {
       display: grid;
       gap: 40px;
-
-      @media screen and (min-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-        align-items: stretch;
-      }
-
-      @media screen and (min-width: 1200px) {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 600px) {
   .game-details {
+    padding: 32px 14px;
     &__tabs {
-      &-stores {
-        grid-template-columns: repeat(2, 1fr);
-        align-items: stretch;
-      }
+      padding: 20px;
     }
   }
 }
 
 @media screen and (min-width: 992px) {
   .game-details {
-    &__title {
-      &-text {
-      }
-    }
-    &__grid {
-      &__img {
-        & > img {
-        }
-      }
-      &__content {
-        &-title {
-          & > span {
-          }
-        }
-        &-top-text {
-        }
-        &__list {
-          &-item {
-            &__left {
-              &-icon {
-              }
-              &-details {
-              }
-            }
-            &-right {
-            }
-          }
-        }
-      }
-    }
     &__tabs {
-      &-title {
-      }
-      &-description {
-      }
       &-platforms {
         display: grid;
         gap: 40px;
         grid-template-columns: repeat(3, 1fr);
-        &__item {
-          &-title {
-          }
-          &__img {
-            &-img {
-            }
-          }
-        }
       }
       &-stores {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch;
       }
     }
   }

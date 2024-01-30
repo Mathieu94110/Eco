@@ -2,10 +2,11 @@
   <div>
     <ul class="tabs__header">
       <li
+        class="tabs__header-link"
         v-for="(tab, index) in tabs"
         :key="tab.title"
         @click="selectTab(index)"
-        :class="{ tab__selected: index == selectedIndex }"
+        :class="{ 'tabs__header-link--selected': index == selectedIndex }"
       >
         {{ tab.props.title }}
       </li>
@@ -44,7 +45,6 @@ export default defineComponent({
 
     onMounted(() => {
       selectTab(0);
-      console.log(state.tabs[0]);
     });
 
     return { ...toRefs(state), selectTab };
@@ -52,65 +52,37 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css">
-ul.tabs__header {
-  display: block;
-  list-style: none;
-  margin: 0 0 0 20px;
-  padding: 0;
+<style scoped lang="scss">
+.tabs {
+  &__header {
+    display: block;
+    list-style: none;
+    padding: 0;
+    &-link {
+      padding: 4px 8px;
+      border-radius: 10px;
+      margin: 10px;
+      display: inline-block;
+      margin-right: 5px;
+      cursor: pointer;
+      background-color: #fff;
+      color: var(--secondary-1);
+      &--selected {
+        font-weight: bold;
+        border: 1px solid var(--secondary-1);
+      }
+    }
+  }
 }
 
-ul.tabs__header > li {
-  padding: 15px 30px;
-  border-radius: 10px;
-  margin: 0;
-  display: inline-block;
-  margin-right: 5px;
-  cursor: pointer;
-  background-color: #fff;
-  color: var(--secondary-1);
-}
-
-ul.tabs__header > li.tab__selected {
-  font-weight: bold;
-  border: 1px solid var(--secondary-1);
-}
-
-.tab {
-  display: inline-block;
-  color: black;
-  padding: 20px;
-  min-width: 800px;
-  border-radius: 10px;
-  min-height: 400px;
-}
-
-.tabs__light .tab {
-  background-color: #fff;
-}
-
-.tabs__light li {
-  background-color: #ddd;
-  color: #aaa;
-}
-
-.tabs__light li.tab__selected {
-  background-color: #fff;
-  color: #83ffb3;
-}
-
-.tabs__dark .tab {
-  background-color: #555;
-  color: #eee;
-}
-
-.tabs__dark li {
-  background-color: #ddd;
-  color: #aaa;
-}
-
-.tabs__dark li.tab__selected {
-  background-color: #555;
-  color: white;
+@media screen and (min-width: 600px) {
+  .tabs {
+    &__header {
+      margin: 0 0 0 20px;
+      &-link {
+        padding: 15px 30px;
+      }
+    }
+  }
 }
 </style>
