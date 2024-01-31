@@ -5,11 +5,9 @@
       <div class="home-page__popular-title">
         <Title :title="{ primary: 'Jeux', secondary: 'les plus populaires' }" />
       </div>
-
       <template v-if="status === 'loading'">
         <Loader />
       </template>
-
       <template v-else-if="status !== 'loading' && games.results?.length">
         <GameList :sliceValue="9" :games="games.results" />
         <div class="home-page__popular__link">
@@ -20,6 +18,7 @@
         <h4>Aucun jeu trouvé !</h4>
       </template>
     </section>
+    <Carousel />
   </div>
 </template>
 
@@ -29,12 +28,15 @@ import Banner from "@/components/Banner/Banner.vue";
 import Title from "@/components/Title/Title.vue";
 import Loader from "@/components/Loader/Loader.vue";
 import GameList from "@/components/GameList/GameList.vue";
+import Carousel from "@/components/Carousel/Carousel.vue";
 import { useStore } from "vuex";
+
 const store = useStore();
 
 onMounted(() => {
   store.dispatch("fetchGames");
 });
+
 const status = computed<string>(() => store?.getters.getStatus);
 const games = computed(() => store.state.games);
 const state = reactive<{

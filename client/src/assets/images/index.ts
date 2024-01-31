@@ -1,0 +1,9 @@
+export { default as assassinsCreed } from "./assassins-creed.jpg";
+export { default as bioshock } from "./bioshock.jpg";
+export { default as deusEx } from "./deus-ex.jpg";
+export { default as eldenRing } from "./elden-ring.jpg";
+export { default as godOfWar } from "./god-of-war.jpg";
+export { default as gtaV } from "./gta-5.jpg";
+export { default as theWitcher } from "./the-witcher.jpg";
+export { default as spiderMan } from "./spider-man.jpg";
+export { default as zelda } from "./zelda.jpg";
