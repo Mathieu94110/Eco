@@ -4,6 +4,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import NavLink from "../NavLink.vue";
 import SideBarContainer from "./SideBarContainer/SideBarContainer.vue";
+import { ecoGame } from "@/assets/images";
 
 const state = reactive<{
   isHover: boolean;
@@ -37,7 +38,7 @@ const formatSideBar = (value: boolean): void => {
     @blur="formatSideBar(false)"
   >
     <router-link to="/">
-      <img alt="user_logo" class="side-bar__logo" src="@/assets/images/logo.png" />
+      <img alt="user_logo" class="side-bar__logo" :src="ecoGame" />
     </router-link>
     <div class="side-bar__items">
       <button
@@ -96,18 +97,25 @@ const formatSideBar = (value: boolean): void => {
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
+    border-radius: 0;
+    &:hover {
+      background: var(--secondary-2);
+      color: #fff;
+    }
     &-logout {
       color: #fff;
-      background-color: var(--danger-1);
+      background-color: var(--secondary-2);
       padding: 4px 0;
       &:hover {
         cursor: pointer;
+        color: var(--primary-color);
+        background-color: var(--danger-2);
       }
     }
     span {
       margin-left: 20px;
       &:hover {
-        color: var(--primary-1);
+        color: var(--primary-color);
       }
     }
     overflow-wrap: normal;

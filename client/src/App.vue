@@ -5,12 +5,14 @@ import { computed, inject } from "vue";
 import { mapGetters } from "vuex";
 import { useRoute } from "vue-router";
 import store from "./store";
+import TheFooter from "@/components/TheFooter/TheFooter.vue";
 
 export default {
   name: "App",
   components: {
     NavBar,
     Toolbar,
+    TheFooter,
   },
   data() {
     return {
@@ -56,15 +58,18 @@ export default {
 
 <template>
   <div id="app">
-    <div :class="{ 'app__container--auth': isAuthenticated }" class="app__container">
+    <div
+      :class="{ 'app__container--auth': isAuthenticated }"
+      class="app__container"
+      :style="{
+        paddingLeft:
+          sideBarClosed && isAuthenticated && !isMobile ? '85px' : !sideBarClosed && isAuthenticated ? '270px' : 'auto',
+        transition: !sideBarClosed && isAuthenticated && '0.3s',
+      }"
+    >
       <NavBar v-if="isAuthenticated" />
-      <Toolbar v-if="isAuthenticated">{{ routeName }}</Toolbar>
-      <div
-        v-if="!isMobile"
-        :style="{
-          paddingLeft: sideBarClosed && isAuthenticated ? '85px' : !sideBarClosed && isAuthenticated ? '270px' : 'auto',
-        }"
-      >
+      <Toolbar v-if="isAuthenticated && isMobile">{{ routeName }}</Toolbar>
+      <div v-if="!isMobile">
         <router-view></router-view>
       </div>
 
@@ -76,6 +81,7 @@ export default {
       >
         <router-view></router-view>
       </div>
+      <TheFooter />
     </div>
   </div>
 </template>
