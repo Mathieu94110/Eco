@@ -8,6 +8,7 @@ import {
   createUser,
   fetchAsyncGames,
   fetchAsyncGameDetails,
+  fetchAsyncCreators,
 } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
@@ -59,6 +60,7 @@ const store = createStore({
       title: "",
     },
     games: [],
+    creators: [],
     windowWidth: window.innerWidth,
   },
   actions: {
@@ -166,6 +168,18 @@ const store = createStore({
         commit("setStatus", "");
       }
     },
+    async fetchCreators({ commit }) {
+      commit("setStatus", "loading");
+      try {
+        const res = await fetchAsyncCreators();
+        commit("setCreators", res);
+      } catch (e) {
+        commit("setStatus", "error-creators");
+        console.error(e);
+      } finally {
+        commit("setStatus", "");
+      }
+    },
   },
   mutations: {
     setStatus(state, status) {
@@ -200,6 +214,9 @@ const store = createStore({
     },
     setGameDetails(state, gameDetails) {
       state.gameDetails = gameDetails;
+    },
+    setCreators(state, creators) {
+      state.creators = creators;
     },
   },
   getters: {

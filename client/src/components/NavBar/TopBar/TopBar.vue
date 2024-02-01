@@ -33,12 +33,12 @@ const logout = async (): Promise<void> => {
             <NavLink to="" icon="fas fa-user-circle"
               ><span @click="logout()" @keydown="logout()">Déconnection</span></NavLink
             >
-            <NavLink to="/profile" icon="fas fa-user-circle"><span>Mes informations</span></NavLink>
-            <NavLink to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"><span>Annonces</span></NavLink>
-            <NavLink to="/create-ad" icon="fas fa-pencil-alt" data-cy="create-ad-link"
-              ><span>Déposer une annonce</span></NavLink
+            <NavLink to="/creators" icon="fas fa-user-circle"><span>Créateurs</span></NavLink>
+            <NavLink to="/stores" icon="fa-solid fa-handshake-angle" data-cy="ads-link"><span>Stores</span></NavLink>
+            <NavLink to="/search" icon="fas fa-pencil-alt" data-cy="create-ad-link"
+              ><span>Rechercher un jeu</span></NavLink
             >
-            <NavLink to="/user-ads" icon="fas fa-pencil-alt"><span>Mes annonces</span></NavLink>
+            <NavLink to="/games" icon="fas fa-pencil-alt"><span>Jeux</span></NavLink>
             <NavLink to="/favorites" icon="fas fa-star" data-cy="favorite-link"><span>Mes favoris</span></NavLink>
           </div>
         </Transition>

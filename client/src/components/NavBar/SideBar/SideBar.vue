@@ -53,18 +53,17 @@ const formatSideBar = (value: boolean): void => {
       <div v-else @click="logout()" @keydown="logout()">
         <NavLink class="side-bar__link" to="/profile" icon="fa-solid fa-right-from-bracket"></NavLink>
       </div>
-
-      <NavLink class="side-bar__link" to="/profile" icon="fas fa-user-circle"
-        ><span v-show="state.isHover">Mes informations</span></NavLink
+      <NavLink class="side-bar__link" to="/creators" icon="fa-solid fa-handshake-angle" data-cy="ads-link"
+        ><span v-show="state.isHover">Créateurs</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/ads" icon="fa-solid fa-handshake-angle" data-cy="ads-link"
-        ><span v-show="state.isHover">Annonces</span></NavLink
+      <NavLink class="side-bar__link" to="/stores" icon="fas fa-pencil-alt" data-cy="create-ad-link"
+        ><span v-show="state.isHover">Stores</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/create-ad" icon="fas fa-pencil-alt" data-cy="create-ad-link"
-        ><span v-show="state.isHover">Déposer une annonce</span></NavLink
+      <NavLink class="side-bar__link" to="/search" icon="fas fa-user-circle"
+        ><span v-show="state.isHover">Rechercher un jeu</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/user-ads" icon="fas fa-pencil-alt"
-        ><span v-show="state.isHover">Mes annonces</span></NavLink
+      <NavLink class="side-bar__link" to="/games" icon="fas fa-pencil-alt"
+        ><span v-show="state.isHover">Jeux</span></NavLink
       >
       <NavLink class="side-bar__link" to="/favorites" icon="fas fa-star" data-cy="favorite-link"
         ><span v-show="state.isHover">Mes favoris</span></NavLink

@@ -65,6 +65,12 @@ const routes = [
     component: () => import("../views/FavoritesDetailsPage.vue"),
   },
   {
+    name: "Createurs",
+    path: "/creators",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/CreatorsPage.vue"),
+  },
+  {
     name: "Jeux",
     path: "/games",
     beforeEnter: [isAuthenticatedGuard],
