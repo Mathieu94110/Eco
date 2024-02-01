@@ -144,10 +144,10 @@ const store = createStore({
       commit("userFavorites", data);
     },
     // games
-    async fetchGames({ commit }) {
+    async fetchGames({ commit }, page = 1) {
       commit("setStatus", "loading");
       try {
-        const res = await fetchAsyncGames();
+        const res = await fetchAsyncGames(page);
         commit("setCurrentGames", res);
       } catch (e) {
         commit("setStatus", "error-games");
@@ -168,10 +168,10 @@ const store = createStore({
         commit("setStatus", "");
       }
     },
-    async fetchCreators({ commit }) {
+    async fetchCreators({ commit }, page = 1) {
       commit("setStatus", "loading");
       try {
-        const res = await fetchAsyncCreators();
+        const res = await fetchAsyncCreators(page);
         commit("setCreators", res);
       } catch (e) {
         commit("setStatus", "error-creators");

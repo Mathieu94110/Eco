@@ -1,16 +1,16 @@
 <template>
-  <div className="creators-page">
-    <div className="creators-page__content">
-      <Title :title="{ primary: 'Nos', secondary: 'createurs' }" />
+  <div className="all-games">
+    <div className="all-games__content">
+      <Title :title="{ primary: 'Tous', secondary: 'les jeux' }" />
       <template v-if="status === 'loading'">
         <Loader />
       </template>
-      <template v-else-if="creators?.length">
-        <CreatorList :creators="creators" />
+      <template v-else-if="games.results?.length">
+        <GameList :games="games.results" />
         <Pagination @page-handler="pageHandler" :nextPage="nextPage" :prevPage="prevPage" :currentPage="page" />
       </template>
       <template v-else>
-        <h2>Aucun créateur trouvé</h2>
+        <h2>Aucun jeu trouvé</h2>
       </template>
     </div>
   </div>
@@ -18,19 +18,19 @@
 
 <script setup lang="ts">
 import { onMounted, computed, ref, watch } from "vue";
-import Loader from "@/components/Loader/Loader.vue";
-import Title from "@/components/Title/Title.vue";
-import CreatorList from "@/components/CreatorList/CreatorList.vue";
-import Pagination from "@/components/BasicPagination/BasicPagination.vue";
 import { useStore } from "vuex";
+import Title from "@/components/Title/Title.vue";
+import Loader from "@/components/Loader/Loader.vue";
+import GameList from "@/components/GameList/GameList.vue";
+import Pagination from "@/components/BasicPagination/BasicPagination.vue";
 
 const store = useStore();
 
-const status = computed<string>(() => store?.getters.getStatus);
-const creators = computed(() => store.state.creators.results);
+const status = computed<string>(() => store.getters.getStatus);
+const games = computed(() => store.state.games);
 const page = ref(1);
-const prevPage = computed(() => store.state.creators.previous);
-const nextPage = computed(() => store.state.creators.next);
+const prevPage = computed(() => store.state.games.previous);
+const nextPage = computed(() => store.state.games.next);
 const pageIndex = computed({
   get: () => page.value,
   set: (val) => {
@@ -40,24 +40,28 @@ const pageIndex = computed({
 function pageHandler(pageValue: number) {
   pageIndex.value = pageValue;
 }
+
 onMounted(() => {
-  store.dispatch("fetchCreators", page.value);
+  store.dispatch("fetchGames", page.value);
 });
+
 watch(
   () => page.value,
   () => {
-    store.dispatch("fetchCreators", page.value);
+    store.dispatch("fetchGames", page.value);
   },
 );
 </script>
 
 <style scoped lang="scss">
-.creators-page {
+.all-games {
   background-color: rgb(7, 5, 27);
   min-height: 100vh;
   padding: 60px 0;
   &__content {
-    margin: 10px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.6rem;
   }
 }
 </style>

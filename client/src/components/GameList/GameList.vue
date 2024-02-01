@@ -9,12 +9,14 @@
 <script setup lang="ts">
 import GameItem from "@/components/GameItem/GameItem.vue";
 import { gameInterface } from "@/shared/interfaces";
+import { required } from "@vuelidate/validators";
 import { computed, defineProps } from "vue";
 
 const props = defineProps<{
-  games: gameInterface[];
-  sliceValue: number;
+  games: { type: gameInterface[]; required: true };
+  sliceValue: { type: Number };
 }>();
+const slicedValue = computed<any>(() => (props.sliceValue ? props.sliceValue : 9));
 </script>
 
 <style lang="scss" scoped>

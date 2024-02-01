@@ -74,7 +74,7 @@ const routes = [
     name: "Jeux",
     path: "/games",
     beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/Games.vue"),
+    component: () => import("../views/AllGamesPage.vue"),
   },
   {
     name: "Details du jeu",
