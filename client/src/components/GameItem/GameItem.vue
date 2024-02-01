@@ -23,8 +23,11 @@
             <p>{{ formatDate(props.gameItem?.updated) }}</p>
           </div>
         </div>
-        <div @click="toggleFavorite">
-          <i class="fa-solid fa-star" :style="{ color: isFavorited ? 'yellow' : 'gray' }"></i>
+        <div @click="$emit('toggleFavorite', props.gameItem)" v-if="props.isOnFavorites">
+          <i class="fa-solid fa-star game-item__bottom__details-star--active"></i>
+        </div>
+        <div @click="$emit('toggleFavorite', props.gameItem)" v-else>
+          <i class="fa-solid fa-star game-item__bottom__details-star"></i>
         </div>
         <router-link
           :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem?.id}` } }"
@@ -38,36 +41,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
 import StarRating from "@/shared/components/StarRating/StarRating.vue";
 import { formatDate } from "@/shared/utils";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
+defineEmits(["toggleFavorite"]);
 const props = defineProps<{
-  gameItem: { type: { Object } };
+  gameItem: Object;
+  isOnFavorites: boolean;
 }>();
-const store = useStore();
-
-const favorites = computed<any[]>(() => store.getters.getFavorites);
-
-const gameItemIndex = computed<any>(() =>
-  favorites.value.findIndex((obj) => {
-    return obj.id === props.gameItem.id;
-  }),
-);
-
-async function toggleFavorite() {
-  await store.dispatch("toggleOnFavorites", props.gameItem);
-}
-const isFavorited = ref<boolean>(false);
-
-watch(
-  () => favorites.value[gameItemIndex.value],
-  () => {
-    console.log("içi", favorites.value[gameItemIndex.value]);
-    isFavorited.value = gameItemIndex.value !== -1 ? true : false;
-  },
-  { deep: true },
-);
+// const store = useStore();
+// async function toggleFavorite() {
+//   await store.dispatch("toggleOnFavorites", props.gameItem);
+// }
 </script>
 
 <style scoped lang="scss">
@@ -172,10 +157,17 @@ watch(
         margin-top: 10px;
         text-transform: uppercase;
         text-decoration: none;
+        color: gray;
+      }
+      &-star {
+        &--active {
+          color: yellow;
+        }
       }
     }
   }
 }
+
 @media screen and (min-width: 800px) {
   .game-item {
     &__top {

@@ -127,30 +127,30 @@ const store = createStore({
     sendAdDetails: ({ commit }, AdInfo) => {
       commit("setAdData", AdInfo);
     },
-
-    toggleOnFavorites: async ({ state, commit }, game): Promise<void> => {
-      const gameIsOnFavorite = state.currentFavorites.some((favorite: FakeAdInterface) => favorite.id === game.id);
+    addFavorite: async ({ state, commit }, game): Promise<void> => {
       const userId = state?.user?._id;
-      if (gameIsOnFavorite) {
-        const variables = {
-          id: game.id,
-          userFrom: userId,
-        };
+      const userFavorite = { ...game, userFrom: userId };
+      try {
+        await addToFavorites(userFavorite);
+        commit("userFavorites", [...state.currentFavorites, { ...game }]);
+        // toast("L'annonce a été ajoutée à vos favoris !", "success");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    removeFavorite: async ({ state, commit }, game): Promise<void> => {
+      const userId = state?.user?._id;
+      const variables = {
+        id: game.id,
+        userFrom: userId,
+      };
+      try {
         const oldFavorites = state.currentFavorites;
         await removeFromFavorites(variables);
-
         const newFavorites = oldFavorites.filter((favorite: FakeAdInterface) => favorite.id !== game.id);
         commit("userFavorites", newFavorites);
-        // toast("L'annonce a été retirée de vos favoris !", "success");
-      } else {
-        const userFavorite = { ...game, userFrom: userId };
-        try {
-          await addToFavorites(userFavorite);
-          commit("userFavorites", [...state.currentFavorites, { ...game }]);
-          // toast("L'annonce a été ajoutée à vos favoris !", "success");
-        } catch (e) {
-          console.error(e);
-        }
+      } catch (e) {
+        console.error(e);
       }
     },
 

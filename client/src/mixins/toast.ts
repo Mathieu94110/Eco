@@ -7,6 +7,7 @@ const toastMsg = (message: string, type: ToastType) =>
     type,
     position: "top-right",
     hideProgressBar: false,
+    toastBackgroundColor: "#27ae60",
     showIcon: false,
     transition: "slide",
     timeout: 2000,
