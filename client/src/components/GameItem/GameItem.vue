@@ -1,29 +1,33 @@
 <template>
   <div class="game-item">
     <div class="game-item__top">
-      <img :src="gameItem?.background_image" :alt="gameItem?.name" />
-      <StarRating :rating="gameItem?.rating" />
+      <img :src="props.gameItem?.background_image" :alt="props.gameItem?.name" />
+      <StarRating :rating="props.gameItem?.rating" />
       <div class="game-item__top__ratings-count">
-        {{ gameItem?.ratings_count }} <i class="fa-solid fa-star game-item__top__ratings-count-star" :size="12"></i>
+        {{ props.gameItem?.ratings_count }}
+        <i class="fa-solid fa-star game-item__top__ratings-count-star" :size="12"></i>
       </div>
     </div>
     <div class="game-item__bottom">
       <h4 class="game-item__bottom-title">
-        {{ gameItem?.name }}
+        {{ props.gameItem?.name }}
       </h4>
       <div class="game-item__bottom__details">
         <div class="game-item__bottom__details__group">
           <div class="game-item__bottom__details__group__item">
             <p class="game-item__bottom__details__group__item-key">Date de création: &nbsp;</p>
-            <p>{{ formatDate(gameItem?.released) }}</p>
+            <p>{{ formatDate(props.gameItem?.released) }}</p>
           </div>
           <div class="game-item__bottom__details__group__item">
             <p class="game-item__bottom__details__group__item-key">Mise à jour: &nbsp;</p>
-            <p>{{ formatDate(gameItem?.updated) }}</p>
+            <p>{{ formatDate(props.gameItem?.updated) }}</p>
           </div>
         </div>
+        <div @click="toggleFavorite">
+          <i class="fa-solid fa-star" :style="{ color: isFavorited ? 'yellow' : 'gray' }"></i>
+        </div>
         <router-link
-          :to="{ name: 'Details du jeu', params: { gameId: `${gameItem?.id}` } }"
+          :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem?.id}` } }"
           class="game-item__bottom__details-link"
         >
           Voir plus
@@ -34,12 +38,36 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, watch } from "vue";
 import StarRating from "@/shared/components/StarRating/StarRating.vue";
 import { formatDate } from "@/shared/utils";
-
-defineProps<{
+import { useStore } from "vuex";
+const props = defineProps<{
   gameItem: { type: { Object } };
 }>();
+const store = useStore();
+
+const favorites = computed<any[]>(() => store.getters.getFavorites);
+
+const gameItemIndex = computed<any>(() =>
+  favorites.value.findIndex((obj) => {
+    return obj.id === props.gameItem.id;
+  }),
+);
+
+async function toggleFavorite() {
+  await store.dispatch("toggleOnFavorites", props.gameItem);
+}
+const isFavorited = ref<boolean>(false);
+
+watch(
+  () => favorites.value[gameItemIndex.value],
+  () => {
+    console.log("içi", favorites.value[gameItemIndex.value]);
+    isFavorited.value = gameItemIndex.value !== -1 ? true : false;
+  },
+  { deep: true },
+);
 </script>
 
 <style scoped lang="scss">
@@ -112,7 +140,7 @@ defineProps<{
     }
     &__details {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       &__group {

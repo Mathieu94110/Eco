@@ -17,6 +17,7 @@ const props = defineProps<{
   sliceValue: { type: Number };
 }>();
 const slicedValue = computed<any>(() => (props.sliceValue ? props.sliceValue : 9));
+
 </script>
 
 <style lang="scss" scoped>

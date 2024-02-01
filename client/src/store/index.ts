@@ -9,6 +9,8 @@ import {
   fetchAsyncGames,
   fetchAsyncGameDetails,
   fetchAsyncCreators,
+  removeFromFavorites,
+  addToFavorites,
 } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
@@ -31,7 +33,7 @@ const store = createStore({
       price: null,
       category: "",
     },
-    currentFavorites: null,
+    currentFavorites: [],
     favoriteDetails: {
       _id: "",
       id: null,
@@ -124,6 +126,32 @@ const store = createStore({
 
     sendAdDetails: ({ commit }, AdInfo) => {
       commit("setAdData", AdInfo);
+    },
+
+    toggleOnFavorites: async ({ state, commit }, game): Promise<void> => {
+      const gameIsOnFavorite = state.currentFavorites.some((favorite: FakeAdInterface) => favorite.id === game.id);
+      const userId = state?.user?._id;
+      if (gameIsOnFavorite) {
+        const variables = {
+          id: game.id,
+          userFrom: userId,
+        };
+        const oldFavorites = state.currentFavorites;
+        await removeFromFavorites(variables);
+
+        const newFavorites = oldFavorites.filter((favorite: FakeAdInterface) => favorite.id !== game.id);
+        commit("userFavorites", newFavorites);
+        // toast("L'annonce a été retirée de vos favoris !", "success");
+      } else {
+        const userFavorite = { ...game, userFrom: userId };
+        try {
+          await addToFavorites(userFavorite);
+          commit("userFavorites", [...state.currentFavorites, { ...game }]);
+          // toast("L'annonce a été ajoutée à vos favoris !", "success");
+        } catch (e) {
+          console.error(e);
+        }
+      }
     },
 
     sendFavoriteDetails: ({ commit }, FavoriteInfo) => {

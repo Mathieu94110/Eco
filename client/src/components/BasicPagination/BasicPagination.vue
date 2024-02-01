@@ -43,6 +43,7 @@ const next = computed<Number | null>(() => (props.nextPage ? Number(props.curren
     letter-spacing: 2px;
     font-weight: 600;
     color: var(--secondary-2);
+    cursor: pointer;
   }
 }
 @media screen and (min-width: 600px) {
