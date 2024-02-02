@@ -6,3 +6,8 @@ export const fetchAsyncStores = async () => {
   const { data } = await axios.get(`${apiURL.storesURL}?key=${API_KEY}`);
   return data;
 };
+
+export const fetchAsyncStoreDetails = async (id) => {
+  const { data } = await axios.get(`${apiURL.storesURL}/${id}?key=${API_KEY}`);
+  return data;
+};

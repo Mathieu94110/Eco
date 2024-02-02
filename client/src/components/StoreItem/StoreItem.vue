@@ -35,23 +35,21 @@ defineProps<{ storeItem: any }>();
 
 <style scoped lang="scss">
 .store-item {
-  width: 280px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
   min-height: 120px;
   margin: 16px 0;
   &__img {
-    height: 220px;
-    overflow: hidden;
-    position: relative;
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 16px;
     &-title {
       letter-spacing: 0.04em;
       color: #0b082d;
@@ -89,21 +87,21 @@ defineProps<{ storeItem: any }>();
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-    }
-    &-link {
-      background-color: #b9198e;
-      border-radius: 100vh;
-      padding-right: 8px;
-      padding-left: 8px;
-      height: 23px;
-      font-weight: 500;
-      color: purple;
-      & a {
-        color: #fff;
-        font-size: 13px;
-        display: inline-block;
-        transform: translateY(-3px);
-        font-style: italic;
+      &-link {
+        background-color: #b9198e;
+        border-radius: 100vh;
+        padding-right: 8px;
+        padding-left: 8px;
+        min-height: 23px;
+        font-weight: 500;
+        & a {
+          text-decoration: none;
+          color: #fff;
+          font-size: 13px;
+          display: inline-block;
+          transform: translateY(-3px);
+          font-style: italic;
+        }
       }
     }
   }
@@ -114,6 +112,11 @@ defineProps<{ storeItem: any }>();
     &__content {
       padding: 16px;
     }
+  }
+}
+@media screen and (min-width: 992px) {
+  .store-item {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

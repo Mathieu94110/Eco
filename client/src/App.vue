@@ -91,6 +91,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap");
 
 .app {
+  background: #6d6d6d;
   &__container {
     z-index: 1;
     width: 100%;

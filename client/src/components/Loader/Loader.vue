@@ -14,7 +14,14 @@ import loader from "@/assets/images/loader.gif";
   align-items: center;
   justify-content: center;
   img {
-    max-width: 120px;
+    max-width: 60px;
+  }
+}
+@media screen and (min-width: 600px) {
+  .loader {
+    img {
+      max-width: 120px;
+    }
   }
 }
 </style>

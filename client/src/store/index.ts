@@ -12,6 +12,7 @@ import {
   removeFromFavorites,
   addToFavorites,
   fetchAsyncStores,
+  fetchAsyncStoreDetails,
 } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/shared/interfaces";
@@ -65,6 +66,7 @@ const store = createStore({
     games: [],
     creators: [],
     stores: [],
+    storeDetails: [],
     windowWidth: window.innerWidth,
   },
   actions: {
@@ -222,6 +224,18 @@ const store = createStore({
         commit("setStatus", "");
       }
     },
+    async fetchStoreDetails({ commit }, storeId) {
+      commit("setStatus", "loading");
+      try {
+        const res = await fetchAsyncStoreDetails(storeId);
+        commit("setStoreDetails", res);
+      } catch (e) {
+        commit("setStatus", "error-store-details");
+        console.error(e);
+      } finally {
+        commit("setStatus", "");
+      }
+    },
   },
   mutations: {
     setStatus(state, status) {
@@ -262,6 +276,9 @@ const store = createStore({
     },
     setStores(state, stores) {
       state.stores = stores;
+    },
+    setStoreDetails(state, details) {
+      state.storeDetails = details;
     },
   },
   getters: {

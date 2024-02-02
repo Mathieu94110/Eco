@@ -62,7 +62,7 @@ export default defineComponent({
       padding: 4px 8px;
       border-radius: 10px;
       display: inline-block;
-      margin-right: 10px;
+      margin: 5px;
       cursor: pointer;
       background-color: #fff;
       color: var(--secondary-1);

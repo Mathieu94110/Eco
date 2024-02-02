@@ -72,8 +72,8 @@
       <Tabs>
         <Tab title="Description">
           <h3 class="game-details__tabs-title">Description du jeu</h3>
-          <div class="game-details__tabs-description">{{ topTextDescription }}</div></Tab
-        >
+          <div class="game-details__tabs-description" v-html="gameData?.description"></div>
+        </Tab>
         <Tab title="Platformes">
           <h3 class="game-details__tabs-title">Plateformes</h3>
           <div class="game-details__tabs-platforms">

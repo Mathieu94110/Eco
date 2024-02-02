@@ -15,8 +15,12 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-.store-list {
+.stores-list {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.6rem;
   display: grid;
+    grid-template-columns: repeat(1, 1fr);
   @media screen and (min-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 32px;
