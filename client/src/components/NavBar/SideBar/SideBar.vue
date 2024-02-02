@@ -53,16 +53,16 @@ const formatSideBar = (value: boolean): void => {
       <div v-else @click="logout()" @keydown="logout()">
         <NavLink class="side-bar__link" to="/profile" icon="fa-solid fa-right-from-bracket"></NavLink>
       </div>
-      <NavLink class="side-bar__link" to="/creators" icon="fa-solid fa-handshake-angle" data-cy="ads-link"
+      <NavLink class="side-bar__link" to="/creators" icon="fa-solid fa-person" data-cy="ads-link"
         ><span v-show="state.isHover">Créateurs</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/stores" icon="fas fa-pencil-alt" data-cy="create-ad-link"
+      <NavLink class="side-bar__link" to="/stores" icon="fa-solid fa-store" data-cy="create-ad-link"
         ><span v-show="state.isHover">Stores</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/search" icon="fas fa-user-circle"
+      <NavLink class="side-bar__link" to="/search" icon="fa-solid fa-magnifying-glass"
         ><span v-show="state.isHover">Rechercher un jeu</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/games" icon="fas fa-pencil-alt"
+      <NavLink class="side-bar__link" to="/games" icon="fa-solid fa-gamepad"
         ><span v-show="state.isHover">Jeux</span></NavLink
       >
       <NavLink class="side-bar__link" to="/favorites" icon="fas fa-star" data-cy="favorite-link"

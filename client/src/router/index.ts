@@ -83,6 +83,12 @@ const routes = [
     component: () => import("../views/GameDetailsPage.vue"),
   },
   {
+    name: "Stores",
+    path: "/stores",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/StoresPage.vue"),
+  },
+  {
     path: "/:notfound(.*)*",
     component: () => import("../views/NotFound.vue"),
   },

@@ -1,15 +1,15 @@
 <template>
   <div class="store-item">
-    <div className="store-item__img">
+    <div class="store-item__img">
       <img :src="storeItem?.image_background" :alt="storeItem?.id" />
     </div>
-    <div className="store-item__content">
-      <h5 className="store-item__content-title">
+    <div class="store-item__content">
+      <h5 class="store-item__content-title">
         <router-link :to="`stores/${storeItem.id}`">
           {{ storeItem?.name }}
         </router-link>
       </h5>
-      <ul className="store-item__content-info">
+      <ul class="store-item__content-info">
         <li>
           <span>Domaine: </span>
           <a :href="`https://www.${storeItem?.domain}`" target="_blank">{{ storeItem?.domain }}</a>
@@ -19,9 +19,9 @@
           {{ storeItem?.games_count }}
         </li>
       </ul>
-      <p className="store-item__content-game" v-if="storeItem?.games">Jeux:</p>
-      <ul className="store-item__content__game-link">
-        <li v-for="item in storeItem?.games" className="store-item__content__game-link-link" :key="item.id">
+      <p class="store-item__content-game" v-if="storeItem?.games">Jeux:</p>
+      <ul class="store-item__content__game-link">
+        <li v-for="item in storeItem?.games" class="store-item__content__game-link-link" :key="item.id">
           <router-link :to="`games/${item.id}`">{{ item.name }}</router-link>
         </li>
       </ul>
@@ -35,10 +35,14 @@ defineProps<{ storeItem: any }>();
 
 <style scoped lang="scss">
 .store-item {
+  width: 280px;
   min-height: 120px;
   margin: 16px 0;
   &__img {
-    & > img {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    & img {
       width: 100%;
       height: 100%;
       object-fit: cover;
