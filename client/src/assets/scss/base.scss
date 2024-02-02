@@ -24,12 +24,14 @@
   box-sizing: border-box;
 }
 
-p,
 h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+h6,
+p,
+ul {
   margin: 0;
 }
 
@@ -244,7 +246,13 @@ body {
   font-weight: 500;
   transition: background-color 0.2s;
 }
-
+.btn-play-now {
+  text-decoration: none;
+  padding: 13px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
 .btn-primary {
   background-color: var(--primary-1);
   color: #fff;

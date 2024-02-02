@@ -203,7 +203,8 @@ const createdDate = computed(() => formatDate(props.gameData?.released));
     padding: 10px;
     &-title {
       color: #fff;
-      margin-bottom: 12px;
+      margin: 12px 0;
+      text-decoration: underline;
     }
     &-description {
       font-weight: 200;

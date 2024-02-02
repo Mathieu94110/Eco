@@ -16,26 +16,34 @@
         <div class="game-item__bottom__details__group">
           <div class="game-item__bottom__details__group__item">
             <p class="game-item__bottom__details__group__item-key">Date de création: &nbsp;</p>
-            <p>{{ formatDate(props.gameItem?.released) }}</p>
           </div>
           <div class="game-item__bottom__details__group__item">
             <p class="game-item__bottom__details__group__item-key">Mise à jour: &nbsp;</p>
+          </div>
+        </div>
+
+        <div class="game-item__bottom__details__group">
+          <div class="game-item__bottom__details__group__item">
+            <p>{{ formatDate(props.gameItem?.released) }}</p>
+          </div>
+          <div class="game-item__bottom__details__group__item">
             <p>{{ formatDate(props.gameItem?.updated) }}</p>
           </div>
         </div>
+
         <div @click="$emit('toggleFavorite', props.gameItem)" v-if="props.isOnFavorites">
           <i class="fa-solid fa-star game-item__bottom__details-star--active"></i>
         </div>
         <div @click="$emit('toggleFavorite', props.gameItem)" v-else>
           <i class="fa-solid fa-star game-item__bottom__details-star"></i>
         </div>
-        <router-link
-          :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem?.id}` } }"
-          class="game-item__bottom__details-link"
-        >
-          Voir plus
-        </router-link>
       </div>
+      <router-link
+        :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem?.id}` } }"
+        class="game-item__bottom__details-link btn-play-now btn-primary"
+      >
+        Voir plus
+      </router-link>
     </div>
   </div>
 </template>
@@ -43,16 +51,12 @@
 <script setup lang="ts">
 import StarRating from "@/shared/components/StarRating/StarRating.vue";
 import { formatDate } from "@/shared/utils";
-// import { useStore } from "vuex";
+
 defineEmits(["toggleFavorite"]);
 const props = defineProps<{
   gameItem: Object;
   isOnFavorites: boolean;
 }>();
-// const store = useStore();
-// async function toggleFavorite() {
-//   await store.dispatch("toggleOnFavorites", props.gameItem);
-// }
 </script>
 
 <style scoped lang="scss">
@@ -99,6 +103,7 @@ const props = defineProps<{
     background-color: var(--secondary-2);
     padding: 10px;
     &-title {
+      height: 54px;
       font-size: 14px;
       font-weight: 800px;
       letter-spacing: 0.06em;
@@ -127,9 +132,8 @@ const props = defineProps<{
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
+      align-items: center;
       &__group {
-        padding-top: 12px;
         color: rgba(255, 255, 255, 0.6);
         font-size: 12px;
         &__item {
@@ -143,25 +147,26 @@ const props = defineProps<{
       }
       &-link {
         height: 34px;
-        text-align: center;
         border: 1px solid var(--primary-1);
-        padding: 0px 16px;
-        min-width: 108px;
-        color: #fff;
         font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.03em;
         display: flex;
         align-items: center;
+        justify-content: center;
         transition: all 300ms ease-in-out;
-        margin-top: 10px;
+        margin-top: 20px;
         text-transform: uppercase;
-        text-decoration: none;
-        color: gray;
       }
       &-star {
+        &:hover {
+          cursor: pointer;
+        }
         &--active {
           color: yellow;
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
     }

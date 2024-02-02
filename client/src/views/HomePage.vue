@@ -1,5 +1,5 @@
 <template>
-  <div class="homepage">
+  <div class="home-page">
     <Banner />
     <section class="home-page__popular">
       <div class="home-page__popular-title">
@@ -11,7 +11,9 @@
       <template v-else-if="status !== 'loading' && games.results?.length">
         <GameList :sliceValue="9" :games="games.results" />
         <div class="home-page__popular__link">
-          <router-link to="/games" class="home-page__popular__link-content"> Voir plus de jeux </router-link>
+          <router-link to="/games" class="home-page__popular__link-content btn-play-now btn-primary">
+            Voir plus de jeux
+          </router-link>
         </div>
       </template>
       <template v-else>
@@ -50,7 +52,7 @@ const state = reactive<{
 </script>
 
 <style scoped lang="scss">
-.homepage {
+.home-page {
   background: #6d6d6d;
   &__popular {
     &-title {

@@ -61,9 +61,8 @@ export default defineComponent({
     &-link {
       padding: 4px 8px;
       border-radius: 10px;
-      margin: 10px;
       display: inline-block;
-      margin-right: 5px;
+      margin-right: 10px;
       cursor: pointer;
       background-color: #fff;
       color: var(--secondary-1);
@@ -78,7 +77,6 @@ export default defineComponent({
 @media screen and (min-width: 600px) {
   .tabs {
     &__header {
-      margin: 0 0 0 20px;
       &-link {
         padding: 15px 30px;
       }

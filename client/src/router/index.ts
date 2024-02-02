@@ -56,7 +56,7 @@ const routes = [
     name: "Mes favoris",
     path: "/favorites",
     beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/FavoritePage.vue"),
+    component: () => import("../views/FavoritesPage.vue"),
   },
   {
     name: "Détails du favoris",

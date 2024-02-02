@@ -11,7 +11,7 @@
         <span class="banner__content__banner-btn-btn-icon">
           <i class="fa-solid fa-gamepad banner__content__banner-btn-btn-icon-gaming"></i
         ></span>
-        <span class="banner__content__banner-btn-play-now btn-primary">Jouer maintenant</span>
+        <span class="btn-play-now btn-primary">Jouer maintenant</span>
       </div>
     </div>
   </div>
