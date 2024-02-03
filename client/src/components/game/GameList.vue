@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import GameItem from "@/components/GameItem/GameItem.vue";
-import { gameInterface } from "@/shared/interfaces";
-import { required } from "@vuelidate/validators";
 import { computed, defineProps } from "vue";
 import { useStore } from "vuex";
+import { GameItem } from "@/components/game";
+import { gameInterface } from "@/types/interfaces";
+import { required } from "@vuelidate/validators";
 import toast from "@/mixins/toast";
 
 const store = useStore();

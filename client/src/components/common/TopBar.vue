@@ -2,8 +2,8 @@
 import { reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import Calc from "@/components/Calc/Calc.vue";
-import NavLink from "../NavLink.vue";
+import Calc from "@/components/common/Calc.vue";
+import NavLink from "@/components/common/NavLink.vue";
 
 const state = reactive<{
   open: boolean;

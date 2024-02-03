@@ -1,11 +1,11 @@
 <script lang="ts">
-import NavBar from "@/components/NavBar/NavBar.vue";
-import Toolbar from "./components/Toolbar/Toolbar.vue";
 import { computed, inject } from "vue";
 import { mapGetters } from "vuex";
 import { useRoute } from "vue-router";
+import NavBar from "@/components/common/NavBar.vue";
+import Toolbar from "@/components/common/Toolbar.vue";
 import store from "./store";
-import TheFooter from "@/components/TheFooter/TheFooter.vue";
+import TheFooter from "@/components/common/TheFooter.vue";
 
 export default {
   name: "App",
@@ -81,7 +81,7 @@ export default {
       >
         <router-view></router-view>
       </div>
-      <TheFooter />
+      <!-- <TheFooter /> -->
     </div>
   </div>
 </template>

@@ -18,8 +18,8 @@
 import { onMounted, computed, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import GameDetails from "@/components/GameDetails/GameDetails.vue";
-import Loader from "@/components/Loader/Loader.vue";
+import { GameDetails } from "@/components/game";
+import Loader from "@/components/common/Loader.vue";
 
 const store = useStore();
 const route = useRoute();

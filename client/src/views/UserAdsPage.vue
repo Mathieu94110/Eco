@@ -12,7 +12,7 @@ import type {
   userAdsConfigInterface,
   ToastInterface,
   userAdsPaginationInterface,
-} from "@/shared/interfaces";
+} from "@/types/interfaces";
 import { userAdsConfig } from "@/constants/userAds";
 
 const perPageOptions: number[] = [5, 10, 50];

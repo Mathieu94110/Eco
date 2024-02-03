@@ -2,7 +2,7 @@
 import { defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
 import Modal from "../Modal/Modal.vue";
-import type { FakeAdInterface } from "@/shared/interfaces";
+import type { FakeAdInterface } from "@/types/interfaces";
 
 const props = defineProps<{
   ad: FakeAdInterface;

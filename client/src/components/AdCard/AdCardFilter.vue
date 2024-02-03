@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import type { FiltersInterface, FakeAdInterface, FilterUpdate, Category } from "@/shared/interfaces";
+import type { FiltersInterface, FakeAdInterface, FilterUpdate, Category } from "@/types/interfaces";
 import { fakeAdsCategories } from "@/constants/fakeAds";
 
 const props = defineProps<{

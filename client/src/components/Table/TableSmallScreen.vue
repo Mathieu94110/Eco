@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import Modal from "@/components/Modal/Modal.vue";
-import type { UserAdInterface, userAdsConfigInterface } from "@/shared/interfaces";
+import type { UserAdInterface, userAdsConfigInterface } from "@/types/interfaces";
 
 const props = defineProps<{
   userAds: UserAdInterface[];

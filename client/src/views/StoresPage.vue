@@ -8,7 +8,7 @@
       <template v-else-if="stores?.length">
         <StoreList :stores="stores" />
       </template>
-         
+
       <template v-else>
         <h2>Aucun store trouvé</h2>
       </template>
@@ -19,9 +19,9 @@
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
-import Title from "@/components/Title/Title.vue";
-import Loader from "@/components/Loader/Loader.vue";
-import StoreList from "@/components/StoreList/StoreList.vue";
+import Title from "@/components/common/Title.vue";
+import Loader from "@/components/common/Loader.vue";
+import { StoreList } from "@/components/store";
 
 const store = useStore();
 const status = computed<string>(() => store?.getters.getStatus);

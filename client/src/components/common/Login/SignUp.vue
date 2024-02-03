@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { reactive } from "vue";
-import LoginFormLayout from "../Layout/LoginFormLayout.vue";
+import LoginFormLayout from "@/components/Layout/LoginFormLayout.vue";
 import { toTypedSchema } from "@vee-validate/zod";
-import type { UserForm } from "@/shared/interfaces";
+import type { UserForm } from "@/types/interfaces";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 

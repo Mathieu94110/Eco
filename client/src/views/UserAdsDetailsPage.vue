@@ -5,7 +5,7 @@ import { useStore } from "vuex";
 import Card from "@/components/Card/Card.vue";
 import EditCard from "@/components/Card/EditCard.vue";
 import { getAdById, updateAd } from "@/api";
-import type { UserAdInterface, ToastInterface } from "@/shared/interfaces";
+import type { UserAdInterface, ToastInterface } from "@/types/interfaces";
 import Loading from "vue-loading-overlay";
 
 const router = useRouter();

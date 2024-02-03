@@ -26,11 +26,11 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, computed } from "vue";
-import Banner from "@/components/Banner/Banner.vue";
-import Title from "@/components/Title/Title.vue";
-import Loader from "@/components/Loader/Loader.vue";
-import GameList from "@/components/GameList/GameList.vue";
-import Carousel from "@/components/Carousel/Carousel.vue";
+import Banner from "@/components/common/Banner.vue";
+import Title from "@/components/common/Title.vue";
+import Loader from "@/components/common/Loader.vue";
+import { GameList } from "@/components/game";
+import Carousel from "@/components/common/Carousel.vue";
 import { useStore } from "vuex";
 
 const store = useStore();

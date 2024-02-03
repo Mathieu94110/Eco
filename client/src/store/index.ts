@@ -15,7 +15,7 @@ import {
   fetchAsyncStoreDetails,
 } from "@/api";
 import axios from "axios";
-import type { FakeAdInterface } from "@/shared/interfaces";
+import type { FakeAdInterface } from "@/types/interfaces";
 const userInstance = axios.create({
   baseURL: "http://localhost:84/api/user",
 });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, computed, watch, defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
-import type { UserAdInterface } from "@/shared/interfaces";
+import type { UserAdInterface } from "@/types/interfaces";
 
 const state = reactive<{
   editCard: boolean;

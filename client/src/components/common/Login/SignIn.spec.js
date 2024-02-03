@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import SignIn from "@/components/Login/SignIn.vue";
+import SignIn from "@/components/common/Login/SignIn.vue";
 import { createStore } from "vuex";
 import { beforeEach, describe, it, expect, vi } from "vitest";
 

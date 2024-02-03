@@ -2,7 +2,7 @@
 import { reactive, onMounted, computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import type { FakeAdInterface } from "@/shared/interfaces";
+import type { FakeAdInterface } from "@/types/interfaces";
 import { addToFavorites, removeFromFavorites } from "@/api";
 import toast from "@/mixins/toast";
 

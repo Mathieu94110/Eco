@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
-import type { UserAdInterface } from "@/shared/interfaces";
+import type { UserAdInterface } from "@/types/interfaces";
 
 const props = defineProps<{
   isAdCreated: boolean;

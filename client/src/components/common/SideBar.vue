@@ -2,8 +2,8 @@
 import { reactive, inject } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import NavLink from "../NavLink.vue";
-import SideBarContainer from "./SideBarContainer/SideBarContainer.vue";
+import NavLink from "@/components/common/NavLink.vue";
+import SideBarContainer from "@/components/common/SideBarContainer.vue";
 import { ecoGame } from "@/assets/images";
 
 const state = reactive<{

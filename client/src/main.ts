@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
-4;
 import toastMsg from "@/mixins/toast";
 import { collapsed, toggleSidebar } from "@/mixins/sidebar-collapsed";
 import App from "./App.vue";

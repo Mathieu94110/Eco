@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useStore } from "vuex";
-import Title from "@/components/Title/Title.vue";
-import GameList from "@/components/GameList/GameList.vue";
+import Title from "@/components/common/Title.vue";
+import { GameList } from "@/components/game";
 
 const store = useStore();
 const favorites = computed<any[]>(() => store.getters.getFavorites);

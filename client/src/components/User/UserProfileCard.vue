@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, defineProps, ref, computed, watch } from "vue";
 import mysteryImage from "@/assets/images/mystery-image.png";
-import type { UserInterface } from "@/shared/interfaces";
+import type { UserInterface } from "@/types/interfaces";
 
 const state = reactive({
   newUserInfos: {} as UserInterface,

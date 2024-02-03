@@ -19,10 +19,10 @@
 <script setup lang="ts">
 import { onMounted, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
-import Title from "@/components/Title/Title.vue";
-import Loader from "@/components/Loader/Loader.vue";
-import GameList from "@/components/GameList/GameList.vue";
-import Pagination from "@/components/BasicPagination/BasicPagination.vue";
+import Title from "@/components/common/Title.vue";
+import Loader from "@/components/common/Loader.vue";
+import { GameList } from "@/components/game";
+import Pagination from "@/components/common/BasicPagination.vue";
 
 const store = useStore();
 

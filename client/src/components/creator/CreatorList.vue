@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 import { defineProps } from "vue";
-import CreatorItem from "@/components/CreatorItem/CreatorItem.vue";
+import { CreatorItem } from "@/components/creator";
 
- defineProps<{
+defineProps<{
   creators: any;
 }>();
 </script>

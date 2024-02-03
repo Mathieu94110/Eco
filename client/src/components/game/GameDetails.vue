@@ -104,10 +104,10 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import StoreItem from "@/components/StoreItem/StoreItem.vue";
-import Tabs from "../Tabs/Tabs.vue";
-import Tab from "../Tabs/Tab.vue";
-import { formatDate } from "@/shared/utils";
+import { StoreItem } from "@/components/store";
+import Tabs from "@/components/common/Tabs/Tabs.vue";
+import Tab from "@/components/common/Tabs/Tab.vue";
+import { formatDate } from "@/utils";
 
 const props = defineProps<{
   gameData: Object;

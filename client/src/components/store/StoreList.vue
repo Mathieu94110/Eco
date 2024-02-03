@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import StoreItem from "@/components/StoreItem/StoreItem.vue";
+import {StoreItem} from "@/components/store";
 
 defineProps<{
   stores: any[];

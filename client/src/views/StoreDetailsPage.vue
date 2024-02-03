@@ -1,6 +1,7 @@
 <template>
   <div class="store-details-page">
     <div class="container">
+      <button class="btn btn-primary" @click="goBack"><i class="fa-solid fa-arrow-left"></i></button>
       <template v-if="status === 'loading'">
         <Loader />
       </template>
@@ -14,14 +15,18 @@
 <script setup lang="ts">
 import { onMounted, computed, watchEffect } from "vue";
 import { useStore } from "vuex";
-import Loader from "@/components/Loader/Loader.vue";
-import StoreDetails from "@/components/StoreDetails/StoreDetails.vue";
+import Loader from "@/components/common/Loader.vue";
+import { StoreDetails } from "@/components/store";
 import { useRoute, useRouter } from "vue-router";
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 const storeDetails = computed(() => store.state.storeDetails);
 
+function goBack() {
+  router.go(-1);
+}
 onMounted(() => {
   store.dispatch("fetchStoreDetails", Number(route.params.storeId));
 });

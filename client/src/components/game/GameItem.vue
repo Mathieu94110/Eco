@@ -49,8 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import StarRating from "@/shared/components/StarRating/StarRating.vue";
-import { formatDate } from "@/shared/utils";
+import StarRating from "@/components/common/StarRating.vue";
+import { formatDate } from "@/utils";
 
 defineEmits(["toggleFavorite"]);
 const props = defineProps<{

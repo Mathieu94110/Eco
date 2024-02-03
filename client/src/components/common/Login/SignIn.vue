@@ -2,8 +2,8 @@
 import { reactive, defineProps, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import type { LoginData } from "@/shared/interfaces";
-import LoginFormLayout from "../Layout/LoginFormLayout.vue";
+import type { LoginData } from "@/types/interfaces";
+import LoginFormLayout from "@/components/Layout/LoginFormLayout.vue";
 
 const state = reactive<{
   email: string;

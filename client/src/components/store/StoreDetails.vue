@@ -5,9 +5,7 @@
         <img :src="storeData?.image_background" :alt="storeData?.name" />
       </div>
       <div class="store-details__content__info">
-        <h5 class="store-details__content__info-title">
-          <router-link :to="`stores/${storeData.id}`">{{ storeData?.name }}</router-link>
-        </h5>
+        <h5 class="store-details__content__info-title">{{ storeData?.name }}</h5>
         <ul class="store-details__content__info__details">
           <li class="store-details__content__info__details__domain-link">
             <span class="store-details__content__info__details__domain-link-key">Domaine: </span>
@@ -39,6 +37,7 @@ defineProps<{
 
 <style scoped lang="scss">
 .store-details {
+  margin-top: 32px;
   padding-bottom: 32px;
   background: rgba(0, 0, 0, 0.9);
   &__content {
@@ -63,6 +62,7 @@ defineProps<{
         font-size: 20px;
         display: inline-block;
         margin-bottom: 12px;
+        color: var(--secondary-2);
         & a {
           text-decoration: none;
         }

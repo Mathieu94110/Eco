@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
-import { isAuthenticatedGuard, isNotAuthenticatedGuard } from "../shared/guards/auth.guards";
+import { isAuthenticatedGuard, isNotAuthenticatedGuard } from "./auth.guards";
 import store from "../store";
 
 const routes = [

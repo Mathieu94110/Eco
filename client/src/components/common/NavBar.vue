@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, onMounted } from "vue";
-import TopBar from "./TopBar/TopBar.vue";
-import SideBar from "./SideBar/SideBar.vue";
+import TopBar from "@/components/common/TopBar.vue";
+import SideBar from "@/components/common/SideBar.vue";
 
 const state = reactive<{
   width: number;

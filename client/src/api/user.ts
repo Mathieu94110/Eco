@@ -1,4 +1,4 @@
-import type { UserForm } from "@/shared/interfaces";
+import type { UserForm } from "@/types/interfaces";
 
 const userApi = "http://localhost:84/api/user";
 
