@@ -1,5 +1,5 @@
 <template>
-  <div class="game-list">
+  <div class="game-list container">
     <template v-for="item in props.games.slice(0, sliceValue)" :key="item.id">
       <GameItem
         :gameItem="item"

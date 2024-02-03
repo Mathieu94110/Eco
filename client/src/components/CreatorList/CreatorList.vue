@@ -1,6 +1,6 @@
 <template>
   <div class="creator-list">
-    <div className="creator-list__content">
+    <div className="creator-list__content container">
       <div v-for="item in creators" :key="item.id">
         <CreatorItem :creatorItem="item" />
       </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="store-details-page">
-    <div class="store-details-page__content">
+    <div class="container">
       <template v-if="status === 'loading'">
         <Loader />
       </template>
@@ -38,10 +38,5 @@ watchEffect(async () => {
   min-height: 100vh;
   padding-top: 65px;
   padding-bottom: 65px;
-  &__content {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.6rem;
-  }
 }
 </style>

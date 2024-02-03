@@ -2,7 +2,7 @@
   <div class="home-page">
     <Banner />
     <section class="home-page__popular">
-      <div class="home-page__popular-title">
+      <div class="container">
         <Title :title="{ primary: 'Jeux', secondary: 'les plus populaires' }" />
       </div>
       <template v-if="status === 'loading'">
@@ -55,11 +55,6 @@ const state = reactive<{
 .home-page {
   background: #6d6d6d;
   &__popular {
-    &-title {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.6rem;
-    }
     &__link {
       display: flex;
       justify-content: center;

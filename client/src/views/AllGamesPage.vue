@@ -1,6 +1,6 @@
 <template>
   <div className="all-games">
-    <div className="all-games__content">
+    <div className="container">
       <Title :title="{ primary: 'Tous', secondary: 'les jeux' }" />
       <template v-if="status === 'loading'">
         <Loader />
@@ -58,10 +58,5 @@ watch(
   background-color: rgb(7, 5, 27);
   min-height: 100vh;
   padding: 60px 0;
-  &__content {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.6rem;
-  }
 }
 </style>
