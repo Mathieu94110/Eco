@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import store from "../../store";
+import store from "../store";
 
 const isAuthenticate = computed(() => store.getters.isAuthenticated);
 
@@ -12,6 +12,7 @@ export function isAuthenticatedGuard() {
 
 export function isNotAuthenticatedGuard() {
   if (isAuthenticate.value === true) {
+    console.log("authanticate");
     return "/home";
   }
 }

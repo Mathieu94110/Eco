@@ -1,4 +1,4 @@
-import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/shared/interfaces";
+import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/types";
 const apiUrl = "http://localhost:84/api";
 
 const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {
@@ -37,7 +37,7 @@ const UserFavoritesApi = {
 
 export const getFavorites = async (userFrom: string): Promise<FakeAdInterface[]> =>
   await UserFavoritesApi.getUserFavorites(`${apiUrl}/favorites/getFavoredAds/` + userFrom);
-  
+
 export const removeFromFavorites = async (
   variables: Partial<UserAdInterface>,
 ): Promise<FavoritesFetchResponseInterface> =>

@@ -1,6 +1,6 @@
 <template>
   <div class="creator-list">
-    <div className="creator-list__content">
+    <div className="creator-list__content container">
       <div v-for="item in creators" :key="item.id">
         <CreatorItem :creatorItem="item" />
       </div>
@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 import { defineProps } from "vue";
-import CreatorItem from "@/components/CreatorItem/CreatorItem.vue";
+import CreatorItem from "@/components/creator/CreatorItem/CreatorItem.vue";
 
- defineProps<{
+defineProps<{
   creators: any;
 }>();
 </script>

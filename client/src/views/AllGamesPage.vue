@@ -1,6 +1,6 @@
 <template>
   <div className="all-games">
-    <div className="all-games__content">
+    <div className="container">
       <Title :title="{ primary: 'Tous', secondary: 'les jeux' }" />
       <template v-if="status === 'loading'">
         <Loader />
@@ -19,10 +19,10 @@
 <script setup lang="ts">
 import { onMounted, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
-import Title from "@/components/Title/Title.vue";
-import Loader from "@/components/Loader/Loader.vue";
-import GameList from "@/components/GameList/GameList.vue";
-import Pagination from "@/components/BasicPagination/BasicPagination.vue";
+import Title from "@/components/common/Title/Title.vue";
+import Loader from "@/components/common/Loader/Loader.vue";
+import GameList from "@/components/game/GameList/GameList.vue";
+import Pagination from "@/components/common/BasicPagination/BasicPagination.vue";
 
 const store = useStore();
 
@@ -58,10 +58,5 @@ watch(
   background-color: rgb(7, 5, 27);
   min-height: 100vh;
   padding: 60px 0;
-  &__content {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.6rem;
-  }
 }
 </style>

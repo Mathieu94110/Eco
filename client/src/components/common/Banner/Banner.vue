@@ -1,6 +1,6 @@
 <template>
   <div class="banner">
-    <div class="banner__content">
+    <div class="banner__content coontainer">
       <div class="banner__content-badge">Rejoint le stream</div>
       <h1 class="banner__content-title">Les meilleurs jeux en ligne</h1>
       <p class="banner__content-lead-text">
@@ -25,6 +25,7 @@
   background: cover;
   background-size: cover;
   background-repeat: no-repeat;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -32,10 +33,6 @@
   &__content {
     width: 100%;
     color: #fff;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.6rem;
-
     &-badge {
       padding: 4px 16px;
       font-weight: 600;

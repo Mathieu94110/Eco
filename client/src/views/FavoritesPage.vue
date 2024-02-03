@@ -1,6 +1,6 @@
 <template>
   <div className="favorites">
-    <div className="favorites__content">
+    <div className="favorites__content container">
       <Title :title="{ primary: 'Tous', secondary: 'vos favoris' }" />
       <template v-if="favorites?.length">
         <GameList :games="favorites" />
@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useStore } from "vuex";
-import Title from "@/components/Title/Title.vue";
-import GameList from "@/components/GameList/GameList.vue";
+import Title from "@/components/common/Title/Title.vue";
+import GameList from "@/components/game/GameList/GameList.vue";
 
 const store = useStore();
 const favorites = computed<any[]>(() => store.getters.getFavorites);
@@ -30,9 +30,6 @@ const favorites = computed<any[]>(() => store.getters.getFavorites);
   min-height: 100vh;
   padding: 60px 0;
   &__content {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.6rem;
     &__empty-list {
       display: flex;
       justify-content: center;

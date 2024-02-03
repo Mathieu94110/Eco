@@ -1,4 +1,4 @@
-import type { UserInterface, UserAdInterface } from "@/shared/interfaces";
+import type { UserInterface, UserAdInterface } from "@/types";
 const apiUrl = "http://localhost:84/api";
 
 const userAdsRequest = async <TResponse>(url: string, body: object): Promise<TResponse> => {

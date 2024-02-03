@@ -1,6 +1,6 @@
 <template>
   <div class="store-details-page">
-    <div class="store-details-page__content">
+    <div class="container">
       <template v-if="status === 'loading'">
         <Loader />
       </template>
@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import { onMounted, computed, watchEffect } from "vue";
 import { useStore } from "vuex";
-import Loader from "@/components/Loader/Loader.vue";
-import StoreDetails from "@/components/StoreDetails/StoreDetails.vue";
+import Loader from "@/components/common/Loader/Loader.vue";
+import StoreDetails from "@/components/store/StoreDetails/StoreDetails.vue";
 import { useRoute, useRouter } from "vue-router";
 
 const store = useStore();
@@ -38,10 +38,5 @@ watchEffect(async () => {
   min-height: 100vh;
   padding-top: 65px;
   padding-bottom: 65px;
-  &__content {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.6rem;
-  }
 }
 </style>

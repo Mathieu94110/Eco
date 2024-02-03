@@ -19,9 +19,9 @@
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
-import Title from "@/components/Title/Title.vue";
-import Loader from "@/components/Loader/Loader.vue";
-import StoreList from "@/components/StoreList/StoreList.vue";
+import Title from "@/components/common/Title/Title.vue";
+import Loader from "@/components/common/Loader/Loader.vue";
+import StoreList from "@/components/store/StoreList/StoreList.vue";
 
 const store = useStore();
 const status = computed<string>(() => store?.getters.getStatus);

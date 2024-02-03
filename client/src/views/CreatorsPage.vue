@@ -18,10 +18,10 @@
 
 <script setup lang="ts">
 import { onMounted, computed, ref, watch } from "vue";
-import Loader from "@/components/Loader/Loader.vue";
-import Title from "@/components/Title/Title.vue";
-import CreatorList from "@/components/CreatorList/CreatorList.vue";
-import Pagination from "@/components/BasicPagination/BasicPagination.vue";
+import Loader from "@/components/common/Loader/Loader.vue";
+import Title from "@/components/common/Title/Title.vue";
+import CreatorList from "@/components/creator/CreatorList/CreatorList.vue";
+import Pagination from "@/components/common/BasicPagination/BasicPagination.vue";
 import { useStore } from "vuex";
 
 const store = useStore();

@@ -1,5 +1,5 @@
 <template>
-  <div class="stores-list">
+  <div class="stores-list container">
     <template v-for="item in stores" :key="item.id">
       <StoreItem :storeItem="item" />
     </template>
@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import StoreItem from "@/components/StoreItem/StoreItem.vue";
+import StoreItem from "@/components/store/StoreItem/StoreItem.vue";
 
 defineProps<{
   stores: any[];
@@ -16,9 +16,6 @@ defineProps<{
 
 <style scoped lang="scss">
 .stores-list {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1.6rem;
   display: grid;
     grid-template-columns: repeat(1, 1fr);
   @media screen and (min-width: 992px) {

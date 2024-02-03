@@ -2,7 +2,7 @@
   <div class="home-page">
     <Banner />
     <section class="home-page__popular">
-      <div class="home-page__popular-title">
+      <div class="container">
         <Title :title="{ primary: 'Jeux', secondary: 'les plus populaires' }" />
       </div>
       <template v-if="status === 'loading'">
@@ -26,10 +26,10 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, computed } from "vue";
-import Banner from "@/components/Banner/Banner.vue";
-import Title from "@/components/Title/Title.vue";
-import Loader from "@/components/Loader/Loader.vue";
-import GameList from "@/components/GameList/GameList.vue";
+import Banner from "@/components/common/Banner/Banner.vue";
+import Title from "@/components/common/Title/Title.vue";
+import Loader from "@/components/common/Loader/Loader.vue";
+import GameList from "@/components/game/GameList/GameList.vue";
 import Carousel from "@/components/Carousel/Carousel.vue";
 import { useStore } from "vuex";
 
@@ -55,11 +55,6 @@ const state = reactive<{
 .home-page {
   background: #6d6d6d;
   &__popular {
-    &-title {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.6rem;
-    }
     &__link {
       display: flex;
       justify-content: center;

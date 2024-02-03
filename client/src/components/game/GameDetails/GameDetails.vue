@@ -104,9 +104,9 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import StoreItem from "@/components/StoreItem/StoreItem.vue";
-import Tabs from "../Tabs/Tabs.vue";
-import Tab from "../Tabs/Tab.vue";
+import StoreItem from "@/components/store/StoreItem/StoreItem.vue";
+import Tabs from "@/components/common/Tabs/Tabs.vue";
+import Tab from "@/components/common/Tabs/Tab.vue";
 import { formatDate } from "@/shared/utils";
 
 const props = defineProps<{

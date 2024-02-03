@@ -1,11 +1,11 @@
 <script lang="ts">
-import NavBar from "@/components/NavBar/NavBar.vue";
-import Toolbar from "./components/Toolbar/Toolbar.vue";
+import NavBar from "@/components/common/NavBar/NavBar.vue";
+import Toolbar from "@/components/Toolbar/Toolbar.vue";
 import { computed, inject } from "vue";
 import { mapGetters } from "vuex";
 import { useRoute } from "vue-router";
 import store from "./store";
-import TheFooter from "@/components/TheFooter/TheFooter.vue";
+import TheFooter from "@/components/common/TheFooter/TheFooter.vue";
 
 export default {
   name: "App",
@@ -87,7 +87,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "./assets/scss/base.scss";
+@import "./assets/scss/main.scss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap");
 
 .app {

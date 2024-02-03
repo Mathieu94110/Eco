@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="the-footer__bottom">
-      <div class="the-footer__bottom__content">
+      <div class="the-footer__bottom__content container">
         <p class="the-footer__bottom__content-copyright">Copyright &copy; 2024 Mathieu Enault - All rights reserved.</p>
         <ul class="the-footer__bottom__content-links">
           <li><a href="#">Accueil</a></li>
@@ -153,9 +153,6 @@ export default {};
     background: #04020e;
     padding: 20px 0;
     &__content {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.6rem;
       display: flex;
       flex-direction: column;
       text-align: center;

@@ -168,6 +168,11 @@ body {
 .m-30 {
   margin: 30px;
 }
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.6rem;
+}
 .full-width {
   width: 100%;
 }
