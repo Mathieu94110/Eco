@@ -58,7 +58,7 @@ const games = computed<any>(() => props.creatorItem?.games?.map((game) => game?.
     overflow: hidden;
     margin-top: -75px;
     border: 2px solid #fff;
-    transition: all 300ms ease-in-out;
+    transition: var(--transition-default);
     &:hover {
       transform: scale(1.1);
     }

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, inject, watch, onBeforeMount, toRefs, VNode } from "vue";
+import { defineComponent, ref, inject, watch, onBeforeMount} from "vue";
 export default defineComponent({
   name: "Tab",
   setup() {

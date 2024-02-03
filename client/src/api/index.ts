@@ -4,3 +4,4 @@ export * from "./favorites";
 export * from "./game";
 export * from "./creators";
 export * from "./stores";
+export * from "./genres";

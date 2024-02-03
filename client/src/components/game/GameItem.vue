@@ -121,7 +121,7 @@ const props = defineProps<{
       letter-spacing: 0.03em;
       display: flex;
       align-items: center;
-      transition: all 300ms ease-in-out;
+      transition: var(--transition-default);
 
       &:hover {
         background-color: var(--primary-1);
@@ -153,7 +153,7 @@ const props = defineProps<{
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 300ms ease-in-out;
+        transition: var(--transition-default);
         margin-top: 20px;
         text-transform: uppercase;
       }

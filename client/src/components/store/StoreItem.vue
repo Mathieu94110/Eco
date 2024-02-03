@@ -55,7 +55,7 @@ defineProps<{ storeItem: any }>();
       color: #0b082d;
       font-size: 16px;
       display: inline-block;
-      transition: all 300ms ease-in-out;
+      transition: var(--transition-default);
       text-transform: uppercase;
       font-weight: 700;
 

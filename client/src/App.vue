@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, inject } from "vue";
+import { inject } from "vue";
 import { mapGetters } from "vuex";
 import { useRoute } from "vue-router";
 import NavBar from "@/components/common/NavBar.vue";
@@ -81,7 +81,7 @@ export default {
       >
         <router-view></router-view>
       </div>
-      <!-- <TheFooter /> -->
+      <TheFooter />
     </div>
   </div>
 </template>

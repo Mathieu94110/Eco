@@ -13,6 +13,7 @@ import {
   addToFavorites,
   fetchAsyncStores,
   fetchAsyncStoreDetails,
+  fetchAsyncGenres,
 } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/types/interfaces";
@@ -67,6 +68,7 @@ const store = createStore({
     creators: [],
     stores: [],
     storeDetails: [],
+    genres: [],
     windowWidth: window.innerWidth,
   },
   actions: {
@@ -137,7 +139,6 @@ const store = createStore({
       try {
         await addToFavorites(userFavorite);
         commit("userFavorites", [...state.currentFavorites, { ...game }]);
-        // toast("L'annonce a été ajoutée à vos favoris !", "success");
       } catch (e) {
         console.error(e);
       }
@@ -195,6 +196,18 @@ const store = createStore({
         commit("setGameDetails", details);
       } catch (e) {
         commit("setStatus", "error-game-details");
+        console.error(e);
+      } finally {
+        commit("setStatus", "");
+      }
+    },
+    async fetchGenres({ commit }, page = 1) {
+      commit("setStatus", "loading");
+      try {
+        const res = await fetchAsyncGenres(page);
+        commit("setGenres", res);
+      } catch (e) {
+        commit("setStatus", "error-genres");
         console.error(e);
       } finally {
         commit("setStatus", "");
@@ -279,6 +292,9 @@ const store = createStore({
     },
     setStoreDetails(state, details) {
       state.storeDetails = details;
+    },
+    setGenres(state, genres) {
+      state.genres = genres;
     },
   },
   getters: {

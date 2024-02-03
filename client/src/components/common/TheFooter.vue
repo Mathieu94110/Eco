@@ -125,7 +125,7 @@ export default {};
             width: 100%;
             margin-right: auto;
             margin-left: auto;
-            transition: all 300ms ease-in-out;
+            transition: var(--transition-default);
             display: flex;
             align-items: stretch;
             justify-content: center;
