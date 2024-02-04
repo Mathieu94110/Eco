@@ -30,7 +30,7 @@ const props = defineProps<{
     text-transform: uppercase;
     position: relative;
     span {
-      color: var(--secondary-2);
+      color: var(--pink-1);
     }
   }
   &__line {

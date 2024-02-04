@@ -53,10 +53,13 @@ const formatSideBar = (value: boolean): void => {
       <div v-else @click="logout()" @keydown="logout()">
         <NavLink class="side-bar__link" to="/profile" icon="fa-solid fa-right-from-bracket"></NavLink>
       </div>
-      <NavLink class="side-bar__link" to="/creators" icon="fa-solid fa-person" data-cy="ads-link"
+      <NavLink class="side-bar__link" to="/home" icon="fa fa-home" data-cy="home-link"
+        ><span v-show="state.isHover">Accueil</span></NavLink
+      >
+      <NavLink class="side-bar__link" to="/creators" icon="fa-solid fa-person" data-cy="creators-link"
         ><span v-show="state.isHover">Créateurs</span></NavLink
       >
-      <NavLink class="side-bar__link" to="/stores" icon="fa-solid fa-store" data-cy="create-ad-link"
+      <NavLink class="side-bar__link" to="/stores" icon="fa-solid fa-store" data-cy="stores-link"
         ><span v-show="state.isHover">Stores</span></NavLink
       >
       <NavLink class="side-bar__link" to="/search" icon="fa-solid fa-magnifying-glass"
@@ -98,12 +101,12 @@ const formatSideBar = (value: boolean): void => {
     flex-shrink: 0;
     border-radius: 0;
     &:hover {
-      background: var(--secondary-2);
+      background: var(--pink-1);
       color: #fff;
     }
     &-logout {
       color: #fff;
-      background-color: var(--secondary-2);
+      background-color: var(--pink-1);
       padding: 4px 0;
       &:hover {
         cursor: pointer;

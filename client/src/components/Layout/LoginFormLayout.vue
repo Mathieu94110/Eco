@@ -79,7 +79,7 @@ const currentRoute = computed(() => route.name);
     outline: 0;
     font-size: 12px;
     color: #fff;
-    padding: 7px 0;
+    padding: 6px;
     background: transparent;
     transition: border-color 0.2s;
 

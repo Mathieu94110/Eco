@@ -30,9 +30,10 @@ const logout = async (): Promise<void> => {
         ></span>
         <Transition>
           <div class="topbar__menu" @click="state.open = false" @keydown="state.open = false" v-if="state.open">
-            <NavLink to="" icon="fas fa-user-circle"
+            <NavLink to="" icon="fa fa-sign-out"
               ><span @click="logout()" @keydown="logout()">Déconnection</span></NavLink
             >
+            <NavLink to="/home" icon="fa fa-home"><span>Accueil</span></NavLink>
             <NavLink to="/creators" icon="fas fa-user-circle"><span>Créateurs</span></NavLink>
             <NavLink to="/stores" icon="fa-solid fa-handshake-angle" data-cy="ads-link"><span>Stores</span></NavLink>
             <NavLink to="/search" icon="fas fa-pencil-alt" data-cy="create-ad-link"

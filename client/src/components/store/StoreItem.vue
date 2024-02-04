@@ -88,7 +88,7 @@ defineProps<{ storeItem: any }>();
       flex-wrap: wrap;
       gap: 8px;
       &-link {
-        background-color: #b9198e;
+        background-color: var(--pink-1);
         border-radius: 100vh;
         padding-right: 8px;
         padding-left: 8px;

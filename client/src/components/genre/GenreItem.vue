@@ -68,7 +68,6 @@ onMounted(() => {
     }
     height: 280px;
     overflow: hidden;
-    position: relative;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.27) 92.08%);
     position: relative;
 

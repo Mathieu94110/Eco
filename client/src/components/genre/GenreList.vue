@@ -14,7 +14,7 @@
               v-for="item in props.data"
               :key="item.id"
               class="genre-list__container__buttons__link"
-              :class="{ 'genre-list__container__buttons__link--active': `${item?.id === state.activeTab.id}` }"
+              :class="item.id === state.activeTab.id && 'genre-list__container__buttons__link--active'"
             >
               <button type="button" @click="tabClickHandler(item?.id)">{{ item?.name }}</button>
             </li>
@@ -54,11 +54,10 @@ const tabButtonsHandler = () => (state.tabButtonStatus = !state.tabButtonStatus)
 
 <style scoped lang="scss">
 .genre-list {
-  margin-top: 60px;
   &__container {
     position: relative;
     min-height: 1000px;
-    background-color: var(--secondary-2);
+    background-color: rgb(7, 5, 27);
     &__buttons {
       position: absolute;
       left: 0;
@@ -83,27 +82,29 @@ const tabButtonsHandler = () => (state.tabButtonStatus = !state.tabButtonStatus)
         display: none;
         background-color: #fff;
         &:hover {
-          background-color: pink;
+          background-color: var(--pink-1);
           color: #fff;
+          cursor: pointer;
         }
       }
       &__link {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 286px;
-        z-index: 99;
-        padding-top: 60px;
-        padding-bottom: 60px;
-        transition: var(--transition-default);
+        & button {
+          cursor: pointer;
+          padding: 12px 30px;
+          font-family: "Barlow";
+          font-weight: 500;
+          font-size: 18px;
+          letter-spacing: 0.1em;
+          width: 100%;
+          text-align: start;
+          background-color: transparent;
+          color: #fff;
+        }
         &--active {
-          background-color: var(--secondary-2);
           button {
+            background-color: var(--pink-1);
             color: #fff;
           }
-        }
-        & > button {
-          color: #fff;
         }
       }
     }
@@ -143,28 +144,37 @@ const tabButtonsHandler = () => (state.tabButtonStatus = !state.tabButtonStatus)
 
 @media screen and (max-width: 1280px) {
   .genre-list {
-    transform: translateX(-88%);
-    width: 286px;
-
-    .tabs-buttons-close {
-      display: block;
-    }
-
-    &.show {
-      transform: translateX(0);
+    &__container {
+      &__buttons {
+        transform: translateX(-88%);
+        width: 286px;
+        &-close {
+          display: block;
+        }
+        &--show {
+          transform: translateX(0);
+        }
+      }
     }
   }
 }
-
 @media screen and (max-width: 1380px) {
   .genre-list {
-    width: 200px;
+    &__container {
+      &__buttons {
+        width: 200px;
+      }
+    }
   }
 }
 
 @media screen and (max-width: 1480px) {
   .genre-list {
-    width: 240px;
+    &__container {
+      &__buttons {
+        width: 240px;
+      }
+    }
   }
 }
 </style>
