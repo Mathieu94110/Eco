@@ -7,12 +7,7 @@ import { getAds, deleteAd } from "@/api";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
-import type {
-  UserAdInterface,
-  userAdsConfigInterface,
-  ToastInterface,
-  userAdsPaginationInterface,
-} from "@/types/interfaces";
+import type { UserAdInterface, userAdsConfigInterface, ToastInterface, userAdsPaginationInterface } from "@/types";
 import { userAdsConfig } from "@/constants/userAds";
 
 const perPageOptions: number[] = [5, 10, 50];

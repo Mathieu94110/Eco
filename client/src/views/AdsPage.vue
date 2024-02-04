@@ -5,7 +5,7 @@ import AdCard from "@/components/AdCard/AdCard.vue";
 import AdCardFilter from "@/components/AdCard/AdCardFilter.vue";
 import Calc from "@/components/common/Calc.vue";
 import { getFakeAds, addToFavorites, removeFromFavorites } from "@/api";
-import type { FakeAdInterface, FilterUpdate, ToastInterface } from "@/types/interfaces";
+import type { FakeAdInterface, FilterUpdate, ToastInterface } from "@/types";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 import { useRouter } from "vue-router";

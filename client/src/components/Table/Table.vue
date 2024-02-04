@@ -3,7 +3,7 @@ import { computed, defineProps, type Component } from "vue";
 import { useStore } from "vuex";
 import TableLargeScreen from "@/components/Table/TableLargeScreen.vue";
 import TableSmallScreen from "@/components/Table/TableSmallScreen.vue";
-import type { UserAdInterface, userAdsConfigInterface } from "@/types/interfaces";
+import type { UserAdInterface, userAdsConfigInterface } from "@/types";
 
 const props = defineProps<{
   userAds: UserAdInterface[];

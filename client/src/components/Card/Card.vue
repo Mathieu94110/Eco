@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
-import type { UserAdInterface } from "@/types/interfaces";
+import type { UserAdInterface } from "@/types";
 
 const props = defineProps<{
   ad: UserAdInterface;

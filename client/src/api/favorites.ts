@@ -1,4 +1,4 @@
-import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/types/interfaces";
+import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/types";
 const apiUrl = "http://localhost:84/api";
 
 const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {

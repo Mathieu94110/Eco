@@ -71,6 +71,12 @@ const routes = [
     component: () => import("../views/CreatorsPage.vue"),
   },
   {
+    name: "Search",
+    path: "/search",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../views/SearchGamePage.vue"),
+  },
+  {
     name: "Jeux",
     path: "/games",
     beforeEnter: [isAuthenticatedGuard],

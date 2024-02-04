@@ -11,9 +11,9 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { CreatorItem } from "@/components/creator";
-
+import { CreatorItemType } from "@/types";
 defineProps<{
-  creators: any;
+  creators: CreatorItemType[];
 }>();
 </script>
 

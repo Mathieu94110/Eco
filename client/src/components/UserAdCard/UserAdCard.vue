@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
-import type { FakeAdInterface } from "@/types/interfaces";
+import type { FakeAdInterface } from "@/types";
 
 const props = defineProps<{
   ad: FakeAdInterface;

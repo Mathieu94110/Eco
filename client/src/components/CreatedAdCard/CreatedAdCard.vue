@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import CardLayout from "../Layout/CardLayout.vue";
-import type { UserAdInterface } from "@/types/interfaces";
+import type { UserAdInterface } from "@/types";
 import mysteryImage from "../../assets/images/mystery-image.png";
 
 const props = defineProps<{

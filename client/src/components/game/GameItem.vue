@@ -51,10 +51,10 @@
 <script setup lang="ts">
 import StarRating from "@/components/common/StarRating.vue";
 import { formatDate } from "@/utils";
-
+import { FavoriteItemType } from "@/types";
 defineEmits(["toggleFavorite"]);
 const props = defineProps<{
-  gameItem: Object;
+  gameItem: FavoriteItemType;
   isOnFavorites: boolean;
 }>();
 </script>

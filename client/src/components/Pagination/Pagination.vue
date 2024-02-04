@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, computed, watch, defineProps } from "vue";
-import type { PageOptionsInterface } from "@/types/interfaces";
+import type { PageOptionsInterface } from "@/types";
 
 const props = defineProps<{
   totalRecords: number;

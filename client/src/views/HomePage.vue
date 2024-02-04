@@ -29,7 +29,7 @@
         <Loader />
       </template>
       <template v-else-if="status !== 'loading' && genres.results?.length">
-        <GenreList :sliceValue="9" :data="genres.results" />
+        <GenreList :sliceValue="9" :genresList="genres.results" />
       </template>
       <template v-else>
         <h4>Aucun genre trouvé !</h4>
@@ -58,14 +58,6 @@ onMounted(() => {
 const status = computed<string>(() => store?.getters.getStatus);
 const games = computed(() => store.state.games);
 const genres = computed(() => store.state.genres);
-const state = reactive<{
-  popular: object;
-}>({
-  popular: {
-    primary: "jeux",
-    secondary: "les plus populaires",
-  },
-});
 </script>
 
 <style scoped lang="scss">

@@ -36,11 +36,12 @@
 
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
+import { CreatorItemType } from "@/types";
 const props = defineProps<{
-  creatorItem: any;
+  creatorItem: CreatorItemType;
 }>();
-const positions = computed<any>(() => props.creatorItem?.positions?.map((position) => position?.name));
-const games = computed<any>(() => props.creatorItem?.games?.map((game) => game?.name));
+const positions = computed<string[]>(() => props.creatorItem?.positions?.map((position) => position?.name));
+const games = computed<string[]>(() => props.creatorItem?.games?.map((game) => game?.name));
 </script>
 
 <style scoped lang="scss">

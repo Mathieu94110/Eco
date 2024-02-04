@@ -37,21 +37,21 @@ import { onMounted, reactive } from "vue";
 import StarRating from "@/components/common/StarRating.vue";
 import { apiURL } from "@/constants";
 import axios from "@/api/axios";
+import { genresListType, gameInterface } from "@/types";
 const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
 
 const props = defineProps<{
-  gameItem: any;
+  gameItem: genresListType;
 }>();
-const state = reactive({
+const state: gameInterface = reactive({
   gameData: {},
 });
 
 onMounted(() => {
-  const fetchGameDetails = async () => {
+  const fetchGameDetails = async (): Promise<void> => {
     const { data } = await axios.get(`${apiURL.gamesURL}/${props.gameItem.id}?key=${API_KEY}`);
     state.gameData = data;
   };
-
   fetchGameDetails();
 });
 </script>
@@ -122,6 +122,7 @@ onMounted(() => {
         }
       }
       &-link {
+        margin-top: 10px;
         height: 34px;
         text-align: center;
         border: 1px solid var(--primary-1);

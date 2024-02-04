@@ -2,7 +2,7 @@
 import { reactive, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import type { FakeAdInterface } from "@/types/interfaces";
+import type { FakeAdInterface } from "@/types";
 import UserAdCard from "@/components/UserAdCard/UserAdCard.vue";
 
 const router = useRouter();

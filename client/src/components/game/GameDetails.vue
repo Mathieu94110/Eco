@@ -108,16 +108,18 @@ import { StoreItem } from "@/components/store";
 import Tabs from "@/components/common/Tabs/Tabs.vue";
 import Tab from "@/components/common/Tabs/Tab.vue";
 import { formatDate } from "@/utils";
-
+import { gameDetailsType } from "@/types";
 const props = defineProps<{
-  gameData: Object;
+  gameData: gameDetailsType;
 }>();
-const topTextDescription = computed(() => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + ".");
-const platforms = computed(() => props.gameData?.platforms?.map((platform) => platform.platform.name));
-const developers = computed(() => props.gameData?.developers?.map((developer) => developer.name));
-const genres = computed(() => props.gameData?.genres?.map((genre) => genre.name));
-const publishers = computed(() => props.gameData?.publishers?.map((publisher) => publisher.name));
-const createdDate = computed(() => formatDate(props.gameData?.released));
+const topTextDescription = computed<string>(
+  () => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + ".",
+);
+const platforms = computed<string[]>(() => props.gameData?.platforms?.map((platform) => platform.platform.name));
+const developers = computed<string[]>(() => props.gameData?.developers?.map((developer) => developer.name));
+const genres = computed<string[]>(() => props.gameData?.genres?.map((genre) => genre.name));
+const publishers = computed<string[]>(() => props.gameData?.publishers?.map((publisher) => publisher.name));
+const createdDate = computed<string>(() => formatDate(props.gameData?.released));
 </script>
 
 <style scoped lang="scss">

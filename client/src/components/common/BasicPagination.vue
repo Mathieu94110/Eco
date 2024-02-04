@@ -57,6 +57,8 @@ const next = computed<Number | null>(() => (props.nextPage ? Number(props.curren
       margin: 0 16px;
       padding: 8px;
       font-size: 16px;
+      background-color: var(--primary-1);
+      color: #fff;
     }
   }
 }

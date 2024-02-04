@@ -3,7 +3,7 @@ import { reactive, watch, ref, inject } from "vue";
 import { useStore } from "vuex";
 import createdAdCard from "@/components/CreatedAdCard/CreatedAdCard.vue";
 import CreateAdCard from "../components/CreateAdCard/CreateAdCard.vue";
-import type { UserAdInterface, ToastInterface } from "@/types/interfaces";
+import type { UserAdInterface, ToastInterface } from "@/types";
 import mysteryImage from "../assets/images/mystery-image.png";
 
 const state = reactive<{

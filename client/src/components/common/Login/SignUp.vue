@@ -3,7 +3,7 @@ import { useStore } from "vuex";
 import { reactive } from "vue";
 import LoginFormLayout from "@/components/Layout/LoginFormLayout.vue";
 import { toTypedSchema } from "@vee-validate/zod";
-import type { UserForm } from "@/types/interfaces";
+import type { UserForm } from "@/types";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 

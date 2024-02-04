@@ -1,7 +1,7 @@
 <template>
   <div class="genre-list">
     <div class="genre-list__container">
-      <div class="container">
+      <div class="container py-20">
         <div>
           <ul
             class="genre-list__container__buttons"
@@ -11,7 +11,7 @@
               <i class="fa-solid fa-bars" :size="22"></i>
             </button>
             <li
-              v-for="item in props.data"
+              v-for="item in props.genresList"
               :key="item.id"
               class="genre-list__container__buttons__link"
               :class="item.id === state.activeTab.id && 'genre-list__container__buttons__link--active'"
@@ -35,21 +35,23 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import GenreItem from "@/components/genre/GenreItem.vue";
+import { genresListType } from "@/types";
+
 const props = defineProps<{
-  data: any[];
+  genresList: genresListType[];
 }>();
-const state = reactive({
+const state: { tabButtonStatus: boolean; activeTab: genresListType } = reactive({
   tabButtonStatus: false,
-  activeTab: props.data[0],
+  activeTab: props.genresList[0],
 });
 const tabClickHandler = (id) => {
-  props.data.map((item) => {
+  props.genresList.map((item) => {
     if (item.id === id) {
       state.activeTab = item;
     }
   });
 };
-const tabButtonsHandler = () => (state.tabButtonStatus = !state.tabButtonStatus);
+const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButtonStatus);
 </script>
 
 <style scoped lang="scss">
@@ -64,7 +66,7 @@ const tabButtonsHandler = () => (state.tabButtonStatus = !state.tabButtonStatus)
       top: 0;
       width: 286px;
       z-index: 99;
-      padding-top: 60px;
+      padding-top: 20px;
       padding-bottom: 60px;
       transition: var(--transition-default);
       &--show {

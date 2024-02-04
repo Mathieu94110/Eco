@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import type { FakeAdInterface, UserAdInterface } from "@/types/interfaces";
+import type { FakeAdInterface, UserAdInterface } from "@/types";
 
 const props = defineProps<{
   ad: FakeAdInterface | UserAdInterface;

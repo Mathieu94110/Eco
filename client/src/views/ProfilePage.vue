@@ -3,7 +3,7 @@ import { reactive, onMounted, inject } from "vue";
 import { useStore } from "vuex";
 import UserProfileCard from "@/components/User/UserProfileCard.vue";
 import { getProfile, updateUserInfos } from "@/api";
-import type { ToastInterface, UserInterface } from "@/types/interfaces";
+import type { ToastInterface, UserInterface } from "@/types";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
