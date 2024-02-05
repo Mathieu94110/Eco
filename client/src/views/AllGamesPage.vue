@@ -2,15 +2,15 @@
   <div className="all-games">
     <div className="container">
       <Title :title="{ primary: 'Tous', secondary: 'les jeux' }" />
-      <template v-if="status === 'loading'">
+      <template v-if="status === 'loading' && !games.results?.length">
         <Loader />
       </template>
-      <template v-else-if="games.results?.length">
-        <GameList :games="games.results" />
-        <Pagination @page-handler="pageHandler" :nextPage="nextPage" :prevPage="prevPage" :currentPage="page" />
+      <template v-else-if="!games.results?.length && status !== 'loading'">
+        <h2>Aucun jeu trouvé</h2>
       </template>
       <template v-else>
-        <h2>Aucun jeu trouvé</h2>
+        <GameList :games="games.results" />
+        <Pagination @page-handler="pageHandler" :nextPage="nextPage" :prevPage="prevPage" :currentPage="page" />
       </template>
     </div>
   </div>
@@ -23,21 +23,21 @@ import Title from "@/components/common/Title.vue";
 import Loader from "@/components/common/Loader.vue";
 import { GameList } from "@/components/game";
 import Pagination from "@/components/common/BasicPagination.vue";
-
+import { gamesInterface } from "@/types";
 const store = useStore();
 
-const status = computed<string>(() => store.getters.getStatus);
-const games = computed(() => store.state.games);
-const page = ref(1);
-const prevPage = computed(() => store.state.games.previous);
-const nextPage = computed(() => store.state.games.next);
-const pageIndex = computed({
+const status = computed<string>(() => store?.getters.getStatus);
+const games = computed<gamesInterface>(() => store.state.games);
+const page = ref<number>(1);
+const prevPage = computed<string | null>(() => store.state.games.previous);
+const nextPage = computed<string | null>(() => store.state.games.next);
+const pageIndex = computed<number>({
   get: () => page.value,
   set: (val) => {
     page.value = val;
   },
 });
-function pageHandler(pageValue: number) {
+function pageHandler(pageValue: number): void {
   pageIndex.value = pageValue;
 }
 

@@ -18,13 +18,13 @@ import { useStore } from "vuex";
 import Loader from "@/components/common/Loader.vue";
 import { StoreDetails } from "@/components/store";
 import { useRoute, useRouter } from "vue-router";
-
+import { StoreDetailsType } from "@/types";
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
-const storeDetails = computed(() => store.state.storeDetails);
+const storeDetails = computed<StoreDetailsType>(() => store.state.storeDetails);
 
-function goBack() {
+function goBack(): void {
   router.go(-1);
 }
 onMounted(() => {

@@ -25,7 +25,7 @@
               </span>
               <span class="game-details__grid__content__list-item__left-details"> Date de création: </span>
             </div>
-            <span class="game-details__grid__content__list-item-right"> {{ createdDate }} </span>
+            <span class="game-details__grid__content__list-item-right"> {{ typeof createdDate }} </span>
           </li>
 
           <li class="game-details__grid__content__list-item">

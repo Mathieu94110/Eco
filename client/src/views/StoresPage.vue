@@ -22,10 +22,11 @@ import { useStore } from "vuex";
 import Title from "@/components/common/Title.vue";
 import Loader from "@/components/common/Loader.vue";
 import { StoreList } from "@/components/store";
+import { storeResultsType } from "@/types";
 
 const store = useStore();
 const status = computed<string>(() => store?.getters.getStatus);
-const stores = computed(() => store.state.stores.results);
+const stores = computed<storeResultsType>(() => store.state.stores.results);
 
 onMounted(() => {
   store.dispatch("fetchStores");
@@ -37,7 +38,5 @@ onMounted(() => {
   background-color: rgb(7, 5, 27);
   min-height: 100vh;
   padding-top: 65px;
-  &__content {
-  }
 }
 </style>

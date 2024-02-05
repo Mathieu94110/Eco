@@ -213,6 +213,20 @@ const store = createStore({
         commit("setStatus", "");
       }
     },
+    // games and genres in one
+    async fetchGamesAndGenres({ commit }, page = 1) {
+      try {
+        commit("setStatus", "loading");
+        const fetchGames = await fetchAsyncGames(page);
+        const fetchGenres = await fetchAsyncGenres(page);
+        const [games, genres] = await Promise.all([fetchGames, fetchGenres]);
+        commit("setCurrentGames", games);
+        commit("setGenres", genres);
+        commit("setStatus", "");
+      } catch (error: unknown) {
+        commit("setStatus", error instanceof Error ? error.message : "error-games-and-genres");
+      }
+    },
     async fetchCreators({ commit }, page = 1) {
       commit("setStatus", "loading");
       try {

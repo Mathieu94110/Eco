@@ -8,16 +8,16 @@
       <template v-if="status === 'loading'">
         <Loader />
       </template>
-      <template v-else-if="status !== 'loading' && games.results?.length">
+      <template v-else-if="status !== 'loading' && !games.results?.length">
+        <h4>Aucun jeu trouvé !</h4>
+      </template>
+      <template v-else>
         <GameList :sliceValue="9" :games="games.results" />
         <div class="home-page__popular__link">
           <router-link to="/games" class="home-page__popular__link-content btn-play-now btn-primary">
             Voir plus de jeux
           </router-link>
         </div>
-      </template>
-      <template v-else>
-        <h4>Aucun jeu trouvé !</h4>
       </template>
     </section>
     <Carousel />
@@ -47,17 +47,16 @@ import { GameList } from "@/components/game";
 import Carousel from "@/components/common/Carousel.vue";
 import { GenreList } from "@/components/genre";
 import { useStore } from "vuex";
-
+import { gamesInterface, genresInterface } from "@/types";
 const store = useStore();
 
 onMounted(() => {
-  store.dispatch("fetchGames");
-  store.dispatch("fetchGenres");
+  store.dispatch("fetchGamesAndGenres");
 });
 
 const status = computed<string>(() => store?.getters.getStatus);
-const games = computed(() => store.state.games);
-const genres = computed(() => store.state.genres);
+const games = computed<gamesInterface>(() => store.state.games);
+const genres = computed<genresInterface>(() => store.state.genres);
 </script>
 
 <style scoped lang="scss">

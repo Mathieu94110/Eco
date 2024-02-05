@@ -10,8 +10,8 @@
 <script setup lang="ts">
 const props = defineProps<{
   title: {
-    primary: String;
-    secondary: String;
+    primary: { type: String; required: true };
+    secondary: { type: String; required: true };
   };
 }>();
 </script>

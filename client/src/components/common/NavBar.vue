@@ -12,7 +12,7 @@ const state = reactive<{
 const getDimensions = (): void => {
   state.width = document.documentElement.clientWidth;
 };
-const isActive = computed(() => (state.width < 575 ? TopBar : SideBar));
+const isActive = computed<typeof TopBar | typeof SideBar>(() => (state.width < 575 ? TopBar : SideBar));
 
 onMounted(() => {
   window.addEventListener("resize", getDimensions);

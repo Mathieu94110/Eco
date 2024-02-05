@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent, ref, inject, watch, onBeforeMount} from "vue";
+import { defineComponent, ref, inject, watch, onBeforeMount } from "vue";
 export default defineComponent({
   name: "Tab",
   setup() {
-    const index = ref(0);
-    const isActive = ref(false);
+    const index = ref<number>(0);
+    const isActive = ref<boolean>(false);
 
     const tabs = inject("TabsProvider");
 

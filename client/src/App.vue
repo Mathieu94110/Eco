@@ -1,7 +1,7 @@
 <script lang="ts">
 import { inject } from "vue";
 import { mapGetters } from "vuex";
-import { useRoute } from "vue-router";
+import { RouteRecordName, useRoute } from "vue-router";
 import NavBar from "@/components/common/NavBar.vue";
 import Toolbar from "@/components/common/Toolbar.vue";
 import store from "./store";
@@ -37,10 +37,10 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
-    isMobile() {
+    isMobile(): boolean {
       return store?.state.windowWidth < 575;
     },
-    routeName() {
+    routeName(): RouteRecordName {
       return useRoute().name;
     },
   },

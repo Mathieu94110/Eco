@@ -44,7 +44,7 @@ const state: { tabButtonStatus: boolean; activeTab: genresListType } = reactive(
   tabButtonStatus: false,
   activeTab: props.genresList[0],
 });
-const tabClickHandler = (id) => {
+const tabClickHandler = (id: number): void => {
   props.genresList.map((item) => {
     if (item.id === id) {
       state.activeTab = item;

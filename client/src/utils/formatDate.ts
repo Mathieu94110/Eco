@@ -1,3 +1,3 @@
-export function formatDate(value: Date | string) {
+export function formatDate(value: Date | string): string {
   return new Date(value).toLocaleDateString("en-GB");
 }
