@@ -23,28 +23,10 @@ const routes = [
     props: true,
   },
   {
-    name: "Annonces",
-    path: "/ads",
-    beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/AdsPage.vue"),
-  },
-  {
-    name: "Détails de l'annonce",
-    path: "/ads/:ad",
-    beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/AdDetailsPage.vue"),
-  },
-  {
     name: "Créer une annonce",
     path: "/create-ad",
     beforeEnter: [isAuthenticatedGuard],
     component: () => import("../views/CreateAd.vue"),
-  },
-  {
-    name: "Détails de votre annonce",
-    path: "/user-ads/:id",
-    beforeEnter: [isAuthenticatedGuard],
-    component: () => import("../views/UserAdsDetailsPage.vue"),
   },
   {
     name: "Mes favoris",
