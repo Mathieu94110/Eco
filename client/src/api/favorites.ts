@@ -1,5 +1,7 @@
 import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/types";
-const apiUrl = "http://localhost:84/api";
+const BASE_URI = import.meta.env.VITE_APP_BASE_URI;
+
+const apiUrl = `${BASE_URI}/api`;
 
 const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {
   const data = await fetch(url, body);

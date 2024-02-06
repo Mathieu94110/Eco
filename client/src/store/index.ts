@@ -17,8 +17,10 @@ import {
 } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/types";
+const BASE_URI = import.meta.env.VITE_APP_BASE_URI;
+
 const userInstance = axios.create({
-  baseURL: "http://localhost:84/api/user",
+  baseURL: `${BASE_URI}/api/user`,
 });
 
 const store = createStore({

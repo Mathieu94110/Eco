@@ -1,6 +1,6 @@
 import type { UserForm } from "@/types";
-
-const userApi = "http://localhost:84/api/user";
+const BASE_URI = import.meta.env.VITE_APP_BASE_URI;
+const userApi = `${BASE_URI}/api/user`;
 
 export const login = async (loginForm: UserForm): Promise<UserForm> => {
   const response = await fetch(`${userApi}/login`, {
