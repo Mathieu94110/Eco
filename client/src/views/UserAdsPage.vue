@@ -8,7 +8,6 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
 import type { UserAdInterface, userAdsConfigInterface, ToastInterface, userAdsPaginationInterface } from "@/types";
-import { userAdsConfig } from "@/constants/userAds";
 
 const perPageOptions: number[] = [5, 10, 50];
 const store = useStore();

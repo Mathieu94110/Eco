@@ -5,7 +5,6 @@ import FileInput from "@/components/CreateAdInputs/FileInput.vue";
 import TextInputs from "@/components/CreateAdInputs/TextInputs.vue";
 import SelectInput from "@/components/CreateAdInputs/SelectInput.vue";
 import ActionInputs from "@/components/CreateAdInputs/ActionInputs.vue";
-import { userAdsCategories } from "@/constants/userAds";
 import type { UserAdInterface } from "@/types";
 
 export default {
