@@ -35,7 +35,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .stores-page {
-  background-color: rgb(7, 5, 27);
+  background-color: var(--dark-1);
   min-height: 100vh;
   padding-top: 65px;
 }

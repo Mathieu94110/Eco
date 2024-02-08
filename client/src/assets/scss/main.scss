@@ -5,13 +5,13 @@
   --primary-2: #347474;
   --secondary-1: #35495e;
   --secondary-2: #551a8b;
-  --danger-1: #060404;
-  --danger-2: #c0392b;
+  --dark-1: #07051b;
+  --dark-2: #060404;
+  --danger: #c0392b;
   --success-1: #2ecc71;
   --success-2: #27ae60;
   --gray-1: #f6f6f6;
   --gray-2: #ddd;
-  --dark-1: #2a3019;
   --pink-1: #b9198e;
   --primary-color: #ffffff;
   --border: 1px solid var(--gray-2);
@@ -227,7 +227,7 @@ body {
 }
 
 .danger {
-  color: var(--danger-2);
+  color: var(--danger);
 }
 
 .default-color {
@@ -274,11 +274,11 @@ input:disabled {
 }
 
 .btn-danger {
-  background-color: var(--danger-1);
+  background-color: var(--dark-2);
   color: var(--text-primary-color);
 
   &:hover {
-    background-color: var(--danger-2);
+    background-color: var(--danger);
   }
 }
 
@@ -298,7 +298,7 @@ input:disabled {
 
   &:hover {
     color: #000;
-    background-color: var(--danger-1);
+    background-color: var(--dark-2);
     border: 2px solid #000;
   }
 }

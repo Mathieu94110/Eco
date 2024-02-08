@@ -26,7 +26,7 @@ const favorites = computed<any[]>(() => store.getters.getFavorites);
 
 <style scoped lang="scss">
 .favorites {
-  background-color: rgb(7, 5, 27);
+  background-color: var(--dark-1);
   min-height: 100vh;
   padding: 60px 0;
   &__content {

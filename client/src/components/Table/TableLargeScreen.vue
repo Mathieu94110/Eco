@@ -71,7 +71,7 @@ const props = defineProps<{
     padding: 0 20px;
     &:hover {
       cursor: pointer;
-      color: var(--danger-1);
+      color: var(--dark-2);
     }
   }
 }

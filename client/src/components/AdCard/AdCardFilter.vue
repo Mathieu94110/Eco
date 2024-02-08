@@ -134,7 +134,7 @@ const numberOfAds = computed<number>(() => props.ads.length);
   }
   &__reset-button {
     color: var(--primary-color);
-    background: var(--danger-2);
+    background: var(--danger);
     padding: 10px 20px;
     border-radius: 5px;
     &:hover {

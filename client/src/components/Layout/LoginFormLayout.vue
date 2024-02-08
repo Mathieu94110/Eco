@@ -96,7 +96,7 @@
       height: 40px;
     }
     &--error {
-      color: var(--danger-2);
+      color: var(--danger);
       font-weight: bold;
       font-size: 12px;
       width: auto;

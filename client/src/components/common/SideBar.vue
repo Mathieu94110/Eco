@@ -111,7 +111,7 @@ const formatSideBar = (value: boolean): void => {
       &:hover {
         cursor: pointer;
         color: var(--primary-color);
-        background-color: var(--danger-2);
+        background-color: var(--danger);
       }
     }
     span {

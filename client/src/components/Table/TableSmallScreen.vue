@@ -107,7 +107,7 @@ const props = defineProps<{
   &__delete-icon {
     &:hover {
       cursor: pointer;
-      color: var(--danger-1);
+      color: var(--dark-2);
     }
   }
 }

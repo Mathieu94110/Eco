@@ -105,7 +105,7 @@ watch(
       cursor: pointer;
     }
     &.active {
-      color: var(--danger-1);
+      color: var(--dark-2);
     }
   }
 }

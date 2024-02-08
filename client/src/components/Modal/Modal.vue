@@ -71,7 +71,7 @@ const deleteAd = (): void => {
   justify-content: center;
   align-items: center;
   &__modal {
-    border: 2px solid var(--danger-1);
+    border: 2px solid var(--dark-2);
     background: var(--primary-color);
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
@@ -107,7 +107,7 @@ const deleteAd = (): void => {
     padding: 10px;
     cursor: pointer;
     font-weight: bold;
-    color: var(--danger-1);
+    color: var(--dark-2);
     background: transparent;
     &:hover {
       cursor: pointer;

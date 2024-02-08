@@ -59,7 +59,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
   &__container {
     position: relative;
     min-height: 1000px;
-    background-color: rgb(7, 5, 27);
+    background-color: var(--dark-1);
     &__buttons {
       position: absolute;
       left: 0;

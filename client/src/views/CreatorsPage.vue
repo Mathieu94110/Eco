@@ -53,7 +53,7 @@ watch(
 
 <style scoped lang="scss">
 .creators-page {
-  background-color: rgb(7, 5, 27);
+  background-color: var(--dark-1);
   min-height: 100vh;
   padding: 60px 0;
   &__content {
