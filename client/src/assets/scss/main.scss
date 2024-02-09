@@ -308,3 +308,14 @@ input:disabled {
     display: none;
   }
 }
+.no-data-found {
+  margin: 10px;
+  color: var(--danger);
+  text-align: center;
+  font-size: 16px;
+}
+@media screen and (min-width: 800px) {
+  .no-data-found {
+    font-size: 24px;
+  }
+}

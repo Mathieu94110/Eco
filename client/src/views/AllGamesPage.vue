@@ -6,7 +6,7 @@
         <Loader />
       </template>
       <template v-else-if="!games.results?.length && status !== 'loading'">
-        <h2>Aucun jeu trouvé</h2>
+        <h2 class="no-data-found">Aucun jeu trouvé</h2>
       </template>
       <template v-else>
         <GameList :games="games.results" />

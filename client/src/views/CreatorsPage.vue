@@ -10,7 +10,7 @@
         <Pagination @page-handler="pageHandler" :nextPage="nextPage" :prevPage="prevPage" :currentPage="page" />
       </template>
       <template v-else>
-        <h2>Aucun créateur trouvé</h2>
+        <h2 class="no-data-found">Aucun créateur trouvé</h2>
       </template>
     </div>
   </div>

@@ -10,7 +10,7 @@
       </template>
 
       <template v-else>
-        <h2>Aucun store trouvé</h2>
+        <h2 class="no-data-found">Aucun store trouvé</h2>
       </template>
     </div>
   </div>

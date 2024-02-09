@@ -14,6 +14,7 @@ import {
   fetchAsyncStores,
   fetchAsyncStoreDetails,
   fetchAsyncGenres,
+  fetchAsyncSearchedGames,
 } from "@/api";
 import axios from "axios";
 import type { FakeAdInterface } from "@/types";
@@ -71,6 +72,7 @@ const store = createStore({
     stores: [],
     storeDetails: [],
     genres: [],
+    searchedGames: [],
     windowWidth: window.innerWidth,
   },
   actions: {
@@ -265,6 +267,18 @@ const store = createStore({
         commit("setStatus", "");
       }
     },
+    async fetchSearchedGames({ commit }, game) {
+      commit("setStatus", "loading");
+      try {
+        const res = await fetchAsyncSearchedGames(game);
+        commit("setSearchedGame", res);
+      } catch (e) {
+        commit("setStatus", "error-searched-game");
+        console.error(e);
+      } finally {
+        commit("setStatus", "");
+      }
+    },
   },
   mutations: {
     setStatus(state, status) {
@@ -311,6 +325,9 @@ const store = createStore({
     },
     setGenres(state, genres) {
       state.genres = genres;
+    },
+    setSearchedGame(state, games) {
+      state.searchedGames = games;
     },
   },
   getters: {

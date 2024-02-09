@@ -10,13 +10,13 @@
       >
         <i class="fa fa-search search-input__input-container__search-icon"></i>
       </div>
-      <form action="" class="search-input__input-container__form">
+      <form action="" class="search-input__input-container__form" @submit.prevent>
         <input
           type="text"
           placeholder="Rechercher"
+          v-model="model"
           class="search-input__input-container__form-search"
           autocomplete="off"
-          ref="searchInput"
           @focus="handleFocus"
           @blur="handleBlur"
           @keyup="keyUpInput"
@@ -40,6 +40,7 @@
       <div
         class="search-input__input-container__go-icon"
         :class="{ 'search-input__input-container__go-icon--go-in': isSearchIcon }"
+        @click="emit('search-game')"
       >
         <i class="fa fa-arrow-right"></i>
       </div>
@@ -51,6 +52,11 @@
 import { onMounted, computed, reactive, ref } from "vue";
 import type { Ref } from "vue";
 
+const emit = defineEmits<{
+  (e: "search-game"): void;
+}>();
+
+const model = defineModel();
 const searchInputFocused: Ref<boolean | null> = ref(null);
 const displaySearchIcon: Ref<boolean | null> = ref(null);
 
@@ -90,7 +96,7 @@ const keyUpInput = (e: Event) => {
 
 <style scoped lang="scss">
 .search-input {
-  background-color: var(--dark-1);
+  margin-bottom: 30px;
   &__input-container {
     position: relative;
     width: 100%;

@@ -11,3 +11,8 @@ export const fetchAsyncGameDetails = async (id:any) => {
   const { data } = await axios.get(`${apiURL.gamesURL}/${id}?key=${API_KEY}`);
   return data;
 };
+
+export const fetchAsyncSearchedGames = async (game:string) => {
+  const { data } = await axios.get(`${apiURL.gamesURL}?key=${API_KEY}&search=${game}`);
+  return data;
+}
