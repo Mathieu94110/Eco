@@ -1,7 +1,6 @@
 import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/types";
-const BASE_URI = import.meta.env.VITE_APP_BASE_URI;
 
-const apiUrl = `${BASE_URI}/api`;
+const apiUrl = `https://eco-79c3.vercel.app/api`;
 
 const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {
   const data = await fetch(url, body);
@@ -14,10 +13,8 @@ const userFavoritesRequest = async <TResponse>(url: string, body?: object): Prom
     return response;
   }
 };
-
 const UserFavoritesApi = {
   getUserFavorites: <TResponse>(url: string) => userFavoritesRequest<TResponse>(`${url}`),
-
   addToUserFavorites: <TResponse>(url: string, body: UserAdInterface) =>
     userFavoritesRequest<TResponse>(`${url}/addToFavorites`, {
       method: "POST",
@@ -26,7 +23,6 @@ const UserFavoritesApi = {
       },
       body: JSON.stringify(body),
     }),
-
   removeFromUserFavorites: <TResponse>(url: string, body: UserAdInterface) =>
     userFavoritesRequest<TResponse>(`${url}/removeFromFavorites`, {
       method: "DELETE",
@@ -36,10 +32,8 @@ const UserFavoritesApi = {
       body: JSON.stringify(body),
     }),
 };
-
 export const getFavorites = async (userFrom: string): Promise<FakeAdInterface[]> =>
   await UserFavoritesApi.getUserFavorites(`${apiUrl}/favorites/getFavoredAds/` + userFrom);
-
 export const removeFromFavorites = async (
   variables: Partial<UserAdInterface>,
 ): Promise<FavoritesFetchResponseInterface> =>

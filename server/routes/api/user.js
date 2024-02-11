@@ -1,10 +1,8 @@
-const express = require("express");
+const UserModel = require("../../database/models/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../../database/models/user.js");
-const router = express.Router();
+const router = require("express").Router();
+const jsonwebtoken = require("jsonwebtoken");
 const { key, keyPub } = require("../../env/keys");
-
 router.post("/signup", async (req, res) => {
   const body = req.body;
   const user = await User.findOne({ email: body.email }).exec();
@@ -25,50 +23,53 @@ router.post("/signup", async (req, res) => {
     res.json({ error: "Adresse mail déjà utilisée" });
   }
 });
-
 router.post("/login", async (req, res) => {
-  const body = req.body;
-  const user = await User.findOne({ email: body.email }).exec();
-  if (user) {
-    if (bcrypt.compareSync(body.password, user.password)) {
-      const token = jwt.sign({}, key, {
-        subject: user._id.toString(),
-        expiresIn: 60 * 60 * 24 * 30 * 6,
-        algorithm: "RS256",
-      });
-      res.cookie("token", token);
-      res.json(user);
+  const { email, password } = req.body;
+  try {
+    const user = await UserModel.findOne({ email }).exec();
+    if (user) {
+      if (bcrypt.compareSync(password, user.password)) {
+        const token = jsonwebtoken.sign({}, key, {
+          subject: user._id.toString(),
+          expiresIn: 3600 * 24 * 30 * 6,
+          algorithm: "RS256",
+        });
+        res.cookie("token", token, { httpOnly: true });
+        res.json(user);
+      } else {
+        res.status(400);
+      }
     } else {
-      res.status(400).json({ message: "Email or password is invalid" });
+      res.status(400);
     }
-  } else {
-    res.status(400).json({ message: "Email or password is invalid" });
+  } catch (e) {
+    console.log(e);
+    res.status(400);
   }
 });
-
 router.get("/current", async (req, res) => {
-  const token = req.cookies.token;
+  const { token } = req.cookies;
   if (token) {
     try {
       const decodedToken = jsonwebtoken.verify(token, keyPub);
-      const user = await UserModel.findById(decodedToken.sub)
+      const currentUser = await UserModel.findById(decodedToken.sub)
         .select("-password -__v")
         .exec();
-      if (user) {
-        res.json(user);
+      if (currentUser) {
+        return res.json(currentUser);
       } else {
-        res.json(null);
+        return res.json(null);
       }
     } catch (e) {
-      res.json(null);
+      console.log(e);
+      return res.json(null);
     }
   } else {
-    res.json(null);
+    return res.json(null);
   }
 });
-
 router.get("/:id", (req, res) => {
-  return User.findById(req.params.id)
+  return UserModel.findById(req.params.id)
     .then((result) => {
       res.status(201).json({
         message: "User infos!",
@@ -81,20 +82,8 @@ router.get("/:id", (req, res) => {
       });
     });
 });
-
-router.put("/:id", (req, res) => {
-  User.updateOne({ _id: req.params.id }, req.body).then((result) => {
-    if (result.modifiedCount > 0) {
-      res.status(200).json({ message: "Update successful!" });
-    } else {
-      res.status(401).json({ message: "Not authorized!" });
-    }
-  });
-});
-
 router.delete("/", async (req, res) => {
   res.clearCookie("token");
   res.end();
 });
-
 module.exports = router;

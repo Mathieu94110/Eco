@@ -1,6 +1,6 @@
 import type { UserForm } from "@/types";
-const BASE_URI = import.meta.env.VITE_APP_BASE_URI;
-const userApi = `${BASE_URI}/api/user`;
+
+const userApi = `https://eco-79c3.vercel.app/api/user`;
 
 export const login = async (loginForm: UserForm): Promise<UserForm> => {
   const response = await fetch(`${userApi}/login`, {
@@ -16,19 +16,15 @@ export const login = async (loginForm: UserForm): Promise<UserForm> => {
     throw await response.json();
   }
 };
-
 export const getProfile = async (id: string) => await fetch(`${userApi}/${id}`);
-
 export const fetchCurrentUser = async (): Promise<UserForm | null> => {
   return await (await fetch(`${userApi}/current`)).json();
 };
-
 export const logout = async () => {
   await fetch(userApi, {
     method: "DELETE",
   });
 };
-
 export const createUser = async (newUser: UserForm) => {
   try {
     const response = await fetch(`${userApi}/signup`, {
@@ -47,7 +43,6 @@ export const createUser = async (newUser: UserForm) => {
     throw e;
   }
 };
-
 export const updateUserInfos = async (data: UserForm) => {
   await fetch(`${userApi}/${data._id}`, {
     method: "PUT",

@@ -1,40 +1,19 @@
 const express = require("express");
-const morgan = require("morgan");
 const cookie = require("cookie-parser");
-const routes = require("./routes");
-const bodyParser = require("body-parser");
 const cors = require("cors");
-const http = require("http");
 const app = express();
-
-require("./database");
-app.use(morgan("tiny"));
+const routes = require("./routes");
 app.use(cookie());
-app.use(express.static(`${__dirname}/../client/dist`));
-app.use(express.json({ limit: "10mb", extended: true }));
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json({ limit: "10mb" }));
-app.use(
-  express.urlencoded({ limit: "10mb", extended: true, parameterLimit: 50000 })
-);
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
-
+require("./database");
 app.use(routes);
 
+app.get("/", (req, res) => {
+  res.status(200).json("Bonjour toi !");
+});
 app.use("*", (req, res) => {
   res.status(404).json("mauvaise routes");
 });
-
-app.listen(84);
+app.listen(3000);
+module.exports = app;
