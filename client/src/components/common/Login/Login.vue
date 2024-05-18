@@ -17,6 +17,8 @@ const switchComponent = (value: string) => {
 const authStatus = computed<string>(() => store.getters.authStatus);
 const isActive = computed<Component>(() => (state.mode === "login" ? SignIn : SignUp));
 
+ 
+
 watch(authStatus, (newVal) => {
   if (newVal.startsWith("error")) {
     const clearAuthStatus = function () {

@@ -3,9 +3,15 @@ const cookie = require("cookie-parser");
 const cors = require("cors");
 const app = express();
 const routes = require("./routes");
+
 app.use(cookie());
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+  origin: 'https://eco-mathieu94110s-projects.vercel.app',
+  credentials: true
+}));
+
 require("./database");
 app.use(routes);
 
@@ -16,4 +22,5 @@ app.use("*", (req, res) => {
   res.status(404).json("mauvaise routes");
 });
 app.listen(3000);
+
 module.exports = app;

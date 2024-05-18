@@ -1,6 +1,6 @@
 import type { UserForm } from "@/types";
 
-const userApi = `https://eco-79c3.vercel.app/api/user`;
+const userApi = `${import.meta.env.VITE_APP_BASE_URI}/api/user`;
 
 export const login = async (loginForm: UserForm): Promise<UserForm> => {
   const response = await fetch(`${userApi}/login`, {

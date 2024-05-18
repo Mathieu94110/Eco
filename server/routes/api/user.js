@@ -1,15 +1,16 @@
-const UserModel = require("../../database/models/user");
+const User = require("../../database/models/user");
 const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const jsonwebtoken = require("jsonwebtoken");
 const { key, keyPub } = require("../../env/keys");
+
 router.post("/signup", async (req, res) => {
-  const body = req.body;
-  const user = await User.findOne({ email: body.email }).exec();
+  const { email, password } = req.body;
+  const user = await User.findOne({ email }).exec();
   if (!user) {
     const user = new User({
       ...req.body,
-      password: await bcrypt.hash(body.password, 8),
+      password: await bcrypt.hash(password, 8),
     });
     try {
       await user.save();
@@ -26,7 +27,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await UserModel.findOne({ email }).exec();
+    const user = await User.findOne({ email }).exec();
     if (user) {
       if (bcrypt.compareSync(password, user.password)) {
         const token = jsonwebtoken.sign({}, key, {
@@ -52,7 +53,7 @@ router.get("/current", async (req, res) => {
   if (token) {
     try {
       const decodedToken = jsonwebtoken.verify(token, keyPub);
-      const currentUser = await UserModel.findById(decodedToken.sub)
+      const currentUser = await User.findById(decodedToken.sub)
         .select("-password -__v")
         .exec();
       if (currentUser) {
@@ -69,7 +70,7 @@ router.get("/current", async (req, res) => {
   }
 });
 router.get("/:id", (req, res) => {
-  return UserModel.findById(req.params.id)
+  return User.findById(req.params.id)
     .then((result) => {
       res.status(201).json({
         message: "User infos!",
