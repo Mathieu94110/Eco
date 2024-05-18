@@ -1,6 +1,6 @@
 import type { FakeAdInterface, UserAdInterface, FavoritesFetchResponseInterface } from "@/types";
 
-const apiUrl = `https://eco-79c3.vercel.app/api`;
+const apiUrl = `${import.meta.env.VITE_APP_BASE_URI}/api`;
 
 const userFavoritesRequest = async <TResponse>(url: string, body?: object): Promise<TResponse> => {
   const data = await fetch(url, body);

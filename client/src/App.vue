@@ -62,8 +62,7 @@ export default {
       :class="{ 'app__container--auth': isAuthenticated }"
       class="app__container"
       :style="{
-        paddingLeft:
-          sideBarClosed && isAuthenticated && !isMobile ? '85px' : !sideBarClosed && isAuthenticated ? '270px' : 'auto',
+        paddingLeft: !isAuthenticated ? '0px' : sideBarClosed &&  !isMobile ? '85px' : !sideBarClosed && isAuthenticated ? '270px' : 'auto',
         transition: !sideBarClosed && isAuthenticated && '0.3s',
       }"
     >
