@@ -19,14 +19,15 @@
     "typeRoots": [
       "node_modules/@types",
       "src/types"
+    ],
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "lib": [
+      "WebWorker"
     ]
-  },
-  "paths": {
-    "@/*": [
-      "./src/*"
-    ]
-  },
-  "lib": [
-    "WebWorker"
-  ]
+  }
 }
