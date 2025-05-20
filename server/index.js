@@ -12,7 +12,8 @@ app.use(cors({
   credentials: true
 }));
 
-require("./database");
+const connectDB = require("./database");
+connectDB();
 app.use(routes);
 
 app.get("/", (req, res) => {

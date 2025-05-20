@@ -1,40 +1,41 @@
 const mongoose = require("mongoose");
-const mongooseSchema = mongoose.Schema;
+const { Schema } = mongoose;
 
-const favoritesSchema = mongoose.Schema({
+const favoritesSchema = new Schema({
   userFrom: {
-    type: mongooseSchema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   id: { type: Number, required: true },
   added: { type: Number, required: true },
-  added_by_status: { type: Object, required: true },
+  added_by_status: { type: Schema.Types.Mixed, required: true },
   background_image: { type: String, required: true },
-  clip: { type: String | Array, required: false },
+  clip: { type: Schema.Types.Mixed },
   dominant_color: { type: String, required: true },
-  esrb_rating: { type: Object, required: true },
-  genres: { type: Array, required: true },
+  esrb_rating: { type: Schema.Types.Mixed, required: true },
+  genres: [{ type: Schema.Types.Mixed, required: true }],
   metacritic: { type: Number, required: true },
   name: { type: String, required: true },
-  parent_platforms: { type: Array, required: true },
-  platforms: { type: Array, required: true },
+  parent_platforms: [{ type: Schema.Types.Mixed, required: true }],
+  platforms: [{ type: Schema.Types.Mixed, required: true }],
   playtime: { type: Number, required: true },
   rating: { type: Number, required: true },
   rating_top: { type: Number, required: true },
-  ratings: { type: Array, required: true },
+  ratings: [{ type: Schema.Types.Mixed, required: true }],
   ratings_count: { type: Number, required: true },
   released: { type: String, required: true },
   reviews_text_count: { type: Number, required: true },
   reviews_count: { type: Number, required: true },
   saturated_color: { type: String, required: true },
-  short_screenshots: { type: Array, required: false },
+  short_screenshots: [{ type: Schema.Types.Mixed }],
   slug: { type: String, required: true },
-  stores: { type: Array, required: true },
+  stores: [{ type: Schema.Types.Mixed, required: true }],
   suggestions_count: { type: Number, required: true },
-  tags: { type: Array, required: true },
+  tags: [{ type: Schema.Types.Mixed, required: true }],
   tba: { type: Boolean, required: true },
   updated: { type: String, required: true },
-  user_game: { type: String | Array, required: false },
+  user_game: { type: Schema.Types.Mixed },
 });
 
 module.exports = mongoose.model("Favorites", favoritesSchema);

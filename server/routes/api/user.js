@@ -1,90 +1,87 @@
-const User = require("../../database/models/user");
+const express = require("express");
 const bcrypt = require("bcrypt");
-const router = require("express").Router();
-const jsonwebtoken = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+const User = require("../../database/models/user");
 const { key, keyPub } = require("../../env/keys");
+
+const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email }).exec();
-  if (!user) {
-    const user = new User({
-      ...req.body,
-      password: await bcrypt.hash(password, 8),
-    });
-    try {
-      await user.save();
-      res.json({
-        status: 201,
-      });
-    } catch (err) {
-      res.status(400).json("Erreur lors de l'inscription");
+
+  try {
+    const existingUser = await User.findOne({ email }).exec();
+    if (existingUser) {
+      return res.status(409).json({ success: false, error: "Adresse mail déjà utilisée" });
     }
-  } else {
-    res.json({ error: "Adresse mail déjà utilisée" });
+
+    const hashedPassword = await bcrypt.hash(password, 8);
+    const user = new User({ ...req.body, password: hashedPassword });
+    await user.save();
+
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error("Signup error:", err);
+    res.status(500).json({ success: false, error: "Erreur lors de l'inscription" });
   }
 });
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findOne({ email }).exec();
-    if (user) {
-      if (bcrypt.compareSync(password, user.password)) {
-        const token = jsonwebtoken.sign({}, key, {
-          subject: user._id.toString(),
-          expiresIn: 3600 * 24 * 30 * 6,
-          algorithm: "RS256",
-        });
-        res.cookie("token", token, { httpOnly: true });
-        res.json(user);
-      } else {
-        res.status(400);
-      }
-    } else {
-      res.status(400);
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return res.status(401).json({ success: false, error: "Identifiants incorrects" });
     }
-  } catch (e) {
-    console.log(e);
-    res.status(400);
+
+    const token = jwt.sign({}, key, {
+      subject: user._id.toString(),
+      expiresIn: "180d",
+      algorithm: "RS256",
+    });
+
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "strict" });
+    res.status(200).json({ success: true, user });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ success: false, error: "Erreur serveur lors de la connexion" });
   }
 });
+
 router.get("/current", async (req, res) => {
   const { token } = req.cookies;
-  if (token) {
-    try {
-      const decodedToken = jsonwebtoken.verify(token, keyPub);
-      const currentUser = await User.findById(decodedToken.sub)
-        .select("-password -__v")
-        .exec();
-      if (currentUser) {
-        return res.json(currentUser);
-      } else {
-        return res.json(null);
-      }
-    } catch (e) {
-      console.log(e);
-      return res.json(null);
-    }
-  } else {
-    return res.json(null);
+
+  if (!token) {
+    return res.status(401).json({ success: false, error: "Non authentifié" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, keyPub);
+    const currentUser = await User.findById(decoded.sub).select("-password -__v").exec();
+
+    res.status(200).json({ success: true, user: currentUser || null });
+  } catch (err) {
+    console.error("Token verification failed:", err);
+    res.status(401).json({ success: false, error: "Token invalide" });
   }
 });
-router.get("/:id", (req, res) => {
-  return User.findById(req.params.id)
-    .then((result) => {
-      res.status(201).json({
-        message: "User infos!",
-        result: result,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password -__v").exec();
+    if (!user) {
+      return res.status(404).json({ success: false, error: "Utilisateur non trouvé" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
-router.delete("/", async (req, res) => {
+
+router.delete("/logout", (req, res) => {
   res.clearCookie("token");
-  res.end();
+  res.status(200).json({ success: true });
 });
+
 module.exports = router;

@@ -1,33 +1,42 @@
 const express = require("express");
-
 const Favorites = require("../../database/models/favorites");
 
 const router = express.Router();
 
-router.get("/getFavoredAds/:userInfos", (req, res) => {
-  let { userInfos } = req.params;
-  Favorites.find({ userFrom: userInfos }).exec((err, favorites) => {
-    if (err) return res.status(400).send(err);
-    return res.status(200).json({ success: true, favorites });
-  });
+router.get("/getFavoredAds/:userId", async (req, res) => {
+  try {
+    const favorites = await Favorites.find({ userFrom: req.params.userId }).exec();
+    res.status(200).json({ success: true, favorites });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
 });
 
-router.post("/addToFavorites", (req, res) => {
-  const favorite = new Favorites(req.body);
-  favorite.save((err, doc) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({ success: true });
-  });
+router.post("/addToFavorites", async (req, res) => {
+  try {
+    const favorite = new Favorites(req.body);
+    await favorite.save();
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
 });
 
-router.delete("/removeFromFavorites", (req, res) => {
-  Favorites.findOneAndDelete({
-    id: req.body.id,
-    userFrom: req.body.userFrom,
-  }).exec((err, doc) => {
-    if (err) return res.status(400).json({ success: false, err });
-    res.status(200).json({ success: true, doc });
-  });
+router.delete("/removeFromFavorites", async (req, res) => {
+  try {
+    const deleted = await Favorites.findOneAndDelete({
+      id: req.body.id,
+      userFrom: req.body.userFrom,
+    }).exec();
+
+    if (!deleted) {
+      return res.status(404).json({ success: false, error: "Favorite not found" });
+    }
+
+    res.status(200).json({ success: true, doc: deleted });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
 });
 
 module.exports = router;
