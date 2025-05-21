@@ -17,10 +17,6 @@ const isMobile = computed(() => store.state.windowWidth < 575);
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const routeName = computed(() => route.name);
 
-watch(isAuthenticated, (val) => {
-  if (val) store.dispatch("fetchUserFavorites");
-});
-
 const updateScreenWidth = () => {
   store.commit("setWindowWidth");
 };
@@ -65,7 +61,6 @@ onUnmounted(() => {
       <NavBar v-if="isAuthenticated" />
       <Toolbar v-if="isAuthenticated && isMobile">{{ routeName }}</Toolbar>
 
-      <!-- clé ajoutée ici -->
       <router-view :key="$route.fullPath" />
 
       <TheFooter v-if="isAuthenticated" />

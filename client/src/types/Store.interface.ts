@@ -32,7 +32,7 @@ type UserResponse = {
   success: boolean;
   user: User;
 }
-type User = {
+export type User = {
   _id: string;
   email: string;
   password: string;
@@ -136,6 +136,7 @@ type PlatformEntry = {
     id: number;
     name: string;
     slug: string;
+    image_background: string
   };
   released_at: string | null;
   requirements?: {
@@ -201,7 +202,7 @@ type Platform = {
   slug: string;
 }
 
-type Game = {
+export type Game = {
   id: number;
   slug: string;
   name: string;
@@ -261,7 +262,7 @@ type Game = {
 }
 
 
-type Games = {
+export type Games = {
   count: number;
   description?: string;
   filters?: Record<string, any>;

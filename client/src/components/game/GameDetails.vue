@@ -108,9 +108,9 @@ import { StoreItem } from "@/components/store";
 import Tabs from "@/components/common/Tabs/Tabs.vue";
 import Tab from "@/components/common/Tabs/Tab.vue";
 import { formatDate } from "@/utils";
-import { gameDetailsType } from "@/types";
+import type { GameDetails } from "@/types";
 const props = defineProps<{
-  gameData: gameDetailsType;
+  gameData: GameDetails;
 }>();
 const topTextDescription = computed<string>(
   () => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + ".",

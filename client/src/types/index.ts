@@ -11,3 +11,4 @@ export * from "./Games.interface";
 export * from "./Creators.interface";
 export * from "./Favorites.interface";
 export * from "./Store.interface";
+export * from "./Genres.interface";

@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, computed } from "vue";
+import {  onMounted, computed } from "vue";
 import Banner from "@/components/common/Banner.vue";
 import Title from "@/components/common/Title.vue";
 import Loader from "@/components/common/Loader.vue";
@@ -47,7 +47,8 @@ import { GameList } from "@/components/game";
 import Carousel from "@/components/common/Carousel.vue";
 import { GenreList } from "@/components/genre";
 import { useStore } from "vuex";
-import { gamesInterface, genresInterface } from "@/types";
+import type { genresInterface, gamesInterface } from "@/types";
+
 const store = useStore();
 
 onMounted(() => {
@@ -57,6 +58,7 @@ onMounted(() => {
 const status = computed<string>(() => store?.getters.getStatus);
 const games = computed<gamesInterface>(() => store.state.games);
 const genres = computed<genresInterface>(() => store.state.genres);
+
 </script>
 
 <style scoped lang="scss">

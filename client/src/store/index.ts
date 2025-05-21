@@ -17,7 +17,7 @@ import {
   fetchAsyncSearchedGames,
 } from "@/api";
 import axios from "axios";
-import type { FakeAdInterface } from "@/types";
+import type { FakeAdInterface, User } from "@/types";
 const BASE_URI = import.meta.env.VITE_APP_BASE_URI;
 
 const userInstance = axios.create({
@@ -27,7 +27,7 @@ const userInstance = axios.create({
 const store = createStore({
   state: {
     status: "",
-    user: null,
+    user: null as User | null,
     gameDetails: null,
     isUserLogged: false,
     currentPost: {
@@ -79,7 +79,7 @@ const store = createStore({
     async login({ commit }, userInfos) {
       commit("setStatus", "loading");
       try {
-        const response = (await login(userInfos)) as any;
+        const response = (await login(userInfos));
         commit("logUser", response);
         commit("setUserLogged", true);
         commit("setStatus", "");
@@ -117,6 +117,7 @@ const store = createStore({
 
     async fetchUserFavorites({ commit }) {
       if (store.state.user) {
+
         const userId = store.state.user._id;
         const response = (await getFavorites(userId)) as FakeAdInterface[];
         commit("userFavorites", response);

@@ -11,10 +11,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  rating: {
-    type: Number;
-  };
+const {rating}= defineProps<{
+  rating:  number;
+  
 }>();
 
 function val(index: number): number {

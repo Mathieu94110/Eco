@@ -1,16 +1,16 @@
 <template>
   <div class="game-item">
     <div class="game-item__top">
-      <img :src="props.gameItem?.background_image" :alt="props.gameItem?.name" />
-      <StarRating :rating="props.gameItem?.rating" />
+      <img :src="gameItem?.background_image" :alt="gameItem?.name" />
+  <StarRating :rating="gameItem?.rating" />
       <div class="game-item__top__ratings-count">
-        {{ props.gameItem?.ratings_count }}
+        {{ gameItem?.ratings_count }}
         <i class="fa-solid fa-star game-item__top__ratings-count-star" :size="12"></i>
       </div>
     </div>
     <div class="game-item__bottom">
       <h4 class="game-item__bottom-title">
-        {{ props.gameItem?.name }}
+        {{ gameItem?.name }}
       </h4>
       <div class="game-item__bottom__details">
         <div class="game-item__bottom__details__group">
@@ -24,22 +24,22 @@
 
         <div class="game-item__bottom__details__group">
           <div class="game-item__bottom__details__group__item">
-            <p>{{ formatDate(props.gameItem?.released) }}</p>
+            <p>{{ formatDate(gameItem?.released) }}</p>
           </div>
           <div class="game-item__bottom__details__group__item">
-            <p>{{ formatDate(props.gameItem?.updated) }}</p>
+            <p>{{ formatDate(gameItem?.updated) }}</p>
           </div>
         </div>
 
-        <div @click="$emit('toggleFavorite', props.gameItem)" v-if="props.isOnFavorites">
+        <div @click="$emit('toggleFavorite', gameItem)" v-if="isOnFavorites">
           <i class="fa-solid fa-star game-item__bottom__details-star--active"></i>
         </div>
-        <div @click="$emit('toggleFavorite', props.gameItem)" v-else>
+        <div @click="$emit('toggleFavorite', gameItem)" v-else>
           <i class="fa-solid fa-star game-item__bottom__details-star"></i>
         </div>
       </div>
       <router-link
-        :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem?.id}` } }"
+        :to="{ name: 'Details du jeu', params: { gameId: `${gameItem?.id}` } }"
         class="game-item__bottom__details-link btn-play-now btn-primary"
       >
         Voir plus
@@ -51,10 +51,11 @@
 <script setup lang="ts">
 import StarRating from "@/components/common/StarRating.vue";
 import { formatDate } from "@/utils";
-import { FavoriteItemType } from "@/types";
+import type { Game } from "@/types";
+
 defineEmits(["toggleFavorite"]);
-const props = defineProps<{
-  gameItem: FavoriteItemType;
+const {gameItem,isOnFavorites}  = defineProps<{
+  gameItem: Game;
   isOnFavorites: boolean;
 }>();
 </script>
