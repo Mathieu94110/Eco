@@ -1,17 +1,17 @@
 <template>
   <div class="title">
     <h3 class="title__content">
-      {{ props.title.primary }} <span>{{ props.title.secondary }}</span>
+      {{ title.primary }} <span>{{ title.secondary }}</span>
     </h3>
     <div class="title__line"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+const { title } = defineProps<{
   title: {
-    primary: { type: String; required: true };
-    secondary: { type: String; required: true };
+    primary: string;
+    secondary: string;
   };
 }>();
 </script>

@@ -1,6 +1,6 @@
 <template>
-  <div className="creators-page">
-    <div className="creators-page__content">
+  <div class="creators-page">
+    <div class="creators-page__content">
       <Title :title="{ primary: 'Nos', secondary: 'createurs' }" />
       <template v-if="status === 'loading'">
         <Loader />

@@ -1,13 +1,13 @@
 <template>
   <div class="game-list container">
-    <template v-for="item in props.games.slice(0, sliceValue)" :key="item.id">
+<!--     <template v-for="item in props.games.slice(0, sliceValue)" :key="item.id">
       <GameItem
         :gameItem="item"
         @toggle-favorite="toggleFavorite"
         :isOnFavorites="checkFavorite(item)"
         :favorites="favorites"
       />
-    </template>
+    </template> -->
   </div>
 </template>
 

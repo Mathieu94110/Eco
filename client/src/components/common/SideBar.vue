@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, inject } from "vue";
+import { reactive, inject, nextTick } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import NavLink from "@/components/common/NavLink.vue";
@@ -17,9 +17,15 @@ const router = useRouter();
 
 const toggleSidebar = inject("toggleSidebar") as () => void;
 
-const logout = async (): Promise<void> => {
-  await store.dispatch("logout");
-  router.push("/");
+
+const handleLogout = async () => {
+try {
+    await store.dispatch("logout");
+  await nextTick();
+  await router.push("/");
+} catch (err) {
+  console.error("Erreur lors de la redirection :", err);
+}
 };
 
 const formatSideBar = (value: boolean): void => {
@@ -30,6 +36,7 @@ const formatSideBar = (value: boolean): void => {
 
 <template>
   <SideBarContainer
+  v-if="store.state.isUserLogged"
     :class="{ 'side-bar--active': state.isHover }"
     class="side-bar"
     @mouseenter="formatSideBar(true)"
@@ -44,13 +51,13 @@ const formatSideBar = (value: boolean): void => {
       <button
         v-if="state.isHover"
         class="side-bar__link-logout"
-        @click="logout()"
-        @keydown="logout()"
+        @click="handleLogout()"
+        @keydown="handleLogout()"
         icon="fa-solid fa-right-from-bracket"
       >
         Se déconnecter
       </button>
-      <div v-else @click="logout()" @keydown="logout()">
+      <div v-else @click="handleLogout()" @keydown="handleLogout()">
         <NavLink class="side-bar__link" to="/profile" icon="fa-solid fa-right-from-bracket"></NavLink>
       </div>
       <NavLink class="side-bar__link" to="/home" icon="fa fa-home" data-cy="home-link"

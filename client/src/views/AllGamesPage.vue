@@ -1,6 +1,6 @@
 <template>
-  <div className="all-games">
-    <div className="container">
+  <div class="all-games">
+    <div class="container">
       <Title :title="{ primary: 'Tous', secondary: 'les jeux' }" />
       <template v-if="status === 'loading' && !games.results?.length">
         <Loader />

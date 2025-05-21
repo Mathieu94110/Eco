@@ -7,10 +7,7 @@ const routes = require("./routes");
 app.use(cookie());
 app.use(express.json());
 
-app.use(cors({
-  origin: 'https://eco-mathieu94110s-projects.vercel.app',
-  credentials: true
-}));
+app.use(cors());
 
 const connectDB = require("./database");
 connectDB();

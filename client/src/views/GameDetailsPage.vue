@@ -1,7 +1,7 @@
 <template>
   <div class="game-details-page">
-    <div className="game-details-page__content">
-      <div className="game-details-page__content-card">
+    <div class="game-details-page__content">
+      <div class="game-details-page__content-card">
         <button class="btn btn-primary" @click="goBack"><i class="fa-solid fa-arrow-left"></i></button>
         <template v-if="status === 'loading'">
           <Loader />

@@ -20,10 +20,9 @@
 <style lang="scss">
 .login {
   margin: 10px;
-  padding: 10px 0;
+  padding: 10px;
   width: auto;
   background: rgba(0, 0, 0, 0.9);
-  padding: 6px;
   border-radius: 5px;
   box-shadow: 0px 9px 30px rgba(255, 255, 255, 0.1);
   text-align: center;

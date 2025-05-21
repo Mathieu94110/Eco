@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { nextTick, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import Calc from "@/components/common/Calc.vue";
@@ -14,9 +14,14 @@ const state = reactive<{
 const store = useStore();
 const router = useRouter();
 
-const logout = async (): Promise<void> => {
-  await store.dispatch("logout");
-  router.push("/");
+const handleLogout = async () => {
+try {
+    await store.dispatch("logout");
+  await nextTick();
+  await router.push("/");
+} catch (err) {
+  console.error("Erreur lors de la redirection :", err);
+}
 };
 </script>
 
@@ -31,7 +36,7 @@ const logout = async (): Promise<void> => {
         <Transition>
           <div class="topbar__menu" @click="state.open = false" @keydown="state.open = false" v-if="state.open">
             <NavLink to="" icon="fa fa-sign-out"
-              ><span @click="logout()" @keydown="logout()">Déconnection</span></NavLink
+              ><span @click="handleLogout()" @keydown="handleLogout()">Déconnection</span></NavLink
             >
             <NavLink to="/home" icon="fa fa-home"><span>Accueil</span></NavLink>
             <NavLink to="/creators" icon="fas fa-user-circle"><span>Créateurs</span></NavLink>

@@ -1,18 +1,30 @@
-import { computed } from "vue";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import store from "../store";
 
-const isAuthenticate = computed<boolean>(() => store.getters.isAuthenticated);
+export async function isAuthenticatedGuard(
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
+): Promise<void> {
+  const isAuthenticated = store.getters.isAuthenticated;
 
-export function isAuthenticatedGuard(): string | boolean {
-  if (isAuthenticate.value === null || isAuthenticate.value === false) {
-    return "/";
+  if (!isAuthenticated) {
+    return next({ path: "/" });
   }
-  return true;
+
+  next();
+}
+export async function isNotAuthenticatedGuard(
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
+): Promise<void> {
+  const isAuthenticated = store.getters.isAuthenticated;
+
+  if (isAuthenticated) {
+    return next({ path: "/home" });
+  }
+
+  next();
 }
 
-export function isNotAuthenticatedGuard(): string | boolean {
-  if (isAuthenticate.value === true) {
-    return "/home";
-  }
-  return true;
-}

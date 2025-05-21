@@ -6,7 +6,7 @@
       <template v-if="status === 'loading'">
         <Loader />
       </template>
-      <template v-else-if="(status = ' ' && searchedGames.results?.length)">
+      <template v-else-if="(status !== 'loading' && searchedGames.results?.length)">
         <GameList :games="searchedGames.results" />
         <Pagination @page-handler="pageHandler" :nextPage="nextPage" :prevPage="prevPage" :currentPage="page" />
       </template>
@@ -24,7 +24,7 @@ import Title from "@/components/common/Title.vue";
 import SearchInput from "@/components/SearchInput/SearchInput.vue";
 import { GameList } from "@/components/game";
 import Pagination from "@/components/common/BasicPagination.vue";
-import { gamesInterface } from "@/types";
+import { type gamesInterface } from "@/types";
 
 const state = reactive({
   isSearchSubmit: false,

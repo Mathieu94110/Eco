@@ -4,7 +4,7 @@ import {
   fetchCurrentUser,
   getFavorites,
   login,
-  logout,
+  logout as apiLogout,
   createUser,
   fetchAsyncGames,
   fetchAsyncGameDetails,
@@ -27,7 +27,6 @@ const userInstance = axios.create({
 const store = createStore({
   state: {
     status: "",
-    loaded: false,
     user: null,
     gameDetails: null,
     isUserLogged: false,
@@ -82,6 +81,7 @@ const store = createStore({
       try {
         const response = (await login(userInfos)) as any;
         commit("logUser", response);
+        commit("setUserLogged", true);
         commit("setStatus", "");
       } catch (e) {
         commit("setStatus", "error-login");
@@ -102,14 +102,17 @@ const store = createStore({
         }, 2000);
       }
     },
-
-    async logout() {
-      await logout();
-      store.state.user = null;
+    async logout({ commit }) {
+      try {
+        commit("clearUser");
+        await apiLogout();
+      } catch (e) {
+        console.error("Logout failed", e);
+      }
     },
     async fetchCurrentUser() {
       store.state.user = (await fetchCurrentUser()) as any;
-      store.state.loaded = true;
+      store.state.isUserLogged = true;
     },
 
     async fetchUserFavorites({ commit }) {
@@ -284,10 +287,16 @@ const store = createStore({
     setStatus(state, status) {
       state.status = status;
     },
+    setUserLogged(state, status) {
+      state.isUserLogged = status;
+    },
     setPost(state, post) {
       state.currentPost = post;
     },
-
+    clearUser() {
+      store.state.user = null;
+      store.state.isUserLogged = false;
+    },
     resetPost(state, post) {
       state.currentPost = post;
     },
@@ -334,14 +343,8 @@ const store = createStore({
     authStatus(state) {
       return state.status;
     },
-    isAuthenticated(state): boolean | null {
-      if (state.user) {
-        return true;
-      } else if (!state.user && state.loaded) {
-        return false;
-      } else {
-        return null;
-      }
+    isAuthenticated(state): boolean {
+      return !!state.user && state.isUserLogged;
     },
     getCurrentPost: (state) => state.currentPost,
     getFavorites: (state) => state.currentFavorites,

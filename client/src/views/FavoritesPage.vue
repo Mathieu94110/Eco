@@ -1,6 +1,6 @@
 <template>
-  <div className="favorites">
-    <div className="favorites__content container">
+  <div class="favorites">
+    <div class="favorites__content container">
       <Title :title="{ primary: 'Tous', secondary: 'vos favoris' }" />
       <template v-if="favorites?.length">
         <GameList :games="favorites" />

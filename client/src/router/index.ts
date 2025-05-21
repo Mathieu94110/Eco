@@ -77,7 +77,8 @@ const routes = [
     component: () => import("../views/StoreDetailsPage.vue"),
   },
   {
-    path: "/:notfound(.*)*",
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
     component: () => import("../views/NotFound.vue"),
   },
 ];
@@ -85,25 +86,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    // always scroll to top
+  scrollBehavior() {
     return { top: 0 };
   },
 });
 
-router.beforeEach(async () => {
-  if (!store.state.loaded && router.currentRoute.path === "/home") {
-    await store.dispatch("fetchCurrentUser");
+router.beforeEach(async (to, from, next) => {
+  if (!store.state.isUserLogged && to.path === "/home") {
+    try {
+      await store.dispatch("fetchCurrentUser");
+    } catch (e) {
+      console.error("Erreur de récupération user dans guard", e);
+      // Ici, tu peux gérer une redirection si besoin
+    }
   }
-});
-
-router.onError((error, to) => {
-  if (
-    error.message.includes("Failed to fetch dynamically imported module") ||
-    error.message.includes("Importing a module script failed")
-  ) {
-    window.location = to.path;
-  }
+  next();
 });
 
 export default router;

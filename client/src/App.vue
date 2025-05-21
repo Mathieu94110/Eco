@@ -1,86 +1,74 @@
-<script lang="ts">
-import { inject } from "vue";
-import { mapGetters } from "vuex";
-import { RouteRecordName, useRoute } from "vue-router";
+<script lang="ts" setup>
+import { ref, computed, onMounted, onUnmounted, inject, watch } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+
 import NavBar from "@/components/common/NavBar.vue";
 import Toolbar from "@/components/common/Toolbar.vue";
-import store from "./store";
 import TheFooter from "@/components/common/TheFooter.vue";
 
-export default {
-  name: "App",
-  components: {
-    NavBar,
-    Toolbar,
-    TheFooter,
-  },
-  data() {
-    return {
-      sideBarClosed: false,
-    };
-  },
-  // Used to detect globally screen width changes due to a variable saved in store
-  mounted() {
-    this.updateScreenWidth();
-    this.onScreenResize();
-    this.sideBarClosed = inject<boolean>("collapsed")!;
-  },
-  methods: {
-    onScreenResize() {
-      window.addEventListener("resize", () => {
-        this.updateScreenWidth();
-      });
-    },
-    updateScreenWidth() {
-      store.commit("setWindowWidth");
-    },
-  },
-  computed: {
-    ...mapGetters(["isAuthenticated"]),
-    isMobile(): boolean {
-      return store?.state.windowWidth < 575;
-    },
-    routeName(): RouteRecordName {
-      return useRoute().name;
-    },
-  },
-  watch: {
-    isAuthenticated: {
-      handler(isAuthenticated) {
-        if (isAuthenticated) {
-          store.dispatch("fetchUserFavorites");
-        }
-      },
-    },
-  },
+const store = useStore();
+const route = useRoute();
+
+const storeReady = ref(false);
+const isSideBarClosed = inject<boolean>("collapsed", false);
+
+const isMobile = computed(() => store.state.windowWidth < 575);
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const routeName = computed(() => route.name);
+
+watch(isAuthenticated, (val) => {
+  if (val) store.dispatch("fetchUserFavorites");
+});
+
+const updateScreenWidth = () => {
+  store.commit("setWindowWidth");
 };
+
+onMounted(async () => {
+  updateScreenWidth();
+  window.addEventListener("resize", updateScreenWidth);
+
+  if (!store.state.user && store.getters.isAuthenticated) {
+    try {
+      await store.dispatch("fetchCurrentUser");
+    } catch (e) {
+      console.error("Erreur lors du chargement de l'utilisateur", e);
+    }
+  }
+
+  storeReady.value = true;
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateScreenWidth);
+});
 </script>
 
 <template>
   <div id="app">
     <div
+      v-if="storeReady"
       :class="{ 'app__container--auth': isAuthenticated }"
       class="app__container"
       :style="{
-        paddingLeft: !isAuthenticated ? '0px' : sideBarClosed &&  !isMobile ? '85px' : !sideBarClosed && isAuthenticated ? '270px' : 'auto',
-        transition: !sideBarClosed && isAuthenticated && '0.3s',
+        paddingLeft: !isAuthenticated
+          ? '0px'
+          : isSideBarClosed && !isMobile
+          ? '85px'
+          : !isSideBarClosed && isAuthenticated
+          ? '270px'
+          : 'auto',
+        transition: !isSideBarClosed && isAuthenticated ? '0.3s' : undefined,
       }"
     >
       <NavBar v-if="isAuthenticated" />
       <Toolbar v-if="isAuthenticated && isMobile">{{ routeName }}</Toolbar>
-      <div v-if="!isMobile">
-        <router-view></router-view>
-      </div>
 
-      <div
-        v-else
-        :style="{
-          paddingLeft: 'auto',
-        }"
-      >
-        <router-view></router-view>
-      </div>
-      <TheFooter />
+      <!-- clé ajoutée ici -->
+      <router-view :key="$route.fullPath" />
+
+      <TheFooter v-if="isAuthenticated" />
     </div>
   </div>
 </template>
@@ -96,7 +84,7 @@ export default {
     width: 100%;
     margin: auto;
     height: 100vh;
-    &__auth {
+    &--auth {
       padding-left: 85px;
     }
   }
