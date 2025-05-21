@@ -1,49 +1,49 @@
 <template>
   <div class="game-list container">
-    <template v-for="item in props.games.slice(0, slicedValue)" :key="item.id">
-      <GameItem
-        :gameItem="item"
-        @toggle-favorite="toggleFavorite"
-        :isOnFavorites="checkFavorite(item)"
-        :favorites="favorites"
-      />
-    </template>
+    <GameItem v-for="item in slicedGames" :key="item.id" :gameItem="item" :isOnFavorites="isFavorite(item.id)"
+      :favorites="favorites" @toggle-favorite="() => toggleFavorite(item)" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
 import { useStore } from "vuex";
-import GameItem from "@/components/game/GameItem.vue"; 
-import type { FavoriteItemType } from "@/types";
+import GameItem from "@/components/game/GameItem.vue";
 import toast from "@/mixins/toast";
+import type { FavoriteItemType, GameDetails } from "@/types";
 
-const store = useStore();
-
+// Props
 const props = defineProps<{
-  games: any; // lookat reason why Games type doesnt work here
+  games: GameDetails[];
   sliceValue?: number;
 }>();
 
-const slicedValue = computed(() => props.sliceValue ?? 9);
+// Store
+const store = useStore();
 const favorites = computed<FavoriteItemType[]>(() => store.getters.getFavorites ?? []);
 
-function checkFavorite(item: any) {
- return favorites.value.some((fav) => fav.id === item.id); 
-}
+// Computed sliced games
+const slicedGames = computed(() =>
+  props.games.slice(0, props.sliceValue ?? 9)
+);
 
-function toggleFavorite(item: FavoriteItemType) {
-  if (checkFavorite(item)) {
-    store.dispatch("removeFavorite", item);
-    toast(`${item.name} a été retiré de vos favoris !`, "success");
-  } else {
-    store.dispatch("addFavorite", item);
-    toast(`${item.name} a été ajouté à vos favoris !`, "success");
-  }
-} 
+// Check if a game is in favorites
+const isFavorite = (gameId: number) =>
+  favorites.value.some((fav) => fav.id === gameId);
+
+// Toggle favorite
+const toggleFavorite = (item: GameDetails) => {
+  const action = isFavorite(item.id) ? "removeFavorite" : "addFavorite";
+  const message = isFavorite(item.id)
+    ? `${item.name} a été retiré de vos favoris !`
+    : `${item.name} a été ajouté à vos favoris !`;
+
+  store.dispatch(action, item);
+  toast(message, "success");
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .game-list {
   padding: 20px;
   display: grid;

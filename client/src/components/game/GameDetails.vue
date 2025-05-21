@@ -1,90 +1,91 @@
 <template>
   <div class="game-details">
-    <div class="game-details__title">
-      <h3 class="game-details__title-text">
+    <div class="game-details__header">
+      <h3 class="game-details__title">
         {{ gameData?.name }}
       </h3>
     </div>
-    <div class="game-details__grid">
-      <div class="game-details__grid__img">
-        <img :src="gameData?.background_image" :alt="gameData?.name" />
+
+    <div class="game-details__content">
+      <div class="game-details__image-wrapper">
+        <img :src="gameData?.background_image" :alt="gameData?.name" class="game-details__image" />
       </div>
 
-      <div class="game-details__grid__content">
-        <h4 class="game-details__grid__content-title">Details <span>du jeu</span></h4>
+      <div class="game-details__info">
+        <h4 class="game-details__info-title">Details <span>du jeu</span></h4>
 
-        <div class="game-details__grid__content-top-text">
-          <p>{{ topTextDescription }}</p>
-        </div>
+        <p class="game-details__description">
+          {{ topTextDescription }}
+        </p>
 
-        <ul class="game-details__grid__content__list">
-          <li class="game-details__grid__content__list-item">
-            <div class="game-details__grid__content__list-item__left">
-              <span class="game-details__grid__content__list-item__left-icon">
+        <ul class="game-details__list">
+          <li class="game-details__list-item">
+            <div class="game-details__list-item-left">
+              <span class="game-details__icon">
                 <i class="fa-regular fa-calendar"></i>
               </span>
-              <span class="game-details__grid__content__list-item__left-details"> Date de création: </span>
+              <span class="game-details__label">Date de création:</span>
             </div>
-            <span class="game-details__grid__content__list-item-right"> {{ typeof createdDate }} </span>
+            <span class="game-details__list-item-right">{{ createdDate }}</span>
           </li>
 
-          <li class="game-details__grid__content__list-item">
-            <div class="game-details__grid__content__list-item__left">
-              <span class="game-details__grid__content__list-item__left-icon"
-                ><i class="fa-solid fa-layer-group"></i
-              ></span>
-              <span class="game-details__grid__content__list-item__left-details"> plateformes: </span>
+          <li class="game-details__list-item">
+            <div class="game-details__list-item-left">
+              <span class="game-details__icon">
+                <i class="fa-solid fa-layer-group"></i>
+              </span>
+              <span class="game-details__label">Plateformes:</span>
             </div>
-            <span class="game-details__grid__content__list-item-right"> {{ platforms?.join(", ") }} </span>
+            <span class="game-details__list-item-right">{{ platforms?.join(", ") }}</span>
           </li>
 
-          <li class="game-details__grid__content__list-item">
-            <div class="game-details__grid__content__list-item__left">
-              <span class="game-details__grid__content__list-item__left-icon"> <i class="fa-solid fa-code"></i> </span>
-              <span class="game-details__grid__content__list-item__left-details"> développeurs: </span>
+          <li class="game-details__list-item">
+            <div class="game-details__list-item-left">
+              <span class="game-details__icon">
+                <i class="fa-solid fa-code"></i>
+              </span>
+              <span class="game-details__label">Développeurs:</span>
             </div>
-            <span class="game-details__grid__content__list-item-right"> {{ developers?.join(", ") }} </span>
+            <span class="game-details__list-item-right">{{ developers?.join(", ") }}</span>
           </li>
 
-          <li class="game-details__grid__content__list-item">
-            <div class="game-details__grid__content__list-item__left">
-              <span class="game-details__grid__content__list-item__left-icon">
+          <li class="game-details__list-item">
+            <div class="game-details__list-item-left">
+              <span class="game-details__icon">
                 <i class="fa-solid fa-gamepad"></i>
               </span>
-              <span class="game-details__grid__content__list-item__left-details"> genres: </span>
+              <span class="game-details__label">Genres:</span>
             </div>
-            <span class="game-details__grid__content__list-item-right"> {{ genres?.join(", ") }} </span>
+            <span class="game-details__list-item-right">{{ genres?.join(", ") }}</span>
           </li>
 
-          <li class="game-details__grid__content__list-item">
-            <div class="game-details__grid__content__list-item__left">
-              <span class="game-details__grid__content__list-item__left-icon"
-                ><i class="fa-solid fa-building"></i
-              ></span>
-              <span class="game-details__grid__content__list-item__left-details"> éditeurs: </span>
+          <li class="game-details__list-item">
+            <div class="game-details__list-item-left">
+              <span class="game-details__icon">
+                <i class="fa-solid fa-building"></i>
+              </span>
+              <span class="game-details__label">Éditeurs:</span>
             </div>
-            <span class="game-details__grid__content__list-item-right"> {{ publishers?.join(", ") }} </span>
+            <span class="game-details__list-item-right">{{ publishers?.join(", ") }}</span>
           </li>
         </ul>
       </div>
     </div>
+
     <div class="game-details__tabs">
       <Tabs>
         <Tab title="Description">
           <h3 class="game-details__tabs-title">Description du jeu</h3>
           <div class="game-details__tabs-description" v-html="gameData?.description"></div>
         </Tab>
-        <Tab title="Platformes">
+        <Tab title="Plateformes">
           <h3 class="game-details__tabs-title">Plateformes</h3>
           <div class="game-details__tabs-platforms">
-            <div
-              v-for="item in gameData?.platforms"
-              :key="item?.platform?.id"
-              class="game-details__tabs-platforms__item"
-            >
-              <p class="game-details__tabs-platforms__item-title">{{ item?.platform?.name }}</p>
-              <div class="game-details__tabs-platforms__item__img">
-                <img :src="item?.platform?.image_background" class="game-details__tabs-platforms__item__img-img" />
+            <div v-for="item in gameData?.platforms" :key="item?.platform?.id"
+              class="game-details__tabs-platforms-item">
+              <p class="game-details__tabs-platforms-item-title">{{ item?.platform?.name }}</p>
+              <div class="game-details__tabs-platforms-item-img">
+                <img :src="item?.platform?.image_background" class="game-details__tabs-platforms-item-img-img" />
               </div>
             </div>
           </div>
@@ -108,17 +109,25 @@ import { StoreItem } from "@/components/store";
 import Tabs from "@/components/common/Tabs/Tabs.vue";
 import Tab from "@/components/common/Tabs/Tab.vue";
 import { formatDate } from "@/utils";
-import type { GameDetails } from "@/types";
+import type { gameDetailsType } from "@/types";
+
 const props = defineProps<{
-  gameData: GameDetails;
+  gameData: gameDetailsType;
 }>();
+
 const topTextDescription = computed<string>(
-  () => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + ".",
+  () => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + "."
 );
-const platforms = computed<string[]>(() => props.gameData?.platforms?.map((platform) => platform.platform.name));
-const developers = computed<string[]>(() => props.gameData?.developers?.map((developer) => developer.name));
+const platforms = computed<string[]>(() =>
+  props.gameData?.platforms?.map((platform) => platform.platform.name)
+);
+const developers = computed<string[]>(() =>
+  props.gameData?.developers?.map((developer) => developer.name)
+);
 const genres = computed<string[]>(() => props.gameData?.genres?.map((genre) => genre.name));
-const publishers = computed<string[]>(() => props.gameData?.publishers?.map((publisher) => publisher.name));
+const publishers = computed<string[]>(() =>
+  props.gameData?.publishers?.map((publisher) => publisher.name)
+);
 const createdDate = computed<string>(() => formatDate(props.gameData?.released));
 </script>
 
@@ -128,111 +137,169 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
   padding: 10px;
   margin-top: 32px;
   color: #fff;
-  &__title {
+
+  &__header {
     margin-bottom: 36px;
-    &-text {
-      font-size: 18px;
-      letter-spacing: 0.04em;
-      color: #fff;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
   }
-  &__grid {
+
+  &__title {
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &__content {
     display: grid;
-    &__img {
-      min-height: 320px;
-      & > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-    &__content {
-      margin-top: 24px;
-      &-title {
-        font-weight: 700;
-        color: var(--primary-1);
-        margin-bottom: 12px;
-        font-size: 20px;
-        letter-spacing: 2px;
-        & > span {
-          color: #fff;
-        }
-      }
-      &-top-text {
-        font-weight: 200;
-        opacity: 0.9;
-      }
-      &__list {
-        padding: 30px 0;
-        &-item {
-          margin: 8px 0;
-          color: #fff;
-          align-items: center;
-          flex-wrap: wrap;
-          &__left {
-            display: flex;
-            align-items: center;
-            font-weight: 600;
-            &-icon {
-              display: flex;
-              align-items: center;
-              justify-content: flex-start;
-              margin: 8px 0;
-              overflow: hidden;
-              width: 32px;
-            }
-            &-details {
-              text-transform: uppercase;
-              font-weight: 600;
-              letter-spacing: 0.04em;
-              margin-right: 12px;
-            }
-          }
-          &-right {
-            font-weight: 400;
-          }
-        }
-      }
+    gap: 24px;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 1080px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      align-items: stretch;
     }
   }
+
+  &__image-wrapper {
+    min-height: 320px;
+
+    &>.game-details__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    margin-top: 24px;
+
+    @media (min-width: 1080px) {
+      margin-top: 0;
+    }
+  }
+
+  &__info-title {
+    font-weight: 700;
+    color: var(--primary-1);
+    margin-bottom: 12px;
+    font-size: 20px;
+    letter-spacing: 2px;
+
+    &>span {
+      color: #fff;
+    }
+  }
+
+  &__description {
+    font-weight: 200;
+    opacity: 0.9;
+    margin-bottom: 30px;
+  }
+
+  &__list {
+    padding: 30px 0;
+    list-style: none;
+    margin: 0;
+
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      color: #fff;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  }
+
+  &__list-item-left {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 8px 12px 8px 0;
+    width: 32px;
+    overflow: hidden;
+  }
+
+  &__label {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  &__list-item-right {
+    font-weight: 400;
+  }
+
   &__tabs {
     width: 100%;
     min-height: 600px;
     background-color: var(--secondary-2);
     margin: 0;
     padding: 10px;
+
     &-title {
       color: #fff;
       margin: 12px 0;
       text-decoration: underline;
+      font-size: 22px;
+      font-weight: 600;
     }
+
     &-description {
       font-weight: 200;
       opacity: 0.9;
       color: #fff;
     }
+
     &-platforms {
+      display: flex;
       gap: 16px;
-      &__item {
+      flex-wrap: wrap;
+
+      &-item {
         color: #fff;
-        &-title {
-          margin-bottom: 8px;
+        width: 100%;
+
+        @media (min-width: 992px) {
+          width: calc(33.333% - 10px);
         }
-        &__img {
-          height: 180px;
-          &-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
+      }
+
+      &-item-title {
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      &-item-img {
+        height: 180px;
+
+        &-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
     }
+
     &-stores {
       display: grid;
       gap: 40px;
+
+      @media (min-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (min-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   }
 }
@@ -240,24 +307,9 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
 @media screen and (min-width: 600px) {
   .game-details {
     padding: 32px 14px;
+
     &__tabs {
       padding: 20px;
-    }
-  }
-}
-
-@media screen and (min-width: 992px) {
-  .game-details {
-    &__tabs {
-      &-platforms {
-        display: grid;
-        gap: 40px;
-        grid-template-columns: repeat(3, 1fr);
-      }
-      &-stores {
-        grid-template-columns: repeat(2, 1fr);
-        align-items: stretch;
-      }
     }
   }
 }
@@ -265,41 +317,9 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
 @media screen and (min-width: 1080px) {
   .game-details {
     padding: 60px 42px;
-    &__title {
-      &-text {
-        font-size: 42px;
-      }
-    }
-    &__grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      align-items: stretch;
-      &__content {
-        &-title {
-          font-size: 28px;
-        }
-        margin-top: 0;
-        &__list {
-          padding: 30px 0;
-          &-item {
-            &__left {
-              &-icon {
-                margin: 8px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
 
-@media screen and (min-width: 1200px) {
-  .game-details {
-    &__tabs {
-      &-stores {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    &__title {
+      font-size: 42px;
     }
   }
 }

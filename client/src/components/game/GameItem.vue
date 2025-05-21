@@ -1,47 +1,31 @@
 <template>
-  <div class="game-item">
+  <div class="game-item" v-if="props.gameItem">
     <div class="game-item__top">
-      <img :src="gameItem?.background_image" :alt="gameItem?.name" />
-  <StarRating :rating="gameItem?.rating" />
-      <div class="game-item__top__ratings-count">
-        {{ gameItem?.ratings_count }}
-        <i class="fa-solid fa-star game-item__top__ratings-count-star" :size="12"></i>
+      <img v-if="props.gameItem.background_image" :src="props.gameItem.background_image" :alt="props.gameItem.name"
+        class="game-item__image" />
+      <StarRating :rating="props.gameItem.rating" />
+      <div class="game-item__ratings-count">
+        {{ props.gameItem.ratings_count }}
+        <i class="fa-solid fa-star game-item__ratings-icon"></i>
       </div>
     </div>
     <div class="game-item__bottom">
-      <h4 class="game-item__bottom-title">
-        {{ gameItem?.name }}
-      </h4>
-      <div class="game-item__bottom__details">
-        <div class="game-item__bottom__details__group">
-          <div class="game-item__bottom__details__group__item">
-            <p class="game-item__bottom__details__group__item-key">Date de création: &nbsp;</p>
-          </div>
-          <div class="game-item__bottom__details__group__item">
-            <p class="game-item__bottom__details__group__item-key">Mise à jour: &nbsp;</p>
-          </div>
+      <h4 class="game-item__title">{{ props.gameItem.name }}</h4>
+      <div class="game-item__details">
+        <div class="game-item__details-group">
+          <p class="game-item__details-label">Date de création:</p>
+          <p class="game-item__details-value">{{ formatDate(props.gameItem.released) }}</p>
         </div>
-
-        <div class="game-item__bottom__details__group">
-          <div class="game-item__bottom__details__group__item">
-            <p>{{ formatDate(gameItem?.released) }}</p>
-          </div>
-          <div class="game-item__bottom__details__group__item">
-            <p>{{ formatDate(gameItem?.updated) }}</p>
-          </div>
+        <div class="game-item__details-group">
+          <p class="game-item__details-label">Mise à jour:</p>
+          <p class="game-item__details-value">{{ formatDate(props.gameItem.updated) }}</p>
         </div>
-
-        <div @click="$emit('toggleFavorite', gameItem)" v-if="isOnFavorites">
-          <i class="fa-solid fa-star game-item__bottom__details-star--active"></i>
-        </div>
-        <div @click="$emit('toggleFavorite', gameItem)" v-else>
-          <i class="fa-solid fa-star game-item__bottom__details-star"></i>
+        <div class="game-item__favorite" @click="onToggleFavorite">
+          <i
+            :class="['fa-solid fa-star', props.isOnFavorites ? 'game-item__favorite--active' : 'game-item__favorite--inactive']"></i>
         </div>
       </div>
-      <router-link
-        :to="{ name: 'Details du jeu', params: { gameId: `${gameItem?.id}` } }"
-        class="game-item__bottom__details-link btn-play-now btn-primary"
-      >
+      <router-link :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem.id}` } }" class="game-item__link">
         Voir plus
       </router-link>
     </div>
@@ -49,45 +33,36 @@
 </template>
 
 <script setup lang="ts">
-import StarRating from "@/components/common/StarRating.vue";
-import { formatDate } from "@/utils";
-import type { Game } from "@/types";
+import StarRating from '@/components/common/StarRating.vue';
+import { formatDate } from '@/utils';
+import type { GameDetails } from '@/types';
 
-defineEmits(["toggleFavorite"]);
-const {gameItem,isOnFavorites}  = defineProps<{
-  gameItem: Game;
+const props = defineProps<{
+  gameItem: GameDetails;
   isOnFavorites: boolean;
 }>();
+
+const emit = defineEmits<{
+  (e: 'toggleFavorite', item: GameDetails): void;
+}>();
+
+function onToggleFavorite() {
+  emit('toggleFavorite', props.gameItem);
+}
 </script>
 
 <style scoped lang="scss">
 .game-item {
   display: flex;
   flex-direction: column;
-  > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  background-color: var(--secondary-2);
+
   &__top {
+    position: relative;
     height: 220px;
     overflow: hidden;
-    position: relative;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.27) 92.08%);
-    &__ratings-count {
-      position: absolute;
-      left: 18px;
-      bottom: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      padding: 0px 12px;
-      border-radius: 16px;
-      background-color: #fff;
-      z-index: 1;
-      &-star {
-        margin-left: 4px;
-      }
-    }
+
     &::after {
       content: "";
       position: absolute;
@@ -98,95 +73,102 @@ const {gameItem,isOnFavorites}  = defineProps<{
       background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
     }
   }
-  &__bottom {
-    flex: 1;
-    background-color: var(--secondary-2);
-    padding: 10px;
-    &-title {
-      height: 54px;
-      font-size: 14px;
-      font-weight: 800px;
-      letter-spacing: 0.06em;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      color: #fff;
-    }
-    .card-button {
-      height: 34px;
-      text-align: center;
-      border: 1px solid var(--primary-1);
-      padding: 0px 16px;
-      min-width: 108px;
-      color: #fff;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      display: flex;
-      align-items: center;
-      transition: var(--transition-default);
 
-      &:hover {
-        background-color: var(--primary-1);
-      }
-    }
-    &__details {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      align-items: center;
-      &__group {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 12px;
-        &__item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          &-key {
-            font-weight: 600;
-          }
-        }
-      }
-      &-link {
-        height: 34px;
-        border: 1px solid var(--primary-1);
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition-default);
-        margin-top: 20px;
-        text-transform: uppercase;
-      }
-      &-star {
-        &:hover {
-          cursor: pointer;
-        }
-        &--active {
-          color: yellow;
-          &:hover {
-            cursor: pointer;
-          }
-        }
-      }
-    }
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__ratings-count {
+    position: absolute;
+    bottom: 10px;
+    left: 18px;
+    background: #fff;
+    padding: 0 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+
+  &__ratings-icon {
+    margin-left: 4px;
+  }
+
+  &__bottom {
+    padding: 10px;
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__details-group {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+  }
+
+  &__details-label {
+    font-weight: 600;
+  }
+
+  &__details-value {
+    font-weight: 400;
+  }
+
+  &__favorite {
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  &__favorite--active {
+    color: yellow;
+  }
+
+  &__favorite--inactive {
+    color: #ccc;
+  }
+
+  &__link {
+    margin-top: 20px;
+    padding: 6px 12px;
+    background: var(--primary-1);
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s ease;
+  }
+
+  &__link:hover {
+    background-color: var(--primary-1);
+    filter: brightness(0.9);
   }
 }
 
 @media screen and (min-width: 800px) {
-  .game-item {
-    &__top {
-      height: 280px;
-      &__ratings-count {
-        font-size: 14px;
-      }
-    }
-    &__bottom {
-      padding: 20px 18px;
-      &-title {
-        font-size: 18px;
-      }
-    }
+  .game-item__top {
+    height: 280px;
+  }
+
+  .game-item__title {
+    font-size: 18px;
   }
 }
 </style>
