@@ -2,7 +2,6 @@
 import { nextTick, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -53,36 +52,37 @@ const handleLogout = async () => {
           aria-label="Toggle menu">
           <font-awesome-icon :icon="['fas', 'bars']" />
         </span>
-        <Transition>
-          <div class="topbar__menu" @click="state.open = false" @keydown="state.open = false" v-if="state.open"
-            tabindex="0">
-            <NavLink to="" icon="">
+        <Transition name="fade-slide">
+          <div v-if="state.open" class="topbar__menu" tabindex="0" @click="state.open = false"
+            @keydown="state.open = false">
+            <NavLink to="" class="menu__item" icon="">
               <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
-              <span @click="handleLogout" @keydown.enter="handleLogout" tabindex="0" role="button">Déconnection</span>
+              <span @click.stop="handleLogout" @keydown.enter.stop="handleLogout" role="button"
+                tabindex="0">Déconnexion</span>
             </NavLink>
-            <NavLink to="/home" icon="">
+            <NavLink to="/home" class="menu__item">
               <font-awesome-icon :icon="['fas', 'house']" />
               <span>Accueil</span>
             </NavLink>
-            <NavLink to="/creators" icon="">
+            <NavLink to="/creators" class="menu__item">
               <font-awesome-icon :icon="['far', 'user-circle']" />
               <span>Créateurs</span>
             </NavLink>
-            <NavLink to="/stores" icon="" data-cy="ads-link">
+            <NavLink to="/stores" class="menu__item">
               <font-awesome-icon :icon="['fas', 'handshake-angle']" />
               <span>Stores</span>
             </NavLink>
-            <NavLink to="/search" icon="" data-cy="create-ad-link">
+            <NavLink to="/search" class="menu__item">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-              <span>Rechercher un jeu</span>
+              <span>Rechercher</span>
             </NavLink>
-            <NavLink to="/games" icon="">
+            <NavLink to="/games" class="menu__item">
               <font-awesome-icon :icon="['fas', 'gamepad']" />
               <span>Jeux</span>
             </NavLink>
-            <NavLink to="/favorites" icon="" data-cy="favorite-link">
+            <NavLink to="/favorites" class="menu__item">
               <font-awesome-icon :icon="['far', 'star']" />
-              <span>Mes favoris</span>
+              <span>Favoris</span>
             </NavLink>
           </div>
         </Transition>
@@ -125,34 +125,63 @@ const handleLogout = async () => {
   }
 
   &__menu {
-    z-index: 2;
+    z-index: 10;
     position: absolute;
-    top: 20px;
-    right: 0px;
-    background-color: var(--primary-color);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    padding: 10px;
-    height: 200px;
-    width: 250px;
+    top: 40px;
+    right: 0;
+    background-color: var(--background-color, #000);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 16px 12px;
+    width: 260px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    gap: 12px;
 
-    li {
-      padding: 10px;
-    }
-
-    a {
-      color: var(--text-color);
+    .menu__item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: #fff;
+      background-color: transparent;
+      transition: background 0.2s ease;
+
+      &:hover {    background-color: var(--success-1);
+        cursor: pointer;
+      }
+
+      svg {
+        font-size: 18px;
+        color: var(--primary-color);
+
+        &:hover {
+          background-color: var(--hover-color, #000);
+          cursor: pointer;
+        }
+      }
+
+      span {
+        flex: 1;
+      }
     }
   }
 }
 
-// Transition
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
 .v-leave-to,
 .v-enter-from {
   transform: translateY(-10px);

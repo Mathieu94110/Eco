@@ -43,21 +43,14 @@ onUnmounted(() => {
 
 <template>
   <div id="app">
-    <div
-      v-if="storeReady"
-      :class="{ 'app__container--auth': isAuthenticated }"
-      class="app__container"
-      :style="{
-        paddingLeft: !isAuthenticated
-          ? '0px'
-          : isSideBarClosed && !isMobile
-          ? '85px'
-          : !isSideBarClosed && isAuthenticated
-          ? '270px'
-          : 'auto',
-        transition: !isSideBarClosed && isAuthenticated ? '0.3s' : undefined,
-      }"
-    >
+    <div v-if="storeReady" :class="[
+      'app__container',
+      {
+        'app__container--auth': isAuthenticated,
+        'app__container--sidebar-closed': isAuthenticated && isSideBarClosed && !isMobile,
+        'app__container--sidebar-open': isAuthenticated && !isSideBarClosed && !isMobile
+      }
+    ]" class="app__container">
       <NavBar v-if="isAuthenticated" />
       <Toolbar v-if="isAuthenticated && isMobile">{{ routeName }}</Toolbar>
 
@@ -73,14 +66,25 @@ onUnmounted(() => {
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap");
 
 .app {
-  background: #6d6d6d;
+  background-color: #6d6d6d;
+
   &__container {
     z-index: 1;
     width: 100%;
-    margin: auto;
+    margin: 0 auto;
     height: 100vh;
+    transition: padding-left 0.3s ease;
+
     &--auth {
+      padding-left: 0;
+    }
+
+    &--sidebar-closed {
       padding-left: 85px;
+    }
+
+    &--sidebar-open {
+      padding-left: 270px;
     }
   }
 }
