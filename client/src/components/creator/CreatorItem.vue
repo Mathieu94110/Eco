@@ -1,34 +1,14 @@
 <template>
-  <div
-    class="creator-item"
-    :style="{
-      background: `linear-gradient(rgba(7, 5, 27, 0.9), rgba(0, 0, 0, 0.95)), url(${props.creatorItem?.image_background}) center/cover no-repeat`,
-    }"
-  >
+  <div class="creator-item" :style="backgroundStyle">
     <div class="creator-item__top">
-      <img :src="props.creatorItem?.image" />
+      <img :src="image" alt="Creator Avatar" />
     </div>
     <div class="creator-item__bottom">
-      <h4 class="creator-item__bottom-title">{{ props.creatorItem?.name }}</h4>
-      <ul class="creator-item__bottom__list">
-        <li class="creator-item__bottom__list__group-item">
-          <span class="creator-item__bottom__list__group-item-left">Nombre de jeux </span>
-          <span class="creator-item__bottom__list__group-item-right">{{ props.creatorItem?.games_count }}</span>
-        </li>
-        <li class="creator-item__bottom__list__group-item">
-          <span class="creator-item__bottom__list__group-item-left">Position </span>
-          <span v-if="positions.length" class="creator-item__bottom__list__group-item-right">{{
-            positions.join(", ")
-          }}</span>
-          <span v-else class="creator-item__bottom__list__group-item-right">N/A</span>
-        </li>
-        <li class="creator-item__bottom__list__group-item">
-          <span class="creator-item__bottom__list__group-item-left">Jeux </span>
-          <span v-if="games.length" class="creator-item__bottom__list__group-item-right">{{
-            games.join(", ")
-          }}</span>
-          <span v-else class="creator-item__bottom__list__group-item-right">N/A</span>
-        </li>
+      <h4 class="creator-item__title">{{ name }}</h4>
+      <ul class="creator-item__info">
+        <CreatorInfoRow label="Nombre de jeux" :value="gamesCount" />
+        <CreatorInfoRow label="Position" :value="positionsDisplay" />
+        <CreatorInfoRow label="Jeux" :value="gamesDisplay" />
       </ul>
     </div>
   </div>
@@ -36,51 +16,75 @@
 
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
-import { CreatorItemType } from "@/types";
-const props = defineProps<{
-  creatorItem: CreatorItemType;
-}>();
-const positions = computed<string[]>(() => props.creatorItem?.positions?.map((position) => position?.name));
-const games = computed<string[]>(() => props.creatorItem?.games?.map((game) => game?.name));
+import type { CreatorItemType } from "@/types";
+import CreatorInfoRow from "./CreatorInfoRow.vue";
+
+const props = defineProps<{ creatorItem: CreatorItemType }>();
+const {
+  image,
+  name,
+  image_background,
+  games_count: gamesCount,
+  positions = [],
+  games = [],
+} = props.creatorItem;
+
+const backgroundStyle = computed(() => ({
+  background: `linear-gradient(rgba(7, 5, 27, 0.9), rgba(0, 0, 0, 0.95)), url(${image_background}) center/cover no-repeat`,
+}));
+
+const positionsDisplay = computed(() =>
+  positions.length ? positions.map(p => p.name).join(", ") : "N/A"
+);
+const gamesDisplay = computed(() =>
+  games.length ? games.map(g => g.name).join(", ") : "N/A"
+);
 </script>
 
 <style scoped lang="scss">
 .creator-item {
   min-height: 360px;
   margin-bottom: 80px;
-  padding: 16px 32px 24px 32px;
+  padding: 16px 32px 24px;
   text-align: center;
+  color: #fff;
+
   &__top {
     height: 150px;
     width: 150px;
-    margin-right: auto;
-    margin-left: auto;
+    margin: -75px auto 0;
     border-radius: 50%;
     overflow: hidden;
-    margin-top: -75px;
     border: 2px solid #fff;
-    transition: var(--transition-default);
+    transition: transform 0.3s ease;
+
     &:hover {
       transform: scale(1.1);
     }
   }
+
   &__bottom {
     margin-top: 48px;
-    color: #fff;
-    &-title {
-      font-size: 24px;
-    }
-    &__list {
-      color: #fff;
+  }
 
-      &__group-item {
-        margin: 8px 0;
-        display: flex;
-        flex-direction: column;
-        &-left {
-          font-weight: 600;
-          color: var(--primary-1);
-        }
+  &__title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  &__info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin: 8px 0;
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        font-weight: 600;
+        color: var(--primary-1);
       }
     }
   }
