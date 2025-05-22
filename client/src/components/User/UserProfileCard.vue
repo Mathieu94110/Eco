@@ -112,16 +112,13 @@ watch(
 <template>
   <div class="user-profile-card" v-if="state.newUserInfos">
     <div class="user-profile-card__header">
-      <div
-        class="user-profile-card__image"
-        :style="{
-          'background-image': `url(${image ? image : mysteryImage})`,
-        }"
-      >
+      <div class="user-profile-card__image" :style="{
+        'background-image': `url(${image ? image : mysteryImage})`,
+      }">
         <div class="user-profile-card__edit-image" v-if="isEditMode">
           <label for="file">
             <span class="user-profile-card__label" for="file">
-              <i class="fa-solid fa-pen-to-square user-profile-card__edit-icon"></i>
+              <font-awesome-icon :icon="['fa-solid', 'fa-pen-to-square']" class="user-profile-card__edit-icon" />
             </span>
             <input type="file" id="file" class="user-profile-card__file-input" ref="fileInput" @input="onPickFile" />
           </label>
@@ -131,33 +128,30 @@ watch(
     <div class="user-profile-card__body">
       <p class="user-profile-card__main-category" :class="{ active: isEditMode }">
         <span>Pseudo</span>
-        <span v-if="isEditMode"><input data-test="userName" class="pl-5 font-600" v-model="userName" /> </span
-        ><span v-else>{{ userName }}</span>
+        <span v-if="isEditMode"><input data-test="userName" class="pl-5 font-600" v-model="userName" /> </span><span
+          v-else>{{ userName }}</span>
       </p>
       <p class="user-profile-card__sub-categories" :class="{ active: isEditMode }">
         <span>Prénom</span>
-        <span v-if="isEditMode"><input data-test="firstName" class="pl-5 font-600" v-model="firstName" /> </span
-        ><span v-else>{{ firstName }}</span>
+        <span v-if="isEditMode"><input data-test="firstName" class="pl-5 font-600" v-model="firstName" /> </span><span
+          v-else>{{ firstName }}</span>
       </p>
       <p class="user-profile-card__sub-categories" :class="{ active: isEditMode }">
         <span>Nom</span>
-        <span v-if="isEditMode"><input data-test="lastName" class="pl-5 font-600" v-model="lastName" /> </span
-        ><span v-else>{{ lastName }}</span>
+        <span v-if="isEditMode"><input data-test="lastName" class="pl-5 font-600" v-model="lastName" /> </span><span
+          v-else>{{ lastName }}</span>
       </p>
       <p class="user-profile-card__sub-categories" :class="{ active: isEditMode }">
-        <span>Email</span
-        ><span v-if="isEditMode"><input data-test="email" class="pl-5 font-600" v-model="email" /> </span
-        ><span v-else>{{ email }}</span>
+        <span>Email</span><span v-if="isEditMode"><input data-test="email" class="pl-5 font-600" v-model="email" />
+        </span><span v-else>{{ email }}</span>
       </p>
       <p class="user-profile-card__sub-categories" :class="{ active: isEditMode }">
-        <span>Téléphone</span
-        ><span v-if="isEditMode"><input data-test="phone" class="pl-5 font-600" v-model="phone" /> </span
-        ><span v-else>{{ phone }}</span>
+        <span>Téléphone</span><span v-if="isEditMode"><input data-test="phone" class="pl-5 font-600" v-model="phone" />
+        </span><span v-else>{{ phone }}</span>
       </p>
       <p class="user-profile-card__sub-categories" :class="{ active: isEditMode }">
-        <span>Adresse</span
-        ><span v-if="isEditMode"><input data-test="address" class="pl-5 font-600" v-model="address" /></span
-        ><span v-else>{{ address }}</span>
+        <span>Adresse</span><span v-if="isEditMode"><input data-test="address" class="pl-5 font-600"
+            v-model="address" /></span><span v-else>{{ address }}</span>
       </p>
       <p class="user-profile-card__sub-categories" :class="{ active: isEditMode }">
         <span>Code postal</span>
@@ -165,16 +159,15 @@ watch(
         <span v-else>{{ zip }}</span>
       </p>
     </div>
-
     <div class="user-profile-card__footer">
       <span id="edit-profile" v-if="!isEditMode" @click="editProfileInfo()" @keydown="editProfileInfo()">
-        <i class="fa-solid fa-pen-to-square user-profile-card__edit-icon"></i
-      ></span>
+        <font-awesome-icon :icon="['fa-solid', 'fa-pen-to-square']" class="user-profile-card__edit-icon" />
+      </span>
       <span v-else id="confirm-info" @click="confirmInfo()" @keydown="confirmInfo()">
-        <i class="fa-solid fa-check user-profile-card__edit-icon"></i>
+        <font-awesome-icon :icon="['fa-solid', 'fa-check']" class="user-profile-card__edit-icon" />
       </span>
     </div>
-  </div>
+  </div>Z
 </template>
 
 <style scoped lang="scss">
@@ -326,9 +319,11 @@ watch(
         border: 8px solid var(--gray-3);
       }
     }
+
     &__body {
       width: 400px;
     }
+
     &__sub-categories {
       height: 30px;
       display: flex;
@@ -342,6 +337,7 @@ watch(
 
       color: var(--gray-1);
     }
+
     &__main-category,
     &__sub-categories {
       font-size: 16px;

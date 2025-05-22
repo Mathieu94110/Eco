@@ -3,19 +3,13 @@
     <div class="genre-list__container">
       <div class="container py-20">
         <div>
-          <ul
-            class="genre-list__container__buttons"
-            :class="{ 'genre-list__container__buttons--show': state.tabButtonStatus }"
-          >
+          <ul class="genre-list__container__buttons"
+            :class="{ 'genre-list__container__buttons--show': state.tabButtonStatus }">
             <button type="button" class="genre-list__container__buttons-close" @click="tabButtonsHandler">
-              <i class="fa-solid fa-bars" :size="22"></i>
+              <font-awesome-icon :icon="['fa-solid', ' fa-bars']" :size="22" />
             </button>
-            <li
-              v-for="item in props.genresList"
-              :key="item.id"
-              class="genre-list__container__buttons__link"
-              :class="item.id === state.activeTab.id && 'genre-list__container__buttons__link--active'"
-            >
+            <li v-for="item in props.genresList" :key="item.id" class="genre-list__container__buttons__link"
+              :class="item.id === state.activeTab.id && 'genre-list__container__buttons__link--active'">
               <button type="button" @click="tabClickHandler(item?.id)">{{ item?.name }}</button>
             </li>
           </ul>
@@ -60,6 +54,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
     position: relative;
     min-height: 1000px;
     background-color: var(--dark-1);
+
     &__buttons {
       position: absolute;
       left: 0;
@@ -69,9 +64,11 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
       padding-top: 20px;
       padding-bottom: 60px;
       transition: var(--transition-default);
+
       &--show {
         transform: translateX(0);
       }
+
       &-close {
         display: flex;
         align-items: center;
@@ -83,12 +80,14 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
         height: 32px;
         display: none;
         background-color: #fff;
+
         &:hover {
           background-color: var(--pink-1);
           color: #fff;
           cursor: pointer;
         }
       }
+
       &__link {
         & button {
           cursor: pointer;
@@ -102,6 +101,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
           background-color: transparent;
           color: #fff;
         }
+
         &--active {
           button {
             background-color: var(--pink-1);
@@ -110,9 +110,11 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
         }
       }
     }
+
     &__item {
       max-width: 1050px;
       margin-left: auto;
+
       &-list {
         display: grid;
         gap: 40px;
@@ -150,9 +152,11 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
       &__buttons {
         transform: translateX(-88%);
         width: 286px;
+
         &-close {
           display: block;
         }
+
         &--show {
           transform: translateX(0);
         }
@@ -160,6 +164,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
     }
   }
 }
+
 @media screen and (max-width: 1380px) {
   .genre-list {
     &__container {

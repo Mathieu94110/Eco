@@ -25,12 +25,11 @@ const props = defineProps<{
         <span v-if="obj.key === 'description'">{{ row[obj.key] }}</span>
         <span v-if="obj.key === 'category'">{{ row[obj.key] }}</span>
         <div class="table-small__responsive-cell-action" v-if="obj.title === 'Actions'">
-          <router-link
-            :to="{
-              name: 'Détails de votre annonce',
-              params: { id: row['_id'] },
-            }"
-            ><i class="fa fa-eye" aria-hidden="true"></i>
+          <router-link :to="{
+            name: 'Détails de votre annonce',
+            params: { id: row['_id'] },
+          }">
+            <font-awesome-icon :icon="['fa', 'fa-eye']" aria-hidden="true" />
           </router-link>
           <div class="table-small__delete-icon">
             <Modal :ad="row" v-bind="$attrs">
@@ -63,22 +62,26 @@ const props = defineProps<{
   &__responsive {
     table-layout: fixed;
     width: 100%;
+
     &-title {
       height: 100px;
       padding: 0;
       background-color: var(--primary-1);
       font-size: 16px;
+
       @include mixins.xs {
         font-size: 10px;
         word-wrap: break-word;
       }
     }
+
     &-cell {
       height: 100px;
       padding: 5px;
       word-wrap: break-word;
       width: 15%;
       font-size: 14px;
+
       &:nth-child(odd) {
         background: var(--gray-2);
       }
@@ -91,10 +94,12 @@ const props = defineProps<{
       &-content {
         word-wrap: break-word;
         font-size: 14px;
+
         @include mixins.xs {
           font-size: 10px;
         }
       }
+
       &-action {
         height: 100%;
         display: flex;
@@ -104,6 +109,7 @@ const props = defineProps<{
       }
     }
   }
+
   &__delete-icon {
     &:hover {
       cursor: pointer;

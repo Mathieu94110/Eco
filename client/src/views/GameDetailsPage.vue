@@ -2,7 +2,9 @@
   <div class="game-details-page">
     <div class="game-details-page__content">
       <div class="game-details-page__content-card">
-        <button class="btn btn-primary" @click="goBack"><i class="fa-solid fa-arrow-left"></i></button>
+        <button class="btn btn-primary" @click="goBack">
+          <font-awesome-icon :icon="['fa-solid', 'fa-arrow-left']" />
+        </button>
         <template v-if="status === 'loading'">
           <Loader />
         </template>
@@ -46,12 +48,14 @@ watchEffect(async () => {
     background: cover;
     background-size: cover;
     background-repeat: no-repeat;
+
     &-card {
       max-width: 1280px;
       margin: 0 auto;
     }
   }
 }
+
 @media screen and (min-width: 600px) {
   .game-details-page {
     &__content {

@@ -1,3 +1,37 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { StoreItem } from "@/components/store";
+import Tabs from "@/components/common/Tabs/Tabs.vue";
+import Tab from "@/components/common/Tabs/Tab.vue";
+import { formatDate } from "@/utils";
+import type { gameDetailsType } from "@/types";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+import { faLayerGroup, faCode, faGamepad, faBuilding } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faCalendar, faLayerGroup, faCode, faGamepad, faBuilding);
+
+const props = defineProps<{
+  gameData: gameDetailsType;
+}>();
+
+const topTextDescription = computed<string>(
+  () => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + "."
+);
+const platforms = computed<string[]>(() =>
+  props.gameData?.platforms?.map((platform) => platform.platform.name)
+);
+const developers = computed<string[]>(() =>
+  props.gameData?.developers?.map((developer) => developer.name)
+);
+const genres = computed<string[]>(() => props.gameData?.genres?.map((genre) => genre.name));
+const publishers = computed<string[]>(() =>
+  props.gameData?.publishers?.map((publisher) => publisher.name)
+);
+const createdDate = computed<string>(() => formatDate(props.gameData?.released));
+</script>
+
 <template>
   <div class="game-details">
     <div class="game-details__header">
@@ -22,7 +56,7 @@
           <li class="game-details__list-item">
             <div class="game-details__list-item-left">
               <span class="game-details__icon">
-                <i class="fa-regular fa-calendar"></i>
+                <font-awesome-icon :icon="['far', 'calendar']" />
               </span>
               <span class="game-details__label">Date de création:</span>
             </div>
@@ -32,7 +66,7 @@
           <li class="game-details__list-item">
             <div class="game-details__list-item-left">
               <span class="game-details__icon">
-                <i class="fa-solid fa-layer-group"></i>
+                <font-awesome-icon :icon="['fas', 'layer-group']" />
               </span>
               <span class="game-details__label">Plateformes:</span>
             </div>
@@ -42,7 +76,7 @@
           <li class="game-details__list-item">
             <div class="game-details__list-item-left">
               <span class="game-details__icon">
-                <i class="fa-solid fa-code"></i>
+                <font-awesome-icon :icon="['fas', 'code']" />
               </span>
               <span class="game-details__label">Développeurs:</span>
             </div>
@@ -52,7 +86,7 @@
           <li class="game-details__list-item">
             <div class="game-details__list-item-left">
               <span class="game-details__icon">
-                <i class="fa-solid fa-gamepad"></i>
+                <font-awesome-icon :icon="['fas', 'gamepad']" />
               </span>
               <span class="game-details__label">Genres:</span>
             </div>
@@ -62,7 +96,7 @@
           <li class="game-details__list-item">
             <div class="game-details__list-item-left">
               <span class="game-details__icon">
-                <i class="fa-solid fa-building"></i>
+                <font-awesome-icon :icon="['fas', 'building']" />
               </span>
               <span class="game-details__label">Éditeurs:</span>
             </div>
@@ -102,34 +136,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from "vue";
-import { StoreItem } from "@/components/store";
-import Tabs from "@/components/common/Tabs/Tabs.vue";
-import Tab from "@/components/common/Tabs/Tab.vue";
-import { formatDate } from "@/utils";
-import type { gameDetailsType } from "@/types";
-
-const props = defineProps<{
-  gameData: gameDetailsType;
-}>();
-
-const topTextDescription = computed<string>(
-  () => props.gameData?.description_raw?.split(".").splice(0, 3).join(".") + "."
-);
-const platforms = computed<string[]>(() =>
-  props.gameData?.platforms?.map((platform) => platform.platform.name)
-);
-const developers = computed<string[]>(() =>
-  props.gameData?.developers?.map((developer) => developer.name)
-);
-const genres = computed<string[]>(() => props.gameData?.genres?.map((genre) => genre.name));
-const publishers = computed<string[]>(() =>
-  props.gameData?.publishers?.map((publisher) => publisher.name)
-);
-const createdDate = computed<string>(() => formatDate(props.gameData?.released));
-</script>
 
 <style scoped lang="scss">
 .game-details {

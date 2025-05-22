@@ -24,9 +24,9 @@ const deleteAd = (): void => {
 
 <template>
   <div>
-    <span @click.prevent="isModalOpen = true" @keydown.prevent="isModalOpen = true"
-      ><i class="fa fa-trash icon" aria-hidden="true"></i
-    ></span>
+    <span @click.prevent="isModalOpen = true" @keydown.prevent="isModalOpen = true">
+      <font-awesome-icon :icon="['fa', ' fa-trash']" class="icon" aria-hidden="true" :size="22" />
+    </span>
 
     <Teleport to="#modal">
       <Transition name="modal-fade">
@@ -70,6 +70,7 @@ const deleteAd = (): void => {
   display: flex;
   justify-content: center;
   align-items: center;
+
   &__modal {
     border: 2px solid var(--dark-2);
     background: var(--primary-color);
@@ -80,24 +81,29 @@ const deleteAd = (): void => {
     text-align: center;
     border-radius: 10px;
     width: 80%;
+
     @include mixins.sm {
       width: 500px;
       margin: 0 auto;
     }
   }
+
   &__header {
     position: relative;
     justify-content: space-between;
     padding: 15px;
     display: flex;
+
     @include mixins.xs {
       padding-right: 30px;
     }
   }
+
   &__title {
     width: 100%;
     text-align: center;
   }
+
   &__close-btn {
     position: absolute;
     top: 0;
@@ -109,6 +115,7 @@ const deleteAd = (): void => {
     font-weight: bold;
     color: var(--dark-2);
     background: transparent;
+
     &:hover {
       cursor: pointer;
     }
@@ -119,6 +126,7 @@ const deleteAd = (): void => {
     font-weight: 600;
     color: var(--gray-3);
   }
+
   &__footer {
     flex-direction: column;
     justify-content: flex-end;
@@ -132,6 +140,7 @@ const deleteAd = (): void => {
     cursor: pointer;
   }
 }
+
 //Transition
 .modal-fade-enter-active,
 .modal-fade-leave-active {

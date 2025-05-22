@@ -9,15 +9,21 @@
       </p>
       <div class="banner__content__banner-btn">
         <span class="banner__content__banner-btn-btn-icon">
-          <i class="fa-solid fa-gamepad banner__content__banner-btn-btn-icon-gaming"></i
-        ></span>
+          <font-awesome-icon :icon="['fas', 'gamepad']" class="banner__content__banner-btn-btn-icon-gaming" />
+        </span>
         <span class="btn-play-now btn-primary">Jouer maintenant</span>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faGamepad } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+library.add(faGamepad);
+</script>
 
 <style lang="scss" scoped>
 .banner {
@@ -29,9 +35,11 @@
   align-items: center;
   justify-content: start;
   min-height: 768px;
+
   &__content {
     width: 100%;
     color: #fff;
+
     &-badge {
       padding: 4px 16px;
       font-weight: 600;
@@ -51,9 +59,11 @@
       margin-bottom: 40px;
       text-transform: uppercase;
     }
+
     &-lead-text {
       max-width: 600px;
     }
+
     &__banner-btn {
       display: flex;
       align-items: center;
@@ -64,23 +74,28 @@
       font-weight: 600;
       text-transform: uppercase;
       margin-top: 33px;
+
       &:hover {
         .btn-text {
           color: #fff;
         }
       }
+
       &-btn-icon {
         margin-right: 16px;
+
         &-gaming {
           width: 30px;
           height: 30px;
         }
       }
+
       &-play-now {
         padding: 13px 16px;
         font-size: 16px;
         font-weight: 600;
         text-transform: uppercase;
+
         &:hover {
           cursor: pointer;
         }
@@ -95,9 +110,11 @@
       &-badge {
         font-size: 26px;
       }
+
       &-title {
         font-size: 48px;
       }
+
       &__banner-btn {
         &-btn-icon {
           &-gaming {

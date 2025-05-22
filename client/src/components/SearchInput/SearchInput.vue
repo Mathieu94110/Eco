@@ -1,48 +1,25 @@
 <template>
   <div class="search-input container">
-    <div
-      class="search-input__input-container"
-      :class="{ 'search-input__input-container--border-searching': isFocused }"
-    >
-      <div
-        class="search-input__input-container__search-icon"
-        :class="{ 'search-input__input-container__search-icon--rotate': isFocused }"
-      >
-        <i class="fa fa-search search-input__input-container__search-icon"></i>
+    <div class="search-input__input-container"
+      :class="{ 'search-input__input-container--border-searching': isFocused }">
+      <div class="search-input__input-container__search-icon"
+        :class="{ 'search-input__input-container__search-icon--rotate': isFocused }">
+        <font-awesome-icon :icon="['fa', 'fa-search']" class="search-input__input-container__search-icon"
+          aria-hidden="true" :size="22" />
       </div>
       <form action="" class="search-input__input-container__form" @submit.prevent>
-        <input
-          type="text"
-          placeholder="Rechercher"
-          v-model="model"
-          class="search-input__input-container__form-search"
-          autocomplete="off"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @keyup="keyUpInput"
-        />
+        <input type="text" placeholder="Rechercher" v-model="model" class="search-input__input-container__form-search"
+          autocomplete="off" @focus="handleFocus" @blur="handleBlur" @keyup="keyUpInput" />
       </form>
-      <svg
-        class="search-input__input-container__search-border"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-        x="0px"
-        y="0px"
-        viewBox="0 0 671 111"
-        style="enable-background: new 0 0 671 111"
-        xml:space="preserve"
-      >
+      <svg class="search-input__input-container__search-border" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px"
+        y="0px" viewBox="0 0 671 111" style="enable-background: new 0 0 671 111" xml:space="preserve">
         <path class="border" d="M335.5,108.5h-280c-29.3,0-53-23.7-53-53v0c0-29.3,23.7-53,53-53h280" />
         <path class="border" d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280" />
       </svg>
-      <div
-        class="search-input__input-container__go-icon"
-        :class="{ 'search-input__input-container__go-icon--go-in': isSearchIcon }"
-        @click="emit('search-game')"
-      >
-        <i class="fa fa-arrow-right"></i>
+      <div class="search-input__input-container__go-icon"
+        :class="{ 'search-input__input-container__go-icon--go-in': isSearchIcon }" @click="emit('search-game')">
+        <font-awesome-icon :icon="['fa', 'fa-arrow-right']" />
       </div>
     </div>
   </div>
@@ -97,6 +74,7 @@ const keyUpInput = (e: Event) => {
 <style scoped lang="scss">
 .search-input {
   margin-bottom: 30px;
+
   &__input-container {
     position: relative;
     width: 100%;
@@ -104,6 +82,7 @@ const keyUpInput = (e: Event) => {
     height: 60px;
     border-radius: 120px;
     margin: 0 auto;
+
     &__search-icon,
     &__go-icon {
       position: absolute;
@@ -113,6 +92,7 @@ const keyUpInput = (e: Event) => {
       line-height: 61px;
       text-align: center;
     }
+
     &__search-icon {
       color: #fff;
       left: 10px;
@@ -125,6 +105,7 @@ const keyUpInput = (e: Event) => {
       -moz-transform-origin: center center;
       -o-transform-origin: center center;
       transition: transform 400ms 220ms cubic-bezier(0.19, 1, 0.22, 1);
+
       &--rotate {
         transform: rotate(90deg);
         width: 20px;
@@ -132,6 +113,7 @@ const keyUpInput = (e: Event) => {
         left: 10px;
       }
     }
+
     &--border-searching {
       .border {
         stroke-dasharray: 740;
@@ -142,6 +124,7 @@ const keyUpInput = (e: Event) => {
         -o-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.15, 0.205, 1);
       }
     }
+
     &__form {
       &-search {
         font-family: "Montserrat Alternates", sans-serif;
@@ -159,33 +142,41 @@ const keyUpInput = (e: Event) => {
         font-weight: 400;
         letter-spacing: -0.015em;
         outline: none;
+
         &::-webkit-input-placeholder {
           color: #ffffff;
         }
+
         &::-moz-placeholder {
           color: #ffffff;
         }
+
         &:-ms-input-placeholder {
           color: #ffffff;
         }
+
         &:-moz-placeholder {
           color: #ffffff;
         }
+
         &::-moz-selection {
           color: #ffffff;
           background: rgba(0, 0, 0, 0.25);
         }
+
         &::selection {
           color: #ffffff;
           background: rgba(0, 0, 0, 0.25);
         }
       }
     }
+
     &__search-border {
       display: block;
       width: 100%;
       max-width: 360px;
       height: 60px;
+
       & path {
         fill: none;
         stroke: #ffffff;
@@ -199,6 +190,7 @@ const keyUpInput = (e: Event) => {
         -o-transition: stroke-dashoffset 400ms cubic-bezier(0.6, 0.04, 0.735, 0.99);
       }
     }
+
     &__go-icon {
       color: #fff;
       right: 0;
@@ -215,6 +207,7 @@ const keyUpInput = (e: Event) => {
       -webkit-transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.19, 1, 0.22, 1);
       -moz-transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.19, 1, 0.22, 1);
       -o-transition: opacity 190ms ease-out, transform 260ms cubic-bezier(0.19, 1, 0.22, 1);
+
       &--go-in {
         opacity: 1;
         pointer-events: all;
@@ -239,6 +232,7 @@ const keyUpInput = (e: Event) => {
         left: 10px;
         width: 30px;
       }
+
       &__form {
         &-search {
           padding: 0 68px 0 68px;

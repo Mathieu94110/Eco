@@ -1,32 +1,41 @@
 <template>
   <div class="basic-pagination">
     <button type="button" class="basic-pagination-left" :disabled="props.prevPage === null" @click="pagePrevHandler">
-      <i class="fa-solid fa-arrow-left"></i> Précédent
+      <font-awesome-icon :icon="['fas', 'arrow-left']" /> Précédent
     </button>
     <button type="button" class="basic-pagination-right" :disabled="props.nextPage === null" @click="pageNextHandler">
-      Suivant <i class="fa-solid fa-arrow-right"></i>
+      Suivant <font-awesome-icon :icon="['fas', 'arrow-right']" />
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+// Ajout des icônes dans la bibliothèque FontAwesome
+library.add(faArrowLeft, faArrowRight);
+
 const props = defineProps<{
   nextPage: string | null;
   prevPage: string | null;
   currentPage: Number;
 }>();
-const emit = defineEmits(["pageHandler"]);
 
-const pagePrevHandler = () => {
-  if (prev !== null) emit("pageHandler", prev.value);
-};
-const pageNextHandler = () => {
-  if (next !== null) emit("pageHandler", next.value);
-};
+const emit = defineEmits(["pageHandler"]);
 
 const prev = computed<Number | null>(() => (props.prevPage ? Number(props.currentPage) - 1 : null));
 const next = computed<Number | null>(() => (props.nextPage ? Number(props.currentPage) + 1 : null));
+
+const pagePrevHandler = () => {
+  if (prev.value !== null) emit("pageHandler", prev.value);
+};
+
+const pageNextHandler = () => {
+  if (next.value !== null) emit("pageHandler", next.value);
+};
 </script>
 
 <style scoped lang="scss">
@@ -35,6 +44,7 @@ const next = computed<Number | null>(() => (props.nextPage ? Number(props.curren
   display: flex;
   align-items: center;
   justify-content: center;
+
   &-left,
   &-right {
     padding: 6px;
@@ -44,14 +54,21 @@ const next = computed<Number | null>(() => (props.nextPage ? Number(props.curren
     font-weight: 600;
     color: var(--secondary-2);
     cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    :deep(svg) {
+      margin: 0 5px;
+    }
   }
 }
+
 @media screen and (min-width: 600px) {
   .basic-pagination {
-    margin-top: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
     &-left,
     &-right {
       margin: 0 16px;

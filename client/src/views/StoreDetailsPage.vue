@@ -1,7 +1,9 @@
 <template>
   <div class="store-details-page">
     <div class="container">
-      <button class="btn btn-primary" @click="goBack"><i class="fa-solid fa-arrow-left"></i></button>
+      <button class="btn btn-primary" @click="goBack">
+        <font-awesome-icon :icon="['fa-solid', 'fa-arrow-left']" />
+      </button>
       <template v-if="storesResults === 'loading'">
         <Loader />
       </template>
@@ -24,7 +26,7 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const storeDetails = computed<StoreDetailsType>(() => store.state.storeDetails);
-const storesResults = computed<''|'loading'>(() => store.state.status);
+const storesResults = computed<'' | 'loading'>(() => store.state.status);
 
 function goBack(): void {
   router.go(-1);

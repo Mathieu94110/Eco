@@ -1,41 +1,13 @@
-<template>
-  <div class="game-item" v-if="props.gameItem">
-    <div class="game-item__top">
-      <img v-if="props.gameItem.background_image" :src="props.gameItem.background_image" :alt="props.gameItem.name"
-        class="game-item__image" />
-      <StarRating :rating="props.gameItem.rating" />
-      <div class="game-item__ratings-count">
-        {{ props.gameItem.ratings_count }}
-        <i class="fa-solid fa-star game-item__ratings-icon"></i>
-      </div>
-    </div>
-    <div class="game-item__bottom">
-      <h4 class="game-item__title">{{ props.gameItem.name }}</h4>
-      <div class="game-item__details">
-        <div class="game-item__details-group">
-          <p class="game-item__details-label">Date de création:</p>
-          <p class="game-item__details-value">{{ formatDate(props.gameItem.released) }}</p>
-        </div>
-        <div class="game-item__details-group">
-          <p class="game-item__details-label">Mise à jour:</p>
-          <p class="game-item__details-value">{{ formatDate(props.gameItem.updated) }}</p>
-        </div>
-        <div class="game-item__favorite" @click="onToggleFavorite">
-          <i
-            :class="['fa-solid fa-star', props.isOnFavorites ? 'game-item__favorite--active' : 'game-item__favorite--inactive']"></i>
-        </div>
-      </div>
-      <router-link :to="{ name: 'Details du jeu', params: { gameId: `${props.gameItem.id}` } }" class="game-item__link">
-        Voir plus
-      </router-link>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import StarRating from '@/components/common/StarRating.vue';
 import { formatDate } from '@/utils';
 import type { GameDetails } from '@/types';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+
+library.add(fasStar, farStar);
 
 const props = defineProps<{
   gameItem: GameDetails;
@@ -50,6 +22,40 @@ function onToggleFavorite() {
   emit('toggleFavorite', props.gameItem);
 }
 </script>
+
+<template>
+  <div class="game-item" v-if="gameItem">
+    <div class="game-item__top">
+      <img v-if="gameItem.background_image" :src="gameItem.background_image" :alt="gameItem.name"
+        class="game-item__image" />
+      <StarRating :rating="gameItem.rating" />
+      <div class="game-item__ratings-count">
+        {{ gameItem.ratings_count }}
+        <font-awesome-icon icon="star" class="game-item__ratings-icon" />
+      </div>
+    </div>
+    <div class="game-item__bottom">
+      <h4 class="game-item__title">{{ gameItem.name }}</h4>
+      <div class="game-item__details">
+        <div class="game-item__details-group">
+          <p class="game-item__details-label">Date de création:</p>
+          <p class="game-item__details-value">{{ formatDate(gameItem.released) }}</p>
+        </div>
+        <div class="game-item__details-group">
+          <p class="game-item__details-label">Mise à jour:</p>
+          <p class="game-item__details-value">{{ formatDate(gameItem.updated) }}</p>
+        </div>
+        <div class="game-item__favorite" :class="{ 'game-item__favorite--active': isOnFavorites }"
+          @click="onToggleFavorite" title="Ajouter aux favoris">
+          <font-awesome-icon :icon="[isOnFavorites ? 'fas' : 'far', 'star']" />
+        </div>
+        <router-link :to="{ name: 'Details du jeu', params: { gameId: `${gameItem.id}` } }" class="game-item__link">
+          Voir plus
+        </router-link>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .game-item {
@@ -132,16 +138,15 @@ function onToggleFavorite() {
 
   &__favorite {
     cursor: pointer;
-    align-self: flex-start;
+    align-self: flex-end;
     margin-top: 8px;
-  }
-
-  &__favorite--active {
-    color: yellow;
-  }
-
-  &__favorite--inactive {
+    width: 18px;
     color: #ccc;
+    transition: color 0.3s ease;
+
+    &--active {
+      color: yellow;
+    }
   }
 
   &__link {
@@ -154,6 +159,7 @@ function onToggleFavorite() {
     font-weight: bold;
     display: inline-block;
     transition: background 0.3s ease;
+    text-decoration: none;
   }
 
   &__link:hover {
@@ -161,6 +167,7 @@ function onToggleFavorite() {
     filter: brightness(0.9);
   }
 }
+
 
 @media screen and (min-width: 800px) {
   .game-item__top {

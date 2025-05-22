@@ -1,19 +1,17 @@
-<template>
-  <ul class="star-rating">
-    <li v-for="(n, idx) in 5" :key="idx">
-      <tempate v-if="rating >= idx + 1">
-        <i class="fa-solid fa-star"></i>
-      </tempate>
-      <tempate v-else-if="rating >= val(idx)"><i class="fa-solid fa-star-half"></i> </tempate>
-      <tempate v-else><i class="fa-regular fa-star"></i></tempate>
-    </li>
-  </ul>
-</template>
-
 <script setup lang="ts">
-const {rating}= defineProps<{
-  rating:  number;
-  
+import { defineProps } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faStar as fasStar,
+  faStarHalfAlt as fasStarHalf,
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
+
+library.add(fasStar, fasStarHalf, farStar);
+
+const props = defineProps<{
+  rating: number;
 }>();
 
 function val(index: number): number {
@@ -21,7 +19,23 @@ function val(index: number): number {
 }
 </script>
 
-<style>
+<template>
+  <ul class="star-rating">
+    <li v-for="(n, idx) in 5" :key="idx">
+      <template v-if="props.rating >= idx + 1">
+        <font-awesome-icon :icon="['fas', 'star']" />
+      </template>
+      <template v-else-if="props.rating >= val(idx)">
+        <font-awesome-icon :icon="['fas', 'star-half-alt']" />
+      </template>
+      <template v-else>
+        <font-awesome-icon :icon="['far', 'star']" />
+      </template>
+    </li>
+  </ul>
+</template>
+
+<style scoped>
 .star-rating {
   display: flex;
   align-items: flex-start;
