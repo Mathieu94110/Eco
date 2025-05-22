@@ -10,7 +10,7 @@ import toastMsg from "@/mixins/toast";
 import { collapsed, toggleSidebar } from "@/mixins/sidebar-collapsed";
 import router from "./router";
 import store from "./store";
-
+import ClickOutsideDirective from './directives/ClickOutsideDirective';
 library.add(farStar, fasStar);
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
@@ -21,7 +21,7 @@ app.config.globalProperties.$toggleSidebar = toggleSidebar;
 app.provide("toastMsg", toastMsg);
 app.provide("collapsed", collapsed);
 app.provide("toggleSidebar", toggleSidebar);
-
+app.directive('click-outside', ClickOutsideDirective);
 app
   .use(router)
   .use(store)

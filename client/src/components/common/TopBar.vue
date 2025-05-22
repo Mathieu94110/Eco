@@ -41,13 +41,16 @@ const handleLogout = async () => {
     console.error("Erreur lors de la redirection :", err);
   }
 };
+
+const closeDropdown = () => {
+  state.open = false;
+};
 </script>
 
 <template>
   <div class="px-20 d-flex flex-row align-center">
-    <div class="topbar__action-container">
+    <div class="topbar__action-container" v-click-outside="closeDropdown">
       <div class="topbar__menu-container">
-        <Calc :open="state.open" @close="state.open = false" :transparent="true" />
         <span @click="state.open = !state.open" @keydown="state.open = !state.open" tabindex="0" role="button"
           aria-label="Toggle menu">
           <font-awesome-icon :icon="['fas', 'bars']" />
@@ -150,7 +153,8 @@ const handleLogout = async () => {
       background-color: transparent;
       transition: background 0.2s ease;
 
-      &:hover {    background-color: var(--success-1);
+      &:hover {
+        background-color: var(--success-1);
         cursor: pointer;
       }
 
