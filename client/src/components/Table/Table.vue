@@ -30,7 +30,8 @@ const isActive = computed<Component>(() => (isTabletOrMobile.value === true ? Ta
 </template>
 
 <style lang="scss">
-@use "../../assets/scss/mixins";
+@use "../../assets/scss/mixins" as m;
+
 .table {
   &__content {
     border: 1px solid #999;
@@ -39,28 +40,33 @@ const isActive = computed<Component>(() => (isTabletOrMobile.value === true ? Ta
     overflow: auto;
     overflow: hidden;
     margin: 30px 0px;
+
     figure {
       margin-block-start: 0;
       margin-block-end: 0;
       margin-inline-start: 0;
       margin-inline-end: 0;
+
       img {
         border: 1px solid #bbb;
         border-radius: 50%;
         height: 60px;
         width: 60px;
-        @media (max-width: 800px) {
+
+        @include m.xs-md {
           height: 40px;
           width: 40px;
         }
       }
     }
+
     table {
       border-collapse: collapse;
       border: 1px solid var(--primary-1);
       width: 100%;
+
       tr {
-        @media (min-width: 800px) {
+        @include m.xs-md {
           &:nth-child(odd) {
             background: var(--gray-2);
           }
@@ -69,9 +75,11 @@ const isActive = computed<Component>(() => (isTabletOrMobile.value === true ? Ta
         th {
           position: sticky;
           top: 0;
-          @media (min-width: 800px) {
+
+          @include m.xs-md {
             background: var(--primary-1);
           }
+
           width: 50px;
           padding: 10px 5px;
           text-align: center;
@@ -88,16 +96,19 @@ const isActive = computed<Component>(() => (isTabletOrMobile.value === true ? Ta
           }
         }
       }
+
       &__cell-action {
         display: flex;
         justify-content: center;
       }
     }
+
     a {
       text-decoration: none;
       font-weight: 500;
     }
   }
+
   &__empty-wrapper {
     width: 100%;
     height: calc(100% - 60px);

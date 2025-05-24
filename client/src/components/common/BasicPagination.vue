@@ -1,9 +1,9 @@
 <template>
   <div class="basic-pagination">
-    <button type="button" class="basic-pagination-left" :disabled="props.prevPage === null" @click="pagePrevHandler">
+    <button type="button" class="basic-pagination__button" :disabled="props.prevPage === null" @click="pagePrevHandler">
       <font-awesome-icon :icon="['fas', 'arrow-left']" /> Précédent
     </button>
-    <button type="button" class="basic-pagination-right" :disabled="props.nextPage === null" @click="pageNextHandler">
+    <button type="button" class="basic-pagination__button" :disabled="props.nextPage === null" @click="pageNextHandler">
       Suivant <font-awesome-icon :icon="['fas', 'arrow-right']" />
     </button>
   </div>
@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-// Ajout des icônes dans la bibliothèque FontAwesome
 library.add(faArrowLeft, faArrowRight);
 
 const props = defineProps<{
@@ -39,6 +38,8 @@ const pageNextHandler = () => {
 </script>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .basic-pagination {
   margin-top: 48px;
   display: flex;
@@ -66,11 +67,9 @@ const pageNextHandler = () => {
   }
 }
 
-@media screen and (min-width: 600px) {
+@include m.sm {
   .basic-pagination {
-
-    &-left,
-    &-right {
+    &__button {
       margin: 0 16px;
       padding: 8px;
       font-size: 16px;

@@ -47,13 +47,8 @@ const isFavorited = ref<boolean>(false);
           </div>
           <div class="card__items">
             <span>Miniature: </span>
-            <img
-              v-if="props.ad.images.length > 0"
-              class="card__img"
-              :src="props.ad.images[0]"
-              height="50"
-              :alt="props.ad.title"
-            />
+            <img v-if="props.ad.images.length > 0" class="card__img" :src="props.ad.images[0]" height="50"
+              :alt="props.ad.title" />
           </div>
         </div>
       </div>
@@ -73,6 +68,8 @@ const isFavorited = ref<boolean>(false);
 </template>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .icon {
   display: flex;
 }
@@ -88,7 +85,7 @@ const isFavorited = ref<boolean>(false);
   padding: 20px;
   box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
-  @media screen and (min-width: 768px) {
+  @include m.md {
     font-size: 1.2rem;
     padding-bottom: 32px;
   }
@@ -135,7 +132,7 @@ const isFavorited = ref<boolean>(false);
     gap: 12px;
     padding: 24px 0 16px 0;
 
-    @media screen and (min-width: 768px) {
+    @include m.md {
       gap: 16px;
       padding: 24px 0;
       height: 320px;
@@ -161,9 +158,10 @@ const isFavorited = ref<boolean>(false);
     line-height: 1.2rem;
     font-weight: lighter;
 
-    @media screen and (min-width: 768px) {
-      height: 76px;
-      overflow-y: auto;
+    @include m.md {
+      gap: 16px;
+      padding: 24px 0;
+      height: 320px;
     }
   }
 
@@ -174,11 +172,11 @@ const isFavorited = ref<boolean>(false);
     padding-top: 4px;
     font-size: 1rem;
 
-    @media screen and (min-width: 768px) {
+    @include m.md {
       padding-top: 6px;
     }
 
-    > * {
+    >* {
       display: flex;
       gap: 8px;
       font-weight: 600;
@@ -240,11 +238,13 @@ const isFavorited = ref<boolean>(false);
     &:hover {
       cursor: pointer;
     }
+
     &.active {
       color: var(--dark-2);
     }
   }
 }
+
 .not-favorite {
   padding: 16px;
   width: 250px;

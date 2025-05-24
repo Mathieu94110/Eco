@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import {StoreItem} from "@/components/store";
+import { StoreItem } from "@/components/store";
 
 defineProps<{
   stores: any[];
@@ -15,10 +15,13 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .stores-list {
   display: grid;
-    grid-template-columns: repeat(1, 1fr);
-  @media screen and (min-width: 992px) {
+  grid-template-columns: repeat(1, 1fr);
+
+  @include m.lg {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 32px;
   }

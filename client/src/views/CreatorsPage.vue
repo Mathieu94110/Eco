@@ -1,16 +1,20 @@
 <template>
   <div class="creators-page">
-    <div class="creators-page__content">
-      <Title :title="{ primary: 'Nos', secondary: 'createurs' }" />
+    <div class="creators-page__content container">
+      <Title class="creators-page__title" :title="{ primary: 'Nos', secondary: 'createurs' }" />
+
       <template v-if="status === 'loading'">
-        <Loader />
+        <Loader class="creators-page__loader" />
       </template>
+
       <template v-else-if="creators?.length">
-        <CreatorList :creators="creators" />
-        <Pagination @page-handler="pageHandler" :nextPage="nextPage" :prevPage="prevPage" :currentPage="page" />
+        <CreatorList :creators="creators" class="creators-page__list" />
+        <Pagination class="creators-page__pagination" @page-handler="pageHandler" :nextPage="nextPage"
+          :prevPage="prevPage" :currentPage="page" />
       </template>
+
       <template v-else>
-        <h2 class="no-data-found">Aucun créateur trouvé</h2>
+        <h2 class="creators-page__no-data">Aucun créateur trouvé</h2>
       </template>
     </div>
   </div>
@@ -40,6 +44,7 @@ const pageIndex = computed({
 function pageHandler(pageValue: number) {
   pageIndex.value = pageValue;
 }
+
 onMounted(() => {
   store.dispatch("fetchCreators", page.value);
 });
@@ -47,7 +52,7 @@ watch(
   () => page.value,
   () => {
     store.dispatch("fetchCreators", page.value);
-  },
+  }
 );
 </script>
 
@@ -56,8 +61,33 @@ watch(
   background-color: var(--dark-1);
   min-height: 100vh;
   padding: 60px 0;
+
   &__content {
     margin: 10px;
+  }
+
+  &__title {
+    margin-bottom: 2rem;
+  }
+
+  &__loader {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__list {
+    margin-top: 1.5rem;
+  }
+
+  &__pagination {
+    margin-top: 2rem;
+  }
+
+  &__no-data {
+    text-align: center;
+    color: #fff;
+    margin-top: 3rem;
   }
 }
 </style>

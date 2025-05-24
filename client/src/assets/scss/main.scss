@@ -1,4 +1,4 @@
-@use "./mixins";
+@use "./mixins" as m;
 
 :root {
   --primary-1: #42b883;
@@ -59,6 +59,7 @@ body {
   margin: 0 auto;
   padding: 0 1.6rem;
 }
+
 // padding
 .p-10 {
   padding: 10px;
@@ -174,12 +175,15 @@ body {
 .m-30 {
   margin: 30px;
 }
+
 .full-width {
   width: 100%;
 }
+
 .full-height {
   height: 100vh;
 }
+
 // flexbox
 .d-flex {
   display: flex;
@@ -208,9 +212,11 @@ body {
 .justify-end {
   justify-content: flex-end;
 }
+
 .space-between {
   justify-content: space-between;
 }
+
 .text-center {
   text-align: center;
 }
@@ -252,6 +258,7 @@ body {
   font-weight: 500;
   transition: background-color 0.2s;
 }
+
 .btn-play-now {
   text-decoration: none;
   padding: 13px 16px;
@@ -259,9 +266,11 @@ body {
   font-weight: 600;
   text-transform: uppercase;
 }
+
 .btn-primary {
   background-color: var(--primary-1);
   color: #fff;
+
   &:hover {
     transform: scale(1.05) rotate(-1deg);
     cursor: pointer;
@@ -304,17 +313,19 @@ input:disabled {
 }
 
 .hide-xs {
-  @include mixins.xs {
+  @include m.xs {
     display: none;
   }
 }
+
 .no-data-found {
   margin: 10px;
   color: var(--danger);
   text-align: center;
   font-size: 16px;
 }
-@media screen and (min-width: 800px) {
+
+@include m.md {
   .no-data-found {
     font-size: 24px;
   }

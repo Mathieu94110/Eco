@@ -3,11 +3,11 @@
     <div class="stores-page__content">
       <Title :title="{ primary: 'Tous', secondary: 'les stores' }" />
 
-      <Loader v-if="status === 'loading'" />
+      <Loader v-if="status === 'loading'" class="stores-page__loader" />
 
-      <StoreList v-else-if="storesResults.length" :stores="storesResults" />
+      <StoreList v-else-if="storesResults.length" :stores="storesResults" class="stores-page__list" />
 
-      <h2 v-else class="no-data-found">Aucun store trouvé</h2>
+      <h2 v-else class="stores-page__no-data">Aucun store trouvé</h2>
     </div>
   </div>
 </template>

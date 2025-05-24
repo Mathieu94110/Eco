@@ -18,6 +18,8 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .creator-list {
   margin-top: 140px;
   width: 100%;
@@ -27,11 +29,11 @@ defineProps<{
     gap: 40px;
     grid-template-columns: 1fr;
 
-    @media (min-width: 768px) {
+    @include m.md {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (min-width: 1200px) {
+    @include m.xl {
       grid-template-columns: repeat(3, 1fr);
     }
   }

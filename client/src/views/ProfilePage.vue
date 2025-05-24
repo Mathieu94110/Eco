@@ -47,21 +47,32 @@ onMounted(async (): Promise<void> => {
 </script>
 
 <template>
-  <div class="profile">
-    <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage" />
-    <div>
-      <UserProfileCard :user-infos="state.user" @update-user="UpdateInfos"></UserProfileCard>
+  <div class="user-profile">
+    <loading v-model:active="state.isLoading" :can-cancel="true" :is-full-page="state.fullPage"
+      class="user-profile__loader" />
+    <div class="user-profile__card-wrapper">
+      <UserProfileCard :user-infos="state.user" @update-user="UpdateInfos" class="user-profile__card" />
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.profile {
+<style scoped lang="scss">
+.user-profile {
   width: 100%;
   height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &__card-wrapper {
+    width: 100%;
+    max-width: 800px;
+    padding: 1rem;
+  }
+
+  &__card {
+    width: 100%;
+  }
 }
 </style>

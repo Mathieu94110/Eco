@@ -9,15 +9,19 @@ import loader from "@/assets/images/loader.gif";
 </script>
 
 <style lang="scss" scoped>
+@use "../../assets/scss/mixins" as m;
+
 .loader {
   display: flex;
   align-items: center;
   justify-content: center;
+
   img {
     max-width: 60px;
   }
 }
-@media screen and (min-width: 600px) {
+
+@include m.sm {
   .loader {
     img {
       max-width: 120px;

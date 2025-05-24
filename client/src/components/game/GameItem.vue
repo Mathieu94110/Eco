@@ -58,6 +58,8 @@ function onToggleFavorite() {
 </template>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .game-item {
   display: flex;
   flex-direction: column;
@@ -168,8 +170,7 @@ function onToggleFavorite() {
   }
 }
 
-
-@media screen and (min-width: 800px) {
+@include m.md {
   .game-item__top {
     height: 280px;
   }

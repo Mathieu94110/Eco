@@ -49,6 +49,8 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
 </script>
 
 <style scoped lang="scss">
+@use "../../assets/scss/mixins" as m;
+
 .genre-list {
   &__container {
     position: relative;
@@ -123,7 +125,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
   }
 }
 
-@media screen and (min-width: 768px) {
+@include m.md {
   .genre-list {
     &__container {
       &__item {
@@ -136,7 +138,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
   }
 }
 
-@media screen and (min-width: 1200px) {
+@include m.xl {
   .genre-list {
     &__item {
       &-list {
@@ -146,7 +148,7 @@ const tabButtonsHandler = (): boolean => (state.tabButtonStatus = !state.tabButt
   }
 }
 
-@media screen and (max-width: 1280px) {
+@include m.xs-xl {
   .genre-list {
     &__container {
       &__buttons {

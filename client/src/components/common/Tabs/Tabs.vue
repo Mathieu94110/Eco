@@ -1,13 +1,8 @@
 <template>
   <div>
     <ul class="tabs__header">
-      <li
-        class="tabs__header-link"
-        v-for="(tab, index) in tabs"
-        :key="tab.title"
-        @click="selectTab(index)"
-        :class="{ 'tabs__header-link--selected': index == selectedIndex }"
-      >
+      <li class="tabs__header-link" v-for="(tab, index) in tabs" :key="tab.title" @click="selectTab(index)"
+        :class="{ 'tabs__header-link--selected': index == selectedIndex }">
         {{ tab.props.title }}
       </li>
     </ul>
@@ -53,11 +48,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@use '../../../assets/scss/mixins' as m;
+
 .tabs {
   &__header {
     display: block;
     list-style: none;
     padding: 0;
+
     &-link {
       padding: 4px 8px;
       border-radius: 10px;
@@ -66,6 +64,7 @@ export default defineComponent({
       cursor: pointer;
       background-color: #fff;
       color: var(--secondary-1);
+
       &--selected {
         font-weight: bold;
         border: 1px solid var(--secondary-1);
@@ -74,7 +73,7 @@ export default defineComponent({
   }
 }
 
-@media screen and (min-width: 600px) {
+@include m.sm {
   .tabs {
     &__header {
       &-link {

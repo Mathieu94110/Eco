@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { RouteRecordName, useRoute } from "vue-router";
+import { type RouteRecordName, useRoute } from "vue-router";
 
 const route = useRoute();
-const currentRoute = computed<RouteRecordName>(() => route.name);
+const currentRoute = computed<RouteRecordName | null | undefined>(() => route.name);
 </script>
 
 <template>
@@ -26,14 +26,20 @@ const currentRoute = computed<RouteRecordName>(() => route.name);
       </div>
       <div class="card-layout__items">
         <span>Prix :</span>
-        <span><slot name="price"></slot></span>
+        <span>
+          <slot name="price"></slot>
+        </span>
       </div>
       <div class="card-layout__items">
         <span>Date de création :</span>
-        <span><slot name="date"></slot></span>
+        <span>
+          <slot name="date"></slot>
+        </span>
       </div>
       <div class="card-layout__items">
-        <span>Catégorie :</span> <span><slot name="category"></slot></span>
+        <span>Catégorie :</span> <span>
+          <slot name="category"></slot>
+        </span>
       </div>
       <div class="card-layout__footer" v-if="currentRoute === 'Mes favoris'">
         <div>
@@ -46,6 +52,7 @@ const currentRoute = computed<RouteRecordName>(() => route.name);
 
 <style scoped lang="scss">
 @use "../../assets/scss/mixins";
+
 .card-layout {
   &__card {
     width: 320px;
@@ -56,6 +63,7 @@ const currentRoute = computed<RouteRecordName>(() => route.name);
     margin: 10px auto;
     font-size: 1.2rem;
     box-shadow: 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
     @include mixins.xs {
       font-size: 1rem;
       padding: 16px 10px 0px 10px;
@@ -63,6 +71,7 @@ const currentRoute = computed<RouteRecordName>(() => route.name);
       margin: 20px auto;
     }
   }
+
   &__image {
     cursor: pointer;
     position: relative;
@@ -70,18 +79,22 @@ const currentRoute = computed<RouteRecordName>(() => route.name);
     overflow: hidden;
     text-align: center;
   }
+
   &__content {
     display: flex;
     flex-direction: column;
     padding: 12px 0 16px 0;
   }
+
   &__items {
     display: flex;
     flex-direction: column;
-    > span {
+
+    >span {
       &:nth-child(odd) {
         color: var(--primary-1);
       }
+
       &:nth-child(even) {
         color: var(--primary-color);
       }
@@ -91,13 +104,16 @@ const currentRoute = computed<RouteRecordName>(() => route.name);
       padding: 10px 0px;
       height: 100px;
       overflow: auto;
+
       @include mixins.xs {
         height: 60px;
       }
     }
+
     &-title {
       height: 60px;
       overflow: auto;
+
       @include mixins.xs {
         height: 30px;
       }

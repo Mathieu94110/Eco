@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { reactive, watch, ref, inject } from "vue";
 import { useStore } from "vuex";
-import createdAdCard from "@/components/CreatedAdCard/CreatedAdCard.vue";
-import CreateAdCard from "../components/CreateAdCard/CreateAdCard.vue";
+import CreatedAdCard from "@/components/CreatedAdCard/CreatedAdCard.vue";
+import CreateAdCard from "@/components/CreateAdCard/CreateAdCard.vue";
 import type { UserAdInterface, ToastInterface } from "@/types";
-import mysteryImage from "../assets/images/mystery-image.png";
+import mysteryImage from "@/assets/images/mystery-image.png";
 
 const state = reactive<{
   post: UserAdInterface;
@@ -17,7 +17,6 @@ const state = reactive<{
 });
 
 const toastMsg = inject<ToastInterface>("toastMsg")!;
-
 const store = useStore();
 const isAdCreated = ref<boolean>(false);
 const userId = store?.state.user._id;
@@ -29,11 +28,12 @@ const createAd = async (ad: UserAdInterface) => {
     description: ad.description,
     category: ad.category,
     price: ad.price,
-    image: ad.image ? ad.image : mysteryImage,
+    image: ad.image || mysteryImage,
   });
   state.showCreatedPost = true;
   isAdCreated.value = true;
 };
+
 const submitAd = async (): Promise<void> => {
   try {
     await store.dispatch("sendPost");
@@ -63,7 +63,6 @@ const cancelAd = async () => {
       price: null,
       category: "",
     });
-
     isAdCreated.value = false;
     state.showCreatedPost = false;
     state.isAdCancel = true;
@@ -77,82 +76,67 @@ watch(
   () => store?.state.currentPost,
   (newValue: UserAdInterface) => {
     state.post = newValue;
-  },
+  }
 );
 </script>
 
 <template>
   <div class="create-ad">
-    <div class="create-ad__items">
-      <div class="create-ad__items-wrapper">
-        <CreateAdCard
-          :is-ad-created="isAdCreated"
-          :is-ad-cancel="state.isAdCancel"
-          @create-ad="createAd"
-          @cancel-ad="cancelAd"
-          @submit-ad="submitAd"
-          ref="create-ad"
-        ></CreateAdCard>
-        <Transition name="nested">
-          <createdAdCard v-if="state.showCreatedPost" :current-post="state.post" ref="created-ad"></createdAdCard>
-        </Transition>
-      </div>
+    <div class="create-ad__container">
+      <CreateAdCard class="create-ad__form" :is-ad-created="isAdCreated" :is-ad-cancel="state.isAdCancel"
+        @create-ad="createAd" @cancel-ad="cancelAd" @submit-ad="submitAd" />
+      <Transition name="create-ad-fade">
+        <CreatedAdCard v-if="state.showCreatedPost" class="create-ad__preview" :current-post="state.post" />
+      </Transition>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-@use "../assets/scss/mixins" as m;
+<style scoped lang="scss">
+@use "@/assets/scss/mixins" as m;
 
 .create-ad {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  display: block;
-  &__items {
-    display: block;
-    margin: 0;
-    height: 100%;
-    color: #181818;
-    font-weight: 700;
-    div:first-child {
-      display: block;
-    }
-    &-wrapper {
-      display: block;
-      height: 100%;
-      @include m.xs-lg {
-        margin-bottom: 20px;
-      }
-    }
-  }
-}
 
-@include m.lg {
-  .create-ad {
-    height: 100%;
+  &__container {
     width: 100%;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
 
-    &__items {
-      height: calc(100% - 60px);
+    @include m.lg {
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      height: calc(100vh - 60px);
+    }
+  }
 
-      div:first-child {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-      }
+  &__form {
+    flex: 1;
+  }
+
+  &__preview {
+    flex: 1;
+    margin-top: 20px;
+
+    @include m.lg {
+      margin-top: 0;
     }
   }
 }
 
-//Transition
-.nested-enter-active,
-.nested-leave-active {
+.create-ad-fade-enter-active,
+.create-ad-fade-leave-active {
   transition: all 0.4s ease-in-out;
 }
 
-.nested-enter-from,
-.nested-leave-to {
-  transform: translateX(30px);
+.create-ad-fade-enter-from,
+.create-ad-fade-leave-to {
   opacity: 0;
+  transform: translateX(30px);
 }
 </style>

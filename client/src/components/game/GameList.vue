@@ -44,17 +44,19 @@ const toggleFavorite = (item: GameDetails) => {
 </script>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .game-list {
   padding: 20px;
   display: grid;
   gap: 40px;
 
-  @media screen and (min-width: 768px) {
+  @include m.md {
     grid-template-columns: repeat(2, 1fr);
     align-items: stretch;
   }
 
-  @media screen and (min-width: 1200px) {
+  @include m.xl {
     grid-template-columns: repeat(3, 1fr);
   }
 }

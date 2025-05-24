@@ -34,22 +34,27 @@ defineProps<{ storeItem: any }>();
 </script>
 
 <style scoped lang="scss">
+@use "../../assets/scss/mixins" as m;
+
 .store-item {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   min-height: 120px;
   margin: 16px 0;
+
   &__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
+
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 16px;
+
     &-title {
       letter-spacing: 0.04em;
       color: #0b082d;
@@ -63,30 +68,37 @@ defineProps<{ storeItem: any }>();
         color: #000;
         opacity: 0.9;
       }
+
       & a {
         color: #fff;
       }
     }
+
     &-info {
-      & > li {
+      &>li {
         display: block;
         color: #fff;
+
         & span {
           font-weight: 700;
         }
+
         & a {
           color: #fff;
         }
       }
     }
+
     &-game {
       color: #fff;
       font-weight: 700;
     }
+
     &__game-link {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+
       &-link {
         background-color: var(--pink-1);
         border-radius: 100vh;
@@ -94,6 +106,7 @@ defineProps<{ storeItem: any }>();
         padding-left: 8px;
         min-height: 23px;
         font-weight: 500;
+
         & a {
           text-decoration: none;
           color: #fff;
@@ -107,14 +120,15 @@ defineProps<{ storeItem: any }>();
   }
 }
 
-@media screen and (min-width: 600px) {
+@include m.sm {
   .store-item {
     &__content {
       padding: 16px;
     }
   }
 }
-@media screen and (min-width: 992px) {
+
+@include m.lg {
   .store-item {
     grid-template-columns: repeat(2, 1fr);
   }

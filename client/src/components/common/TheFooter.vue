@@ -45,14 +45,14 @@ library.add(faEnvelope);
             Souscrivez à notre newsletter pour avoir nos dernières nouvelles.
           </p>
 
-          <form class="the-footer__top__content__item__form" @submit.stop="" novalidate>
+          <form class="the-footer__top__content__item__form" @submit.prevent novalidate>
             <label for="email" class="visually-hidden">Adresse email</label>
             <div class="the-footer__top__content__item__form__content">
               <input id="email" type="email" class="the-footer__top__content__item__form__content-input"
                 placeholder="Votre adresse email" required aria-required="true" aria-describedby="email-error" />
               <button type="submit" class="the-footer__top__content__item__form__content-button"
                 aria-label="Envoyer email newsletter">
-                <font-awesome-icon :icon="['far', 'envelope']" />
+                <FontAwesomeIcon :icon="['far', 'envelope']" />
               </button>
             </div>
           </form>
@@ -77,6 +77,8 @@ library.add(faEnvelope);
 </template>
 
 <style scoped lang="scss">
+@use "../../assets/scss/mixins" as m;
+
 .the-footer {
   &__top {
     background-color: #050415;
@@ -209,7 +211,7 @@ library.add(faEnvelope);
   }
 }
 
-@media screen and (min-width: 768px) {
+@include m.md {
   .the-footer {
     &__top {
       &__content {
@@ -251,7 +253,7 @@ library.add(faEnvelope);
   }
 }
 
-@media screen and (min-width: 992px) {
+@include m.lg {
   .the-footer {
     flex-direction: row;
     text-align: center;
@@ -270,7 +272,7 @@ library.add(faEnvelope);
   }
 }
 
-@media screen and (min-width: 1200px) {
+@include m.xl {
   .the-footer {
     &__top {
       &__content {

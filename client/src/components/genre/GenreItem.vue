@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, toRefs } from "vue";
+import { onMounted, reactive } from "vue";
 import StarRating from "@/components/common/StarRating.vue";
 import { apiURL } from "@/constants";
 import axios from "@/api/axios";

@@ -17,6 +17,8 @@ const { title } = defineProps<{
 </script>
 
 <style lang="scss" scoped>
+@use '../../assets/scss/mixins' as m;
+
 .title {
   padding: 12px 0;
   text-align: center;
@@ -26,13 +28,16 @@ const { title } = defineProps<{
   color: #fff;
   margin-bottom: 40px;
   font-family: inherit;
+
   &__content {
     text-transform: uppercase;
     position: relative;
+
     span {
       color: var(--pink-1);
     }
   }
+
   &__line {
     margin-top: 16px;
     height: 6px;
@@ -41,6 +46,7 @@ const { title } = defineProps<{
     margin-left: auto;
     background-color: var(--primary-1);
     position: relative;
+
     &::after {
       content: "";
       position: absolute;
@@ -49,6 +55,7 @@ const { title } = defineProps<{
       border-bottom: 3.5px solid transparent;
       border-top: 3.5px solid transparent;
     }
+
     &::before {
       content: "";
       position: absolute;
@@ -59,7 +66,8 @@ const { title } = defineProps<{
     }
   }
 }
-@media (min-width: 800px) {
+
+@include m.md {
   .title {
     font-size: 32px;
   }

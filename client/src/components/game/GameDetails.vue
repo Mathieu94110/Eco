@@ -138,6 +138,8 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
 </template>
 
 <style scoped lang="scss">
+@use '../../assets/scss/mixins' as m;
+
 .game-details {
   background: #00000099;
   padding: 10px;
@@ -161,7 +163,7 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
     gap: 24px;
     grid-template-columns: 1fr;
 
-    @media (min-width: 1080px) {
+    @include m.lg {
       grid-template-columns: repeat(2, 1fr);
       gap: 32px;
       align-items: stretch;
@@ -181,7 +183,7 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
   &__info {
     margin-top: 24px;
 
-    @media (min-width: 1080px) {
+    @include m.lg {
       margin-top: 0;
     }
   }
@@ -274,7 +276,7 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
         color: #fff;
         width: 100%;
 
-        @media (min-width: 992px) {
+        @include m.lg {
           width: calc(33.333% - 10px);
         }
       }
@@ -299,18 +301,18 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
       display: grid;
       gap: 40px;
 
-      @media (min-width: 992px) {
+      @include m.lg {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      @media (min-width: 1200px) {
+      @include m.xl {
         grid-template-columns: repeat(3, 1fr);
       }
     }
   }
 }
 
-@media screen and (min-width: 600px) {
+@include m.sm {
   .game-details {
     padding: 32px 14px;
 
@@ -320,7 +322,7 @@ const createdDate = computed<string>(() => formatDate(props.gameData?.released))
   }
 }
 
-@media screen and (min-width: 1080px) {
+@include m.lg {
   .game-details {
     padding: 60px 42px;
 

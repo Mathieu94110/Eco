@@ -9,7 +9,7 @@
       </p>
       <div class="banner__content__banner-btn">
         <span class="banner__content__banner-btn-btn-icon">
-          <font-awesome-icon :icon="['fas', 'gamepad']" class="banner__content__banner-btn-btn-icon-gaming" />
+          <FontAwesomeIcon :icon="['fas', 'gamepad']" class="banner__content__banner-btn-btn-icon-gaming" />
         </span>
         <span class="btn-play-now btn-primary">Jouer maintenant</span>
       </div>
@@ -26,9 +26,10 @@ library.add(faGamepad);
 </script>
 
 <style lang="scss" scoped>
+@use '../../assets/scss/mixins' as m;
+
 .banner {
   background-image: url("@/assets/images/banner-background.jpeg");
-  background: cover;
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
@@ -104,7 +105,7 @@ library.add(faGamepad);
   }
 }
 
-@media screen and (min-width: 800px) {
+@include m.md {
   .banner {
     &__content {
       &-badge {
