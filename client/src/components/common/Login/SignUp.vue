@@ -2,7 +2,6 @@
 import { useStore } from "vuex";
 import { reactive } from "vue";
 import LoginFormLayout from "@/components/Layout/LoginFormLayout.vue";
-import { toTypedSchema } from "@vee-validate/zod";
 import type { UserForm } from "@/types";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
@@ -57,7 +56,7 @@ const [password, passwordAttrs] = defineField("password");
 <template>
   <form class="login" @submit="onSubmit">
     <span class="login__logo"></span>
-    <LoginFormLayout :items="state.items">
+    <LoginFormLayout>
       <template #title>
         <h1>Inscription</h1>
       </template>
@@ -71,14 +70,8 @@ const [password, passwordAttrs] = defineField("password");
       </template>
       <template #group>
         <div class="login__form-group">
-          <input
-            type="text"
-            class="login__form-field"
-            placeholder="Pseudo"
-            v-model="pseudo"
-            v-bind="pseudoAttrs"
-            required
-          />
+          <input type="text" class="login__form-field" placeholder="Pseudo" v-model="pseudo" v-bind="pseudoAttrs"
+            required />
           <label for="userName" class="login__form-label">Pseudo</label>
           <div class="login__form-items-error">
             <div class="login__form-items--error" v-show="errors.pseudo" id="generic-error">
@@ -87,15 +80,8 @@ const [password, passwordAttrs] = defineField("password");
           </div>
         </div>
         <div class="login__form-group">
-          <input
-            type="email"
-            class="login__form-field"
-            placeholder="Email"
-            v-model="email"
-            v-bind="emailAttrs"
-            data-cy="email"
-            required
-          />
+          <input type="email" class="login__form-field" placeholder="Email" v-model="email" v-bind="emailAttrs"
+            data-cy="email" required />
           <label for="email" class="login__form-label">Email</label>
           <div class="login__form-items-error">
             <div class="login__form-items--error" v-show="errors.email" id="generic-error">
@@ -104,25 +90,15 @@ const [password, passwordAttrs] = defineField("password");
           </div>
         </div>
         <div class="login__form-group">
-          <input
-            type="password"
-            class="login__form-field"
-            placeholder="Mot de passe"
-            v-model="password"
-            v-bind="passwordAttrs"
-            data-cy="password"
-            required
-          />
+          <input type="password" class="login__form-field" placeholder="Mot de passe" v-model="password"
+            v-bind="passwordAttrs" data-cy="password" required />
           <label for="password" class="login__form-label">Mot de passe</label>
           <div class="login__form-items-error">
             <div class="login__form-items--error" v-show="errors.password" id="generic-error">
               {{ errors.password }}
             </div>
-            <div
-              class="login__form-items--error"
-              v-show="props.status === 'Adresse mail déjà utilisée'"
-              id="generic-error"
-            >
+            <div class="login__form-items--error" v-show="props.status === 'Adresse mail déjà utilisée'"
+              id="generic-error">
               {{ props.status }}
             </div>
           </div>

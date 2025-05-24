@@ -79,13 +79,15 @@ const store = createStore({
     async login({ commit }, userInfos) {
       commit("setStatus", "loading");
       try {
-        const response = (await login(userInfos));
+        const response = await login(userInfos);
         commit("logUser", response);
         commit("setUserLogged", true);
         commit("setStatus", "");
+        return true;
       } catch (e) {
         commit("setStatus", "error-login");
         console.error(e);
+        return false;
       }
     },
 

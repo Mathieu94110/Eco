@@ -30,14 +30,15 @@ const switchComponent = (): void => {
 };
 
 const submit = async () => {
-  try {
-    await store.dispatch("login", {
-      email: state.email,
-      password: state.password,
-    });
+  if (!validatedFields.value) return;
+
+  const success = await store.dispatch("login", {
+    email: state.email,
+    password: state.password,
+  });
+
+  if (success) {
     router.push("/home");
-  } catch (e) {
-    console.error(e);
   }
 };
 
@@ -47,7 +48,7 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
 <template>
   <form class="login" @submit.prevent="submit">
     <span class="login__logo"></span>
-    <LoginFormLayout :items="state.items">
+    <LoginFormLayout>
       <template #title>
         <h1>Connection</h1>
       </template>
@@ -59,29 +60,13 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       </template>
       <template #group>
         <div class="login__form-group">
-          <input
-            type="input"
-            class="login__form-field"
-            placeholder="Email"
-            name="email"
-            id="email"
-            v-model="state.email"
-            data-cy="email"
-            required
-          />
+          <input type="input" class="login__form-field" placeholder="Email" name="email" id="email"
+            v-model="state.email" data-cy="email" required />
           <label for="email" class="login__form-label">Email</label>
         </div>
         <div class="login__form-group">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="login__form-field"
-            placeholder="Mot de passe"
-            v-model="state.password"
-            data-cy="password"
-            required
-          />
+          <input type="password" name="password" id="password" class="login__form-field" placeholder="Mot de passe"
+            v-model="state.password" data-cy="password" required />
           <label for="password" class="login__form-label">Mot de passe</label>
         </div>
       </template>

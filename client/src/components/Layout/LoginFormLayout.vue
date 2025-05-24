@@ -65,7 +65,7 @@
 
   &__form-group {
     position: relative;
-    padding: 10px 0 0;
+    padding-top: 10px;
   }
 
   &__form-field {
@@ -106,8 +106,7 @@
 
   &__form-items {
     &-error {
-      margin-top: 10px;
-      height: 40px;
+      margin: 8px auto;
     }
 
     &--error {
@@ -115,7 +114,6 @@
       font-weight: bold;
       font-size: 12px;
       width: auto;
-      margin: auto;
     }
   }
 
