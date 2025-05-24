@@ -22,7 +22,7 @@ import type { storeResultsType } from "@/types";
 
 const store = useStore();
 const status = computed<string>(() => store?.getters.getStatus);
-const storesResults = computed<storeResultsType[]>(() => store.state.stores.results);
+const storesResults = computed<storeResultsType[]>(() => store.state.stores.results || []);
 
 onMounted(() => {
   store.dispatch("fetchStores");
@@ -33,6 +33,5 @@ onMounted(() => {
 .stores-page {
   background-color: var(--dark-1);
   min-height: 100vh;
-  padding-top: 65px;
-}
+  padding-top: 65px;}
 </style>
