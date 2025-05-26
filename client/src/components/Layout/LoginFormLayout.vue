@@ -65,7 +65,7 @@
 
   &__form-group {
     position: relative;
-    padding-top: 10px;
+    padding-top: 16px;
   }
 
   &__form-field {
