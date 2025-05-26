@@ -27,6 +27,7 @@ defineProps<{
   &__grid {
     display: grid;
     gap: 40px;
+    margin-top: 100px;
     grid-template-columns: 1fr;
 
     @include m.md {
