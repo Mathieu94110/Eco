@@ -1,26 +1,33 @@
 import { mount } from "@vue/test-utils";
-import SignIn from "@/components/common/Login/SignIn.vue";
-import { createStore } from "vuex";
 import { beforeEach, describe, it, expect, vi } from "vitest";
 
-const store = createStore({
-  state() {
-    return {
-      user: { userId: "1125533495595" },
-      windowWidth: 747,
-      currentPost: {
-        image: "image.png",
-      },
-    };
-  },
-});
+const dispatchMock = vi.fn();
+const pushMock = vi.fn();
+
+vi.mock("vuex", () => ({
+  useStore: () => ({
+    dispatch: dispatchMock,
+  }),
+}));
+
+vi.mock("vue-router", () => ({
+  useRouter: () => ({
+    push: pushMock,
+  }),
+}));
+
+import SignIn from "@/components/common/Login/SignIn.vue";
 
 describe("SignIn Component", () => {
   let wrapper;
+
   beforeEach(() => {
+    dispatchMock.mockReset();
+    pushMock.mockReset();
+
     wrapper = mount(SignIn, {
-      global: {
-        plugins: [store],
+      props: {
+        status: "",
       },
     });
   });
@@ -37,39 +44,41 @@ describe("SignIn Component", () => {
     expect(passwordInput.element.value).toBe("toto94");
   });
 
-  it("should submit has been called", async () => {
-    const spy = vi.spyOn(wrapper.vm, "submit");
-    const newEmail = "toto94@gmail.com";
-    const newPassword = "toto941";
-    await wrapper.find("#email").setValue(newEmail);
-    await wrapper.find("#password").setValue(newPassword);
+  it("should dispatch login action on submit", async () => {
+    dispatchMock.mockResolvedValue(true);
+
+    await wrapper.find("#email").setValue("toto94@gmail.com");
+    await wrapper.find("#password").setValue("toto941");
     await wrapper.find("form").trigger("submit.prevent");
-    expect(spy).toHaveBeenCalled();
+
+    expect(dispatchMock).toHaveBeenCalledWith("login", {
+      email: "toto94@gmail.com",
+      password: "toto941",
+    });
+
+    expect(pushMock).toHaveBeenCalledWith("/home");
   });
 
-  it("should no email value or no password value locked login button", async () => {
-    const newEmail = "toto94@gmail.com";
-    const newPassword = "toto941";
-    await wrapper.find("#email").setValue(newEmail);
-    await wrapper.find("#email").setValue("");
-    await wrapper.find("#password").setValue(newPassword);
-    await wrapper.find("#password").setValue("");
+  it("should disable login button if fields are empty", async () => {
     const loginBtn = wrapper.find("#login-button");
     expect(loginBtn.element.disabled).toBe(true);
+
+    await wrapper.find("#email").setValue("toto94@gmail.com");
+    expect(loginBtn.element.disabled).toBe(true);
+
+    await wrapper.find("#password").setValue("toto941");
+    expect(loginBtn.element.disabled).toBe(false);
   });
 
   it("renders generic error if status prop is error-login", () => {
-    const wrapper = mount(SignIn, {
+    const errorWrapper = mount(SignIn, {
       props: {
         status: "error-login",
       },
-      data() {
-        return {
-          password: "short",
-        };
-      },
     });
-    const emailInput = wrapper.find("#generic-error");
-    expect(emailInput.html()).toContain("Adresse mail et/ou mot de passe invalide");
+
+    const errorMessage = errorWrapper.find("#generic-error");
+    expect(errorMessage.exists()).toBe(true);
+    expect(errorMessage.html()).toContain("Adresse mail et/ou mot de passe invalide");
   });
 });

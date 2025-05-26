@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      categories: userAdsCategories,
+      categories: [],
       formData: {} as UserAdInterface,
       isAdCreated: false,
       isInputsDisabled: false,
@@ -74,50 +74,20 @@ export default {
     <div class="create-ad-card__card">
       <div class="create-ad-card__card-content">
         <FileInput v-model="formData.image" :disabled="$data.isInputsDisabled" />
-        <TextInputs
-          label="Titre"
-          v-model="v$.formData.title.$model"
-          :errors="v$.formData.title.$errors"
-          :is-valid-data="!v$.formData.title.$invalid"
-          :disabled="$data.isInputsDisabled"
-          data-cy="create-ad-title"
-        />
-        <TextInputs
-          label="Description"
-          v-model="v$.formData.description.$model"
-          :errors="v$.formData.description.$errors"
-          :is-valid-data="!v$.formData.description.$invalid"
-          :disabled="$data.isInputsDisabled"
-          data-cy="create-ad-description"
-        />
-        <TextInputs
-          label="Prix"
-          v-model="v$.formData.price.$model"
-          :errors="v$.formData.price.$errors"
-          :is-valid-data="!v$.formData.price.$invalid"
-          type="number"
-          :disabled="$data.isInputsDisabled"
-          data-cy="create-ad-price"
-        />
-        <SelectInput
-          label="Catégorie"
-          v-model="v$.formData.category.$model"
-          :errors="v$.formData.category.$errors"
-          :is-valid-data="!v$.formData.category.$invalid"
-          :options="categories"
-          :disabled="$data.isInputsDisabled"
-          data-cy="create-ad-category"
-        />
+        <TextInputs label="Titre" v-model="v$.formData.title.$model" :errors="v$.formData.title.$errors"
+          :is-valid-data="!v$.formData.title.$invalid" :disabled="$data.isInputsDisabled" data-cy="create-ad-title" />
+        <TextInputs label="Description" v-model="v$.formData.description.$model"
+          :errors="v$.formData.description.$errors" :is-valid-data="!v$.formData.description.$invalid"
+          :disabled="$data.isInputsDisabled" data-cy="create-ad-description" />
+        <TextInputs label="Prix" v-model="v$.formData.price.$model" :errors="v$.formData.price.$errors"
+          :is-valid-data="!v$.formData.price.$invalid" type="number" :disabled="$data.isInputsDisabled"
+          data-cy="create-ad-price" />
+        <SelectInput label="Catégorie" v-model="v$.formData.category.$model" :errors="v$.formData.category.$errors"
+          :is-valid-data="!v$.formData.category.$invalid" :options="categories" :disabled="$data.isInputsDisabled"
+          data-cy="create-ad-category" />
         <div class="text-center">
-          <ActionInputs
-            data-cy="create-ad-button"
-            :ad="$data.formData"
-            :is-ad-created="$data.isAdCreated"
-            :disabled="v$.$invalid"
-            @create-ad="createAd"
-            @submit-ad="submitAd"
-            @cancel-ad="cancelAd"
-          />
+          <ActionInputs data-cy="create-ad-button" :ad="$data.formData" :is-ad-created="$data.isAdCreated"
+            :disabled="v$.$invalid" @create-ad="createAd" @submit-ad="submitAd" @cancel-ad="cancelAd" />
         </div>
       </div>
     </div>
@@ -132,6 +102,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
   &__card {
     position: relative;
     display: flex;
@@ -146,6 +117,7 @@ export default {
     width: 500px;
     padding: 2rem;
   }
+
   &__card-content {
     flex: 1 1 auto;
     padding: 1rem 1rem;
@@ -155,6 +127,7 @@ export default {
 @include m.xs-lg {
   .create-ad-card {
     margin: 20px 0px;
+
     &__card {
       width: auto;
       margin: 1rem;

@@ -1,34 +1,52 @@
-import { mount } from "@vue/test-utils";
+import { mount, flushPromises } from "@vue/test-utils";
+import { createStore } from "vuex";
 import SignUp from "@/components/common/Login/SignUp.vue";
-import { beforeEach, describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { nextTick } from "vue";
 
 describe("SignUp Component", () => {
-  let wrapper;
-  beforeEach(() => {
-    wrapper = mount(SignUp);
+  const dispatchMock = vi.fn();
+
+  const store = createStore({
+    actions: {
+      createAccount: dispatchMock,
+    },
+    mutations: {
+      setStatus: vi.fn(),
+    },
   });
 
-  it("should submit has been called", async () => {
-    const spy = vi.spyOn(wrapper.vm, "submit");
-    // const newImage = 'test-image.png';
-    const newUserName = "JohnDoe";
-    const newFirstName = "John";
-    const newLastName = "Doe";
-    const newEmail = "jDoe@gmail.com";
-    const newPhone = "0606060606";
-    const newAddress = "12 rue de paris";
-    const newZip = "75010";
+  let wrapper;
 
-    // await wrapper.find('#image').setValue(newImage);
-    await wrapper.find("#userName").setValue(newUserName);
-    await wrapper.find("#firstName").setValue(newFirstName);
-    await wrapper.find("#lastName").setValue(newLastName);
-    await wrapper.find("#email").setValue(newEmail);
-    await wrapper.find("#phone").setValue(newPhone);
-    await wrapper.find("#address").setValue(newAddress);
-    await wrapper.find("#zip").setValue(newZip);
+  beforeEach(async () => {
+    dispatchMock.mockClear();
 
-    await wrapper.find("form").trigger("submit.prevent");
-    expect(spy).toHaveBeenCalled();
+    wrapper = mount(SignUp, {
+      props: {
+        status: "",
+      },
+      global: {
+        plugins: [store],
+      },
+    });
+
+    await nextTick();
+  });
+
+  it("should dispatch createAccount action on submit", async () => {
+    await wrapper.find('input[name="pseudo"]').setValue("JohnDoe");
+    await wrapper.find('input[name="email"]').setValue("jDoe@gmail.com");
+    await wrapper.find('input[name="password"]').setValue("password123");
+
+    await flushPromises(); // waiting for vee-validate detect changes
+
+    await wrapper.vm.onSubmit();
+
+    expect(dispatchMock).toHaveBeenCalledTimes(1);
+    expect(dispatchMock).toHaveBeenCalledWith(expect.anything(), {
+      pseudo: "JohnDoe",
+      email: "jDoe@gmail.com",
+      password: "password123",
+    });
   });
 });

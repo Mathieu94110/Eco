@@ -83,10 +83,11 @@ watch(
 <template>
   <div class="create-ad">
     <div class="create-ad__container">
-      <CreateAdCard class="create-ad__form" :is-ad-created="isAdCreated" :is-ad-cancel="state.isAdCancel"
-        @create-ad="createAd" @cancel-ad="cancelAd" @submit-ad="submitAd" />
+      <CreateAdCard ref="create-ad" class="create-ad__form" :is-ad-created="isAdCreated"
+        :is-ad-cancel="state.isAdCancel" @create-ad="createAd" @cancel-ad="cancelAd" @submit-ad="submitAd" />
       <Transition name="create-ad-fade">
-        <CreatedAdCard v-if="state.showCreatedPost" class="create-ad__preview" :current-post="state.post" />
+        <CreatedAdCard v-if="state.showCreatedPost" ref="created-ad" class="create-ad__preview"
+          :current-post="state.post" />
       </Transition>
     </div>
   </div>

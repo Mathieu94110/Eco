@@ -1,0 +1,320 @@
+:root {
+  --primary-1: #42b883;
+  --primary-2: #347474;
+  --secondary-1: #35495e;
+  --secondary-2: #551a8b;
+  --dark-1: #07051b;
+  --dark-2: #060404;
+  --danger: #c0392b;
+  --success-1: #2ecc71;
+  --success-2: #27ae60;
+  --gray-1: #f6f6f6;
+  --gray-2: #ddd;
+  --pink-1: #b9198e;
+  --primary-color: #ffffff;
+  --border: 1px solid var(--gray-2);
+  --border-radius: 4px;
+  --font-family: "Poppins", "Roboto", sans-serif;
+  --sidebar-item-active: #15263f;
+  --transition-default: all 300ms ease-in-out;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--gray-1);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.6rem;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+.px-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.py-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.px-20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.px-30 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.py-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.p-30 {
+  padding: 30px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mx-10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.my-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mx-20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.my-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.m-20 {
+  margin: 20px;
+}
+
+.m-30 {
+  margin: 30px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.primary {
+  color: var(--primary-2);
+}
+
+.danger {
+  color: var(--danger);
+}
+
+.default-color {
+  color: var(--gray-3);
+}
+
+.font-600 {
+  font-weight: 600;
+}
+
+.color-white {
+  color: var(--primary-color);
+}
+
+.btn {
+  padding: 8px 15px;
+  border: 0;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-play-now {
+  text-decoration: none;
+  padding: 13px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background-color: var(--primary-1);
+  color: #fff;
+}
+.btn-primary:hover {
+  transform: scale(1.05) rotate(-1deg);
+  cursor: pointer;
+}
+
+input:disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.btn-danger {
+  background-color: var(--dark-2);
+  color: var(--text-primary-color);
+}
+.btn-danger:hover {
+  background-color: var(--danger);
+}
+
+.btn-success {
+  background-color: var(--success-1);
+  color: var(--text-primary-color);
+}
+.btn-success:hover {
+  background-color: var(--success-2);
+}
+
+.btn-disabled {
+  color: #000;
+  cursor: not-allowed;
+  background: none;
+}
+.btn-disabled:hover {
+  color: #000;
+  background-color: var(--dark-2);
+  border: 2px solid #000;
+}
+
+@media (max-width: 575px) {
+  .hide-xs {
+    display: none;
+  }
+}
+
+.no-data-found {
+  margin: 10px;
+  color: var(--danger);
+  text-align: center;
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .no-data-found {
+    font-size: 24px;
+  }
+}/*# sourceMappingURL=main.css.map */

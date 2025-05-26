@@ -31,17 +31,18 @@ const switchComponent = (): void => {
 
 const submit = async () => {
   if (!validatedFields.value) return;
-
-  const success = await store.dispatch("login", {
-    email: state.email,
-    password: state.password,
-  });
-
-  if (success) {
-    router.push("/home");
+  try {
+    const success = await store.dispatch("login", {
+      email: state.email,
+      password: state.password,
+    });
+    if (success) {
+      router.push("/home");
+    }
+  } catch (err) {
+    console.error("submit error on SignIn", err);
   }
 };
-
 const validatedFields = computed<boolean>(() => state.email !== "" && state.password !== "");
 </script>
 
@@ -73,12 +74,12 @@ const validatedFields = computed<boolean>(() => state.email !== "" && state.pass
       <template #signin-error>
         <div class="login__form-items-error">
           <div class="login__form-items--error" v-show="props.status === 'error-login'" id="generic-error">
-            Mail et/ou mot de passe invalide
+            Adresse mail et/ou mot de passe invalide
           </div>
         </div>
       </template>
       <template #login-footer>
-        <button id="login-button" type="submit" class="btn btn-primary font-600">
+        <button id="login-button" type="submit" class="btn btn-primary font-600" :disabled="!validatedFields">
           <span v-if="props.status === 'loading'">Connection en cours...</span>
           <span v-else data-cy="login-button">Connection</span>
         </button>

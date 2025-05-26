@@ -23,13 +23,15 @@ const switchComponent = (): void => {
   emit("switch", "login");
 };
 
-const { errors, handleSubmit, defineField } = useForm({
-  validationSchema: yup.object({
-    pseudo: yup.string().required("Le pseudo est requis").min(4, "Le pseudo est trop court"),
-    email: yup.string().email("L'email n'est pas valide").required("L'email est requis"),
-    password: yup.string().required("Le mot de passe est requis").min(6, "Le mot de passe est trop court"),
-  }),
-});
+const { errors, handleSubmit, defineField } = useForm(
+  {
+    validationSchema: yup.object({
+      pseudo: yup.string().required("Le pseudo est requis").min(4, "Le pseudo est trop court"),
+      email: yup.string().email("L'email n'est pas valide").required("L'email est requis"),
+      password: yup.string().required("Le mot de passe est requis").min(6, "Le mot de passe est trop court"),
+    }),
+  }
+);
 
 const onSubmit = handleSubmit(async (values: UserForm) => {
   try {
@@ -71,7 +73,7 @@ const [password, passwordAttrs] = defineField("password");
       <template #group>
         <div class="login__form-group">
           <input type="text" class="login__form-field" placeholder="Pseudo" v-model="pseudo" v-bind="pseudoAttrs"
-            required />
+            name="pseudo" required />
           <label for="userName" class="login__form-label">Pseudo</label>
           <div class="login__form-items-error">
             <div class="login__form-items--error" v-show="errors.pseudo" id="generic-error">
@@ -81,7 +83,7 @@ const [password, passwordAttrs] = defineField("password");
         </div>
         <div class="login__form-group">
           <input type="email" class="login__form-field" placeholder="Email" v-model="email" v-bind="emailAttrs"
-            data-cy="email" required />
+            name="email" data-cy="email" required />
           <label for="email" class="login__form-label">Email</label>
           <div class="login__form-items-error">
             <div class="login__form-items--error" v-show="errors.email" id="generic-error">
@@ -90,7 +92,7 @@ const [password, passwordAttrs] = defineField("password");
           </div>
         </div>
         <div class="login__form-group">
-          <input type="password" class="login__form-field" placeholder="Mot de passe" v-model="password"
+          <input type="password" class="login__form-field" placeholder="Mot de passe" v-model="password" name="password"
             v-bind="passwordAttrs" data-cy="password" required />
           <label for="password" class="login__form-label">Mot de passe</label>
           <div class="login__form-items-error">
