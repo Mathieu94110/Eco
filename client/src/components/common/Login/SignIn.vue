@@ -21,7 +21,6 @@ const store = useStore();
 const router = useRouter();
 
 const emit = defineEmits<{
-  (e: "login", loginCredentials: LoginData): void;
   (e: "switch", value: string): void;
 }>();
 

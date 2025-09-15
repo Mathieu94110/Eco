@@ -30,5 +30,8 @@
       "ESNext",
       "DOM"
     ]
-  }
+  },
+  "include": [
+    "src/types/**/*.d.ts"
+  ]
 }

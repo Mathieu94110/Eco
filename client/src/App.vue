@@ -1,5 +1,14 @@
+<template>
+  <div id="app" :class="classes">
+    <NavBar />
+    <Toolbar v-if="isAuthenticated && isMobile">{{ routeName }}</Toolbar>
+    <router-view :key="$route.fullPath" />
+    <TheFooter v-if="isAuthenticated" />
+  </div>
+</template>
+
 <script lang="ts" setup>
-import { ref, computed, onMounted, onUnmounted, inject, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted, inject, type Ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 
@@ -10,56 +19,41 @@ import TheFooter from "@/components/common/TheFooter.vue";
 const store = useStore();
 const route = useRoute();
 
-const storeReady = ref(false);
-const isSideBarClosed = inject<boolean>("collapsed", false);
-
+const isSideBarClosed = inject<Ref<boolean>>("collapsed", ref(true));
 const isMobile = computed(() => store.state.windowWidth < 575);
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const routeName = computed(() => route.name);
-
 const updateScreenWidth = () => {
   store.commit("setWindowWidth");
 };
 
-onMounted(async () => {
+onMounted(() => {
   updateScreenWidth();
   window.addEventListener("resize", updateScreenWidth);
-
-  if (!store.state.user && store.getters.isAuthenticated) {
-    try {
-      await store.dispatch("fetchCurrentUser");
-    } catch (e) {
-      console.error("Erreur lors du chargement de l'utilisateur", e);
-    }
-  }
-
-  storeReady.value = true;
 });
 
 onUnmounted(() => {
   window.removeEventListener("resize", updateScreenWidth);
 });
+
+const classes = computed(() => {
+  if (!isAuthenticated.value) {
+    return ['app__container'];
+  }
+
+  const sidebarClass = isMobile.value
+    ? ''
+    : isSideBarClosed.value
+      ? 'app__container--sidebar-closed'
+      : 'app__container--sidebar-open';
+
+  return [
+    'app__container',
+    'app__container--auth',
+    sidebarClass
+  ].filter(Boolean);
+});
 </script>
-
-<template>
-  <div id="app">
-    <div v-if="storeReady" :class="[
-      'app__container',
-      {
-        'app__container--auth': isAuthenticated,
-        'app__container--sidebar-closed': isAuthenticated && isSideBarClosed && !isMobile,
-        'app__container--sidebar-open': isAuthenticated && !isSideBarClosed && !isMobile
-      }
-    ]" class="app__container">
-      <NavBar v-if="isAuthenticated" />
-      <Toolbar v-if="isAuthenticated && isMobile">{{ routeName }}</Toolbar>
-
-      <router-view :key="$route.fullPath" />
-
-      <TheFooter v-if="isAuthenticated" />
-    </div>
-  </div>
-</template>
 
 <style lang="scss">
 @import "./assets/scss/main.scss";

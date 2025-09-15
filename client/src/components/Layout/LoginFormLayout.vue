@@ -188,7 +188,7 @@
     }
 
     &__form-field {
-      font-size: 22px;
+      font-size: 16px;
     }
 
     &__form-label {

@@ -80,17 +80,23 @@ const store = createStore({
       commit("setStatus", "loading");
       try {
         const response = await login(userInfos);
-        commit("logUser", response);
-        commit("setUserLogged", true);
-        commit("setStatus", "");
-        return true;
+        console.log(response);
+
+        if (response.success) {
+          commit("logUser", response);
+          commit("setUserLogged", true);
+          commit("setStatus", "");
+          return true;
+        } else {
+          commit("setStatus", "error-login");
+          return false;
+        }
       } catch (e) {
         commit("setStatus", "error-login");
         console.error(e);
         return false;
       }
     },
-
     createAccount: async ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       try {

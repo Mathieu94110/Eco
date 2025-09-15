@@ -11,7 +11,9 @@ export interface UserInterface {
   _id: string;
 }
 
-export interface UserForm extends Partial<UserInterface> {}
+export interface UserForm extends Partial<UserInterface> {
+  success: any;
+}
 
 export interface userAdsConfigInterface {
   key: string;

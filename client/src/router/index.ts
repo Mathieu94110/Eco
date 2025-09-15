@@ -95,12 +95,15 @@ router.beforeEach(async (to, from, next) => {
   if (!store.state.isUserLogged && to.path === "/home") {
     try {
       await store.dispatch("fetchCurrentUser");
+      next();
     } catch (e) {
       console.error("Erreur de récupération user dans guard", e);
-      // Ici, tu peux gérer une redirection si besoin
+      await store.dispatch("logout");
+      next('/login');
     }
+  } else {
+    next();
   }
-  next();
 });
 
 export default router;
